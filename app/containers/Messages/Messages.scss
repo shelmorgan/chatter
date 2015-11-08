@@ -1,8 +1,9 @@
-.Messages {
-  font-family: 'Arial', sans-serif;
-  &-Header {                // This could also be replaced with adding a header class instead of doing the & (see ***&HEADER in Messages.js)
-    text-align: center;
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,600,600italic);
 
+.Messages {
+  font-family: 'Source Sans Pro', sans-serif;
+  &-Header {       // This could also be replaced with adding a header class instead of doing the & (see ***&HEADER in Messages.js)
+    // text-align: center;
   }
 }
 
@@ -13,7 +14,16 @@ h1 {
 li {
   list-style: none;
   border: 1px solid #000;
-
   padding: 1rem 3rem;
-  margin: 1rem 0;
+  margin-top: 0 auto;
+}
+
+.messageSender {
+  text-align: left;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.messageDetails {
+  text-align: left;
 }

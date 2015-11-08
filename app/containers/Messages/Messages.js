@@ -18,8 +18,14 @@ class Messages extends Component {
         <div className="Messages-Header">
           <h1>Messages</h1>
           <ul>
-            <li>first item</li>
-            <li>second item</li>
+            <li>
+            <p class="messageSender">message title one</p>
+              <p class="messageDetails">message details one</p>
+            </li>
+            <li>
+            <p class="messageSender">message title two</p>
+              <p class="messageDetails">message details two</p>
+            </li>
           </ul>
         </div>
       </div>
