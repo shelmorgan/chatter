@@ -12,7 +12,7 @@ class Messages extends Component {
   render(){
     return (
       <div className="Messages">
-        <p>you're here</p>
+        <p>hello world</p>
       </div>
     );
   }
