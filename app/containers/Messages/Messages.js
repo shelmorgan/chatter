@@ -10,9 +10,18 @@ class Messages extends Component {
     super(props);
   }
   render(){
+    //***&HEADER
+    // This could also be replaced with adding a header class instead of doing the &
+    //(see matching comment in Messages.scss)
     return (
       <div className="Messages">
-        <p>hello world</p>
+        <div className="Messages-Header">
+          <h1>Messages</h1>
+          <ul>
+            <li>first item</li>
+            <li>second item</li>
+          </ul>
+        </div>
       </div>
     );
   }
