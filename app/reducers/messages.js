@@ -47,7 +47,7 @@ export default function messages(state = [], action) {
         return state;
       }
       console.log('receieved load messages payload ', action.payload)
-      return union(state, action.payload);
+      return action.payload;
       //^^ creates union between the state and the payload from firebase
       break;
   default:

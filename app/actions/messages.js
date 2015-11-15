@@ -20,7 +20,9 @@ export function attemptAddMessage(message) {
 export function addMessage(messageContent) {
   return (dispatch, getState) => {
     dispatch(attemptAddMessage(messageContent));
-    messagesRef.push({details:messageContent, sender:'shelby'}, () => {
+    let messageSender = getState().auth.account ? getState().auth.account.username: 'guest';
+    console.log('message sender is ', messageSender);
+    messagesRef.push({details:messageContent, sender:messageSender}, () => {
       dispatch(receiveAddMessage(messageContent));
     });
   }
