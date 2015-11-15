@@ -6,9 +6,13 @@ export default class Home extends Component {
   render() {
     return (
       <div className="homepage">
-        <h2>Starter Project</h2>
-        <p>Example application built with React, Redux, and Matter. </p>
-        <p>Webpack is used to supply hot reloading for modules during development.</p>
+        <h2>Chatter</h2>
+        <p>Simple messaging app built with react and
+          <a href="https://github.com/KyperTech/matter"> Matter</a>
+        </p>
+        <p>See more here:
+          <a href="https://github.com/shelmorgan/chatter"> GitHub</a>
+        </p>
       </div>
     )
   }
