@@ -5,7 +5,6 @@ a {
 .navbar {
   background-color: $navbar;
   width:100%;
-  // padding:10px;
   font-size:1.5em;
   line-height: 1.3em;
   /* Flexbox */
@@ -27,12 +26,12 @@ a {
 //Button group
 .buttons {
   display:inline;
-  // padding-right:10px;
+  padding-right:10px;
 }
 //Button
 .buttons a {
-  // margin-right:10px;
-  // margin-left:10px;
+  margin-right:10px;
+  margin-left:10px;
   text-decoration:none;
 }
 //Link text inside of buttons

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router';
 
 import AccountManager from '../../components/AccountManager/AccountManager';
-import * as Actions from '../../actions';
+import * as Actions from '../../actions/auth';
 import './Navbar.scss';
 
 class Navbar extends Component {
