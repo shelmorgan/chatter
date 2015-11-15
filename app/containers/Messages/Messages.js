@@ -18,21 +18,12 @@ class Messages extends Component {
 
   sendMessage(messageContent) {
     console.log('this message is: ' + messageContent);
+    this.props.addMessage(messageContent)
   }
 
   render() {
-    let messagesData = [
-      {
-        sender: 'scott',
-        details: 'hello'
-      },
-      {
-        sender: 'shelby',
-        details: 'hey'
-      }
 
-    ]
-    let messagesList = messagesData.map( (message, i) => {
+    let messagesList = this.props.messages.map( (message, i) => {
 
       return <Message key={ i } sender={ message.sender } details={ message.details } />
 
@@ -60,7 +51,8 @@ class Messages extends Component {
 //Place state of redux store into props of component
 function mapStateToProps(state) {
   return {
-    router: state.router
+    router: state.router,
+    messages: state.messages
   };
 }
 //Place action methods into props

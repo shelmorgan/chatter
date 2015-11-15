@@ -1,22 +1,22 @@
-export const ADD_MESSAGES = 'ADD_MESSAGES';
-export const REMOVE_MESSAGES = 'REMOVE_MESSAGES';
-export const UPDATE_MESSAGES= 'UPDATE_MESSAGES';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
+export const UPDATE_MESSAGE= 'UPDATE_MESSAGE';
 
 export function addMessage(message) {
   return {
-    type: 'ADD_MESSAGES',
+    type: 'ADD_MESSAGE',
     payload: message
   };
 }
 export function removeMessage(message) {
   return {
-    type: 'REMOVE_MESSAGES',
+    type: 'REMOVE_MESSAGE',
     payload: message
   };
 }
 export function updateMessage(message) {
   return {
-    type: 'UPDATE_MESSAGES',
+    type: 'UPDATE_MESSAGE',
     payload: message
   };
 }
