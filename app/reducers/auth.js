@@ -9,7 +9,7 @@ import {
 } from '../actions/auth';
 import merge from 'lodash/object/merge';
 import Matter from 'kyper-matter';
-let matter = new Matter('exampleApp');
+let matter = new Matter('chatter');
 
 export default function auth(state = {
   isFetching: false,

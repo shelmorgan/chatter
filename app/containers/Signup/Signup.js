@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
 import SignupForm from '../../components/SignupForm/SignupForm';
-
+import * as Actions from '../../actions/auth';
 import './Signup.scss';
 
 class Signup extends Component {
@@ -23,4 +23,16 @@ class Signup extends Component {
     )
   }
 }
-export default Signup;
+//Place state of redux store into props of component
+function mapStateToProps(state) {
+  return {
+    account: state.account,
+    router: state.router
+  };
+}
+//Place action methods into props
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

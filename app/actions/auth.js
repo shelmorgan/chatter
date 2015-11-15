@@ -7,7 +7,7 @@ export const LOGOUT_RESPONSE = 'LOGOUT_RESPONSE';
 export const AUTH_ERR = 'AUTH_ERR';
 
 import Matter from 'kyper-matter';
-let matter = new Matter('exampleApp');
+let matter = new Matter('chatter');
 
 // Fetches a single user from Github API unless it is cached.
 // Relies on Redux Thunk middleware.
@@ -32,7 +32,7 @@ export function login(loginData) {
   return (dispatch, getState) => {
     console.log('dispatch function running.');
     dispatch(attemptLogin(loginData));
-    console.log('distpatch function running.');
+    console.log('dispatch function running.');
     return matter.login(loginData)
     .then(loginRes => {
       console.log('signup response');
@@ -58,8 +58,8 @@ export function attemptSignup(signupData) {
 }
 export function signup(signupData) {
   return dispatch => {
-    distpatch(attemptSignup(signupData));
-    return matter.signup(action.payload)
+    dispatch(attemptSignup(signupData));
+    return matter.signup(signupData)
     .then((loginRes) => {
       dispatch(receiveSignup(signupData, loginRes));
     }, (err) => {

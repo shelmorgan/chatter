@@ -9,6 +9,7 @@ class SignupForm extends Component {
   constructor(props) {
     super(props);
     this.handleSignup = this.handleSignup.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.state = {username: '', password: ''};
@@ -21,14 +22,15 @@ class SignupForm extends Component {
     event.preventDefault();
     this.props.onLoginClick({username:this.state.username, password: this.password});
   }
-  /**
-   * @function handleUsernameChange
-   * @description Update the state with the values from the form inputs.
-   * @fires context#setState
-   */
+
   handleInputChange(event) {
     this.setState({
       ['input']: event.target.value
+    });
+  }
+  handleUsernameChange(event) {
+    this.setState({
+      ['username']: event.target.value
     });
   }
   handlePasswordChange(event) {
@@ -41,7 +43,7 @@ class SignupForm extends Component {
         <form className="inputs" onSubmit={this.handleSignup}>
           <div className="input-wrapper">
             <span className="input-label">Username</span>
-            <input onChange={this.handleInputChange}/>
+            <input onChange={this.handleUsernameChange}/>
           </div>
           <div className="input-wrapper">
             <span className="input-label">Email</span>
