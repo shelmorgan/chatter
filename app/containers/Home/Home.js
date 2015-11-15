@@ -11,6 +11,7 @@ export default class Home extends Component {
         <p>See more here:
           <a href="https://github.com/shelmorgan/chatter"> GitHub</a>
         </p>
+        <h2>Go to <Link to='messages'>messages</Link></h2>
       </div>
     )
   }
