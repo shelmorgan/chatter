@@ -18,6 +18,7 @@
     "babel-loader": "^5.3.2",
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.8.2",
+    "firebase": "^2.3.1",
     "history": "^1.9.1",
     "kyper-matter": "^0.1.2",
     "lodash": "^3.10.1",

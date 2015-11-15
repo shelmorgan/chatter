@@ -18,7 +18,7 @@ class Navbar extends Component {
     return (
       <div className="navbar">
         <div className="brand">
-          <span><Link to="/">Starter</Link></span>
+          <span><Link to="/">Chatter</Link></span>
         </div>
         <div className="spacer"></div>
           <AccountManager currentAccount={ this.props.account } />

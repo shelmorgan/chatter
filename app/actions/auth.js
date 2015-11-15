@@ -30,7 +30,7 @@ export function attemptLogin(loginData) {
 export function login(loginData) {
   console.log('login action called', loginData);
   return (dispatch, getState) => {
-    console.log('distpatch function running.');
+    console.log('dispatch function running.');
     dispatch(attemptLogin(loginData));
     console.log('distpatch function running.');
     return matter.login(loginData)

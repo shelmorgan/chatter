@@ -21,14 +21,15 @@ class Messages extends Component {
     this.props.addMessage(messageContent)
   }
 
+  componentDidMount() {
+    this.props.loadMessages();
+  }
+
   render() {
-
+    console.log('the messages before the map are ', this.props.messages);
     let messagesList = this.props.messages.map( (message, i) => {
-
       return <Message key={ i } sender={ message.sender } details={ message.details } />
-
     })
-
 
     //***&-HEADER + &-List
     // This could also be replaced with adding a header class instead of doing the &

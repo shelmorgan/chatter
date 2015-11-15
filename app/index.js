@@ -5,15 +5,7 @@ import { Provider } from 'react-redux';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import AppRouter from './routes';
 const initialState = {
-  messages: [
-    {
-    sender: 'scott',
-    details: 'hello'
-    },
-    {
-    sender: 'shelby',
-    details: 'hey'
-    }]
+  messages: []
 }
 
 const store = configureStore(initialState);

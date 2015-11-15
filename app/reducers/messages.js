@@ -2,6 +2,8 @@ import {
   ADD_MESSAGE,
   UPDATE_MESSAGE,
   REMOVE_MESSAGE,
+  RECEIVE_LOAD_MESSAGES
+
 } from '../actions/messages';
 import {union, clone} from 'lodash';
 export default function messages(state = [], action) {
@@ -39,6 +41,15 @@ export default function messages(state = [], action) {
     delete newStateTwo[action.index];
     return newStateTwo;
     break;
+    case RECEIVE_LOAD_MESSAGES:
+      if(!action.payload){
+        console.error('No messages receieved');
+        return state;
+      }
+      console.log('receieved load messages payload ', action.payload)
+      return union(state, action.payload);
+      //^^ creates union between the state and the payload from firebase
+      break;
   default:
     return state;
   }
