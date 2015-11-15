@@ -20,8 +20,8 @@ class Message extends Component {
     return (
       <div className="Message">
         <li>
-        <p class="messageSender">{ this.props.sender }</p>
-          <p class="messageDetails">{ this.props.details }</p>
+        <p className="messageSender">{ this.props.sender }</p>
+          <p className="messageDetails">{ this.props.details }</p>
         </li>
       </div>
     );

@@ -32,9 +32,9 @@ class Messages extends Component {
       }
 
     ]
-    let messagesList = messagesData.map( (message) => {
+    let messagesList = messagesData.map( (message, i) => {
 
-      return <Message sender={ message.sender } details={ message.details } />
+      return <Message key={ i } sender={ message.sender } details={ message.details } />
 
     })
 
