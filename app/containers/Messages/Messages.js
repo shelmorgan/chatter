@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-
+import Message from '../../components/Message/Message'
 import * as Actions from '../../actions/messages';
 import './Messages.scss';
 
@@ -9,7 +9,25 @@ class Messages extends Component {
   constructor(props){
     super(props);
   }
-  render(){
+  render() {
+    let messagesData = [
+      {
+        sender: 'scott',
+        details: 'hello'
+      },
+      {
+        sender: 'shelby',
+        details: 'hey'
+      }
+
+    ]
+    let messagesList = messagesData.map( (message) => {
+
+      return <Message sender={ message.sender } details={ message.details }/>
+
+    })
+
+
     //***&HEADER
     // This could also be replaced with adding a header class instead of doing the &
     //(see matching comment in Messages.scss)
@@ -18,14 +36,7 @@ class Messages extends Component {
         <div className="Messages-Header">
           <h1>Messages</h1>
           <ul>
-            <li>
-            <p class="messageSender">message title one</p>
-              <p class="messageDetails">message details one</p>
-            </li>
-            <li>
-            <p class="messageSender">message title two</p>
-              <p class="messageDetails">message details two</p>
-            </li>
+            {messagesList}
           </ul>
         </div>
       </div>

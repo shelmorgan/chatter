@@ -5,13 +5,27 @@ class Message extends Component {
   constructor(props){
     super(props);
   }
-  render(){
+
+  static propTypes = {
+    sender: PropTypes.string.isRequired,
+    details: PropTypes.string.isRequired
+  }; //Putting this within the Message class makes it apply to everything
+    //Could also do same thing w/ Message.propTypes after but thats janky
+
+//REMEBER THIS:
+  //Upper case 'p' in PropTypes is a part of React
+  //Lower case 'p' in propTypes defines the type of properties that will be accepted by the component
+
+  render() {
     return (
       <div className="Message">
-
+        <li>
+        <p class="messageSender">{ this.props.sender }</p>
+          <p class="messageDetails">{ this.props.details }</p>
+        </li>
       </div>
     );
   }
 }
 
-export default Message
+export default Message;
