@@ -2,7 +2,9 @@
 
 .Messages {
   font-family: 'Source Sans Pro', sans-serif;
-  &-Header {       // This could also be replaced with adding a header class instead of doing the & (see ***&HEADER in Messages.js)
+  &-Header {     // These could also be replaced with adding a header class instead of doing the & (see ***&HEADER in Messages.js)
+  }
+  &-List {
   }
 }
 
