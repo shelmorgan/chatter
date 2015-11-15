@@ -4,6 +4,7 @@
 
 ### **TODO:**
 
+* update readme w/ info about chatter
 * finish auth through tesselate/matter/authrocket
 * app styling
 * add delete button to messages
