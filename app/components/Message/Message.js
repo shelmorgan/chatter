@@ -8,7 +8,8 @@ class Message extends Component {
 
   static propTypes = {
     sender: PropTypes.string.isRequired,
-    details: PropTypes.string.isRequired
+    details: PropTypes.string.isRequired,
+    onRemoveClick: PropTypes.func
   }; //Putting this within the Message class makes it apply to everything
     //Could also do same thing w/ Message.propTypes after but thats janky
 
@@ -21,7 +22,8 @@ class Message extends Component {
       <div className="Message">
         <li>
         <p className="messageSender">{ this.props.sender }</p>
-          <p className="messageDetails">{ this.props.details }</p>
+        <p className="messageDetails">{ this.props.details }</p>
+        <button onClick={ this.props.onRemoveClick }>delete</button>
         </li>
       </div>
     );

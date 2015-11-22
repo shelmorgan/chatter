@@ -17,7 +17,7 @@ export default function messages(state = [], action) {
     break;
   case UPDATE_MESSAGE:
     if(!action.index && action.payload){
-      console.error('Index and payload required to update a messages');
+      console.error('Index and payload required to update a message');
       return state;
     }
     if(!state[action.name]){
@@ -30,7 +30,7 @@ export default function messages(state = [], action) {
     break;
   case REMOVE_MESSAGE:
     if(!action.index){
-      console.error('Index required to delete a messages');
+      console.error('Index required to delete a message');
       return state;
     }
     if(!state[action.index]){

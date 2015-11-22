@@ -13,12 +13,18 @@ class Messages extends Component {
   constructor(props) {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
+    this.removeMessage = this.removeMessage.bind(this);
 
   }
 
   sendMessage(messageContent) {
     console.log('this message is: ' + messageContent);
     this.props.addMessage(messageContent)
+  }
+
+  removeMessage(messageId) {
+    console.log('message removed');
+    this.props.removeMessage(messageId)
   }
 
   componentDidMount() {
@@ -28,9 +34,15 @@ class Messages extends Component {
   render() {
     console.log('the messages before the map are ', this.props.messages);
     let messagesList = this.props.messages.map( (message, i) => {
-      return <Message key={ i } sender={ message.sender } details={ message.details } />
+      return(
+        <Message
+          key={ i }
+          sender={ message.sender }
+          details={ message.details }
+          onRemoveClick={ this.removeMessage.bind(this, message.id) }
+        />)
     })
-
+    console.log(messagesList);
     //***&-HEADER + &-List
     // This could also be replaced with adding a header class instead of doing the &
     //(see matching comment in Messages.scss)
