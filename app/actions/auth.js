@@ -28,14 +28,14 @@ export function attemptLogin(loginData) {
 }
 //Requires react-thunk
 export function login(loginData) {
-  console.log('login action called', loginData);
+  console.log(loginData);
+  console.debug('LOGIN ACTION CALLED')
   return (dispatch, getState) => {
-    console.log('dispatch function running.');
     dispatch(attemptLogin(loginData));
-    console.log('dispatch function running.');
     return matter.login(loginData)
     .then(loginRes => {
-      console.log('signup response');
+      console.log(loginRes);
+      console.debug('LOGIN RESPONSE')
       return dispatch(receiveLogin(loginData, loginRes));
     });
   }

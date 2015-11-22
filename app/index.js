@@ -4,8 +4,15 @@ import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 import AppRouter from './routes';
+
+import Matter from 'kyper-matter';
+let matter = new Matter('chatter');
+
 const initialState = {
-  messages: []
+  messages: [],
+  auth: {
+    account: matter.currentUser
+  }
 }
 
 const store = configureStore(initialState);
