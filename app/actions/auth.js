@@ -5,7 +5,7 @@ export const SIGNUP_RESPONSE = 'SIGNUP_RESPONSE';
 export const LOGOUT_ATTEMPT = 'LOGOUT_ATTEMPT';
 export const LOGOUT_RESPONSE = 'LOGOUT_RESPONSE';
 export const AUTH_ERR = 'AUTH_ERR';
-
+import { pushState } from 'redux-router'; //used for changing state during login
 import Matter from 'kyper-matter';
 let matter = new Matter('chatter');
 
@@ -29,14 +29,15 @@ export function attemptLogin(loginData) {
 //Requires react-thunk
 export function login(loginData) {
   console.log(loginData);
-  console.debug('LOGIN ACTION CALLED')
+  console.debug('LOGIN ACTION CALLED');
   return (dispatch, getState) => {
     dispatch(attemptLogin(loginData));
     return matter.login(loginData)
     .then(loginRes => {
       console.log(loginRes);
-      console.debug('LOGIN RESPONSE')
-      return dispatch(receiveLogin(loginData, loginRes));
+      console.debug('LOGIN RESPONSE');
+      dispatch(receiveLogin(loginData, loginRes));
+      dispatch(pushState(null, '/messages')); //redirects to messages page after user logs in
     });
   }
 }
