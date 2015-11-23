@@ -94,7 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports['default'] = function (cb) {
 	  // Compile an initial state
-	  var matter = new _kyperMatter2['default']();
+	  var matter = new _kyperMatter2['default']('chatter');
 	  var initialState = {
 	    auth: {
 	      account: matter.currentUser

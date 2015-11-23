@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
+    "extract-text-webpack-plugin": "^0.9.1",
     "firebase": "^2.3.2",
     "history": "^1.9.1",
     "kyper-matter": "^0.1.6",
@@ -34,7 +35,8 @@
     "redux-router": "^1.0.0-beta3",
     "redux-thunk": "^1.0.0",
     "request": "^2.67.0",
-    "serve-static": "^1.10.0"
+    "serve-static": "^1.10.0",
+    "source-map-support": "^0.3.3"
   },
   "devDependencies": {
     "babel-core": "^5.8.22",
