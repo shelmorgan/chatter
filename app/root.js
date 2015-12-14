@@ -8,7 +8,9 @@ class Root extends Component {
     super();
     this.dev = dev || false;
   }
-
+  static propTypes = {
+    store: PropTypes.object.isRequired
+  };
   render() {
     return (
       <Provider store={this.props.store} className="Root">
@@ -17,9 +19,5 @@ class Root extends Component {
     );
   }
 }
-
-Root.propTypes = {
-  store: PropTypes.object.isRequired
-};
 
 export default Root;
