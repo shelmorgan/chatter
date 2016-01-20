@@ -1,14 +1,14 @@
 require("source-map-support").install();
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("_stream_writable"), require("_stream_duplex"), require("http"), require("https"), require("util"), require("events"), require("stream"), require("crypto"), require("url"), require("net"), require("tls"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["_stream_writable", "_stream_duplex", "http", "https", "util", "events", "stream", "crypto", "url", "net", "tls"], factory);
+		define([], factory);
 	else {
-		var a = typeof exports === 'object' ? factory(require("_stream_writable"), require("_stream_duplex"), require("http"), require("https"), require("util"), require("events"), require("stream"), require("crypto"), require("url"), require("net"), require("tls")) : factory(root["_stream_writable"], root["_stream_duplex"], root["http"], root["https"], root["util"], root["events"], root["stream"], root["crypto"], root["url"], root["net"], root["tls"]);
+		var a = factory();
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function(__WEBPACK_EXTERNAL_MODULE_271__, __WEBPACK_EXTERNAL_MODULE_272__, __WEBPACK_EXTERNAL_MODULE_273__, __WEBPACK_EXTERNAL_MODULE_274__, __WEBPACK_EXTERNAL_MODULE_277__, __WEBPACK_EXTERNAL_MODULE_280__, __WEBPACK_EXTERNAL_MODULE_282__, __WEBPACK_EXTERNAL_MODULE_285__, __WEBPACK_EXTERNAL_MODULE_286__, __WEBPACK_EXTERNAL_MODULE_307__, __WEBPACK_EXTERNAL_MODULE_308__) {
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -78,17 +78,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _appRoot2 = _interopRequireDefault(_appRoot);
 	
-	var _historyLibCreateMemoryHistory = __webpack_require__(226);
+	var _historyLibCreateMemoryHistory = __webpack_require__(264);
 	
 	var _historyLibCreateMemoryHistory2 = _interopRequireDefault(_historyLibCreateMemoryHistory);
 	
-	var _reduxRouterServer = __webpack_require__(311);
+	var _reduxRouterServer = __webpack_require__(278);
 	
-	var _kyperMatter = __webpack_require__(247);
+	var _kyperMatter = __webpack_require__(239);
 	
 	var _kyperMatter2 = _interopRequireDefault(_kyperMatter);
 	
-	var _appStoreConfigureStore = __webpack_require__(321);
+	var _appStoreConfigureStore = __webpack_require__(288);
 	
 	var _appStoreConfigureStore2 = _interopRequireDefault(_appStoreConfigureStore);
 	
@@ -165,6 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	
 	React.__SECRET_DOM_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOM;
+	React.__SECRET_DOM_SERVER_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactDOMServer;
 	
 	module.exports = React;
 
@@ -1026,7 +1027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	var invariant = function (condition, format, a, b, c, d, e, f) {
+	function invariant(condition, format, a, b, c, d, e, f) {
 	  if (false) {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -1040,15 +1041,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	      error = new Error(format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
+	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	};
+	}
 	
 	module.exports = invariant;
 
@@ -10379,6 +10381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    multiple: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
 	    muted: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
 	    name: null,
+	    nonce: MUST_USE_ATTRIBUTE,
 	    noValidate: HAS_BOOLEAN_VALUE,
 	    open: HAS_BOOLEAN_VALUE,
 	    optimum: null,
@@ -10390,6 +10393,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    readOnly: MUST_USE_PROPERTY | HAS_BOOLEAN_VALUE,
 	    rel: null,
 	    required: HAS_BOOLEAN_VALUE,
+	    reversed: HAS_BOOLEAN_VALUE,
 	    role: MUST_USE_ATTRIBUTE,
 	    rows: MUST_USE_ATTRIBUTE | HAS_POSITIVE_NUMERIC_VALUE,
 	    rowSpan: null,
@@ -10440,8 +10444,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: null,
-	    autoCorrect: null,
+	    autoCapitalize: MUST_USE_ATTRIBUTE,
+	    autoCorrect: MUST_USE_ATTRIBUTE,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -10472,9 +10476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
-	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
-	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -13545,7 +13547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var value = LinkedValueUtils.getValue(props);
 	
 	    if (value != null) {
-	      updateOptions(this, props, value);
+	      updateOptions(this, Boolean(props.multiple), value);
 	    }
 	  }
 	}
@@ -16571,11 +16573,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @typechecks
 	 */
 	
+	/* eslint-disable fb-www/typeof-undefined */
+	
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not yet defined.
+	 * The activeElement will be null only if the document or document body is not
+	 * yet defined.
 	 */
 	'use strict';
 	
@@ -16583,7 +16588,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
-	
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -18066,7 +18070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	'use strict';
 	
-	module.exports = '0.14.2';
+	module.exports = '0.14.6';
 
 /***/ },
 /* 143 */
@@ -19071,14 +19075,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2['default'].createElement(_appRouter2['default'], null)
 	      );
 	    }
+	  }], [{
+	    key: 'propTypes',
+	    value: {
+	      store: _react.PropTypes.object.isRequired
+	    },
+	    enumerable: true
 	  }]);
 	
 	  return Root;
 	})(_react.Component);
-	
-	Root.propTypes = {
-	  store: _react.PropTypes.object.isRequired
-	};
 	
 	exports['default'] = Root;
 	module.exports = exports['default'];
@@ -19864,6 +19870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var fnToString = function fnToString(fn) {
 	  return Function.prototype.toString.call(fn);
 	};
+	var objStringValue = fnToString(Object);
 	
 	/**
 	 * @param {any} obj The object to inspect.
@@ -19883,7 +19890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var constructor = proto.constructor;
 	
-	  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
+	  return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === objStringValue;
 	}
 	
 	module.exports = exports['default'];
@@ -19901,17 +19908,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createStore = __webpack_require__(164);
 	
-	var _utilsIsPlainObject = __webpack_require__(165);
+	var _isPlainObject = __webpack_require__(165);
 	
-	var _utilsIsPlainObject2 = _interopRequireDefault(_utilsIsPlainObject);
+	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _utilsMapValues = __webpack_require__(167);
+	var _mapValues = __webpack_require__(167);
 	
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+	var _mapValues2 = _interopRequireDefault(_mapValues);
 	
-	var _utilsPick = __webpack_require__(168);
+	var _pick = __webpack_require__(168);
 	
-	var _utilsPick2 = _interopRequireDefault(_utilsPick);
+	var _pick2 = _interopRequireDefault(_pick);
 	
 	/* eslint-disable no-console */
 	
@@ -19930,7 +19937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
 	  }
 	
-	  if (!_utilsIsPlainObject2['default'](inputState)) {
+	  if (!_isPlainObject2['default'](inputState)) {
 	    return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
 	  }
 	
@@ -19977,7 +19984,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function combineReducers(reducers) {
-	  var finalReducers = _utilsPick2['default'](reducers, function (val) {
+	  var finalReducers = _pick2['default'](reducers, function (val) {
 	    return typeof val === 'function';
 	  });
 	  var sanityError;
@@ -19988,7 +19995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    sanityError = e;
 	  }
 	
-	  var defaultState = _utilsMapValues2['default'](finalReducers, function () {
+	  var defaultState = _mapValues2['default'](finalReducers, function () {
 	    return undefined;
 	  });
 	
@@ -20000,7 +20007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    var hasChanged = false;
-	    var finalState = _utilsMapValues2['default'](finalReducers, function (reducer, key) {
+	    var finalState = _mapValues2['default'](finalReducers, function (reducer, key) {
 	      var previousStateForKey = state[key];
 	      var nextStateForKey = reducer(previousStateForKey, action);
 	      if (typeof nextStateForKey === 'undefined') {
@@ -20087,9 +20094,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _utilsMapValues = __webpack_require__(167);
+	var _mapValues = __webpack_require__(167);
 	
-	var _utilsMapValues2 = _interopRequireDefault(_utilsMapValues);
+	var _mapValues2 = _interopRequireDefault(_mapValues);
 	
 	function bindActionCreator(actionCreator, dispatch) {
 	  return function () {
@@ -20125,11 +20132,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
-	    // eslint-disable-line no-eq-null
 	    throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
 	  }
 	
-	  return _utilsMapValues2['default'](actionCreators, function (actionCreator) {
+	  return _mapValues2['default'](actionCreators, function (actionCreator) {
 	    return bindActionCreator(actionCreator, dispatch);
 	  });
 	}
@@ -20243,8 +20249,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the BSD-style license found in the
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
 	 */
 	
 	'use strict';
@@ -20280,9 +20284,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
 	      error = new Error(
-	        'Invariant Violation: ' +
 	        format.replace(/%s/g, function() { return args[argIndex++]; })
 	      );
+	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
@@ -20319,7 +20323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reduxRouter = __webpack_require__(174);
 	
-	var _routes = __webpack_require__(240);
+	var _routes = __webpack_require__(232);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
@@ -20371,19 +20375,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.ReduxRouter = _ReduxRouter3['default'];
 	
-	var _client = __webpack_require__(233);
+	var _client = __webpack_require__(225);
 	
 	var _client2 = _interopRequireDefault(_client);
 	
 	exports.reduxReactRouter = _client2['default'];
 	
-	var _isActive2 = __webpack_require__(239);
+	var _isActive2 = __webpack_require__(231);
 	
 	var _isActive3 = _interopRequireDefault(_isActive2);
 	
 	exports.isActive = _isActive3['default'];
 	
-	var _actionCreators = __webpack_require__(232);
+	var _actionCreators = __webpack_require__(224);
 	
 	exports.historyAPI = _actionCreators.historyAPI;
 	exports.pushState = _actionCreators.pushState;
@@ -20485,13 +20489,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _routerStateEquals = __webpack_require__(228);
+	var _routerStateEquals = __webpack_require__(220);
 	
 	var _routerStateEquals2 = _interopRequireDefault(_routerStateEquals);
 	
 	var _constants = __webpack_require__(176);
 	
-	var _actionCreators = __webpack_require__(232);
+	var _actionCreators = __webpack_require__(224);
 	
 	function memoizeRouterStateSelector(selector) {
 	  var previousRouterState = null;
@@ -20610,39 +20614,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.Router = _Router3['default'];
 	
-	var _Link2 = __webpack_require__(216);
+	var _Link2 = __webpack_require__(211);
 	
 	var _Link3 = _interopRequireDefault(_Link2);
 	
 	exports.Link = _Link3['default'];
 	
-	var _IndexLink2 = __webpack_require__(217);
-	
-	var _IndexLink3 = _interopRequireDefault(_IndexLink2);
-	
-	exports.IndexLink = _IndexLink3['default'];
-	
 	/* components (configuration) */
 	
-	var _IndexRedirect2 = __webpack_require__(218);
-	
-	var _IndexRedirect3 = _interopRequireDefault(_IndexRedirect2);
-	
-	exports.IndexRedirect = _IndexRedirect3['default'];
-	
-	var _IndexRoute2 = __webpack_require__(220);
+	var _IndexRoute2 = __webpack_require__(212);
 	
 	var _IndexRoute3 = _interopRequireDefault(_IndexRoute2);
 	
 	exports.IndexRoute = _IndexRoute3['default'];
 	
-	var _Redirect2 = __webpack_require__(219);
+	var _Redirect2 = __webpack_require__(213);
 	
 	var _Redirect3 = _interopRequireDefault(_Redirect2);
 	
 	exports.Redirect = _Redirect3['default'];
 	
-	var _Route2 = __webpack_require__(221);
+	var _Route2 = __webpack_require__(214);
 	
 	var _Route3 = _interopRequireDefault(_Route2);
 	
@@ -20650,19 +20642,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/* mixins */
 	
-	var _History2 = __webpack_require__(222);
+	var _History2 = __webpack_require__(215);
 	
 	var _History3 = _interopRequireDefault(_History2);
 	
 	exports.History = _History3['default'];
 	
-	var _Lifecycle2 = __webpack_require__(223);
+	var _Lifecycle2 = __webpack_require__(216);
 	
 	var _Lifecycle3 = _interopRequireDefault(_Lifecycle2);
 	
 	exports.Lifecycle = _Lifecycle3['default'];
 	
-	var _RouteContext2 = __webpack_require__(224);
+	var _RouteContext2 = __webpack_require__(217);
 	
 	var _RouteContext3 = _interopRequireDefault(_RouteContext2);
 	
@@ -20670,29 +20662,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/* utils */
 	
-	var _useRoutes2 = __webpack_require__(203);
+	var _useRoutes2 = __webpack_require__(198);
 	
 	var _useRoutes3 = _interopRequireDefault(_useRoutes2);
 	
 	exports.useRoutes = _useRoutes3['default'];
 	
-	var _RouteUtils = __webpack_require__(198);
+	var _RouteUtils = __webpack_require__(194);
 	
 	exports.createRoutes = _RouteUtils.createRoutes;
 	
-	var _RoutingContext2 = __webpack_require__(199);
+	var _RoutingContext2 = __webpack_require__(195);
 	
 	var _RoutingContext3 = _interopRequireDefault(_RoutingContext2);
 	
 	exports.RoutingContext = _RoutingContext3['default'];
 	
-	var _PropTypes2 = __webpack_require__(215);
+	var _PropTypes2 = __webpack_require__(210);
 	
 	var _PropTypes3 = _interopRequireDefault(_PropTypes2);
 	
 	exports.PropTypes = _PropTypes3['default'];
 	
-	var _match2 = __webpack_require__(225);
+	var _match2 = __webpack_require__(218);
 	
 	var _match3 = _interopRequireDefault(_match2);
 	
@@ -20710,41 +20702,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.__esModule = true;
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _warning = __webpack_require__(180);
-	
-	var _warning2 = _interopRequireDefault(_warning);
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _warning = __webpack_require__(180);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
 	var _historyLibCreateHashHistory = __webpack_require__(181);
 	
 	var _historyLibCreateHashHistory2 = _interopRequireDefault(_historyLibCreateHashHistory);
 	
-	var _RouteUtils = __webpack_require__(198);
+	var _RouteUtils = __webpack_require__(194);
 	
-	var _RoutingContext = __webpack_require__(199);
+	var _RoutingContext = __webpack_require__(195);
 	
 	var _RoutingContext2 = _interopRequireDefault(_RoutingContext);
 	
-	var _useRoutes = __webpack_require__(203);
+	var _useRoutes = __webpack_require__(198);
 	
 	var _useRoutes2 = _interopRequireDefault(_useRoutes);
 	
-	var _PropTypes = __webpack_require__(215);
+	var _PropTypes = __webpack_require__(210);
 	
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var func = _React$PropTypes.func;
@@ -20755,55 +20737,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * a router that renders a <RoutingContext> with all the props
 	 * it needs each time the URL changes.
 	 */
+	var Router = _react2['default'].createClass({
+	  displayName: 'Router',
 	
-	var Router = (function (_Component) {
-	  _inherits(Router, _Component);
+	  propTypes: {
+	    history: object,
+	    children: _PropTypes.routes,
+	    routes: _PropTypes.routes, // alias for children
+	    createElement: func,
+	    onError: func,
+	    onUpdate: func,
+	    parseQueryString: func,
+	    stringifyQuery: func
+	  },
 	
-	  _createClass(Router, null, [{
-	    key: 'propTypes',
-	    value: {
-	      history: object,
-	      children: _PropTypes.routes,
-	      routes: _PropTypes.routes, // alias for children
-	      RoutingContext: func.isRequired,
-	      createElement: func,
-	      onError: func,
-	      onUpdate: func,
-	      parseQueryString: func,
-	      stringifyQuery: func
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      RoutingContext: _RoutingContext2['default']
-	    },
-	    enumerable: true
-	  }]);
-	
-	  function Router(props, context) {
-	    _classCallCheck(this, Router);
-	
-	    _Component.call(this, props, context);
-	
-	    this.state = {
+	  getInitialState: function getInitialState() {
+	    return {
 	      location: null,
 	      routes: null,
 	      params: null,
 	      components: null
 	    };
-	  }
+	  },
 	
-	  Router.prototype.handleError = function handleError(error) {
+	  handleError: function handleError(error) {
 	    if (this.props.onError) {
 	      this.props.onError.call(this, error);
 	    } else {
 	      // Throw errors by default so we don't silently swallow them!
 	      throw error; // This error probably occurred in getChildRoutes or getComponents.
 	    }
-	  };
+	  },
 	
-	  Router.prototype.componentWillMount = function componentWillMount() {
+	  componentWillMount: function componentWillMount() {
 	    var _this = this;
 	
 	    var _props = this.props;
@@ -20830,50 +20796,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.setState(state, _this.props.onUpdate);
 	      }
 	    });
-	  };
+	  },
 	
-	  /* istanbul ignore next: sanity check */
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    _warning2['default'](nextProps.history === this.props.history, "The `history` provided to <Router/> has changed, it will be ignored.");
+	  },
 	
-	  Router.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-	     false ? _warning2['default'](nextProps.history === this.props.history, 'You cannot change <Router history>; it will be ignored') : undefined;
-	  };
-	
-	  Router.prototype.componentWillUnmount = function componentWillUnmount() {
+	  componentWillUnmount: function componentWillUnmount() {
 	    if (this._unlisten) this._unlisten();
-	  };
+	  },
 	
-	  Router.prototype.render = function render() {
+	  render: function render() {
 	    var _state = this.state;
 	    var location = _state.location;
 	    var routes = _state.routes;
 	    var params = _state.params;
 	    var components = _state.components;
-	    var _props2 = this.props;
-	    var RoutingContext = _props2.RoutingContext;
-	    var createElement = _props2.createElement;
-	
-	    var props = _objectWithoutProperties(_props2, ['RoutingContext', 'createElement']);
+	    var createElement = this.props.createElement;
 	
 	    if (location == null) return null; // Async match
 	
-	    // Only forward non-Router-specific props to routing context, as those are
-	    // the only ones that might be custom routing context props.
-	    Object.keys(Router.propTypes).forEach(function (propType) {
-	      return delete props[propType];
-	    });
-	
-	    return _react2['default'].createElement(RoutingContext, _extends({}, props, {
+	    return _react2['default'].createElement(_RoutingContext2['default'], {
 	      history: this.history,
 	      createElement: createElement,
 	      location: location,
 	      routes: routes,
 	      params: params,
 	      components: components
-	    }));
-	  };
+	    });
+	  }
 	
-	  return Router;
-	})(_react.Component);
+	});
 	
 	exports['default'] = Router;
 	module.exports = exports['default'];
@@ -20958,25 +20911,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _warning = __webpack_require__(182);
+	var _warning = __webpack_require__(180);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _invariant = __webpack_require__(183);
+	var _invariant = __webpack_require__(182);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _Actions = __webpack_require__(184);
+	var _Actions = __webpack_require__(183);
 	
-	var _ExecutionEnvironment = __webpack_require__(185);
+	var _ExecutionEnvironment = __webpack_require__(184);
 	
-	var _DOMUtils = __webpack_require__(186);
+	var _DOMUtils = __webpack_require__(185);
 	
-	var _DOMStateStorage = __webpack_require__(187);
+	var _DOMStateStorage = __webpack_require__(186);
 	
-	var _createDOMHistory = __webpack_require__(188);
+	var _createDOMHistory = __webpack_require__(187);
 	
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+	
+	var _createLocation = __webpack_require__(193);
+	
+	var _createLocation2 = _interopRequireDefault(_createLocation);
 	
 	function isAbsolutePath(path) {
 	  return typeof path === 'string' && path.charAt(0) === '/';
@@ -21032,11 +20989,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key = history.createKey();
 	        _DOMUtils.replaceHashPath(addQueryStringValueToPath(path, queryKey, key));
 	      }
-	    } else {
-	      key = state = null;
 	    }
 	
-	    return history.createLocation(path, state, undefined, key);
+	    return _createLocation2['default'](path, state, undefined, key);
 	  }
 	
 	  function startHashChangeListener(_ref) {
@@ -21057,7 +21012,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  function finishTransition(location) {
-	    var basename = location.basename;
 	    var pathname = location.pathname;
 	    var search = location.search;
 	    var state = location.state;
@@ -21066,7 +21020,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (action === _Actions.POP) return; // Nothing to do.
 	
-	    var path = (basename || '') + pathname + search;
+	    var path = pathname + search;
 	
 	    if (queryKey) path = addQueryStringValueToPath(path, queryKey, key);
 	
@@ -21097,18 +21051,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var listenerCount = 0,
 	      stopHashChangeListener = undefined;
-	
-	  function listenBefore(listener) {
-	    if (++listenerCount === 1) stopHashChangeListener = startHashChangeListener(history);
-	
-	    var unlisten = history.listenBefore(listener);
-	
-	    return function () {
-	      unlisten();
-	
-	      if (--listenerCount === 0) stopHashChangeListener();
-	    };
-	  }
 	
 	  function listen(listener) {
 	    if (++listenerCount === 1) stopHashChangeListener = startHashChangeListener(history);
@@ -21146,29 +21088,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return '#' + history.createHref(path);
 	  }
 	
-	  // deprecated
-	  function registerTransitionHook(hook) {
-	    if (++listenerCount === 1) stopHashChangeListener = startHashChangeListener(history);
-	
-	    history.registerTransitionHook(hook);
-	  }
-	
-	  // deprecated
-	  function unregisterTransitionHook(hook) {
-	    history.unregisterTransitionHook(hook);
-	
-	    if (--listenerCount === 0) stopHashChangeListener();
-	  }
-	
 	  return _extends({}, history, {
-	    listenBefore: listenBefore,
 	    listen: listen,
 	    pushState: pushState,
 	    replaceState: replaceState,
 	    go: go,
-	    createHref: createHref,
-	    registerTransitionHook: registerTransitionHook,
-	    unregisterTransitionHook: unregisterTransitionHook
+	    createHref: createHref
 	  });
 	}
 	
@@ -21180,82 +21105,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	'use strict';
-	
-	/**
-	 * Similar to invariant but only logs a warning if the condition is not met.
-	 * This can be used to log issues in development environments in critical
-	 * paths. Removing the logging code for production environments will keep the
-	 * same logic and follow the same code paths.
-	 */
-	
-	var __DEV__ = ("production") !== 'production';
-	
-	var warning = function() {};
-	
-	if (__DEV__) {
-	  warning = function(condition, format, args) {
-	    var len = arguments.length;
-	    args = new Array(len > 2 ? len - 2 : 0);
-	    for (var key = 2; key < len; key++) {
-	      args[key - 2] = arguments[key];
-	    }
-	    if (format === undefined) {
-	      throw new Error(
-	        '`warning(condition, format, ...args)` requires a warning ' +
-	        'message argument'
-	      );
-	    }
-	
-	    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
-	      throw new Error(
-	        'The warning format should be able to uniquely identify this ' +
-	        'warning. Please, use a more descriptive format than: ' + format
-	      );
-	    }
-	
-	    if (!condition) {
-	      var argIndex = 0;
-	      var message = 'Warning: ' +
-	        format.replace(/%s/g, function() {
-	          return args[argIndex++];
-	        });
-	      if (typeof console !== 'undefined') {
-	        console.error(message);
-	      }
-	      try {
-	        // This error was thrown as a convenience so that you can use this stack
-	        // to find the callsite that caused this warning to fire.
-	        throw new Error(message);
-	      } catch(x) {}
-	    }
-	  };
-	}
-	
-	module.exports = warning;
-
-
-/***/ },
-/* 183 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
 	 * Copyright 2013-2015, Facebook, Inc.
 	 * All rights reserved.
 	 *
 	 * This source code is licensed under the BSD-style license found in the
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
 	 */
 	
 	'use strict';
@@ -21291,9 +21146,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
 	      error = new Error(
-	        'Invariant Violation: ' +
 	        format.replace(/%s/g, function() { return args[argIndex++]; })
 	      );
+	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
@@ -21305,7 +21160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 184 */
+/* 183 */
 /***/ function(module, exports) {
 
 	/**
@@ -21341,7 +21196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 185 */
+/* 184 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21351,7 +21206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.canUseDOM = canUseDOM;
 
 /***/ },
-/* 186 */
+/* 185 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21394,7 +21249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function getWindowPath() {
-	  return window.location.pathname + window.location.search + window.location.hash;
+	  return window.location.pathname + window.location.search;
 	}
 	
 	function go(n) {
@@ -21431,42 +21286,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
+/* 186 */
+/***/ function(module, exports) {
 
-	/*eslint-disable no-empty */
 	'use strict';
 	
 	exports.__esModule = true;
 	exports.saveState = saveState;
 	exports.readState = readState;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _warning = __webpack_require__(182);
-	
-	var _warning2 = _interopRequireDefault(_warning);
-	
 	var KeyPrefix = '@@History/';
-	var QuotaExceededError = 'QuotaExceededError';
 	
 	function createKey(key) {
 	  return KeyPrefix + key;
 	}
 	
 	function saveState(key, state) {
-	  try {
-	    window.sessionStorage.setItem(createKey(key), JSON.stringify(state));
-	  } catch (error) {
-	    if (error.name === QuotaExceededError || window.sessionStorage.length === 0) {
-	      // Probably in Safari "private mode" where sessionStorage quota is 0. #42
-	      _warning2['default'](false, '[history] Unable to save state; sessionStorage is not available in Safari private mode');
-	
-	      return;
-	    }
-	
-	    throw error;
-	  }
+	  window.sessionStorage.setItem(createKey(key), JSON.stringify(state));
 	}
 	
 	function readState(key) {
@@ -21484,7 +21319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 188 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21495,15 +21330,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(183);
+	var _invariant = __webpack_require__(182);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _ExecutionEnvironment = __webpack_require__(185);
+	var _ExecutionEnvironment = __webpack_require__(184);
 	
-	var _DOMUtils = __webpack_require__(186);
+	var _DOMUtils = __webpack_require__(185);
 	
-	var _createHistory = __webpack_require__(189);
+	var _createHistory = __webpack_require__(188);
 	
 	var _createHistory2 = _interopRequireDefault(_createHistory);
 	
@@ -21529,7 +21364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 189 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21540,25 +21375,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _deepEqual = __webpack_require__(190);
+	var _warning = __webpack_require__(180);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _invariant = __webpack_require__(182);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _deepEqual = __webpack_require__(189);
 	
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 	
-	var _AsyncUtils = __webpack_require__(193);
+	var _AsyncUtils = __webpack_require__(192);
 	
-	var _Actions = __webpack_require__(184);
+	var _Actions = __webpack_require__(183);
 	
-	var _createLocation2 = __webpack_require__(194);
+	var _createLocation = __webpack_require__(193);
 	
-	var _createLocation3 = _interopRequireDefault(_createLocation2);
-	
-	var _runTransitionHook = __webpack_require__(196);
-	
-	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
-	
-	var _deprecate = __webpack_require__(197);
-	
-	var _deprecate2 = _interopRequireDefault(_deprecate);
+	var _createLocation2 = _interopRequireDefault(_createLocation);
 	
 	function createRandomKey(length) {
 	  return Math.random().toString(36).substr(2, length);
@@ -21584,20 +21419,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (typeof keyLength !== 'number') keyLength = DefaultKeyLength;
 	
 	  var transitionHooks = [];
-	
-	  function listenBefore(hook) {
-	    transitionHooks.push(hook);
-	
-	    return function () {
-	      transitionHooks = transitionHooks.filter(function (item) {
-	        return item !== hook;
-	      });
-	    };
-	  }
-	
-	  var allKeys = [];
 	  var changeListeners = [];
 	  var location = undefined;
+	
+	  var allKeys = [];
 	
 	  function getCurrent() {
 	    if (pendingLocation && pendingLocation.action === _Actions.POP) {
@@ -21625,8 +21450,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  }
 	
-	  function listen(listener) {
+	  function addChangeListener(listener) {
 	    changeListeners.push(listener);
+	  }
+	
+	  function removeChangeListener(listener) {
+	    changeListeners = changeListeners.filter(function (item) {
+	      return item !== listener;
+	    });
+	  }
+	
+	  function listen(listener) {
+	    addChangeListener(listener);
 	
 	    if (location) {
 	      listener(location);
@@ -21637,15 +21472,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    return function () {
-	      changeListeners = changeListeners.filter(function (item) {
-	        return item !== listener;
-	      });
+	      removeChangeListener(listener);
 	    };
+	  }
+	
+	  function registerTransitionHook(hook) {
+	    if (transitionHooks.indexOf(hook) === -1) transitionHooks.push(hook);
+	  }
+	
+	  function unregisterTransitionHook(hook) {
+	    transitionHooks = transitionHooks.filter(function (item) {
+	      return item !== hook;
+	    });
+	  }
+	
+	  function runTransitionHook(hook, location, callback) {
+	    var result = hook(location, callback);
+	
+	    if (hook.length < 2) {
+	      // Assume the hook runs synchronously and automatically
+	      // call the callback with the return value.
+	      callback(result);
+	    } else {
+	      _warning2['default'](result === undefined, 'You should not "return" in a transition hook with a callback argument call the callback instead');
+	    }
 	  }
 	
 	  function confirmTransitionTo(location, callback) {
 	    _AsyncUtils.loopAsync(transitionHooks.length, function (index, next, done) {
-	      _runTransitionHook2['default'](transitionHooks[index], location, function (result) {
+	      runTransitionHook(transitionHooks[index], location, function (result) {
 	        if (result != null) {
 	          done(result);
 	        } else {
@@ -21668,13 +21523,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function transitionTo(nextLocation) {
 	    if (location && locationsAreEqual(location, nextLocation)) return; // Nothing to do.
 	
+	    _invariant2['default'](pendingLocation == null, 'transitionTo: Another transition is already in progress');
+	
 	    pendingLocation = nextLocation;
 	
 	    confirmTransitionTo(nextLocation, function (ok) {
-	      if (pendingLocation !== nextLocation) return; // Transition was interrupted.
+	      pendingLocation = null;
 	
 	      if (ok) {
-	        if (finishTransition(nextLocation) !== false) updateLocation(nextLocation);
+	        finishTransition(nextLocation);
+	        updateLocation(nextLocation);
 	      } else if (location && nextLocation.action === _Actions.POP) {
 	        var prevIndex = allKeys.indexOf(location.key);
 	        var nextIndex = allKeys.indexOf(nextLocation.key);
@@ -21685,11 +21543,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  function pushState(state, path) {
-	    transitionTo(createLocation(path, state, _Actions.PUSH, createKey()));
+	    transitionTo(_createLocation2['default'](path, state, _Actions.PUSH, createKey()));
 	  }
 	
 	  function replaceState(state, path) {
-	    transitionTo(createLocation(path, state, _Actions.REPLACE, createKey()));
+	    transitionTo(_createLocation2['default'](path, state, _Actions.REPLACE, createKey()));
+	  }
+	
+	  function setState(state) {
+	    if (location) {
+	      updateLocationState(location, state);
+	      updateLocation(location);
+	    } else {
+	      updateLocationState(getCurrentLocation(), state);
+	    }
+	  }
+	
+	  function updateLocationState(location, state) {
+	    location.state = _extends({}, location.state, state);
+	    saveState(location.key, location.state);
 	  }
 	
 	  function goBack() {
@@ -21705,75 +21577,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  function createPath(path) {
-	    if (path == null || typeof path === 'string') return path;
-	
-	    var pathname = path.pathname;
-	    var search = path.search;
-	    var hash = path.hash;
-	
-	    var result = pathname;
-	
-	    if (search) result += search;
-	
-	    if (hash) result += hash;
-	
-	    return result;
+	    return path;
 	  }
 	
 	  function createHref(path) {
 	    return createPath(path);
 	  }
 	
-	  function createLocation(path, state, action) {
-	    var key = arguments.length <= 3 || arguments[3] === undefined ? createKey() : arguments[3];
-	
-	    return _createLocation3['default'](path, state, action, key);
-	  }
-	
-	  // deprecated
-	  function setState(state) {
-	    if (location) {
-	      updateLocationState(location, state);
-	      updateLocation(location);
-	    } else {
-	      updateLocationState(getCurrentLocation(), state);
-	    }
-	  }
-	
-	  function updateLocationState(location, state) {
-	    location.state = _extends({}, location.state, state);
-	    saveState(location.key, location.state);
-	  }
-	
-	  // deprecated
-	  function registerTransitionHook(hook) {
-	    if (transitionHooks.indexOf(hook) === -1) transitionHooks.push(hook);
-	  }
-	
-	  // deprecated
-	  function unregisterTransitionHook(hook) {
-	    transitionHooks = transitionHooks.filter(function (item) {
-	      return item !== hook;
-	    });
-	  }
-	
 	  return {
-	    listenBefore: listenBefore,
 	    listen: listen,
+	    registerTransitionHook: registerTransitionHook,
+	    unregisterTransitionHook: unregisterTransitionHook,
 	    transitionTo: transitionTo,
 	    pushState: pushState,
 	    replaceState: replaceState,
+	    setState: setState,
 	    go: go,
 	    goBack: goBack,
 	    goForward: goForward,
 	    createKey: createKey,
 	    createPath: createPath,
-	    createHref: createHref,
-	    createLocation: createLocation,
-	
-	    setState: _deprecate2['default'](setState, 'setState is deprecated; use location.key to save state instead'),
-	    registerTransitionHook: _deprecate2['default'](registerTransitionHook, 'registerTransitionHook is deprecated; use listenBefore instead'),
-	    unregisterTransitionHook: _deprecate2['default'](unregisterTransitionHook, 'unregisterTransitionHook is deprecated; use the callback returned from listenBefore instead')
+	    createHref: createHref
 	  };
 	}
 	
@@ -21781,12 +21605,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 190 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var pSlice = Array.prototype.slice;
-	var objectKeys = __webpack_require__(191);
-	var isArguments = __webpack_require__(192);
+	var objectKeys = __webpack_require__(190);
+	var isArguments = __webpack_require__(191);
 	
 	var deepEqual = module.exports = function (actual, expected, opts) {
 	  if (!opts) opts = {};
@@ -21881,7 +21705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 191 */
+/* 190 */
 /***/ function(module, exports) {
 
 	exports = module.exports = typeof Object.keys === 'function'
@@ -21896,7 +21720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 192 */
+/* 191 */
 /***/ function(module, exports) {
 
 	var supportsArgumentsClass = (function(){
@@ -21922,7 +21746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 193 */
+/* 192 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -21953,7 +21777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 194 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21962,11 +21786,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _Actions = __webpack_require__(184);
+	var _warning = __webpack_require__(180);
 	
-	var _parsePath = __webpack_require__(195);
+	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _parsePath2 = _interopRequireDefault(_parsePath);
+	var _Actions = __webpack_require__(183);
+	
+	function extractPath(string) {
+	  var match = string.match(/https?:\/\/[^\/]*/);
+	
+	  if (match == null) return string;
+	
+	  _warning2['default'](false, 'Location path must be pathname + query string only, not a fully qualified URL like "%s"', string);
+	
+	  return string.substring(match[0].length);
+	}
 	
 	function createLocation() {
 	  var path = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
@@ -21974,51 +21808,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var action = arguments.length <= 2 || arguments[2] === undefined ? _Actions.POP : arguments[2];
 	  var key = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
 	
-	  if (typeof path === 'string') path = _parsePath2['default'](path);
+	  path = extractPath(path);
 	
-	  var pathname = path.pathname || '/';
-	  var search = path.search || '';
-	  var hash = path.hash || '';
-	
-	  return {
-	    pathname: pathname,
-	    search: search,
-	    hash: hash,
-	    state: state,
-	    action: action,
-	    key: key
-	  };
-	}
-	
-	exports['default'] = createLocation;
-	module.exports = exports['default'];
-
-/***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _warning = __webpack_require__(182);
-	
-	var _warning2 = _interopRequireDefault(_warning);
-	
-	function extractPath(string) {
-	  var match = string.match(/^https?:\/\/[^\/]*/);
-	
-	  if (match == null) return string;
-	
-	  _warning2['default'](false, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', string);
-	
-	  return string.substring(match[0].length);
-	}
-	
-	function parsePath(path) {
-	  var pathname = extractPath(path);
+	  var pathname = path;
 	  var search = '';
 	  var hash = '';
 	
@@ -22039,68 +21831,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return {
 	    pathname: pathname,
 	    search: search,
-	    hash: hash
+	    hash: hash,
+	    state: state,
+	    action: action,
+	    key: key
 	  };
 	}
 	
-	exports['default'] = parsePath;
+	exports['default'] = createLocation;
 	module.exports = exports['default'];
 
 /***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _warning = __webpack_require__(182);
-	
-	var _warning2 = _interopRequireDefault(_warning);
-	
-	function runTransitionHook(hook, location, callback) {
-	  var result = hook(location, callback);
-	
-	  if (hook.length < 2) {
-	    // Assume the hook runs synchronously and automatically
-	    // call the callback with the return value.
-	    callback(result);
-	  } else {
-	    _warning2['default'](result === undefined, 'You should not "return" in a transition hook with a callback argument; call the callback instead');
-	  }
-	}
-	
-	exports['default'] = runTransitionHook;
-	module.exports = exports['default'];
-
-/***/ },
-/* 197 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _warning = __webpack_require__(182);
-	
-	var _warning2 = _interopRequireDefault(_warning);
-	
-	function deprecate(fn, message) {
-	  return function () {
-	    _warning2['default'](false, '[history] ' + message);
-	    return fn.apply(this, arguments);
-	  };
-	}
-	
-	exports['default'] = deprecate;
-	module.exports = exports['default'];
-
-/***/ },
-/* 198 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22139,8 +21881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (propTypes.hasOwnProperty(propName)) {
 	      var error = propTypes[propName](props, propName, componentName);
 	
-	      /* istanbul ignore if: error logging */
-	      if (error instanceof Error)  false ? _warning2['default'](false, error.message) : undefined;
+	      if (error instanceof Error) _warning2['default'](false, error.message);
 	    }
 	  }
 	}
@@ -22171,14 +21912,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * provides a convenient way to visualize how routes in the hierarchy are
 	 * nested.
 	 *
-	 *   import { Route, createRoutesFromReactChildren } from 'react-router'
+	 *   import { Route, createRoutesFromReactChildren } from 'react-router';
 	 *   
-	 *   const routes = createRoutesFromReactChildren(
+	 *   var routes = createRoutesFromReactChildren(
 	 *     <Route component={App}>
 	 *       <Route path="home" component={Dashboard}/>
 	 *       <Route path="news" component={NewsFeed}/>
 	 *     </Route>
-	 *   )
+	 *   );
 	 *
 	 * Note: This method is automatically used when you provide <Route> children
 	 * to a <Router> component.
@@ -22211,7 +21952,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function createRoutes(routes) {
 	  if (isReactChildren(routes)) {
 	    routes = createRoutesFromReactChildren(routes);
-	  } else if (routes && !Array.isArray(routes)) {
+	  } else if (!Array.isArray(routes)) {
 	    routes = [routes];
 	  }
 	
@@ -22219,32 +21960,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 199 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _invariant = __webpack_require__(200);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _RouteUtils = __webpack_require__(198);
+	var _invariant = __webpack_require__(182);
 	
-	var _getRouteParams = __webpack_require__(201);
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _getRouteParams = __webpack_require__(196);
 	
 	var _getRouteParams2 = _interopRequireDefault(_getRouteParams);
 	
@@ -22257,37 +21990,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * A <RoutingContext> renders the component tree for a given router state
 	 * and sets the history object and the current location in context.
 	 */
+	var RoutingContext = _react2['default'].createClass({
+	  displayName: 'RoutingContext',
 	
-	var RoutingContext = (function (_Component) {
-	  _inherits(RoutingContext, _Component);
+	  propTypes: {
+	    history: object.isRequired,
+	    createElement: func.isRequired,
+	    location: object.isRequired,
+	    routes: array.isRequired,
+	    params: object.isRequired,
+	    components: array.isRequired
+	  },
 	
-	  function RoutingContext() {
-	    _classCallCheck(this, RoutingContext);
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      createElement: _react2['default'].createElement
+	    };
+	  },
 	
-	    _Component.apply(this, arguments);
-	  }
+	  childContextTypes: {
+	    history: object.isRequired,
+	    location: object.isRequired
+	  },
 	
-	  RoutingContext.prototype.getChildContext = function getChildContext() {
+	  getChildContext: function getChildContext() {
+	    return {
+	      history: this.props.history,
+	      location: this.props.location
+	    };
+	  },
+	
+	  createElement: function createElement(component, props) {
+	    return component == null ? null : this.props.createElement(component, props);
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
 	    var _props = this.props;
 	    var history = _props.history;
 	    var location = _props.location;
-	
-	    return { history: history, location: location };
-	  };
-	
-	  RoutingContext.prototype.createElement = function createElement(component, props) {
-	    return component == null ? null : this.props.createElement(component, props);
-	  };
-	
-	  RoutingContext.prototype.render = function render() {
-	    var _this = this;
-	
-	    var _props2 = this.props;
-	    var history = _props2.history;
-	    var location = _props2.location;
-	    var routes = _props2.routes;
-	    var params = _props2.params;
-	    var components = _props2.components;
+	    var routes = _props.routes;
+	    var params = _props.params;
+	    var components = _props.components;
 	
 	    var element = null;
 	
@@ -22306,133 +22051,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	          routes: routes
 	        };
 	
-	        if (_RouteUtils.isReactChildren(element)) {
-	          props.children = element;
-	        } else if (element) {
-	          for (var prop in element) {
-	            if (element.hasOwnProperty(prop)) props[prop] = element[prop];
-	          }
-	        }
+	        if (element) props.children = element;
 	
 	        if (typeof components === 'object') {
 	          var elements = {};
 	
-	          for (var key in components) {
-	            if (components.hasOwnProperty(key)) elements[key] = _this.createElement(components[key], props);
-	          }return elements;
+	          for (var key in components) if (components.hasOwnProperty(key)) elements[key] = _this.createElement(components[key], props);
+	
+	          return elements;
 	        }
 	
 	        return _this.createElement(components, props);
 	      }, element);
 	    }
 	
-	    !(element === null || element === false || _react2['default'].isValidElement(element)) ?  false ? _invariant2['default'](false, 'The root route must render a single element') : _invariant2['default'](false) : undefined;
+	    _invariant2['default'](element === null || element === false || _react2['default'].isValidElement(element), 'The root route must render a single element');
 	
 	    return element;
-	  };
+	  }
 	
-	  _createClass(RoutingContext, null, [{
-	    key: 'propTypes',
-	    value: {
-	      history: object.isRequired,
-	      createElement: func.isRequired,
-	      location: object.isRequired,
-	      routes: array.isRequired,
-	      params: object.isRequired,
-	      components: array.isRequired
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      createElement: _react2['default'].createElement
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'childContextTypes',
-	    value: {
-	      history: object.isRequired,
-	      location: object.isRequired
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return RoutingContext;
-	})(_react.Component);
+	});
 	
 	exports['default'] = RoutingContext;
 	module.exports = exports['default'];
 
 /***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	'use strict';
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var __DEV__ = ("production") !== 'production';
-	
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (__DEV__) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        'Invariant Violation: ' +
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-
-
-/***/ },
-/* 201 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _PatternUtils = __webpack_require__(202);
+	var _PatternUtils = __webpack_require__(197);
 	
 	/**
 	 * Extracts an object of params the given route cares about from
@@ -22445,16 +22096,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var paramNames = _PatternUtils.getParamNames(route.path);
 	
-	  for (var p in params) {
-	    if (params.hasOwnProperty(p) && paramNames.indexOf(p) !== -1) routeParams[p] = params[p];
-	  }return routeParams;
+	  for (var p in params) if (params.hasOwnProperty(p) && paramNames.indexOf(p) !== -1) routeParams[p] = params[p];
+	
+	  return routeParams;
 	}
 	
 	exports['default'] = getRouteParams;
 	module.exports = exports['default'];
 
 /***/ },
-/* 202 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22468,12 +22119,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(200);
+	var _invariant = __webpack_require__(182);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
 	function escapeRegExp(string) {
-	  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	}
 	
 	function escapeSource(string) {
@@ -22485,9 +22136,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var paramNames = [];
 	  var tokens = [];
 	
-	  var match = undefined,
+	  var match,
 	      lastIndex = 0,
-	      matcher = /:([a-zA-Z_$][a-zA-Z0-9_$]*)|\*\*|\*|\(|\)/g;
+	      matcher = /:([a-zA-Z_$][a-zA-Z0-9_$]*)|\*|\(|\)/g;
 	  while (match = matcher.exec(pattern)) {
 	    if (match.index !== lastIndex) {
 	      tokens.push(pattern.slice(lastIndex, match.index));
@@ -22497,9 +22148,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (match[1]) {
 	      regexpSource += '([^/?#]+)';
 	      paramNames.push(match[1]);
-	    } else if (match[0] === '**') {
-	      regexpSource += '([\\s\\S]*)';
-	      paramNames.push('splat');
 	    } else if (match[0] === '*') {
 	      regexpSource += '([\\s\\S]*?)';
 	      paramNames.push('splat');
@@ -22545,8 +22193,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * - *              Consumes (non-greedy) all characters up to the next
 	 *                  character in the pattern, or to the end of the URL if
 	 *                  there is none
-	 * - **             Consumes (greedy) all characters up to the next character
-	 *                  in the pattern, or to the end of the URL if there is none
 	 *
 	 * The return value is an object with the following properties:
 	 *
@@ -22556,57 +22202,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function matchPattern(pattern, pathname) {
-	  // Make leading slashes consistent between pattern and pathname.
-	  if (pattern.charAt(0) !== '/') {
-	    pattern = '/' + pattern;
-	  }
-	  if (pathname.charAt(0) !== '/') {
-	    pathname = '/' + pathname;
-	  }
-	
 	  var _compilePattern2 = compilePattern(pattern);
 	
 	  var regexpSource = _compilePattern2.regexpSource;
 	  var paramNames = _compilePattern2.paramNames;
 	  var tokens = _compilePattern2.tokens;
 	
-	  regexpSource += '/*'; // Capture path separators
+	  regexpSource += '/*'; // Ignore trailing slashes
 	
-	  // Special-case patterns like '*' for catch-all routes.
 	  var captureRemaining = tokens[tokens.length - 1] !== '*';
 	
-	  if (captureRemaining) {
-	    // This will match newlines in the remaining path.
-	    regexpSource += '([\\s\\S]*?)';
-	  }
+	  if (captureRemaining) regexpSource += '([\\s\\S]*?)';
 	
 	  var match = pathname.match(new RegExp('^' + regexpSource + '$', 'i'));
 	
-	  var remainingPathname = undefined,
-	      paramValues = undefined;
+	  var remainingPathname, paramValues;
 	  if (match != null) {
-	    if (captureRemaining) {
-	      remainingPathname = match.pop();
-	      var matchedPath = match[0].substr(0, match[0].length - remainingPathname.length);
-	
-	      // If we didn't match the entire pathname, then make sure that the match
-	      // we did get ends at a path separator (potentially the one we added
-	      // above at the beginning of the path, if the actual match was empty).
-	      if (remainingPathname && matchedPath.charAt(matchedPath.length - 1) !== '/') {
-	        return {
-	          remainingPathname: null,
-	          paramNames: paramNames,
-	          paramValues: null
-	        };
-	      }
-	    } else {
-	      // If this matched at all, then the match was the entire pathname.
-	      remainingPathname = '';
-	    }
-	
-	    paramValues = match.slice(1).map(function (v) {
-	      return v != null ? decodeURIComponent(v) : v;
+	    paramValues = Array.prototype.slice.call(match, 1).map(function (v) {
+	      return v != null ? decodeURIComponent(v.replace(/\+/g, '%20')) : v;
 	    });
+	
+	    if (captureRemaining) {
+	      remainingPathname = paramValues.pop();
+	    } else {
+	      remainingPathname = pathname.replace(match[0], '');
+	    }
 	  } else {
 	    remainingPathname = paramValues = null;
 	  }
@@ -22654,18 +22274,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      pathname = '',
 	      splatIndex = 0;
 	
-	  var token = undefined,
-	      paramName = undefined,
-	      paramValue = undefined;
+	  var token, paramName, paramValue;
 	  for (var i = 0, len = tokens.length; i < len; ++i) {
 	    token = tokens[i];
 	
-	    if (token === '*' || token === '**') {
+	    if (token === '*') {
 	      paramValue = Array.isArray(params.splat) ? params.splat[splatIndex++] : params.splat;
 	
-	      !(paramValue != null || parenCount > 0) ?  false ? _invariant2['default'](false, 'Missing splat #%s for path "%s"', splatIndex, pattern) : _invariant2['default'](false) : undefined;
+	      _invariant2['default'](paramValue != null || parenCount > 0, 'Missing splat #%s for path "%s"', splatIndex, pattern);
 	
-	      if (paramValue != null) pathname += encodeURI(paramValue);
+	      if (paramValue != null) pathname += encodeURI(paramValue).replace(/%20/g, '+');
 	    } else if (token === '(') {
 	      parenCount += 1;
 	    } else if (token === ')') {
@@ -22674,9 +22292,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      paramName = token.substring(1);
 	      paramValue = params[paramName];
 	
-	      !(paramValue != null || parenCount > 0) ?  false ? _invariant2['default'](false, 'Missing "%s" parameter for path "%s"', paramName, pattern) : _invariant2['default'](false) : undefined;
+	      _invariant2['default'](paramValue != null || parenCount > 0, 'Missing "%s" parameter for path "%s"', paramName, pattern);
 	
-	      if (paramValue != null) pathname += encodeURIComponent(paramValue);
+	      if (paramValue != null) pathname += encodeURIComponent(paramValue).replace(/%20/g, '+');
 	    } else {
 	      pathname += token;
 	    }
@@ -22686,7 +22304,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 203 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22703,46 +22321,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _historyLibActions = __webpack_require__(184);
+	var _historyLibActions = __webpack_require__(183);
 	
-	var _historyLibUseQueries = __webpack_require__(204);
+	var _historyLibUseQueries = __webpack_require__(199);
 	
 	var _historyLibUseQueries2 = _interopRequireDefault(_historyLibUseQueries);
 	
-	var _computeChangedRoutes2 = __webpack_require__(209);
+	var _historyLibCreateLocation = __webpack_require__(193);
+	
+	var _historyLibCreateLocation2 = _interopRequireDefault(_historyLibCreateLocation);
+	
+	var _computeChangedRoutes2 = __webpack_require__(204);
 	
 	var _computeChangedRoutes3 = _interopRequireDefault(_computeChangedRoutes2);
 	
-	var _TransitionUtils = __webpack_require__(210);
+	var _TransitionUtils = __webpack_require__(205);
 	
-	var _isActive2 = __webpack_require__(212);
+	var _isActive2 = __webpack_require__(207);
 	
 	var _isActive3 = _interopRequireDefault(_isActive2);
 	
-	var _getComponents = __webpack_require__(213);
+	var _getComponents = __webpack_require__(208);
 	
 	var _getComponents2 = _interopRequireDefault(_getComponents);
 	
-	var _matchRoutes = __webpack_require__(214);
+	var _matchRoutes = __webpack_require__(209);
 	
 	var _matchRoutes2 = _interopRequireDefault(_matchRoutes);
 	
 	function hasAnyProperties(object) {
-	  for (var p in object) {
-	    if (object.hasOwnProperty(p)) return true;
-	  }return false;
+	  for (var p in object) if (object.hasOwnProperty(p)) return true;
+	
+	  return false;
 	}
 	
 	/**
 	 * Returns a new createHistory function that may be used to create
 	 * history objects that know about routing.
 	 *
-	 * Enhances history objects with the following methods:
-	 *
+	 * - isActive(pathname, query)
+	 * - registerRouteHook(route, (location) => {})
+	 * - unregisterRouteHook(route, (location) => {})
+	 * - match(location, (error, nextState, nextLocation) => {})
 	 * - listen((error, nextState) => {})
-	 * - listenBeforeLeavingRoute(route, (nextLocation) => {})
-	 * - match(location, (error, redirectLocation, nextState) => {})
-	 * - isActive(pathname, query, indexOnly=false)
 	 */
 	function useRoutes(createHistory) {
 	  return function () {
@@ -22760,14 +22381,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _isActive3['default'](pathname, query, indexOnly, state.location, state.routes, state.params);
 	    }
 	
-	    function createLocationFromRedirectInfo(_ref) {
-	      var pathname = _ref.pathname;
-	      var query = _ref.query;
-	      var state = _ref.state;
-	
-	      return history.createLocation(history.createPath(pathname, query), state, _historyLibActions.REPLACE);
-	    }
-	
 	    var partialNextState = undefined;
 	
 	    function match(location, callback) {
@@ -22777,14 +22390,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        _matchRoutes2['default'](routes, location, function (error, nextState) {
 	          if (error) {
-	            callback(error);
+	            callback(error, null, null);
 	          } else if (nextState) {
-	            finishMatch(_extends({}, nextState, { location: location }), callback);
+	            finishMatch(_extends({}, nextState, { location: location }), function (err, nextLocation, nextState) {
+	              if (nextState) state = nextState;
+	              callback(err, nextLocation, nextState);
+	            });
 	          } else {
-	            callback();
+	            callback(null, null, null);
 	          }
 	        });
 	      }
+	    }
+	
+	    function createLocationFromRedirectInfo(_ref) {
+	      var pathname = _ref.pathname;
+	      var query = _ref.query;
+	      var state = _ref.state;
+	
+	      return _historyLibCreateLocation2['default'](history.createPath(pathname, query), state, _historyLibActions.REPLACE, history.createKey());
 	    }
 	
 	    function finishMatch(nextState, callback) {
@@ -22799,29 +22423,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (error) {
 	          callback(error);
 	        } else if (redirectInfo) {
-	          callback(null, createLocationFromRedirectInfo(redirectInfo));
+	          callback(null, createLocationFromRedirectInfo(redirectInfo), null);
 	        } else {
 	          // TODO: Fetch components after state is updated.
 	          _getComponents2['default'](nextState, function (error, components) {
 	            if (error) {
 	              callback(error);
 	            } else {
-	              // TODO: Make match a pure function and have some other API
-	              // for "match and update state".
-	              callback(null, null, state = _extends({}, nextState, { components: components }));
+	              callback(null, null, _extends({}, nextState, { components: components }));
 	            }
 	          });
 	        }
 	      });
 	    }
 	
+	    var RouteHooks = {};
+	
 	    var RouteGuid = 1;
 	
 	    function getRouteID(route) {
 	      return route.__id__ || (route.__id__ = RouteGuid++);
 	    }
-	
-	    var RouteHooks = {};
 	
 	    function getRouteHooksForRoutes(routes) {
 	      return routes.reduce(function (hooks, route) {
@@ -22844,7 +22466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // matchRoutes() again in the listen callback.
 	        partialNextState = _extends({}, nextState, { location: location });
 	
-	        var hooks = getRouteHooksForRoutes(_computeChangedRoutes3['default'](state, partialNextState).leaveRoutes);
+	        var hooks = getRouteHooksForRoutes(_computeChangedRoutes3['default'](state, nextState).leaveRoutes);
 	
 	        var result = undefined;
 	        for (var i = 0, len = hooks.length; result == null && i < len; ++i) {
@@ -22858,8 +22480,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    function beforeUnloadHook() {
-	      // Synchronously check to see if any route hooks want
-	      // to prevent the current window/tab from closing.
+	      // Synchronously check to see if any route hooks want to
+	      // prevent the current window/tab from closing.
 	      if (state.routes) {
 	        var hooks = getRouteHooksForRoutes(state.routes);
 	
@@ -22874,23 +22496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	
-	    var unlistenBefore = undefined,
-	        unlistenBeforeUnload = undefined;
-	
-	    /**
-	     * Registers the given hook function to run before leaving the given route.
-	     *
-	     * During a normal transition, the hook function receives the next location
-	     * as its only argument and must return either a) a prompt message to show
-	     * the user, to make sure they want to leave the page or b) false, to prevent
-	     * the transition.
-	     *
-	     * During the beforeunload event (in browsers) the hook receives no arguments.
-	     * In this case it must return a prompt message to prevent the transition.
-	     *
-	     * Returns a function that may be used to unbind the listener.
-	     */
-	    function listenBeforeLeavingRoute(route, hook) {
+	    function registerRouteHook(route, hook) {
 	      // TODO: Warn if they register for a route that isn't currently
 	      // active. They're probably doing something wrong, like re-creating
 	      // route objects on every location change.
@@ -22903,67 +22509,61 @@ return /******/ (function(modules) { // webpackBootstrap
 	        hooks = RouteHooks[routeID] = [hook];
 	
 	        if (thereWereNoRouteHooks) {
-	          // setup transition & beforeunload hooks
-	          unlistenBefore = history.listenBefore(transitionHook);
+	          history.registerTransitionHook(transitionHook);
 	
-	          if (history.listenBeforeUnload) unlistenBeforeUnload = history.listenBeforeUnload(beforeUnloadHook);
+	          if (history.registerBeforeUnloadHook) history.registerBeforeUnloadHook(beforeUnloadHook);
 	        }
 	      } else if (hooks.indexOf(hook) === -1) {
 	        hooks.push(hook);
 	      }
+	    }
 	
-	      return function () {
-	        var hooks = RouteHooks[routeID];
+	    function unregisterRouteHook(route, hook) {
+	      var routeID = getRouteID(route);
+	      var hooks = RouteHooks[routeID];
 	
-	        if (hooks != null) {
-	          var newHooks = hooks.filter(function (item) {
-	            return item !== hook;
-	          });
+	      if (hooks != null) {
+	        var newHooks = hooks.filter(function (item) {
+	          return item !== hook;
+	        });
 	
-	          if (newHooks.length === 0) {
-	            delete RouteHooks[routeID];
+	        if (newHooks.length === 0) {
+	          delete RouteHooks[routeID];
 	
-	            if (!hasAnyProperties(RouteHooks)) {
-	              // teardown transition & beforeunload hooks
-	              if (unlistenBefore) {
-	                unlistenBefore();
-	                unlistenBefore = null;
-	              }
+	          if (!hasAnyProperties(RouteHooks)) {
+	            history.unregisterTransitionHook(transitionHook);
 	
-	              if (unlistenBeforeUnload) {
-	                unlistenBeforeUnload();
-	                unlistenBeforeUnload = null;
-	              }
-	            }
-	          } else {
-	            RouteHooks[routeID] = newHooks;
+	            if (history.unregisterBeforeUnloadHook) history.unregisterBeforeUnloadHook(beforeUnloadHook);
 	          }
+	        } else {
+	          RouteHooks[routeID] = newHooks;
 	        }
-	      };
+	      }
 	    }
 	
 	    /**
-	     * This is the API for stateful environments. As the location
-	     * changes, we update state and call the listener. We can also
-	     * gracefully handle errors and redirects.
+	     * This is the API for stateful environments. As the location changes,
+	     * we update state and call the listener. Benefits of this API are:
+	     *
+	     * - We automatically manage state on the client
+	     * - We automatically handle redirects on the client
+	     * - We warn when the location doesn't match any routes
 	     */
 	    function listen(listener) {
-	      // TODO: Only use a single history listener. Otherwise we'll
-	      // end up with multiple concurrent calls to match.
 	      return history.listen(function (location) {
 	        if (state.location === location) {
 	          listener(null, state);
 	        } else {
-	          match(location, function (error, redirectLocation, nextState) {
+	          match(location, function (error, nextLocation, nextState) {
 	            if (error) {
 	              listener(error);
-	            } else if (redirectLocation) {
-	              history.transitionTo(redirectLocation);
 	            } else if (nextState) {
-	              listener(null, nextState);
-	            } else {
-	               false ? _warning2['default'](false, 'Location "%s" did not match any routes', location.pathname + location.search + location.hash) : undefined;
-	            }
+	              listener(null, state); // match mutates state to nextState
+	            } else if (nextLocation) {
+	                history.transitionTo(nextLocation);
+	              } else {
+	                _warning2['default'](false, 'Location "%s" did not match any routes', location.pathname + location.search);
+	              }
 	          });
 	        }
 	      });
@@ -22971,9 +22571,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return _extends({}, history, {
 	      isActive: isActive,
-	      match: match,
-	      listenBeforeLeavingRoute: listenBeforeLeavingRoute,
-	      listen: listen
+	      registerRouteHook: registerRouteHook,
+	      unregisterRouteHook: unregisterRouteHook,
+	      listen: listen,
+	      match: match
 	    });
 	  };
 	}
@@ -22982,7 +22583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 204 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22995,17 +22596,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
-	var _qs = __webpack_require__(205);
+	var _qs = __webpack_require__(200);
 	
 	var _qs2 = _interopRequireDefault(_qs);
-	
-	var _runTransitionHook = __webpack_require__(196);
-	
-	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
-	
-	var _parsePath = __webpack_require__(195);
-	
-	var _parsePath2 = _interopRequireDefault(_parsePath);
 	
 	function defaultStringifyQuery(query) {
 	  return _qs2['default'].stringify(query, { arrayFormat: 'brackets' });
@@ -23033,67 +22626,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (typeof parseQueryString !== 'function') parseQueryString = defaultParseQueryString;
 	
-	    function addQuery(location) {
-	      if (location.query == null) location.query = parseQueryString(location.search.substring(1));
-	
-	      return location;
-	    }
-	
-	    function appendQuery(path, query) {
-	      var queryString = undefined;
-	      if (!query || (queryString = stringifyQuery(query)) === '') return path;
-	
-	      if (typeof path === 'string') path = _parsePath2['default'](path);
-	
-	      var search = path.search + (path.search ? '&' : '?') + queryString;
-	
-	      return _extends({}, path, {
-	        search: search
-	      });
-	    }
-	
-	    // Override all read methods with query-aware versions.
-	    function listenBefore(hook) {
-	      return history.listenBefore(function (location, callback) {
-	        _runTransitionHook2['default'](hook, addQuery(location), callback);
-	      });
-	    }
-	
 	    function listen(listener) {
 	      return history.listen(function (location) {
-	        listener(addQuery(location));
+	        if (!location.query) location.query = parseQueryString(location.search.substring(1));
+	
+	        listener(location);
 	      });
 	    }
 	
-	    // Override all write methods with query-aware versions.
-	    function pushState(state, path, query) {
-	      return history.pushState(state, appendQuery(path, query));
+	    function pushState(state, pathname, query) {
+	      return history.pushState(state, createPath(pathname, query));
 	    }
 	
-	    function replaceState(state, path, query) {
-	      return history.replaceState(state, appendQuery(path, query));
+	    function replaceState(state, pathname, query) {
+	      return history.replaceState(state, createPath(pathname, query));
 	    }
 	
-	    function createPath(path, query) {
-	      return history.createPath(appendQuery(path, query));
+	    function createPath(pathname, query) {
+	      var queryString = undefined;
+	      if (query == null || (queryString = stringifyQuery(query)) === '') return pathname;
+	
+	      return history.createPath(pathname + (pathname.indexOf('?') === -1 ? '?' : '&') + queryString);
 	    }
 	
-	    function createHref(path, query) {
-	      return history.createHref(appendQuery(path, query));
-	    }
-	
-	    function createLocation() {
-	      return addQuery(history.createLocation.apply(history, arguments));
+	    function createHref(pathname, query) {
+	      return history.createHref(createPath(pathname, query));
 	    }
 	
 	    return _extends({}, history, {
-	      listenBefore: listenBefore,
 	      listen: listen,
 	      pushState: pushState,
 	      replaceState: replaceState,
 	      createPath: createPath,
-	      createHref: createHref,
-	      createLocation: createLocation
+	      createHref: createHref
 	    });
 	  };
 	}
@@ -23102,13 +22667,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 205 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Load modules
 	
-	var Stringify = __webpack_require__(206);
-	var Parse = __webpack_require__(208);
+	var Stringify = __webpack_require__(201);
+	var Parse = __webpack_require__(203);
 	
 	
 	// Declare internals
@@ -23123,12 +22688,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 206 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Load modules
 	
-	var Utils = __webpack_require__(207);
+	var Utils = __webpack_require__(202);
 	
 	
 	// Declare internals
@@ -23250,7 +22815,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 207 */
+/* 202 */
 /***/ function(module, exports) {
 
 	// Load modules
@@ -23446,12 +23011,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 208 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Load modules
 	
-	var Utils = __webpack_require__(207);
+	var Utils = __webpack_require__(202);
 	
 	
 	// Declare internals
@@ -23638,14 +23203,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 209 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _PatternUtils = __webpack_require__(202);
+	var _PatternUtils = __webpack_require__(197);
 	
 	function routeParamsChanged(route, prevState, nextState) {
 	  if (!route.path) return false;
@@ -23671,8 +23236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var prevRoutes = prevState && prevState.routes;
 	  var nextRoutes = nextState.routes;
 	
-	  var leaveRoutes = undefined,
-	      enterRoutes = undefined;
+	  var leaveRoutes, enterRoutes;
 	  if (prevRoutes) {
 	    leaveRoutes = prevRoutes.filter(function (route) {
 	      return nextRoutes.indexOf(route) === -1 || routeParamsChanged(route, prevState, nextState);
@@ -23699,7 +23263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 210 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23708,7 +23272,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.runEnterHooks = runEnterHooks;
 	exports.runLeaveHooks = runLeaveHooks;
 	
-	var _AsyncUtils = __webpack_require__(211);
+	var _AsyncUtils = __webpack_require__(206);
 	
 	function createEnterHook(hook, route) {
 	  return function (a, b, callback) {
@@ -23749,7 +23313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return;
 	  }
 	
-	  var redirectInfo = undefined;
+	  var redirectInfo;
 	  function replaceState(state, pathname, query) {
 	    redirectInfo = { pathname: pathname, query: query, state: state };
 	  }
@@ -23770,13 +23334,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function runLeaveHooks(routes) {
-	  for (var i = 0, len = routes.length; i < len; ++i) {
-	    if (routes[i].onLeave) routes[i].onLeave.call(routes[i]);
-	  }
+	  for (var i = 0, len = routes.length; i < len; ++i) if (routes[i].onLeave) routes[i].onLeave.call(routes[i]);
 	}
 
 /***/ },
-/* 211 */
+/* 206 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23786,8 +23348,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.mapAsync = mapAsync;
 	
 	function loopAsync(turns, work, callback) {
-	  var currentTurn = 0,
-	      isDone = false;
+	  var currentTurn = 0;
+	  var isDone = false;
 	
 	  function done() {
 	    isDone = true;
@@ -23813,8 +23375,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  if (length === 0) return callback(null, values);
 	
-	  var isDone = false,
-	      doneCount = 0;
+	  var isDone = false;
+	  var doneCount = 0;
 	
 	  function done(index, error, value) {
 	    if (isDone) return;
@@ -23839,104 +23401,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 212 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _PatternUtils = __webpack_require__(202);
-	
-	function deepEqual(a, b) {
-	  if (a == b) return true;
-	
-	  if (a == null || b == null) return false;
-	
-	  if (Array.isArray(a)) {
-	    return Array.isArray(b) && a.length === b.length && a.every(function (item, index) {
-	      return deepEqual(item, b[index]);
-	    });
-	  }
-	
-	  if (typeof a === 'object') {
-	    for (var p in a) {
-	      if (!a.hasOwnProperty(p)) {
-	        continue;
-	      }
-	
-	      if (a[p] === undefined) {
-	        if (b[p] !== undefined) {
-	          return false;
-	        }
-	      } else if (!b.hasOwnProperty(p)) {
-	        return false;
-	      } else if (!deepEqual(a[p], b[p])) {
-	        return false;
-	      }
-	    }
-	
-	    return true;
-	  }
-	
-	  return String(a) === String(b);
-	}
-	
-	function paramsAreActive(paramNames, paramValues, activeParams) {
-	  // FIXME: This doesn't work on repeated params in activeParams.
-	  return paramNames.every(function (paramName, index) {
-	    return String(paramValues[index]) === String(activeParams[paramName]);
-	  });
-	}
-	
-	function getMatchingRouteIndex(pathname, activeRoutes, activeParams) {
-	  var remainingPathname = pathname,
-	      paramNames = [],
-	      paramValues = [];
-	
-	  for (var i = 0, len = activeRoutes.length; i < len; ++i) {
-	    var route = activeRoutes[i];
-	    var pattern = route.path || '';
-	
-	    if (pattern.charAt(0) === '/') {
-	      remainingPathname = pathname;
-	      paramNames = [];
-	      paramValues = [];
-	    }
-	
-	    if (remainingPathname !== null) {
-	      var matched = _PatternUtils.matchPattern(pattern, remainingPathname);
-	      remainingPathname = matched.remainingPathname;
-	      paramNames = [].concat(paramNames, matched.paramNames);
-	      paramValues = [].concat(paramValues, matched.paramValues);
-	    }
-	
-	    if (remainingPathname === '' && route.path && paramsAreActive(paramNames, paramValues, activeParams)) return i;
-	  }
-	
-	  return null;
-	}
+	var _PatternUtils = __webpack_require__(197);
 	
 	/**
-	 * Returns true if the given pathname matches the active routes
-	 * and params.
+	 * Returns true if a route and params that match the given
+	 * pathname are currently active.
 	 */
-	function routeIsActive(pathname, routes, params, indexOnly) {
-	  var i = getMatchingRouteIndex(pathname, routes, params);
+	function pathnameIsActive(pathname, activePathname, activeRoutes, activeParams) {
+	  if (pathname === activePathname || activePathname.indexOf(pathname + '/') === 0) return true;
 	
-	  if (i === null) {
-	    // No match.
-	    return false;
-	  } else if (!indexOnly) {
-	    // Any match is good enough.
-	    return true;
+	  var route, pattern;
+	  var basename = '';
+	  for (var i = 0, len = activeRoutes.length; i < len; ++i) {
+	    route = activeRoutes[i];
+	    if (!route.path) return false;
+	    pattern = route.path || '';
+	
+	    if (pattern.indexOf('/') !== 0) pattern = basename.replace(/\/*$/, '/') + pattern; // Relative paths build on the parent's path.
+	
+	    var _matchPattern = _PatternUtils.matchPattern(pattern, pathname);
+	
+	    var remainingPathname = _matchPattern.remainingPathname;
+	    var paramNames = _matchPattern.paramNames;
+	    var paramValues = _matchPattern.paramValues;
+	
+	    if (remainingPathname === '') {
+	      return paramNames.every(function (paramName, index) {
+	        return String(paramValues[index]) === String(activeParams[paramName]);
+	      });
+	    }
+	
+	    basename = pattern;
 	  }
 	
-	  // If any remaining routes past the match index have paths, then we can't
-	  // be on the index route.
-	  return routes.slice(i + 1).every(function (route) {
-	    return !route.path;
-	  });
+	  return false;
 	}
 	
 	/**
@@ -23948,7 +23453,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  if (query == null) return true;
 	
-	  return deepEqual(query, activeQuery);
+	  for (var p in query) if (query.hasOwnProperty(p) && String(query[p]) !== String(activeQuery[p])) return false;
+	
+	  return true;
 	}
 	
 	/**
@@ -23958,23 +23465,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	function isActive(pathname, query, indexOnly, location, routes, params) {
 	  if (location == null) return false;
 	
-	  if (!routeIsActive(pathname, routes, params, indexOnly)) return false;
+	  if (indexOnly && (routes.length < 2 || routes[routes.length - 2].indexRoute !== routes[routes.length - 1])) return false;
 	
-	  return queryIsActive(query, location.query);
+	  return pathnameIsActive(pathname, location.pathname, routes, params) && queryIsActive(query, location.query);
 	}
 	
 	exports['default'] = isActive;
 	module.exports = exports['default'];
 
 /***/ },
-/* 213 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _AsyncUtils = __webpack_require__(211);
+	var _AsyncUtils = __webpack_require__(206);
 	
 	function getComponentsForRoute(location, route, callback) {
 	  if (route.component || route.components) {
@@ -24005,24 +23512,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 214 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	var _AsyncUtils = __webpack_require__(206);
 	
-	var _warning = __webpack_require__(180);
+	var _PatternUtils = __webpack_require__(197);
 	
-	var _warning2 = _interopRequireDefault(_warning);
-	
-	var _AsyncUtils = __webpack_require__(211);
-	
-	var _PatternUtils = __webpack_require__(202);
-	
-	var _RouteUtils = __webpack_require__(198);
+	var _RouteUtils = __webpack_require__(194);
 	
 	function getChildRoutes(route, location, callback) {
 	  if (route.childRoutes) {
@@ -24043,38 +23544,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    route.getIndexRoute(location, function (error, indexRoute) {
 	      callback(error, !error && _RouteUtils.createRoutes(indexRoute)[0]);
 	    });
-	  } else if (route.childRoutes) {
-	    (function () {
-	      var pathless = route.childRoutes.filter(function (obj) {
-	        return !obj.hasOwnProperty('path');
-	      });
-	
-	      _AsyncUtils.loopAsync(pathless.length, function (index, next, done) {
-	        getIndexRoute(pathless[index], location, function (error, indexRoute) {
-	          if (error || indexRoute) {
-	            var routes = [pathless[index]].concat(Array.isArray(indexRoute) ? indexRoute : [indexRoute]);
-	            done(error, routes);
-	          } else {
-	            next();
-	          }
-	        });
-	      }, function (err, routes) {
-	        callback(null, routes);
-	      });
-	    })();
 	  } else {
 	    callback();
 	  }
 	}
 	
 	function assignParams(params, paramNames, paramValues) {
-	  return paramNames.reduce(function (params, paramName, index) {
+	  return paramNames.reduceRight(function (params, paramName, index) {
 	    var paramValue = paramValues && paramValues[index];
 	
 	    if (Array.isArray(params[paramName])) {
-	      params[paramName].push(paramValue);
+	      params[paramName].unshift(paramValue);
 	    } else if (paramName in params) {
-	      params[paramName] = [params[paramName], paramValue];
+	      params[paramName] = [paramValue, params[paramName]];
 	    } else {
 	      params[paramName] = paramValue;
 	    }
@@ -24087,57 +23569,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return assignParams({}, paramNames, paramValues);
 	}
 	
-	function matchRouteDeep(route, location, remainingPathname, paramNames, paramValues, callback) {
+	function matchRouteDeep(basename, route, location, callback) {
 	  var pattern = route.path || '';
 	
-	  if (pattern.charAt(0) === '/') {
-	    remainingPathname = location.pathname;
-	    paramNames = [];
-	    paramValues = [];
-	  }
+	  if (pattern.indexOf('/') !== 0) pattern = basename.replace(/\/*$/, '/') + pattern; // Relative paths build on the parent's path.
 	
-	  if (remainingPathname !== null) {
-	    var matched = _PatternUtils.matchPattern(pattern, remainingPathname);
-	    remainingPathname = matched.remainingPathname;
-	    paramNames = [].concat(paramNames, matched.paramNames);
-	    paramValues = [].concat(paramValues, matched.paramValues);
+	  var _matchPattern = _PatternUtils.matchPattern(pattern, location.pathname);
 	
-	    if (remainingPathname === '' && route.path) {
-	      var _ret2 = (function () {
-	        var match = {
-	          routes: [route],
-	          params: createParams(paramNames, paramValues)
-	        };
+	  var remainingPathname = _matchPattern.remainingPathname;
+	  var paramNames = _matchPattern.paramNames;
+	  var paramValues = _matchPattern.paramValues;
 	
-	        getIndexRoute(route, location, function (error, indexRoute) {
-	          if (error) {
-	            callback(error);
-	          } else {
-	            if (Array.isArray(indexRoute)) {
-	              var _match$routes;
+	  var isExactMatch = remainingPathname === '';
 	
-	               false ? _warning2['default'](indexRoute.every(function (route) {
-	                return !route.path;
-	              }), 'Index routes should not have paths') : undefined;
-	              (_match$routes = match.routes).push.apply(_match$routes, indexRoute);
-	            } else if (indexRoute) {
-	               false ? _warning2['default'](!indexRoute.path, 'Index routes should not have paths') : undefined;
-	              match.routes.push(indexRoute);
-	            }
+	  if (isExactMatch && route.path) {
+	    var match = {
+	      routes: [route],
+	      params: createParams(paramNames, paramValues)
+	    };
 	
-	            callback(null, match);
-	          }
-	        });
-	        return {
-	          v: undefined
-	        };
-	      })();
+	    getIndexRoute(route, location, function (error, indexRoute) {
+	      if (error) {
+	        callback(error);
+	      } else {
+	        if (indexRoute) match.routes.push(indexRoute);
 	
-	      if (typeof _ret2 === 'object') return _ret2.v;
-	    }
-	  }
-	
-	  if (remainingPathname != null || route.childRoutes) {
+	        callback(null, match);
+	      }
+	    });
+	  } else if (remainingPathname != null || route.childRoutes) {
 	    // Either a) this route matched at least some of the path or b)
 	    // we don't have to load this route's children asynchronously. In
 	    // either case continue checking for matches in the subtree.
@@ -24156,7 +23616,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          } else {
 	            callback();
 	          }
-	        }, remainingPathname, paramNames, paramValues);
+	        }, pattern);
 	      } else {
 	        callback();
 	      }
@@ -24178,27 +23638,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * asynchronous getChildRoutes method.
 	 */
 	function matchRoutes(routes, location, callback) {
-	  var remainingPathname = arguments.length <= 3 || arguments[3] === undefined ? location.pathname : arguments[3];
-	  var paramNames = arguments.length <= 4 || arguments[4] === undefined ? [] : arguments[4];
-	  var paramValues = arguments.length <= 5 || arguments[5] === undefined ? [] : arguments[5];
-	  return (function () {
-	    _AsyncUtils.loopAsync(routes.length, function (index, next, done) {
-	      matchRouteDeep(routes[index], location, remainingPathname, paramNames, paramValues, function (error, match) {
-	        if (error || match) {
-	          done(error, match);
-	        } else {
-	          next();
-	        }
-	      });
-	    }, callback);
-	  })();
+	  var basename = arguments.length <= 3 || arguments[3] === undefined ? '' : arguments[3];
+	
+	  _AsyncUtils.loopAsync(routes.length, function (index, next, done) {
+	    matchRouteDeep(basename, routes[index], location, function (error, match) {
+	      if (error || match) {
+	        done(error, match);
+	      } else {
+	        next();
+	      }
+	    });
+	  }, callback);
 	}
 	
 	exports['default'] = matchRoutes;
 	module.exports = exports['default'];
 
 /***/ },
-/* 215 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24256,7 +23713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 216 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24265,19 +23722,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _warning = __webpack_require__(180);
+	
+	var _warning2 = _interopRequireDefault(_warning);
 	
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var bool = _React$PropTypes.bool;
@@ -24294,15 +23749,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	function isEmptyObject(object) {
-	  for (var p in object) {
-	    if (object.hasOwnProperty(p)) return false;
-	  }return true;
+	  for (var p in object) if (object.hasOwnProperty(p)) return false;
+	
+	  return true;
 	}
 	
 	/**
 	 * A <Link> is used to create an <a> element that links to a route.
-	 * When that route is active, the link gets the value of its
-	 * `activeClassName` prop
+	 * When that route is active, the link gets an "active" class name
+	 * (or the value of its `activeClassName` prop).
 	 *
 	 * For example, assuming you have the following route:
 	 *
@@ -24317,73 +23772,69 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 *   <Link ... query={{ show: true }} state={{ the: 'state' }} />
 	 */
+	var Link = _react2['default'].createClass({
+	  displayName: 'Link',
 	
-	var Link = (function (_Component) {
-	  _inherits(Link, _Component);
+	  contextTypes: {
+	    history: object
+	  },
 	
-	  function Link() {
-	    _classCallCheck(this, Link);
+	  propTypes: {
+	    activeStyle: object,
+	    activeClassName: string,
+	    onlyActiveOnIndex: bool.isRequired,
+	    to: string.isRequired,
+	    query: object,
+	    state: object,
+	    onClick: func
+	  },
 	
-	    _Component.apply(this, arguments);
-	  }
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      onlyActiveOnIndex: false,
+	      className: '',
+	      style: {}
+	    };
+	  },
 	
-	  Link.prototype.handleClick = function handleClick(event) {
+	  handleClick: function handleClick(event) {
 	    var allowTransition = true;
+	    var clickResult;
 	
-	    if (this.props.onClick) this.props.onClick(event);
+	    if (this.props.onClick) clickResult = this.props.onClick(event);
 	
 	    if (isModifiedEvent(event) || !isLeftClickEvent(event)) return;
 	
-	    if (event.defaultPrevented === true) allowTransition = false;
-	
-	    // If target prop is set (e.g. to "_blank") let browser handle link.
-	    if (this.props.target) {
-	      if (!allowTransition) event.preventDefault();
-	
-	      return;
-	    }
+	    if (clickResult === false || event.defaultPrevented === true) allowTransition = false;
 	
 	    event.preventDefault();
 	
-	    if (allowTransition) {
-	      var _props = this.props;
-	      var state = _props.state;
-	      var to = _props.to;
-	      var query = _props.query;
-	      var hash = _props.hash;
+	    if (allowTransition) this.context.history.pushState(this.props.state, this.props.to, this.props.query);
+	  },
 	
-	      if (hash) to += hash;
+	  componentWillMount: function componentWillMount() {
+	    _warning2['default'](this.context.history, 'A <Link> should not be rendered outside the context of history; ' + 'some features including real hrefs, active styling, and navigation ' + 'will not function correctly');
+	  },
 	
-	      this.context.history.pushState(state, to, query);
-	    }
-	  };
-	
-	  Link.prototype.render = function render() {
-	    var _this = this;
-	
-	    var _props2 = this.props;
-	    var to = _props2.to;
-	    var query = _props2.query;
-	    var hash = _props2.hash;
-	    var state = _props2.state;
-	    var activeClassName = _props2.activeClassName;
-	    var activeStyle = _props2.activeStyle;
-	    var onlyActiveOnIndex = _props2.onlyActiveOnIndex;
-	
-	    var props = _objectWithoutProperties(_props2, ['to', 'query', 'hash', 'state', 'activeClassName', 'activeStyle', 'onlyActiveOnIndex']);
-	
-	    // Manually override onClick.
-	    props.onClick = function (e) {
-	      return _this.handleClick(e);
-	    };
-	
-	    // Ignore if rendered outside the context of history, simplifies unit testing.
+	  render: function render() {
 	    var history = this.context.history;
+	    var _props = this.props;
+	    var activeClassName = _props.activeClassName;
+	    var activeStyle = _props.activeStyle;
+	    var onlyActiveOnIndex = _props.onlyActiveOnIndex;
+	    var to = _props.to;
+	    var query = _props.query;
+	    var state = _props.state;
+	    var onClick = _props.onClick;
 	
+	    var props = _objectWithoutProperties(_props, ['activeClassName', 'activeStyle', 'onlyActiveOnIndex', 'to', 'query', 'state', 'onClick']);
+	
+	    props.onClick = this.handleClick;
+	
+	    // Ignore if rendered outside the context
+	    // of history, simplifies unit testing.
 	    if (history) {
 	      props.href = history.createHref(to, query);
-	
-	      if (hash) props.href += hash;
 	
 	      if (activeClassName || activeStyle != null && !isEmptyObject(activeStyle)) {
 	        if (history.isActive(to, query, onlyActiveOnIndex)) {
@@ -24395,323 +23846,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    return _react2['default'].createElement('a', props);
-	  };
+	  }
 	
-	  _createClass(Link, null, [{
-	    key: 'contextTypes',
-	    value: {
-	      history: object
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'propTypes',
-	    value: {
-	      to: string.isRequired,
-	      query: object,
-	      hash: string,
-	      state: object,
-	      activeStyle: object,
-	      activeClassName: string,
-	      onlyActiveOnIndex: bool.isRequired,
-	      onClick: func
-	    },
-	    enumerable: true
-	  }, {
-	    key: 'defaultProps',
-	    value: {
-	      onlyActiveOnIndex: false,
-	      className: '',
-	      style: {}
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return Link;
-	})(_react.Component);
+	});
 	
 	exports['default'] = Link;
 	module.exports = exports['default'];
 
 /***/ },
-/* 217 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Link = __webpack_require__(216);
+	var _invariant = __webpack_require__(182);
 	
-	var _Link2 = _interopRequireDefault(_Link);
-	
-	/**
-	 * An <IndexLink> is used to link to an <IndexRoute>.
-	 */
-	
-	var IndexLink = (function (_Component) {
-	  _inherits(IndexLink, _Component);
-	
-	  function IndexLink() {
-	    _classCallCheck(this, IndexLink);
-	
-	    _Component.apply(this, arguments);
-	  }
-	
-	  IndexLink.prototype.render = function render() {
-	    return _react2['default'].createElement(_Link2['default'], _extends({}, this.props, { onlyActiveOnIndex: true }));
-	  };
-	
-	  return IndexLink;
-	})(_react.Component);
-	
-	exports['default'] = IndexLink;
-	module.exports = exports['default'];
-
-/***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	var _invariant2 = _interopRequireDefault(_invariant);
 	
 	var _warning = __webpack_require__(180);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _invariant = __webpack_require__(200);
+	var _RouteUtils = __webpack_require__(194);
 	
-	var _invariant2 = _interopRequireDefault(_invariant);
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Redirect = __webpack_require__(219);
-	
-	var _Redirect2 = _interopRequireDefault(_Redirect);
-	
-	var _PropTypes = __webpack_require__(215);
-	
-	var _React$PropTypes = _react2['default'].PropTypes;
-	var string = _React$PropTypes.string;
-	var object = _React$PropTypes.object;
-	
-	/**
-	 * An <IndexRedirect> is used to redirect from an indexRoute.
-	 */
-	
-	var IndexRedirect = (function (_Component) {
-	  _inherits(IndexRedirect, _Component);
-	
-	  function IndexRedirect() {
-	    _classCallCheck(this, IndexRedirect);
-	
-	    _Component.apply(this, arguments);
-	  }
-	
-	  IndexRedirect.createRouteFromReactElement = function createRouteFromReactElement(element, parentRoute) {
-	    /* istanbul ignore else: sanity check */
-	    if (parentRoute) {
-	      parentRoute.indexRoute = _Redirect2['default'].createRouteFromReactElement(element);
-	    } else {
-	       false ? _warning2['default'](false, 'An <IndexRedirect> does not make sense at the root of your route config') : undefined;
-	    }
-	  };
-	
-	  /* istanbul ignore next: sanity check */
-	
-	  IndexRedirect.prototype.render = function render() {
-	     true ?  false ? _invariant2['default'](false, '<IndexRedirect> elements are for router configuration only and should not be rendered') : _invariant2['default'](false) : undefined;
-	  };
-	
-	  _createClass(IndexRedirect, null, [{
-	    key: 'propTypes',
-	    value: {
-	      to: string.isRequired,
-	      query: object,
-	      state: object,
-	      onEnter: _PropTypes.falsy,
-	      children: _PropTypes.falsy
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return IndexRedirect;
-	})(_react.Component);
-	
-	exports['default'] = IndexRedirect;
-	module.exports = exports['default'];
-
-/***/ },
-/* 219 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _invariant = __webpack_require__(200);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _RouteUtils = __webpack_require__(198);
-	
-	var _PatternUtils = __webpack_require__(202);
-	
-	var _PropTypes = __webpack_require__(215);
-	
-	var _React$PropTypes = _react2['default'].PropTypes;
-	var string = _React$PropTypes.string;
-	var object = _React$PropTypes.object;
-	
-	/**
-	 * A <Redirect> is used to declare another URL path a client should
-	 * be sent to when they request a given URL.
-	 *
-	 * Redirects are placed alongside routes in the route configuration
-	 * and are traversed in the same manner.
-	 */
-	
-	var Redirect = (function (_Component) {
-	  _inherits(Redirect, _Component);
-	
-	  function Redirect() {
-	    _classCallCheck(this, Redirect);
-	
-	    _Component.apply(this, arguments);
-	  }
-	
-	  Redirect.createRouteFromReactElement = function createRouteFromReactElement(element) {
-	    var route = _RouteUtils.createRouteFromReactElement(element);
-	
-	    if (route.from) route.path = route.from;
-	
-	    route.onEnter = function (nextState, replaceState) {
-	      var location = nextState.location;
-	      var params = nextState.params;
-	
-	      var pathname = undefined;
-	      if (route.to.charAt(0) === '/') {
-	        pathname = _PatternUtils.formatPattern(route.to, params);
-	      } else if (!route.to) {
-	        pathname = location.pathname;
-	      } else {
-	        var routeIndex = nextState.routes.indexOf(route);
-	        var parentPattern = Redirect.getRoutePattern(nextState.routes, routeIndex - 1);
-	        var pattern = parentPattern.replace(/\/*$/, '/') + route.to;
-	        pathname = _PatternUtils.formatPattern(pattern, params);
-	      }
-	
-	      replaceState(route.state || location.state, pathname, route.query || location.query);
-	    };
-	
-	    return route;
-	  };
-	
-	  Redirect.getRoutePattern = function getRoutePattern(routes, routeIndex) {
-	    var parentPattern = '';
-	
-	    for (var i = routeIndex; i >= 0; i--) {
-	      var route = routes[i];
-	      var pattern = route.path || '';
-	      parentPattern = pattern.replace(/\/*$/, '/') + parentPattern;
-	
-	      if (pattern.indexOf('/') === 0) break;
-	    }
-	
-	    return '/' + parentPattern;
-	  };
-	
-	  /* istanbul ignore next: sanity check */
-	
-	  Redirect.prototype.render = function render() {
-	     true ?  false ? _invariant2['default'](false, '<Redirect> elements are for router configuration only and should not be rendered') : _invariant2['default'](false) : undefined;
-	  };
-	
-	  _createClass(Redirect, null, [{
-	    key: 'propTypes',
-	    value: {
-	      path: string,
-	      from: string, // Alias for path
-	      to: string.isRequired,
-	      query: object,
-	      state: object,
-	      onEnter: _PropTypes.falsy,
-	      children: _PropTypes.falsy
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return Redirect;
-	})(_react.Component);
-	
-	exports['default'] = Redirect;
-	module.exports = exports['default'];
-
-/***/ },
-/* 220 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _warning = __webpack_require__(180);
-	
-	var _warning2 = _interopRequireDefault(_warning);
-	
-	var _invariant = __webpack_require__(200);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _RouteUtils = __webpack_require__(198);
-	
-	var _PropTypes = __webpack_require__(215);
+	var _PropTypes = __webpack_require__(210);
 	
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var bool = _React$PropTypes.bool;
@@ -24721,76 +23887,144 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * An <IndexRoute> is used to specify its parent's <Route indexRoute> in
 	 * a JSX route config.
 	 */
+	var IndexRoute = _react2['default'].createClass({
+	  displayName: 'IndexRoute',
 	
-	var IndexRoute = (function (_Component) {
-	  _inherits(IndexRoute, _Component);
+	  statics: {
 	
-	  function IndexRoute() {
-	    _classCallCheck(this, IndexRoute);
+	    createRouteFromReactElement: function createRouteFromReactElement(element, parentRoute) {
+	      if (parentRoute) {
+	        parentRoute.indexRoute = _RouteUtils.createRouteFromReactElement(element);
+	      } else {
+	        _warning2['default'](false, 'An <IndexRoute> does not make sense at the root of your route config');
+	      }
+	    }
 	
-	    _Component.apply(this, arguments);
+	  },
+	
+	  propTypes: {
+	    path: _PropTypes.falsy,
+	    ignoreScrollBehavior: bool,
+	    component: _PropTypes.component,
+	    components: _PropTypes.components,
+	    getComponents: func
+	  },
+	
+	  render: function render() {
+	    _invariant2['default'](false, '<IndexRoute> elements are for router configuration only and should not be rendered');
 	  }
 	
-	  IndexRoute.createRouteFromReactElement = function createRouteFromReactElement(element, parentRoute) {
-	    /* istanbul ignore else: sanity check */
-	    if (parentRoute) {
-	      parentRoute.indexRoute = _RouteUtils.createRouteFromReactElement(element);
-	    } else {
-	       false ? _warning2['default'](false, 'An <IndexRoute> does not make sense at the root of your route config') : undefined;
-	    }
-	  };
-	
-	  /* istanbul ignore next: sanity check */
-	
-	  IndexRoute.prototype.render = function render() {
-	     true ?  false ? _invariant2['default'](false, '<IndexRoute> elements are for router configuration only and should not be rendered') : _invariant2['default'](false) : undefined;
-	  };
-	
-	  _createClass(IndexRoute, null, [{
-	    key: 'propTypes',
-	    value: {
-	      path: _PropTypes.falsy,
-	      ignoreScrollBehavior: bool,
-	      component: _PropTypes.component,
-	      components: _PropTypes.components,
-	      getComponents: func
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return IndexRoute;
-	})(_react.Component);
+	});
 	
 	exports['default'] = IndexRoute;
 	module.exports = exports['default'];
 
 /***/ },
-/* 221 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _invariant = __webpack_require__(200);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
 	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _RouteUtils = __webpack_require__(198);
+	var _invariant = __webpack_require__(182);
 	
-	var _PropTypes = __webpack_require__(215);
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _RouteUtils = __webpack_require__(194);
+	
+	var _PatternUtils = __webpack_require__(197);
+	
+	var _PropTypes = __webpack_require__(210);
+	
+	var _React$PropTypes = _react2['default'].PropTypes;
+	var string = _React$PropTypes.string;
+	var object = _React$PropTypes.object;
+	
+	/**
+	 * A <Redirect> is used to declare another URL path a client should be sent
+	 * to when they request a given URL.
+	 *
+	 * Redirects are placed alongside routes in the route configuration and are
+	 * traversed in the same manner.
+	 */
+	var Redirect = _react2['default'].createClass({
+	  displayName: 'Redirect',
+	
+	  statics: {
+	
+	    createRouteFromReactElement: function createRouteFromReactElement(element) {
+	      var route = _RouteUtils.createRouteFromReactElement(element);
+	
+	      if (route.from) route.path = route.from;
+	
+	      // TODO: Handle relative pathnames, see #1658
+	      _invariant2['default'](route.to.charAt(0) === '/', '<Redirect to> must be an absolute path. This should be fixed in the future');
+	
+	      route.onEnter = function (nextState, replaceState) {
+	        var location = nextState.location;
+	        var params = nextState.params;
+	
+	        var pathname = route.to ? _PatternUtils.formatPattern(route.to, params) : location.pathname;
+	
+	        replaceState(route.state || location.state, pathname, route.query || location.query);
+	      };
+	
+	      return route;
+	    }
+	
+	  },
+	
+	  propTypes: {
+	    path: string,
+	    from: string, // Alias for path
+	    to: string.isRequired,
+	    query: object,
+	    state: object,
+	    onEnter: _PropTypes.falsy,
+	    children: _PropTypes.falsy
+	  },
+	
+	  render: function render() {
+	    _invariant2['default'](false, '<Redirect> elements are for router configuration only and should not be rendered');
+	  }
+	
+	});
+	
+	exports['default'] = Redirect;
+	module.exports = exports['default'];
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _warning = __webpack_require__(180);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _invariant = __webpack_require__(182);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _RouteUtils = __webpack_require__(194);
+	
+	var _PropTypes = __webpack_require__(210);
 	
 	var _React$PropTypes = _react2['default'].PropTypes;
 	var string = _React$PropTypes.string;
@@ -24798,71 +24032,66 @@ return /******/ (function(modules) { // webpackBootstrap
 	var func = _React$PropTypes.func;
 	
 	/**
-	 * A <Route> is used to declare which components are rendered to the
-	 * page when the URL matches a given pattern.
+	 * A <Route> is used to declare which components are rendered to the page when
+	 * the URL matches a given pattern.
 	 *
-	 * Routes are arranged in a nested tree structure. When a new URL is
-	 * requested, the tree is searched depth-first to find a route whose
-	 * path matches the URL.  When one is found, all routes in the tree
-	 * that lead to it are considered "active" and their components are
-	 * rendered into the DOM, nested in the same order as in the tree.
+	 * Routes are arranged in a nested tree structure. When a new URL is requested,
+	 * the tree is searched depth-first to find a route whose path matches the URL.
+	 * When one is found, all routes in the tree that lead to it are considered
+	 * "active" and their components are rendered into the DOM, nested in the same
+	 * order as they are in the tree.
 	 */
+	var Route = _react2['default'].createClass({
+	  displayName: 'Route',
 	
-	var Route = (function (_Component) {
-	  _inherits(Route, _Component);
+	  statics: {
 	
-	  function Route() {
-	    _classCallCheck(this, Route);
+	    createRouteFromReactElement: function createRouteFromReactElement(element) {
+	      var route = _RouteUtils.createRouteFromReactElement(element);
 	
-	    _Component.apply(this, arguments);
+	      if (route.handler) {
+	        _warning2['default'](false, '<Route handler> is deprecated, use <Route component> instead');
+	
+	        route.component = route.handler;
+	        delete route.handler;
+	      }
+	
+	      return route;
+	    }
+	
+	  },
+	
+	  propTypes: {
+	    path: string,
+	    ignoreScrollBehavior: bool,
+	    handler: // deprecated
+	    _PropTypes.component, component: _PropTypes.component,
+	    components: _PropTypes.components,
+	    getComponents: func
+	  },
+	
+	  render: function render() {
+	    _invariant2['default'](false, '<Route> elements are for router configuration only and should not be rendered');
 	  }
 	
-	  /* istanbul ignore next: sanity check */
-	
-	  Route.prototype.render = function render() {
-	     true ?  false ? _invariant2['default'](false, '<Route> elements are for router configuration only and should not be rendered') : _invariant2['default'](false) : undefined;
-	  };
-	
-	  _createClass(Route, null, [{
-	    key: 'createRouteFromReactElement',
-	    value: _RouteUtils.createRouteFromReactElement,
-	    enumerable: true
-	  }, {
-	    key: 'propTypes',
-	    value: {
-	      path: string,
-	      ignoreScrollBehavior: bool,
-	      component: _PropTypes.component,
-	      components: _PropTypes.components,
-	      getComponents: func
-	    },
-	    enumerable: true
-	  }]);
-	
-	  return Route;
-	})(_react.Component);
+	});
 	
 	exports['default'] = Route;
 	module.exports = exports['default'];
 
 /***/ },
-/* 222 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _PropTypes = __webpack_require__(215);
+	var _PropTypes = __webpack_require__(210);
 	
-	/**
-	 * A mixin that adds the "history" instance variable to components.
-	 */
 	var History = {
 	
-	  contextTypes: {
-	    history: _PropTypes.history
-	  },
+	  contextTypes: { history: _PropTypes.history },
 	
 	  componentWillMount: function componentWillMount() {
 	    this.history = this.context.history;
@@ -24874,7 +24103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 223 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24887,28 +24116,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _invariant = __webpack_require__(200);
+	var _invariant = __webpack_require__(182);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
 	var object = _react2['default'].PropTypes.object;
 	
 	/**
-	 * The Lifecycle mixin adds the routerWillLeave lifecycle method to a
-	 * component that may be used to cancel a transition or prompt the user
-	 * for confirmation.
+	 * The Lifecycle mixin adds the routerWillLeave lifecycle method
+	 * to a component that may be used to cancel a transition or prompt
+	 * the user for confirmation.
 	 *
 	 * On standard transitions, routerWillLeave receives a single argument: the
 	 * location we're transitioning to. To cancel the transition, return false.
 	 * To prompt the user for confirmation, return a prompt message (string).
 	 *
-	 * During the beforeunload event (assuming you're using the useBeforeUnload
-	 * history enhancer), routerWillLeave does not receive a location object
-	 * because it isn't possible for us to know the location we're transitioning
-	 * to. In this case routerWillLeave must return a prompt message to prevent
-	 * the user from closing the window/tab.
+	 * routerWillLeave does not receive a location object during the beforeunload
+	 * event in web browsers (assuming you're using the useBeforeUnload history
+	 * enhancer). In this case, it is not possible for us to know the location
+	 * we're transitioning to so routerWillLeave must return a prompt message to
+	 * prevent the user from closing the tab.
 	 */
 	var Lifecycle = {
+	
+	  propTypes: {
+	    // Route components receive the route object as a prop.
+	    route: object
+	  },
 	
 	  contextTypes: {
 	    history: object.isRequired,
@@ -24918,23 +24152,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    route: object
 	  },
 	
-	  propTypes: {
-	    // Route components receive the route object as a prop.
-	    route: object
-	  },
-	
-	  componentDidMount: function componentDidMount() {
-	    !this.routerWillLeave ?  false ? _invariant2['default'](false, 'The Lifecycle mixin requires you to define a routerWillLeave method') : _invariant2['default'](false) : undefined;
-	
+	  _getRoute: function _getRoute() {
 	    var route = this.props.route || this.context.route;
 	
-	    !route ?  false ? _invariant2['default'](false, 'The Lifecycle mixin must be used on either a) a <Route component> or ' + 'b) a descendant of a <Route component> that uses the RouteContext mixin') : _invariant2['default'](false) : undefined;
+	    _invariant2['default'](route, 'The Lifecycle mixin needs to be used either on 1) a <Route component> or ' + '2) a descendant of a <Route component> that uses the RouteContext mixin');
 	
-	    this._unlistenBeforeLeavingRoute = this.context.history.listenBeforeLeavingRoute(route, this.routerWillLeave);
+	    return route;
+	  },
+	
+	  componentWillMount: function componentWillMount() {
+	    _invariant2['default'](this.routerWillLeave, 'The Lifecycle mixin requires you to define a routerWillLeave method');
+	
+	    this.context.history.registerRouteHook(this._getRoute(), this.routerWillLeave);
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
-	    if (this._unlistenBeforeLeavingRoute) this._unlistenBeforeLeavingRoute();
+	    this.context.history.unregisterRouteHook(this._getRoute(), this.routerWillLeave);
 	  }
 	
 	};
@@ -24943,7 +24176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 224 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24986,7 +24219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 225 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24995,66 +24228,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	exports['default'] = match;
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(200);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
-	
-	var _historyLibCreateMemoryHistory = __webpack_require__(226);
+	var _historyLibCreateMemoryHistory = __webpack_require__(219);
 	
 	var _historyLibCreateMemoryHistory2 = _interopRequireDefault(_historyLibCreateMemoryHistory);
 	
-	var _historyLibUseBasename = __webpack_require__(227);
-	
-	var _historyLibUseBasename2 = _interopRequireDefault(_historyLibUseBasename);
-	
-	var _RouteUtils = __webpack_require__(198);
-	
-	var _useRoutes = __webpack_require__(203);
+	var _useRoutes = __webpack_require__(198);
 	
 	var _useRoutes2 = _interopRequireDefault(_useRoutes);
 	
-	var createHistory = _useRoutes2['default'](_historyLibUseBasename2['default'](_historyLibCreateMemoryHistory2['default']));
+	var _RouteUtils = __webpack_require__(194);
 	
-	/**
-	 * A high-level API to be used for server-side rendering.
-	 *
-	 * This function matches a location to a set of routes and calls
-	 * callback(error, redirectLocation, renderProps) when finished.
-	 *
-	 * Note: You probably don't want to use this in a browser. Use
-	 * the history.listen API instead.
-	 */
-	function match(_ref, callback) {
+	function match(_ref, cb) {
 	  var routes = _ref.routes;
+	  var history = _ref.history;
 	  var location = _ref.location;
 	  var parseQueryString = _ref.parseQueryString;
 	  var stringifyQuery = _ref.stringifyQuery;
-	  var basename = _ref.basename;
 	
-	  !location ?  false ? _invariant2['default'](false, 'match needs a location') : _invariant2['default'](false) : undefined;
+	  var createHistory = history ? function () {
+	    return history;
+	  } : _historyLibCreateMemoryHistory2['default'];
 	
-	  var history = createHistory({
+	  var staticHistory = _useRoutes2['default'](createHistory)({
 	    routes: _RouteUtils.createRoutes(routes),
 	    parseQueryString: parseQueryString,
-	    stringifyQuery: stringifyQuery,
-	    basename: basename
+	    stringifyQuery: stringifyQuery
 	  });
 	
-	  // Allow match({ location: '/the/path', ... })
-	  if (typeof location === 'string') location = history.createLocation(location);
-	
-	  history.match(location, function (error, redirectLocation, nextState) {
-	    callback(error, redirectLocation, nextState && _extends({}, nextState, { history: history }));
+	  staticHistory.match(location, function (error, nextLocation, nextState) {
+	    var renderProps = nextState ? _extends({}, nextState, { history: staticHistory }) : null;
+	    cb(error, nextLocation, renderProps);
 	  });
 	}
 	
-	exports['default'] = match;
 	module.exports = exports['default'];
 
 /***/ },
-/* 226 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25065,17 +24279,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(183);
+	var _invariant = __webpack_require__(182);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _Actions = __webpack_require__(184);
+	var _Actions = __webpack_require__(183);
 	
-	var _createHistory = __webpack_require__(189);
+	var _createLocation = __webpack_require__(193);
+	
+	var _createLocation2 = _interopRequireDefault(_createLocation);
+	
+	var _createHistory = __webpack_require__(188);
 	
 	var _createHistory2 = _interopRequireDefault(_createHistory);
 	
-	function createStateStorage(entries) {
+	function createStorage(entries) {
 	  return entries.filter(function (entry) {
 	    return entry.state;
 	  }).reduce(function (memo, entry) {
@@ -25126,7 +24344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _invariant2['default'](current >= 0 && current < entries.length, 'Current index must be >= 0 and < %s, was %s', entries.length, current);
 	  }
 	
-	  var storage = createStateStorage(entries);
+	  var storage = createStorage(entries);
 	
 	  function saveState(key, state) {
 	    storage[key] = state;
@@ -25139,11 +24357,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function getCurrentLocation() {
 	    var entry = entries[current];
 	    var key = entry.key;
-	    var basename = entry.basename;
 	    var pathname = entry.pathname;
 	    var search = entry.search;
 	
-	    var path = (basename || '') + pathname + (search || '');
+	    var path = pathname + (search || '');
 	
 	    var state = undefined;
 	    if (key) {
@@ -25154,7 +24371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      entry.key = key;
 	    }
 	
-	    return history.createLocation(path, state, undefined, key);
+	    return _createLocation2['default'](path, state, undefined, key);
 	  }
 	
 	  function canGo(n) {
@@ -25182,7 +24399,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // if we are not on the top of stack
 	        // remove rest and push new
-	        if (current < entries.length) entries.splice(current);
+	        if (current < entries.length) {
+	          entries.splice(current);
+	        }
 	
 	        entries.push(location);
 	        saveState(location.key, location.state);
@@ -25201,127 +24420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	var _ExecutionEnvironment = __webpack_require__(185);
-	
-	var _runTransitionHook = __webpack_require__(196);
-	
-	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
-	
-	var _parsePath = __webpack_require__(195);
-	
-	var _parsePath2 = _interopRequireDefault(_parsePath);
-	
-	function useBasename(createHistory) {
-	  return function () {
-	    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	    var basename = options.basename;
-	
-	    var historyOptions = _objectWithoutProperties(options, ['basename']);
-	
-	    var history = createHistory(historyOptions);
-	
-	    // Automatically use the value of <base href> in HTML
-	    // documents as basename if it's not explicitly given.
-	    if (basename == null && _ExecutionEnvironment.canUseDOM) {
-	      var base = document.getElementsByTagName('base')[0];
-	
-	      if (base) basename = base.href;
-	    }
-	
-	    function addBasename(location) {
-	      if (basename && location.basename == null) {
-	        if (location.pathname.indexOf(basename) === 0) {
-	          location.pathname = location.pathname.substring(basename.length);
-	          location.basename = basename;
-	
-	          if (location.pathname === '') location.pathname = '/';
-	        } else {
-	          location.basename = '';
-	        }
-	      }
-	
-	      return location;
-	    }
-	
-	    function prependBasename(path) {
-	      if (!basename) return path;
-	
-	      if (typeof path === 'string') path = _parsePath2['default'](path);
-	
-	      var pname = path.pathname;
-	      var normalizedBasename = basename.slice(-1) === '/' ? basename : basename + '/';
-	      var normalizedPathname = pname.charAt(0) === '/' ? pname.slice(1) : pname;
-	      var pathname = normalizedBasename + normalizedPathname;
-	
-	      return _extends({}, path, {
-	        pathname: pathname
-	      });
-	    }
-	
-	    // Override all read methods with basename-aware versions.
-	    function listenBefore(hook) {
-	      return history.listenBefore(function (location, callback) {
-	        _runTransitionHook2['default'](hook, addBasename(location), callback);
-	      });
-	    }
-	
-	    function listen(listener) {
-	      return history.listen(function (location) {
-	        listener(addBasename(location));
-	      });
-	    }
-	
-	    // Override all write methods with basename-aware versions.
-	    function pushState(state, path) {
-	      history.pushState(state, prependBasename(path));
-	    }
-	
-	    function replaceState(state, path) {
-	      history.replaceState(state, prependBasename(path));
-	    }
-	
-	    function createPath(path) {
-	      return history.createPath(prependBasename(path));
-	    }
-	
-	    function createHref(path) {
-	      return history.createHref(prependBasename(path));
-	    }
-	
-	    function createLocation() {
-	      return addBasename(history.createLocation.apply(history, arguments));
-	    }
-	
-	    return _extends({}, history, {
-	      listenBefore: listenBefore,
-	      listen: listen,
-	      pushState: pushState,
-	      replaceState: replaceState,
-	      createPath: createPath,
-	      createHref: createHref,
-	      createLocation: createLocation
-	    });
-	  };
-	}
-	
-	exports['default'] = useBasename;
-	module.exports = exports['default'];
-
-/***/ },
-/* 228 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25331,7 +24430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _deepEqual = __webpack_require__(229);
+	var _deepEqual = __webpack_require__(221);
 	
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 	
@@ -25353,12 +24452,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 229 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var pSlice = Array.prototype.slice;
-	var objectKeys = __webpack_require__(230);
-	var isArguments = __webpack_require__(231);
+	var objectKeys = __webpack_require__(222);
+	var isArguments = __webpack_require__(223);
 	
 	var deepEqual = module.exports = function (actual, expected, opts) {
 	  if (!opts) opts = {};
@@ -25453,7 +24552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 230 */
+/* 222 */
 /***/ function(module, exports) {
 
 	exports = module.exports = typeof Object.keys === 'function'
@@ -25468,7 +24567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 231 */
+/* 223 */
 /***/ function(module, exports) {
 
 	var supportsArgumentsClass = (function(){
@@ -25494,7 +24593,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 232 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25558,12 +24657,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var pushState = historyAPI('pushState');
 	exports.pushState = pushState;
-	var push = historyAPI('push');
-	exports.push = push;
 	var replaceState = historyAPI('replaceState');
 	exports.replaceState = replaceState;
-	var replace = historyAPI('replace');
-	exports.replace = replace;
 	var setState = historyAPI('setState');
 	exports.setState = setState;
 	var go = historyAPI('go');
@@ -25574,7 +24669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.goForward = goForward;
 
 /***/ },
-/* 233 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25585,21 +24680,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _redux = __webpack_require__(163);
 	
-	var _actionCreators = __webpack_require__(232);
+	var _actionCreators = __webpack_require__(224);
 	
-	var _routerStateEquals = __webpack_require__(228);
+	var _routerStateEquals = __webpack_require__(220);
 	
 	var _routerStateEquals2 = _interopRequireDefault(_routerStateEquals);
 	
-	var _reduxReactRouter = __webpack_require__(234);
+	var _reduxReactRouter = __webpack_require__(226);
 	
 	var _reduxReactRouter2 = _interopRequireDefault(_reduxReactRouter);
 	
-	var _useDefaults = __webpack_require__(236);
+	var _useDefaults = __webpack_require__(228);
 	
 	var _useDefaults2 = _interopRequireDefault(_useDefaults);
 	
-	var _routeReplacement = __webpack_require__(237);
+	var _routeReplacement = __webpack_require__(229);
 	
 	var _routeReplacement2 = _interopRequireDefault(_routeReplacement);
 	
@@ -25653,7 +24748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 234 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25667,7 +24762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _historyMiddleware = __webpack_require__(235);
+	var _historyMiddleware = __webpack_require__(227);
 	
 	var _historyMiddleware2 = _interopRequireDefault(_historyMiddleware);
 	
@@ -25701,7 +24796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 235 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25736,7 +24831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 236 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25786,7 +24881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 237 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25803,7 +24898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _replaceRoutesMiddleware = __webpack_require__(238);
+	var _replaceRoutesMiddleware = __webpack_require__(230);
 	
 	var _replaceRoutesMiddleware2 = _interopRequireDefault(_replaceRoutesMiddleware);
 	
@@ -25880,7 +24975,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 238 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25906,7 +25001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 239 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25916,7 +25011,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _reactRouterLibIsActive = __webpack_require__(212);
+	var _reactRouterLibIsActive = __webpack_require__(207);
 	
 	var _reactRouterLibIsActive2 = _interopRequireDefault(_reactRouterLibIsActive);
 	
@@ -25945,7 +25040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 240 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25954,15 +25049,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(2);
 	
@@ -25970,82 +25057,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _reduxRouter = __webpack_require__(174);
-	
-	var _containersAppApp = __webpack_require__(241);
+	var _containersAppApp = __webpack_require__(233);
 	
 	var _containersAppApp2 = _interopRequireDefault(_containersAppApp);
 	
-	var _containersHomeHome = __webpack_require__(249);
+	var _containersHomeHome = __webpack_require__(241);
 	
 	var _containersHomeHome2 = _interopRequireDefault(_containersHomeHome);
 	
-	var _containersAboutAbout = __webpack_require__(251);
+	var _containersAboutAbout = __webpack_require__(243);
 	
 	var _containersAboutAbout2 = _interopRequireDefault(_containersAboutAbout);
 	
-	var _containersProfileProfile = __webpack_require__(252);
+	var _containersProfileProfile = __webpack_require__(244);
 	
 	var _containersProfileProfile2 = _interopRequireDefault(_containersProfileProfile);
 	
-	var _containersLoginLogin = __webpack_require__(253);
+	var _containersLoginLogin = __webpack_require__(245);
 	
 	var _containersLoginLogin2 = _interopRequireDefault(_containersLoginLogin);
 	
-	var _containersSignupSignup = __webpack_require__(257);
+	var _containersSignupSignup = __webpack_require__(249);
 	
 	var _containersSignupSignup2 = _interopRequireDefault(_containersSignupSignup);
 	
-	var _containersRequireLoginRequireLogin = __webpack_require__(260);
+	var _containersRequireLoginRequireLogin = __webpack_require__(252);
 	
 	var _containersRequireLoginRequireLogin2 = _interopRequireDefault(_containersRequireLoginRequireLogin);
 	
-	var _containersNotFoundNotFound = __webpack_require__(261);
+	var _containersNotFoundNotFound = __webpack_require__(253);
 	
 	var _containersNotFoundNotFound2 = _interopRequireDefault(_containersNotFoundNotFound);
 	
-	var _containersMessagesMessages = __webpack_require__(262);
+	var _containersMessagesMessages = __webpack_require__(254);
 	
 	var _containersMessagesMessages2 = _interopRequireDefault(_containersMessagesMessages);
 	
-	var AppRouter = (function (_Component) {
-	  _inherits(AppRouter, _Component);
-	
-	  function AppRouter() {
-	    _classCallCheck(this, AppRouter);
-	
-	    _get(Object.getPrototypeOf(AppRouter.prototype), 'constructor', this).apply(this, arguments);
-	  }
-	
-	  _createClass(AppRouter, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2['default'].createElement(
-	        _reduxRouter.ReduxRouter,
-	        null,
-	        _react2['default'].createElement(
-	          _reactRouter.Route,
-	          { path: '/', component: _containersAppApp2['default'] },
-	          _react2['default'].createElement(_reactRouter.IndexRoute, { component: _containersHomeHome2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: 'login', component: _containersLoginLogin2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: 'signup', component: _containersSignupSignup2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: 'about', component: _containersAboutAbout2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: 'profile', component: _containersProfileProfile2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: 'messages', component: _containersMessagesMessages2['default'] }),
-	          _react2['default'].createElement(_reactRouter.Route, { path: '*', component: _containersNotFoundNotFound2['default'] })
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return AppRouter;
-	})(_react.Component);
-	
-	exports['default'] = AppRouter;
+	exports['default'] = _react2['default'].createElement(
+	  _reactRouter.Route,
+	  { path: '/', component: _containersAppApp2['default'] },
+	  _react2['default'].createElement(_reactRouter.IndexRoute, { component: _containersHomeHome2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: 'login', component: _containersLoginLogin2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: 'signup', component: _containersSignupSignup2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: 'about', component: _containersAboutAbout2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: 'profile', component: _containersProfileProfile2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: 'messages', component: _containersMessagesMessages2['default'] }),
+	  _react2['default'].createElement(_reactRouter.Route, { path: '*', component: _containersNotFoundNotFound2['default'] })
+	);
 	module.exports = exports['default'];
 
 /***/ },
-/* 241 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26072,9 +25134,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRedux = __webpack_require__(155);
 	
-	__webpack_require__(242);
+	__webpack_require__(234);
 	
-	var _NavbarNavbar = __webpack_require__(243);
+	var _NavbarNavbar = __webpack_require__(235);
 	
 	var _NavbarNavbar2 = _interopRequireDefault(_NavbarNavbar);
 	
@@ -26106,13 +25168,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 242 */
+/* 234 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 243 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26143,15 +25205,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _componentsAccountManagerAccountManager = __webpack_require__(244);
+	var _componentsAccountManagerAccountManager = __webpack_require__(236);
 	
 	var _componentsAccountManagerAccountManager2 = _interopRequireDefault(_componentsAccountManagerAccountManager);
 	
-	var _actionsAuth = __webpack_require__(246);
+	var _actionsAuth = __webpack_require__(238);
 	
 	var Actions = _interopRequireWildcard(_actionsAuth);
 	
-	__webpack_require__(248);
+	__webpack_require__(240);
 	
 	var Navbar = (function (_Component) {
 	  _inherits(Navbar, _Component);
@@ -26213,7 +25275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 244 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26238,7 +25300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _AccountDropdownAccountDropdown = __webpack_require__(245);
+	var _AccountDropdownAccountDropdown = __webpack_require__(237);
 	
 	var _AccountDropdownAccountDropdown2 = _interopRequireDefault(_AccountDropdownAccountDropdown);
 	
@@ -26289,7 +25351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 245 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26350,7 +25412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 246 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26375,7 +25437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//used for changing state during login
 	
-	var _kyperMatter = __webpack_require__(247);
+	var _kyperMatter = __webpack_require__(239);
 	
 	var _kyperMatter2 = _interopRequireDefault(_kyperMatter);
 	
@@ -26498,11 +25560,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 247 */
-/***/ function(module, exports) {
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
-		if(typeof exports === 'object' && typeof module === 'object')
+		if(true)
 			module.exports = factory();
 		else if(typeof define === 'function' && define.amd)
 			define([], factory);
@@ -26557,47 +25619,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 0 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
 		var _config = __webpack_require__(3);
 	
 		var _config2 = _interopRequireDefault(_config);
 	
-		var _utilsLogger = __webpack_require__(1);
+		var _logger = __webpack_require__(1);
 	
-		var _utilsLogger2 = _interopRequireDefault(_utilsLogger);
+		var _logger2 = _interopRequireDefault(_logger);
 	
-		var _utilsDom = __webpack_require__(4);
+		var _dom = __webpack_require__(4);
 	
-		var _utilsDom2 = _interopRequireDefault(_utilsDom);
+		var _dom2 = _interopRequireDefault(_dom);
 	
-		var _utilsRequest = __webpack_require__(6);
+		var _request = __webpack_require__(6);
 	
-		var _utilsRequest2 = _interopRequireDefault(_utilsRequest);
+		var _request2 = _interopRequireDefault(_request);
 	
-		var _utilsToken = __webpack_require__(7);
+		var _token = __webpack_require__(7);
 	
-		var _utilsToken2 = _interopRequireDefault(_utilsToken);
+		var _token2 = _interopRequireDefault(_token);
 	
-		var _utilsEnvStorage = __webpack_require__(5);
+		var _envStorage = __webpack_require__(5);
 	
-		var _utilsEnvStorage2 = _interopRequireDefault(_utilsEnvStorage);
+		var _envStorage2 = _interopRequireDefault(_envStorage);
+	
+		var _providerAuth = __webpack_require__(8);
+	
+		var _providerAuth2 = _interopRequireDefault(_providerAuth);
 	
 		var _lodash = __webpack_require__(2);
 	
-		var _lodash2 = _interopRequireDefault(_lodash);
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-		var _utilsProviderAuth = __webpack_require__(8);
+		function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 	
-		var _utilsProviderAuth2 = _interopRequireDefault(_utilsProviderAuth);
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 		var Matter = (function () {
 			/** Constructor
@@ -26608,8 +25672,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				_classCallCheck(this, Matter);
 	
 				if (!appName) {
-					_utilsLogger2['default'].error({
-						description: 'Application name requires to use Matter.',
+					_logger2.default.error({
+						description: 'Application name required to use Matter.',
 						func: 'constructor', obj: 'Matter'
 					});
 					throw new Error('Application name is required to use Matter');
@@ -26619,16 +25683,24 @@ return /******/ (function(modules) { // webpackBootstrap
 				if (opts) {
 					this.options = opts;
 					if (this.options.logLevel) {
-						_config2['default'].logLevel = this.options.logLevel;
-						console.warn('log level set', _config2['default'].logLevel);
+						_config2.default.logLevel = this.options.logLevel;
 					}
 				}
-				this.config = _config2['default'];
-				console.warn('config set:', this.config);
+				this.config = _config2.default;
+				_logger2.default.debug({
+					description: 'Matter object built.', matter: this,
+					func: 'constructor', obj: 'Matter'
+				});
 			}
-	
-			/** Endpoint generation that handles default/provided settings and environment
-		  * @return {String} endpoint - endpoint for tessellate application
+			/** Get current logged in status
+		  * @return {Boolean}
+		  * @example
+		  * //Check if there is an account currently logged in
+		  * if(matter.isLoggedIn){
+		  *   console.log('There is currently an account logged in.');
+		  * } else {
+		  *   console.warn('There is no account currently logged in.');
+		  * }
 		  */
 	
 			_createClass(Matter, [{
@@ -26650,25 +25722,52 @@ return /******/ (function(modules) { // webpackBootstrap
 		   * });
 		   */
 				value: function signup(signupData) {
-					_utilsLogger2['default'].log({
+					_logger2.default.debug({
 						description: 'Signup called.', signupData: signupData,
 						func: 'signup', obj: 'Matter'
 					});
-					if (!signupData || !_lodash2['default'].isObject(signupData) && !_lodash2['default'].isString(signupData)) {
-						_utilsLogger2['default'].error({ description: 'Signup information is required to signup.', func: 'signup', obj: 'Matter' });
-						return Promise.reject({ message: 'Login data is required to login.' });
+					if (!signupData || !(0, _lodash.isObject)(signupData) && !(0, _lodash.isString)(signupData)) {
+						_logger2.default.error({
+							description: 'Signup information is required to signup.',
+							func: 'signup', obj: 'Matter'
+						});
+						return Promise.reject({
+							message: 'Signup data is required to signup.',
+							status: 'NULL_DATA'
+						});
 					}
-					if (_lodash2['default'].isObject(signupData)) {
-						return _utilsRequest2['default'].post(this.endpoint + '/signup', signupData).then(function (response) {
-							_utilsLogger2['default'].info({
+					if ((0, _lodash.isObject)(signupData)) {
+						//Handle no username or email
+						if (!signupData.username && !signupData.email) {
+							_logger2.default.error({
+								description: 'Email or Username required to signup.',
+								func: 'signup', obj: 'Matter'
+							});
+							return Promise.reject({
+								message: 'Email or Username required to signup.',
+								status: 'ID_REQUIRED'
+							});
+						}
+						if (!signupData.password) {
+							_logger2.default.error({
+								description: 'Password is required to signup.',
+								func: 'signup', obj: 'Matter'
+							});
+							return Promise.reject({
+								message: 'Password is required to signup.',
+								status: 'PASS_REQUIRED'
+							});
+						}
+						return _request2.default.post(this.endpoint + '/signup', signupData).then(function (response) {
+							_logger2.default.info({
 								description: 'Signup successful.',
 								signupData: signupData, response: response,
 								func: 'signup', obj: 'Matter'
 							});
-							if (_lodash2['default'].has(response, 'account')) {
+							if ((0, _lodash.has)(response, 'account')) {
 								return response.account;
 							} else {
-								_utilsLogger2['default'].warn({
+								_logger2.default.warn({
 									description: 'Account was not contained in signup response.',
 									signupData: signupData, response: response,
 									func: 'signup', obj: 'Matter'
@@ -26676,18 +25775,22 @@ return /******/ (function(modules) { // webpackBootstrap
 								return response;
 							}
 						})['catch'](function (errRes) {
-							_utilsLogger2['default'].error({
+							_logger2.default.error({
 								description: 'Error requesting signup.',
-								signupData: signupData, error: errRes,
+								signupData: signupData,
 								func: 'signup', obj: 'Matter'
 							});
 							return Promise.reject(errRes);
 						});
 					} else {
 						//Handle 3rd Party signups
-						var auth = new _utilsProviderAuth2['default']({ provider: signupData, app: this });
+						_logger2.default.debug({
+							description: 'Third party signup called.',
+							provider: signupData, func: 'signup', obj: 'Matter'
+						});
+						var auth = new _providerAuth2.default({ provider: signupData, app: this });
 						return auth.signup(signupData).then(function (res) {
-							_utilsLogger2['default'].info({
+							_logger2.default.info({
 								description: 'Provider signup successful.',
 								provider: signupData, res: res,
 								func: 'signup', obj: 'Matter'
@@ -26696,7 +25799,6 @@ return /******/ (function(modules) { // webpackBootstrap
 						});
 					}
 				}
-	
 				/** Login by username/email or external provider
 		   * @param {Object} loginData - Object containing data to use while logging in to application.
 		   * @param {String} loginData.username - Username of user to login as
@@ -26712,52 +25814,71 @@ return /******/ (function(modules) { // webpackBootstrap
 		   *  console.error('Error logging in:', err);
 		   * });
 		   */
+	
 			}, {
 				key: 'login',
 				value: function login(loginData) {
 					var _this = this;
 	
-					if (!loginData || !_lodash2['default'].isObject(loginData) && !_lodash2['default'].isString(loginData)) {
-						_utilsLogger2['default'].error({
+					if (!loginData || !(0, _lodash.isObject)(loginData) && !(0, _lodash.isString)(loginData)) {
+						_logger2.default.error({
 							description: 'Username/Email and Password are required to login',
 							func: 'login', obj: 'Matter'
 						});
-						return Promise.reject({ message: 'Login data is required to login.' });
+						return Promise.reject({
+							message: 'Login data is required to login.',
+							status: 'DATA_REQUIRED'
+						});
 					}
-					if (_lodash2['default'].isObject(loginData)) {
-						if (!loginData.password || !loginData.username) {
-							return Promise.reject({ message: 'Username/Email and Password are required to login' });
+					if ((0, _lodash.isObject)(loginData)) {
+						//Handle no username or email
+						if (!loginData.username && !loginData.email) {
+							_logger2.default.error({
+								description: 'Email or Username required to login.',
+								func: 'login', obj: 'Matter'
+							});
+							return Promise.reject({
+								message: 'Email or Username required to login.',
+								status: 'ID_REQUIRED'
+							});
+						}
+						//Handle null or invalid password
+						if (!loginData.password || loginData.password === '') {
+							return Promise.reject({
+								message: 'Password is required to login.',
+								status: 'PASS_REQUIRED'
+							});
 						}
 						//Username/Email Login
-						return _utilsRequest2['default'].put(this.endpoint + '/login', loginData).then(function (response) {
-							if (_lodash2['default'].has(response, 'data') && _lodash2['default'].has(response.data, 'status') && response.data.status == 409) {
-								_utilsLogger2['default'].warn({
+						return _request2.default.put(this.endpoint + '/login', loginData).then(function (response) {
+							if ((0, _lodash.has)(response, 'data') && (0, _lodash.has)(response.data, 'status') && response.data.status == 409) {
+								_logger2.default.error({
 									description: 'Account not found.', response: response,
 									func: 'login', obj: 'Matter'
 								});
 								return Promise.reject(response.data);
 							} else {
-								_utilsLogger2['default'].info({
+								_logger2.default.info({
 									description: 'Successful login.', response: response,
 									func: 'login', obj: 'Matter'
 								});
-								if (_lodash2['default'].has(response, 'token')) {
+								if ((0, _lodash.has)(response, 'token')) {
 									_this.token.string = response.token;
 								}
 								var userAccount = {};
 								//Get user data either directly from response or from token
-								if (_lodash2['default'].has(response, 'account')) {
+								if ((0, _lodash.has)(response, 'account')) {
 									userAccount = response.account;
 								} else if (_this.token.data) {
 									//TODO: Handle more Auth Provider tokens
 									//Check for AuthRocket style token
-									_utilsLogger2['default'].log({
+									_logger2.default.debug({
 										description: 'User data available from token.',
-										tokenData: _this.token.data, type: typeof _this.token.data,
+										tokenData: _this.token.data, type: _typeof(_this.token.data),
 										func: 'login', obj: 'Matter'
 									});
 									if (_this.token.data.un) {
-										_utilsLogger2['default'].log({
+										_logger2.default.log({
 											description: 'Token is AuthRocket format.',
 											func: 'login', obj: 'Matter'
 										});
@@ -26767,7 +25888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 											authrocketId: _this.token.data.uid || null
 										};
 									} else {
-										_utilsLogger2['default'].log({
+										_logger2.default.debug({
 											description: 'Token is default format.',
 											func: 'login', obj: 'Matter'
 										});
@@ -26775,18 +25896,18 @@ return /******/ (function(modules) { // webpackBootstrap
 										userAccount = _this.token.data;
 									}
 								} else {
-									_utilsLogger2['default'].error({
+									_logger2.default.error({
 										description: 'User data not available from response or token.',
 										func: 'login', obj: 'Matter'
 									});
 									userAccount = { token: _this.token.string };
 								}
 								//Set userdata to local storage
-								_this.storage.setItem(_config2['default'].tokenUserDataName, userAccount);
+								_this.storage.setItem(_config2.default.tokenUserDataName, userAccount);
 								return userAccount;
 							}
 						})['catch'](function (errRes) {
-							_utilsLogger2['default'].error({
+							_logger2.default.error({
 								description: 'Error requesting login.',
 								error: errRes, status: errRes.status,
 								func: 'login', obj: 'Matter'
@@ -26798,9 +25919,9 @@ return /******/ (function(modules) { // webpackBootstrap
 						});
 					} else {
 						//Provider login
-						var auth = new _utilsProviderAuth2['default']({ provider: loginData, app: this });
+						var auth = new _providerAuth2.default({ provider: loginData, app: this });
 						return auth.login().then(function (res) {
-							_utilsLogger2['default'].info({
+							_logger2.default.info({
 								description: 'Provider login successful.',
 								provider: loginData, res: res,
 								func: 'login', obj: 'Matter'
@@ -26809,8 +25930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						});
 					}
 				}
-	
-				/** Logout
+				/** logout
 		   * @description Log out of currently logged in user account
 		   * @return {Promise}
 		   * @example
@@ -26821,6 +25941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		   *  console.error('Error logging out:', err);
 		   * });
 		   */
+	
 			}, {
 				key: 'logout',
 				value: function logout() {
@@ -26828,31 +25949,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 					//TODO: Handle logging out of providers
 					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].warn({
+						_logger2.default.warn({
 							description: 'No logged in account to log out.',
 							func: 'logout', obj: 'Matter'
 						});
-						return Promise.reject({ message: 'No logged in account to log out.' });
+						return Promise.reject({
+							message: 'No logged in account to log out.',
+							status: 'NULL_ACCOUNT'
+						});
 					}
-					return _utilsRequest2['default'].put(this.endpoint + '/logout').then(function (response) {
-						_utilsLogger2['default'].info({
+					return _request2.default.put(this.endpoint + '/logout').then(function (response) {
+						_logger2.default.info({
 							description: 'Logout successful.',
 							response: response, func: 'logout', obj: 'Matter'
 						});
 						_this2.currentUser = null;
-						_this2.token['delete']();
+						_this2.token.delete();
 						return response;
 					})['catch'](function (errRes) {
-						_utilsLogger2['default'].error({
+						_logger2.default.error({
 							description: 'Error requesting log out: ',
 							error: errRes, func: 'logout', obj: 'Matter'
 						});
-						_this2.storage.removeItem(_config2['default'].tokenUserDataName);
-						_this2.token['delete']();
+						_this2.storage.removeItem(_config2.default.tokenUserDataName);
+						_this2.token.delete();
 						return Promise.reject(errRes);
 					});
 				}
-	
 				/** getCurrentUser
 		   * @return {Promise}
 		   * @example
@@ -26863,149 +25986,274 @@ return /******/ (function(modules) { // webpackBootstrap
 		   *  console.error('Error logging out:', err);
 		   * });
 		   */
+	
 			}, {
 				key: 'getCurrentUser',
 				value: function getCurrentUser() {
 					var _this3 = this;
 	
 					if (this.currentUser) {
+						_logger2.default.debug({
+							description: 'Current is already available. Returning user.',
+							func: 'currentUser', obj: 'Matter'
+						});
 						return Promise.resolve(this.currentUser);
-					} else {
-						if (this.isLoggedIn) {
-							return _utilsRequest2['default'].get(this.endpoint + '/user').then(function (response) {
-								//TODO: Save user information locally
-								_utilsLogger2['default'].log({ description: 'Current User Request responded.', responseData: response, func: 'currentUser', obj: 'Matter' });
-								_this3.currentUser = response;
-								return response;
-							})['catch'](function (errRes) {
-								if (errRes.status == 401) {
-									_utilsLogger2['default'].warn({ description: 'Called for current user without token.', error: errRes, func: 'currentUser', obj: 'Matter' });
-									_utilsToken2['default']['delete']();
-									return Promise.resolve(null);
-								} else {
-									_utilsLogger2['default'].error({ description: 'Error requesting current user.', error: errRes, func: 'currentUser', obj: 'Matter' });
-									return Promise.reject(errRes);
-								}
-							});
-						} else {
-							return Promise.resolve(null);
-						}
 					}
-				}
-	
-				/** updateProfile
-		   * @param {Object} updateData - Data to update within profile (only provided data will be modified).
-		   * @return {Promise}
-		   * @example
-		   * //Update current account's profile
-		   * matter.updateProfile().then(function(updatedAccount){
-		   *  console.log('Currently logged in account:', updatedAccount);
-		   * }, function(err){
-		   *  console.error('Error updating profile:', err);
-		   * });
-		   */
-			}, {
-				key: 'updateProfile',
-				value: function updateProfile(updateData) {
-					var _this4 = this;
-	
 					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].error({
-							description: 'No current user profile to update.',
-							func: 'updateProfile', obj: 'Matter'
+						_logger2.default.debug({
+							description: 'Current user is null.',
+							func: 'currentUser', obj: 'Matter'
 						});
-						return Promise.reject({ message: 'Must be logged in to update profile.' });
+						return Promise.resolve(null);
 					}
-					//Send update request
-					return _utilsRequest2['default'].put(this.endpoint + '/user/' + this.token.data.username, updateData).then(function (response) {
-						_utilsLogger2['default'].log({
-							description: 'Update profile request responded.',
-							responseData: response, func: 'updateProfile', obj: 'Matter'
+					return _request2.default.get(this.endpoint + '/user').then(function (response) {
+						//TODO: Save user information locally
+						_logger2.default.log({
+							description: 'Current User Request responded.',
+							responseData: response, func: 'currentUser', obj: 'Matter'
 						});
-						_this4.currentUser = response;
+						_this3.currentUser = response;
 						return response;
 					})['catch'](function (errRes) {
-						_utilsLogger2['default'].error({
+						if (errRes.status == 401) {
+							_logger2.default.warn({
+								description: 'Called for current user without token.',
+								error: errRes, func: 'currentUser', obj: 'Matter'
+							});
+							_token2.default.delete();
+							return Promise.resolve(null);
+						}
+						_logger2.default.error({
 							description: 'Error requesting current user.',
-							error: errRes, func: 'updateProfile', obj: 'Matter'
+							error: errRes, func: 'currentUser', obj: 'Matter'
 						});
 						return Promise.reject(errRes);
 					});
 				}
-	
-				/** changePassword
+				/** updateAccount
 		   * @param {Object} updateData - Data to update within profile (only provided data will be modified).
 		   * @return {Promise}
 		   * @example
 		   * //Update current account's profile
-		   * matter.changePassword().then(function(updatedAccount){
+		   * matter.updateAccount().then(function(updatedAccount){
 		   *  console.log('Currently logged in account:', updatedAccount);
 		   * }, function(err){
 		   *  console.error('Error updating profile:', err);
 		   * });
 		   */
+	
+			}, {
+				key: 'updateAccount',
+				value: function updateAccount(updateData) {
+					var _this4 = this;
+	
+					if (!this.isLoggedIn) {
+						_logger2.default.error({
+							description: 'No current user profile to update.',
+							func: 'updateAccount', obj: 'Matter'
+						});
+						return Promise.reject({
+							message: 'Must be logged in to update account.'
+						});
+					}
+					if (!updateData) {
+						_logger2.default.error({
+							description: 'Data is required to update profile.',
+							func: 'updateAccount', obj: 'Matter'
+						});
+						return Promise.reject({
+							message: 'Data required to update account.',
+							status: 'NULL_DATA'
+						});
+					}
+					//Send update request
+					return _request2.default.put(this.urls.update, updateData).then(function (response) {
+						_logger2.default.info({
+							description: 'Update profile request responded.',
+							responseData: response, func: 'updateAccount', obj: 'Matter'
+						});
+						_this4.currentUser = response;
+						return response;
+					})['catch'](function (errRes) {
+						_logger2.default.error({
+							description: 'Error requesting current user.',
+							error: errRes, func: 'updateAccount', obj: 'Matter'
+						});
+						return Promise.reject(errRes);
+					});
+				}
+				/** uploadImage
+		   * @description Upload image to Tessellate
+		   * @param {Object} file - File object to upload
+		   * @return {Promise}
+		   * @example
+		   * //Upload image to tessellate
+		   * matter.uploadImage(file).then(function(imgUrl){
+		   *  console.log('Currently logged in account:', imgUrl);
+		   * }, function(err){
+		   *  console.error('Error uploading image:', err);
+		   * });
+		   */
+	
+			}, {
+				key: 'uploadImage',
+				value: function uploadImage(fileData) {
+					var _this5 = this;
+	
+					if (!this.isLoggedIn) {
+						_logger2.default.error({
+							description: 'Must be logged in to upload an image.',
+							func: 'uploadImage', obj: 'Matter'
+						});
+						return Promise.reject({
+							message: 'Must be logged in to upload image.'
+						});
+					}
+					if (!fileData) {
+						_logger2.default.error({
+							description: 'Data is required to update profile.',
+							func: 'uploadImage', obj: 'Matter'
+						});
+						return Promise.reject({
+							message: 'Data required to update profile.',
+							status: 'NULL_DATA'
+						});
+					}
+					//Send update request
+					var uploadUrl = this.endpoint + '/user/' + this.token.data.username;
+					return _request2.default.put(this.urls.upload, fileData).then(function (response) {
+						_logger2.default.info({
+							description: 'Upload image request responded.',
+							responseData: response, func: 'uploadImage', obj: 'Matter'
+						});
+						_this5.currentUser = response;
+						return response;
+					})['catch'](function (errRes) {
+						_logger2.default.error({
+							description: 'Error requesting current user.',
+							error: errRes, func: 'uploadImage', obj: 'Matter'
+						});
+						return Promise.reject(errRes);
+					});
+				}
+				/** uploadAccountImage
+		   * @description Upload image and add url to currently logged in account
+		   * @param {Object} file - File object to upload
+		   * @return {Promise}
+		   * @example
+		   * //Upload image and set it to account
+		   * matter.uploadAccountImage(file).then(function(updatedAccount){
+		   *  console.log('Account with image:', updatedAccount);
+		   * }, function(err){
+		   *  console.error('Error uploading account image:', err);
+		   * });
+		   */
+	
+			}, {
+				key: 'uploadAccountImage',
+				value: function uploadAccountImage(fileData) {
+					var _this6 = this;
+	
+					return this.uploadImage(fileData).then(function (imgUrl) {
+						return _this6.updateAccount({ image: { url: imgUrl } });
+					});
+				}
+				/** changePassword
+		   * @param {String} updateData New password for account.
+		   * @return {Promise}
+		   * @example
+		   * //Update current account's password
+		   * var newPassword = 'asdfasdfasdf';
+		   * matter.changePassword(newPassword).then(function(updatedAccount){
+		   *  console.log('Currently logged in account:', updatedAccount);
+		   * }, function(err){
+		   *  console.error('Error changing password:', err);
+		   * });
+		   */
+	
 			}, {
 				key: 'changePassword',
-				value: function changePassword(updateData) {
+				value: function changePassword(newPassword) {
 					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].error({
+						_logger2.default.error({
 							description: 'No current user profile for which to change password.',
 							func: 'changePassword', obj: 'Matter'
 						});
-						return Promise.reject({ message: 'Must be logged in to change password.' });
+						return Promise.reject({
+							message: 'Must be logged in to change password.'
+						});
 					}
 					//Send update request
-					return _utilsRequest2['default'].put(this.endpoint + '/user/' + this.token.data.username, updateData).then(function (response) {
-						_utilsLogger2['default'].log({
+					return _request2.default.put(this.urls.changePassword, newPassword).then(function (response) {
+						_logger2.default.log({
 							description: 'Update password request responded.',
 							responseData: response, func: 'changePassword', obj: 'Matter'
 						});
 						return response;
 					})['catch'](function (errRes) {
-						_utilsLogger2['default'].error({
+						_logger2.default.error({
 							description: 'Error requesting password change.',
 							error: errRes, func: 'changePassword', obj: 'Matter'
 						});
 						return Promise.reject(errRes);
 					});
 				}
+				/** recoverAccount
+		   * @param {String} updateData New password for account.
+		   * @return {Promise}
+		   * @example
+		   * //Recover current users password
+		   * matter.recoverAccount().then(function(updatedAccount){
+		   *  console.log('Currently logged in account:', updatedAccount);
+		   * }, function(err){
+		   *  console.error('Error updating profile:', err);
+		   * });
+		   */
+	
 			}, {
-				key: 'recoverPassword',
-				value: function recoverPassword() {
-					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].error({
-							description: 'No current user for which to recover password.',
-							func: 'recoverPassword', obj: 'Matter'
+				key: 'recoverAccount',
+				value: function recoverAccount(accountData) {
+					if (!accountData || !(0, _lodash.isString)(accountData) && !(0, _lodash.isObject)(accountData)) {
+						_logger2.default.error({
+							description: 'Account data is required to recover an account.',
+							func: 'recoverAccount', obj: 'Matter'
 						});
-						return Promise.reject({ message: 'Must be logged in to recover password.' });
+						return Promise.reject({ message: 'Account data is required to recover an account.' });
 					}
+					var account = {};
+					if ((0, _lodash.isString)(accountData)) {
+						account = accountData.indexOf('@') !== -1 ? { email: accountData } : { username: accountData };
+					} else {
+						account = accountData;
+					}
+					_logger2.default.debug({
+						description: 'Requesting recovery of account.', account: account,
+						func: 'recoverAccount', obj: 'Matter'
+					});
 					//Send update request
-					return _utilsRequest2['default'].post(this.endpoint + '/accounts/' + this.token.data.username + '/recover').then(function (response) {
-						_utilsLogger2['default'].log({
+					return _request2.default.post(this.urls.recover, account).then(function (response) {
+						_logger2.default.info({
 							description: 'Recover password request responded.',
-							responseData: response, func: 'recoverPassword',
-							obj: 'Matter'
+							response: response, func: 'recoverAccount', obj: 'Matter'
 						});
 						return response;
 					})['catch'](function (errRes) {
-						_utilsLogger2['default'].error({
+						_logger2.default.error({
 							description: 'Error requesting password recovery.',
-							error: errRes, func: 'recoverPassword', obj: 'Matter'
+							error: errRes, func: 'recoverAccount', obj: 'Matter'
 						});
 						return Promise.reject(errRes);
 					});
 				}
 	
-				/** Get current logged in status
-		   * @return {Boolean}
+				/** Save current user (handled automatically by default)
+		   * @param {Object} userData - Account data to set for current user
 		   * @example
-		   * //Check if there is an account currently logged in
-		   * if(matter.isLoggedIn){
-		   * console.log('There is currently an account logged in.');
-		   * } else {
-		   * console.warn('There is no account currently logged in.');
-		   * }
+		   * //Save account response to current user
+		   * matter.currentUser = {username: 'testuser1', email: 'test@email.com'};
+		   * console.log('New current user set:', matter.currentUser);
 		   */
+	
 			}, {
 				key: 'isInGroup',
 	
@@ -27020,54 +26268,60 @@ return /******/ (function(modules) { // webpackBootstrap
 		   * } else {
 		   * console.warn('Current account is not an admin.');
 		   * }
-		   *
 		   */
 				value: function isInGroup(checkGroups) {
-					var _this5 = this;
+					var _this7 = this;
 	
 					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].log({
-							description: 'No logged in user to check.',
+						_logger2.default.error({
+							description: 'No logged in user to check for groups.',
+							func: 'isInGroup', obj: 'Matter'
+						});
+						return false;
+					}
+					if (!checkGroups) {
+						_logger2.default.log({
+							description: 'Invalid group(s).',
 							func: 'isInGroup', obj: 'Matter'
 						});
 						return false;
 					}
 					//Check if user is
-					if (checkGroups && _lodash2['default'].isString(checkGroups)) {
+					if ((0, _lodash.isString)(checkGroups)) {
 						var _ret = (function () {
 							var groupName = checkGroups;
 							//Single role or string list of roles
 							var groupsArray = groupName.split(',');
 							if (groupsArray.length > 1) {
 								//String list of groupts
-								_utilsLogger2['default'].info({
+								_logger2.default.info({
 									description: 'String list of groups.', list: groupsArray,
 									func: 'isInGroup', obj: 'Matter'
 								});
 								return {
-									v: _this5.isInGroups(groupsArray)
+									v: _this7.isInGroups(groupsArray)
 								};
 							} else {
 								//Single group
-								var groups = _this5.token.data.groups || [];
-								_utilsLogger2['default'].log({
+								var groups = _this7.token.data.groups || [];
+								_logger2.default.log({
 									description: 'Checking if user is in group.',
-									group: groupName, userGroups: _this5.token.data.groups,
+									group: groupName, userGroups: _this7.token.data.groups,
 									func: 'isInGroup', obj: 'Matter'
 								});
 								return {
-									v: _lodash2['default'].any(groups, function (group) {
+									v: (0, _lodash.any)(groups, function (group) {
 										return groupName == group.name;
 									})
 								};
 							}
 						})();
 	
-						if (typeof _ret === 'object') return _ret.v;
-					} else if (checkGroups && _lodash2['default'].isArray(checkGroups)) {
-						//Array of roles
+						if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+					} else if ((0, _lodash.isArray)(checkGroups)) {
+						//Array of groups/roles
 						//Check that user is in every group
-						_utilsLogger2['default'].info({
+						_logger2.default.info({
 							description: 'Array of groups.', list: checkGroups,
 							func: 'isInGroup', obj: 'Matter'
 						});
@@ -27075,9 +26329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					} else {
 						return false;
 					}
-					//TODO: Handle string and array inputs
 				}
-	
 				/** Check that user is in all of a list of groups
 		   * @param {Array|String} checkGroups - List of groups to check for account membership
 		   * @return {Boolean}
@@ -27091,30 +26343,38 @@ return /******/ (function(modules) { // webpackBootstrap
 		   * }
 		   *
 		   */
+	
 			}, {
 				key: 'isInGroups',
 				value: function isInGroups(checkGroups) {
-					var _this6 = this;
+					var _this8 = this;
 	
 					if (!this.isLoggedIn) {
-						_utilsLogger2['default'].log({
+						_logger2.default.log({
 							description: 'No logged in user to check.',
 							func: 'isInGroups', obj: 'Matter'
 						});
 						return false;
 					}
+					if (!checkGroups) {
+						_logger2.default.log({
+							description: 'Invalid group(s).',
+							func: 'isInGroup', obj: 'Matter'
+						});
+						return false;
+					}
 					//Check if user is in any of the provided groups
-					if (checkGroups && _lodash2['default'].isArray(checkGroups)) {
-						return _lodash2['default'].every(_lodash2['default'].map(checkGroups, function (group) {
-							if (_lodash2['default'].isString(group)) {
+					if ((0, _lodash.isArray)(checkGroups)) {
+						return (0, _lodash.every)(checkGroups.map(function (group) {
+							if ((0, _lodash.isString)(group)) {
 								//Group is string
-								return _this6.isInGroup(group);
+								return _this8.isInGroup(group);
 							} else {
 								//Group is object
-								if (_lodash2['default'].has(group, 'name')) {
-									return _this6.isInGroup(group.name);
+								if ((0, _lodash.has)(group, 'name')) {
+									return _this8.isInGroup(group.name);
 								} else {
-									_utilsLogger2['default'].error({
+									_logger2.default.error({
 										description: 'Invalid group object.',
 										group: group, func: 'isInGroups', obj: 'Matter'
 									});
@@ -27122,7 +26382,7 @@ return /******/ (function(modules) { // webpackBootstrap
 								}
 							}
 						}), true);
-					} else if (checkGroups && _lodash2['default'].isString(checkGroups)) {
+					} else if ((0, _lodash.isString)(checkGroups)) {
 						//TODO: Handle spaces within string list
 						var groupsArray = checkGroups.split(',');
 						if (groupsArray.length > 1) {
@@ -27130,7 +26390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 						}
 						return this.isInGroup(groupsArray[0]);
 					} else {
-						_utilsLogger2['default'].error({
+						_logger2.default.error({
 							description: 'Invalid groups list.',
 							func: 'isInGroups', obj: 'Matter'
 						});
@@ -27138,73 +26398,81 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				}
 			}, {
+				key: 'isLoggedIn',
+				get: function get() {
+					return this.token.string ? true : false;
+				}
+				/** Endpoint generation that handles default/provided settings and environment
+		   * @return {String} endpoint - endpoint for tessellate application
+		   */
+	
+			}, {
 				key: 'endpoint',
 				get: function get() {
 					//Handle options
-					if (_lodash2['default'].has(this, 'options')) {
+					if ((0, _lodash.has)(this, 'options')) {
 						if (this.options.localServer) {
-							_config2['default'].envName = 'local';
-							_utilsLogger2['default'].log({
+							_config2.default.envName = 'local';
+							_logger2.default.log({
 								description: 'LocalServer option was set to true. Now server url is local server.',
-								url: _config2['default'].serverUrl, func: 'endpoint', obj: 'Matter'
+								url: _config2.default.serverUrl, func: 'endpoint', obj: 'Matter'
 							});
 						}
 						if (this.options.env) {
-							_config2['default'].envName = this.options.env;
-							_utilsLogger2['default'].log({
+							_config2.default.envName = this.options.env;
+							_logger2.default.log({
 								description: 'Environment set based on provided environment.',
-								config: _config2['default'], func: 'endpoint', obj: 'Matter'
+								config: _config2.default, func: 'endpoint', obj: 'Matter'
 							});
 						}
 					}
-					var appEndpoint = _config2['default'].serverUrl + '/apps/' + this.name;
+					var appEndpoint = _config2.default.serverUrl + '/apps/' + this.name;
 					//Handle tessellate as name
 					if (this.name == 'tessellate') {
 						//Remove url if host is a tessellate server
-						if (typeof window !== 'undefined' && _lodash2['default'].has(window, 'location') && window.location.host.indexOf('tessellate') !== -1) {
+						if (typeof window !== 'undefined' && (0, _lodash.has)(window, 'location') && window.location.host.indexOf('tessellate') !== -1) {
 							appEndpoint = '';
-							_utilsLogger2['default'].info({
+							_logger2.default.info({
 								description: 'Host is Tessellate Server, serverUrl simplified!',
 								url: appEndpoint, func: 'endpoint', obj: 'Matter'
 							});
 						} else {
-							appEndpoint = _config2['default'].serverUrl;
-							_utilsLogger2['default'].info({
+							appEndpoint = _config2.default.serverUrl;
+							_logger2.default.info({
 								description: 'App is tessellate, serverUrl set as main tessellate server.',
 								url: appEndpoint, func: 'endpoint', obj: 'Matter'
 							});
 						}
 					}
-					_utilsLogger2['default'].log({
+					_logger2.default.log({
 						description: 'Endpoint created.', url: appEndpoint,
 						func: 'endpoint', obj: 'Matter'
 					});
 					return appEndpoint;
 				}
 			}, {
-				key: 'isLoggedIn',
+				key: 'urls',
 				get: function get() {
-					return this.token.string ? true : false;
+					if (this.token && this.token.data && this.token.data.username) {
+						return {
+							update: this.endpoint + '/account/' + this.token.data.username,
+							upload: this.endpoint + '/account/' + this.token.data.username + '/upload',
+							recover: this.endpoint + '/recover'
+						};
+					}
+					return {
+						recover: this.endpoint + '/recover'
+					};
 				}
-	
-				/** Save current user (handled automatically by default)
-		   * @param {Object} userData - Account data to set for current user
-		   * @example
-		   * //Save account response to current user
-		   * matter.currentUser = {username: 'testuser1', email: 'test@email.com'};
-		   * console.log('New current user set:', matter.currentUser);
-		   */
 			}, {
 				key: 'currentUser',
 				set: function set(userData) {
-					_utilsLogger2['default'].log({
+					_logger2.default.debug({
 						description: 'Current User set.', user: userData,
 						func: 'currentUser', obj: 'Matter'
-	
 					});
-					this.storage.setItem(_config2['default'].tokenUserDataName, userData);
-				},
-	
+					this.storage.setItem(_config2.default.tokenUserDataName, userData);
+				}
 				/** Get currently logged in user or returns null
 		   * @return {Object|null}
 		   * @example
@@ -27217,55 +26485,58 @@ return /******/ (function(modules) { // webpackBootstrap
 		   * matter.currentUser
 		   * console.log('New current user set:', matter.currentUser);
 		   */
+				,
 				get: function get() {
-					if (this.storage.getItem(_config2['default'].tokenUserDataName)) {
-						return this.storage.getItem(_config2['default'].tokenUserDataName);
+					if (this.storage.getItem(_config2.default.tokenUserDataName)) {
+						return this.storage.getItem(_config2.default.tokenUserDataName);
 					} else {
 						return null;
 					}
 				}
-	
-				/* Storage Utility
-		   *
+				/* Utility to handle safley writing to localStorage, sessionStorage, and cookies
+		   * @return {Object}
 		   */
+	
 			}, {
 				key: 'storage',
 				get: function get() {
-					return _utilsEnvStorage2['default'];
+					return _envStorage2.default;
 				}
-	
-				/** Token Utility
+				/** Utility to handle token writing/deleting/decoding
+		   * @return {Object}
 		   */
+	
 			}, {
 				key: 'token',
 				get: function get() {
-					return _utilsToken2['default'];
+					return _token2.default;
 				}
-	
 				/** Utils placed in base library
+		   * @return {Object}
 		   */
+	
 			}, {
 				key: 'utils',
 				get: function get() {
-					return { logger: _utilsLogger2['default'], request: _utilsRequest2['default'], storage: _utilsEnvStorage2['default'], dom: _utilsDom2['default'] };
+					return { logger: _logger2.default, request: _request2.default, storage: _envStorage2.default, dom: _dom2.default };
 				}
 			}]);
 	
 			return Matter;
 		})();
 	
-		exports['default'] = Matter;
+		exports.default = Matter;
 		module.exports = exports['default'];
 	
 	/***/ },
 	/* 1 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 		var _config = __webpack_require__(3);
 	
@@ -27275,51 +26546,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var _lodash2 = _interopRequireDefault(_lodash);
 	
-		//Set default log level to debug
-		var logLevel = 'debug';
-		// if (config.envName == 'production') {
-		// 	logLevel = 'warn';
-		// }
-		//Set log level from config
-		if (_config2['default'].logLevel) {
-			logLevel = _config2['default'].logLevel;
-		}
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 		var logger = {
 			log: function log(logData) {
 				var msgArgs = buildMessageArgs(logData);
-				if (logLevel === 'trace') {
+				if (_config2.default.logLevel === 'trace') {
 					runConsoleMethod('log', msgArgs);
 				}
 			},
 			debug: function debug(logData) {
 				var msgArgs = buildMessageArgs(logData);
-				if (logLevel === 'trace' || logLevel === 'debug') {
+				if (_config2.default.logLevel === 'trace' || _config2.default.logLevel === 'debug') {
 					runConsoleMethod('debug', msgArgs);
 				}
 			},
 			info: function info(logData) {
-				if (logLevel === 'trace' || logLevel === 'debug' || logLevel === 'info') {
+				if (_config2.default.logLevel === 'trace' || _config2.default.logLevel === 'debug' || _config2.default.logLevel === 'info') {
 					var msgArgs = buildMessageArgs(logData);
 					runConsoleMethod('info', msgArgs);
-				} else {
-					console.info('Info called, but incorrect log level', logLevel);
 				}
 			},
 			warn: function warn(logData) {
 				var msgArgs = buildMessageArgs(logData);
-				if (logLevel === 'trace' || logLevel === 'debug' || logLevel === 'info' || logLevel === 'warn') {
+				if (_config2.default.logLevel === 'trace' || _config2.default.logLevel === 'debug' || _config2.default.logLevel === 'info' || _config2.default.logLevel === 'warn') {
 					runConsoleMethod('warn', msgArgs);
 				}
 			},
 			error: function error(logData) {
 				var msgArgs = buildMessageArgs(logData);
-				if (logLevel === 'trace' || logLevel === 'debug' || logLevel === 'info' || logLevel === 'warn' || logLevel === 'error' || logLevel === 'fatal') {
+				if (_config2.default.logLevel === 'trace' || _config2.default.logLevel === 'debug' || _config2.default.logLevel === 'info' || _config2.default.logLevel === 'warn' || _config2.default.logLevel === 'error' || _config2.default.logLevel === 'fatal') {
 					runConsoleMethod('error', msgArgs);
 				}
 			}
 		};
 	
-		exports['default'] = logger;
+		exports.default = logger;
 	
 		function runConsoleMethod(methodName, methodData) {
 			//Safley run console methods or use console log
@@ -27334,13 +26596,13 @@ return /******/ (function(modules) { // webpackBootstrap
 			var msgObj = {};
 			//TODO: Attach time stamp
 			//Attach location information to the beginning of message
-			if (_lodash2['default'].isObject(logData)) {
-				if (logLevel == 'debug') {
-					if (_lodash2['default'].has(logData, 'func')) {
-						if (_lodash2['default'].has(logData, 'obj')) {
+			if (_lodash2.default.isObject(logData)) {
+				if (_config2.default.logLevel !== 'error') {
+					if (_lodash2.default.has(logData, 'func')) {
+						if (_lodash2.default.has(logData, 'obj')) {
 							//Object and function provided
 							msgStr += '[' + logData.obj + '.' + logData.func + '()]\n ';
-						} else if (_lodash2['default'].has(logData, 'file')) {
+						} else if (_lodash2.default.has(logData, 'file')) {
 							msgStr += '[' + logData.file + ' > ' + logData.func + '()]\n ';
 						} else {
 							msgStr += '[' + logData.func + '()]\n ';
@@ -27348,11 +26610,11 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				}
 				//Print each key and its value other than obj and func
-				_lodash2['default'].each(_lodash2['default'].omit(_lodash2['default'].keys(logData)), function (key) {
+				_lodash2.default.each(_lodash2.default.omit(_lodash2.default.keys(logData)), function (key) {
 					if (key != 'func' && key != 'obj') {
 						if (key == 'description' || key == 'message') {
 							msgStr += logData[key];
-						} else if (_lodash2['default'].isString(logData[key])) {
+						} else if (_lodash2.default.isString(logData[key])) {
 							// msgStr += key + ': ' + logData[key] + ', ';
 							msgObj[key] = logData[key];
 						} else {
@@ -27363,7 +26625,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					}
 				});
 				msgStr += '\n';
-			} else if (_lodash2['default'].isString(logData)) {
+			} else if (_lodash2.default.isString(logData)) {
 				msgStr = logData;
 			}
 			var msg = [msgStr, msgObj];
@@ -39734,15 +38996,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 3 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
 	
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
 		var _lodash = __webpack_require__(2);
+	
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 		var defaultConfig = {
 			envs: {
@@ -39756,11 +39020,11 @@ return /******/ (function(modules) { // webpackBootstrap
 				},
 				stage: {
 					serverUrl: 'http://tessellate-stage.elasticbeanstalk.com',
-					logLevel: 'debug'
+					logLevel: 'info'
 				},
 				prod: {
 					serverUrl: 'http://tessellate.elasticbeanstalk.com',
-					logLevel: 'info'
+					logLevel: 'error'
 				}
 			},
 			tokenName: 'tessellate',
@@ -39818,6 +39082,9 @@ return /******/ (function(modules) { // webpackBootstrap
 					envName = newEnv;
 					// this.envName = newEnv;
 					// console.log('Environment name set:', envName);
+				},
+				get: function get() {
+					return envName;
 				}
 			}, {
 				key: 'env',
@@ -39831,18 +39098,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var config = new Config();
 	
-		exports['default'] = config;
+		exports.default = config;
 		module.exports = exports['default'];
 	
 	/***/ },
 	/* 4 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 		var _logger = __webpack_require__(1);
 	
@@ -39851,6 +39118,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		var _lodash = __webpack_require__(2);
 	
 		var _lodash2 = _interopRequireDefault(_lodash);
+	
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 		var domUtil = {
 			/**
@@ -39862,7 +39131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		  */
 			loadCss: function loadCss(src) {
 				if (typeof document == 'undefined') {
-					_logger2['default'].error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
+					_logger2.default.error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
 					throw new Error('Document object is required to load assets.');
 				} else {
 					var css = document.createElement('link');
@@ -39870,7 +39139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					css.type = 'text/css';
 					css.href = src;
 					document.getElementsByTagName('head')[0].insertBefore(css, document.getElementsByTagName('head')[0].firstChild);
-					_logger2['default'].log({ description: 'CSS was loaded into document.', element: css, func: 'loadCss', obj: 'dom' });
+					_logger2.default.log({ description: 'CSS was loaded into document.', element: css, func: 'loadCss', obj: 'dom' });
 					return css; //Return link element
 				}
 			},
@@ -39882,15 +39151,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		  *
 		  */
 			loadJs: function loadJs(src) {
-				if (typeof window == 'undefined' || !_lodash2['default'].has(window, 'document')) {
-					_logger2['default'].error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
+				if (typeof window == 'undefined' || !_lodash2.default.has(window, 'document')) {
+					_logger2.default.error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
 					throw new Error('Document object is required to load assets.');
 				} else {
 					var js = window.document.createElement('script');
 					js.src = src;
 					js.type = 'text/javascript';
 					window.document.getElementsByTagName('head')[0].appendChild(js);
-					_logger2['default'].log({ description: 'JS was loaded into document.', element: js, func: 'loadCss', obj: 'dom' });
+					_logger2.default.log({ description: 'JS was loaded into document.', element: js, func: 'loadCss', obj: 'dom' });
 					return js; //Return script element
 				}
 			},
@@ -39902,33 +39171,33 @@ return /******/ (function(modules) { // webpackBootstrap
 		  *
 		  */
 			asyncLoadJs: function asyncLoadJs(src) {
-				if (typeof window == 'undefined' || !_lodash2['default'].has(window, 'document')) {
-					_logger2['default'].error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
+				if (typeof window == 'undefined' || !_lodash2.default.has(window, 'document')) {
+					_logger2.default.error({ description: 'Document does not exsist to load assets into.', func: 'loadCss', obj: 'dom' });
 					throw new Error('Document object is required to load assets.');
 				} else {
 					var js = window.document.createElement('script');
 					js.src = src;
 					js.type = 'text/javascript';
 					window.document.getElementsByTagName('head')[0].appendChild(js);
-					_logger2['default'].log({ description: 'JS was loaded into document.', element: js, func: 'loadCss', obj: 'dom' });
+					_logger2.default.log({ description: 'JS was loaded into document.', element: js, func: 'loadCss', obj: 'dom' });
 					return new Promise(function (resolve) {
 						window.setTimeout(resolve, 30);
 					});
 				}
 			}
 		};
-		exports['default'] = domUtil;
+		exports.default = domUtil;
 		module.exports = exports['default'];
 	
 	/***/ },
 	/* 5 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 		var _logger = __webpack_require__(1);
 	
@@ -39938,9 +39207,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var _lodash2 = _interopRequireDefault(_lodash);
 	
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 		var data = {};
 	
-		var storage = Object.defineProperties({
+		var storage = {
+			/** Gets whether or not local storage exists.
+		  * @param {String} itemName The items name
+		  * @param {String} itemValue The items value
+		  * @return {Boolean}
+		  *
+		  */
+			get localExists() {
+				var testKey = 'test';
+				if (typeof window != 'undefined' && typeof window.sessionStorage != 'undefined') {
+					try {
+						window.sessionStorage.setItem(testKey, '1');
+						window.sessionStorage.removeItem(testKey);
+						return true;
+					} catch (err) {
+						_logger2.default.error({ description: 'Error saving to session storage', error: err, obj: 'storage', func: 'localExists' });
+						return false;
+					}
+				} else {
+					return false;
+				}
+			},
 			/**
 		  * @description
 		  * Safley sets item to session storage.
@@ -39952,6 +39244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			item: function item(itemName, itemValue) {
 				return this.setItem(itemName, itemValue);
 			},
+	
 			/**
 		  * @description
 		  * Safley sets item to session storage. Alias: item()
@@ -39964,12 +39257,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				data[itemName] = itemValue;
 				if (this.localExists) {
 					//Convert object to string
-					if (_lodash2['default'].isObject(itemValue)) {
+					if (_lodash2.default.isObject(itemValue)) {
 						itemValue = JSON.stringify(itemValue);
 					}
 					window.sessionStorage.setItem(itemName, itemValue);
 				}
 			},
+	
 			/**
 		  * @description
 		  * Safley gets an item from session storage. Alias: item()
@@ -40005,6 +39299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					return null;
 				}
 			},
+	
 			/**
 		  * @description Safley removes item from session storage.
 		  *
@@ -40021,10 +39316,11 @@ return /******/ (function(modules) { // webpackBootstrap
 						//Clear session storage
 						window.sessionStorage.removeItem(itemName);
 					} catch (err) {
-						_logger2['default'].error({ description: 'Error removing item from session storage', error: err, obj: 'storage', func: 'removeItem' });
+						_logger2.default.error({ description: 'Error removing item from session storage', error: err, obj: 'storage', func: 'removeItem' });
 					}
 				}
 			},
+	
 			/**
 		  * @description
 		  * Safley removes item from session storage.
@@ -40041,53 +39337,26 @@ return /******/ (function(modules) { // webpackBootstrap
 						//Clear session storage
 						window.sessionStorage.clear();
 					} catch (err) {
-						_logger2['default'].warn({
+						_logger2.default.warn({
 							description: 'Session storage could not be cleared.', error: err
 						});
 					}
 				}
 			}
-		}, {
-			localExists: {
-				/** Gets whether or not local storage exists.
-		   * @param {String} itemName The items name
-		   * @param {String} itemValue The items value
-		   * @return {Boolean}
-		   *
-		   */
+		};
 	
-				get: function get() {
-					var testKey = 'test';
-					if (typeof window != 'undefined' && typeof window.sessionStorage != 'undefined') {
-						try {
-							window.sessionStorage.setItem(testKey, '1');
-							window.sessionStorage.removeItem(testKey);
-							return true;
-						} catch (err) {
-							_logger2['default'].error({ description: 'Error saving to session storage', error: err, obj: 'storage', func: 'localExists' });
-							return false;
-						}
-					} else {
-						return false;
-					}
-				},
-				configurable: true,
-				enumerable: true
-			}
-		});
-	
-		exports['default'] = storage;
+		exports.default = storage;
 		module.exports = exports['default'];
 	
 	/***/ },
 	/* 6 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 		var _logger = __webpack_require__(1);
 	
@@ -40101,9 +39370,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var _superagent2 = _interopRequireDefault(_superagent);
 	
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 		var request = {
 			get: function get(endpoint, queryData) {
-				var req = _superagent2['default'].get(endpoint);
+				var req = _superagent2.default.get(endpoint);
 				if (queryData) {
 					req.query(queryData);
 				}
@@ -40111,46 +39382,59 @@ return /******/ (function(modules) { // webpackBootstrap
 				return handleResponse(req);
 			},
 			post: function post(endpoint, data) {
-				var req = _superagent2['default'].post(endpoint).send(data);
+				var req = _superagent2.default.post(endpoint).send(data);
 				req = addAuthHeader(req);
 				return handleResponse(req);
 			},
 			put: function put(endpoint, data) {
-				var req = _superagent2['default'].put(endpoint, data);
+				var req = _superagent2.default.put(endpoint, data);
 				req = addAuthHeader(req);
 				return handleResponse(req);
 			},
 			del: function del(endpoint, data) {
-				var req = _superagent2['default'].put(endpoint, data);
+				var req = _superagent2.default.put(endpoint, data);
 				req = addAuthHeader(req);
 				return handleResponse(req);
 			}
 		};
 	
-		exports['default'] = request;
+		exports.default = request;
 	
 		function handleResponse(req) {
 			return new Promise(function (resolve, reject) {
+				if (typeof req.end !== 'function') {
+					_logger2.default.warn({
+						description: 'req.end is not a function',
+						func: 'handleResponse'
+					});
+					return reject({});
+				}
 				req.end(function (err, res) {
 					if (!err) {
 						// logger.log({description: 'Response:', response:res, func:'handleResponse', file: 'request'});
 						return resolve(res.body);
 					} else {
 						if (err.status == 401) {
-							_logger2['default'].warn({ description: 'Unauthorized. You must be signed into make this request.', func: 'handleResponse' });
+							_logger2.default.warn({
+								description: 'Unauthorized. You must be signed into make this request.',
+								func: 'handleResponse'
+							});
 						}
 						if (err && err.response) {
+							_logger2.default.warn({
+								description: 'Unauthorized. You must be signed into make this request.',
+								error: err, func: 'handleResponse'
+							});
 							return reject(err.response.text);
 						}
-						_logger2['default'].warn({ description: 'Unauthorized. You must be signed into make this request.', error: err, func: 'handleResponse' });
 						return reject(err);
 					}
 				});
 			});
 		}
 		function addAuthHeader(req) {
-			if (_token2['default'].string) {
-				req = req.set('Authorization', 'Bearer ' + _token2['default'].string);
+			if (_token2.default.string) {
+				req = req.set('Authorization', 'Bearer ' + _token2.default.string);
 				// console.info({message: 'Set auth header', func: 'addAuthHeader', file: 'request'});
 			}
 			return req;
@@ -40161,11 +39445,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 7 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 		var _config = __webpack_require__(3);
 	
@@ -40187,121 +39471,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var _lodash2 = _interopRequireDefault(_lodash);
 	
-		var token = Object.defineProperties({
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+		var token = {
+			/** Get string value of token
+		  * @return {String}
+		  * @example
+		  * console.log('String value of current token', token.string);
+		  */
+			get string() {
+				return _envStorage2.default.getItem(_config2.default.tokenName);
+			},
+			/** Get decoded data within token (unencrypted data only)
+		  * @return {Object}
+		  * @example
+		  * console.log('Data of current token:', token.data);
+		  */
+			get data() {
+				if (_envStorage2.default.getItem(_config2.default.tokenDataName)) {
+					return _envStorage2.default.getItem(_config2.default.tokenDataName);
+				} else {
+					return decodeToken(this.string);
+				}
+			},
+			/** Set token data
+		  */
+			set data(tokenData) {
+				if (_lodash2.default.isString(tokenData)) {
+					var tokenStr = tokenData;
+					tokenData = decodeToken(tokenStr);
+					_logger2.default.info({
+						description: 'Token data was set as string. Decoding token.',
+						token: tokenStr, tokenData: tokenData, func: 'data', obj: 'token'
+					});
+				} else {
+					_logger2.default.log({
+						description: 'Token data was set.', data: tokenData,
+						func: 'data', obj: 'token'
+					});
+					_envStorage2.default.setItem(_config2.default.tokenDataName, tokenData);
+				}
+			},
+			/** Set token value as a string
+		  */
+			set string(tokenData) {
+				var tokenStr = undefined;
+				//Handle object being passed
+				if (!_lodash2.default.isString(tokenData)) {
+					//Token is included in object
+					_logger2.default.log({
+						description: 'Token data is not string.',
+						token: tokenData, func: 'string', obj: 'token'
+					});
+					if (_lodash2.default.isObject(tokenData) && _lodash2.default.has(tokenData, 'token')) {
+						tokenStr = tokenData.token;
+					} else {
+						//Input is either not an string or object that contains nessesary info
+						_logger2.default.error({
+							description: 'Invalid value set to token.',
+							token: tokenData, func: 'string', obj: 'token'
+						});
+						return;
+					}
+				} else {
+					tokenStr = tokenData;
+				}
+				_logger2.default.log({
+					description: 'Token was set.', token: tokenData,
+					tokenStr: tokenStr, func: 'string', obj: 'token'
+				});
+				_envStorage2.default.setItem(_config2.default.tokenName, tokenStr);
+				this.data = (0, _jwtDecode2.default)(tokenStr);
+			},
 			/** Save token data
 		  */
 			save: function save(tokenStr) {
 				this.string = tokenStr;
 			},
+	
 			/** Delete token data
 		  */
-			'delete': function _delete() {
+			delete: function _delete() {
 				//Remove string token
-				_envStorage2['default'].removeItem(_config2['default'].tokenName);
+				_envStorage2.default.removeItem(_config2.default.tokenName);
 				//Remove user data
-				_envStorage2['default'].removeItem(_config2['default'].tokenDataName);
-				_logger2['default'].log({
+				_envStorage2.default.removeItem(_config2.default.tokenDataName);
+				_logger2.default.log({
 					description: 'Token was removed.',
 					func: 'delete', obj: 'token'
 				});
 			}
-		}, {
-			string: {
-				/** Get string value of token
-		   * @return {String}
-		   * @example
-		   * console.log('String value of current token', token.string);
-		   */
+		};
 	
-				get: function get() {
-					return _envStorage2['default'].getItem(_config2['default'].tokenName);
-				},
-	
-				/** Set token value as a string
-		   */
-				set: function set(tokenData) {
-					var tokenStr = undefined;
-					//Handle object being passed
-					if (!_lodash2['default'].isString(tokenData)) {
-						//Token is included in object
-						_logger2['default'].log({
-							description: 'Token data is not string.',
-							token: tokenData, func: 'string', obj: 'token'
-						});
-						if (_lodash2['default'].isObject(tokenData) && _lodash2['default'].has(tokenData, 'token')) {
-							tokenStr = tokenData.token;
-						} else {
-							//Input is either not an string or object that contains nessesary info
-							_logger2['default'].error({
-								description: 'Invalid value set to token.',
-								token: tokenData, func: 'string', obj: 'token'
-							});
-							return;
-						}
-					} else {
-						tokenStr = tokenData;
-					}
-					_logger2['default'].log({
-						description: 'Token was set.', token: tokenData,
-						tokenStr: tokenStr, func: 'string', obj: 'token'
-					});
-					_envStorage2['default'].setItem(_config2['default'].tokenName, tokenStr);
-					this.data = (0, _jwtDecode2['default'])(tokenStr);
-				},
-				configurable: true,
-				enumerable: true
-			},
-			data: {
-				/** Get decoded data within token (unencrypted data only)
-		   * @return {Object}
-		   * @example
-		   * console.log('Data of current token:', token.data);
-		   */
-	
-				get: function get() {
-					if (_envStorage2['default'].getItem(_config2['default'].tokenDataName)) {
-						return _envStorage2['default'].getItem(_config2['default'].tokenDataName);
-					} else {
-						return decodeToken(this.string);
-					}
-				},
-	
-				/** Set token data
-		   */
-				set: function set(tokenData) {
-					if (_lodash2['default'].isString(tokenData)) {
-						var tokenStr = tokenData;
-						tokenData = decodeToken(tokenStr);
-						_logger2['default'].info({
-							description: 'Token data was set as string. Decoding token.',
-							token: tokenStr, tokenData: tokenData, func: 'data', obj: 'token'
-						});
-					} else {
-						_logger2['default'].log({
-							description: 'Token data was set.', data: tokenData,
-							func: 'data', obj: 'token'
-						});
-						_envStorage2['default'].setItem(_config2['default'].tokenDataName, tokenData);
-					}
-				},
-				configurable: true,
-				enumerable: true
-			}
-		});
-	
-		exports['default'] = token;
-	
+		exports.default = token;
 		/** Safley decode a JWT string
 		 * @private
 		 * @return {Object}
 		 */
+	
 		function decodeToken(tokenStr) {
 			var tokenData = undefined;
 			if (tokenStr && tokenStr != '') {
 				try {
-					tokenData = (0, _jwtDecode2['default'])(tokenStr);
+					tokenData = (0, _jwtDecode2.default)(tokenStr);
 				} catch (err) {
-					_logger2['default'].error({
+					_logger2.default.error({
 						description: 'Error decoding token.', data: tokenData,
 						error: err, func: 'decodeToken', file: 'token'
 					});
@@ -40316,15 +39590,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* 8 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		Object.defineProperty(exports, '__esModule', {
+		'use strict';
+	
+		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+		Object.defineProperty(exports, "__esModule", {
 			value: true
 		});
-	
-		var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
 		var _request = __webpack_require__(6);
 	
@@ -40337,6 +39609,10 @@ return /******/ (function(modules) { // webpackBootstrap
 		var _dom = __webpack_require__(4);
 	
 		var _dom2 = _interopRequireDefault(_dom);
+	
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 		// import hello from 'hellojs'; //Modifies objects to have id parameter?
 		// import hello from 'hellojs'; //After es version of module is created
@@ -40351,7 +39627,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.redirectUri = actionData.redirectUri ? actionData.redirectUri : 'redirect.html';
 				this.provider = actionData.provider ? actionData.provider : null;
 			}
-	
 			/** Load hellojs library script into DOM
 		  */
 	
@@ -40361,7 +39636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					//Load hellojs script
 					//TODO: Replace this with es6ified version
 					if (typeof window != 'undefined' && !window.hello) {
-						return _dom2['default'].asyncLoadJs('https://s3.amazonaws.com/kyper-cdn/js/hello.js');
+						return _dom2.default.asyncLoadJs('https://s3.amazonaws.com/kyper-cdn/js/hello.js');
 					} else {
 						return Promise.reject();
 					}
@@ -40371,7 +39646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				value: function helloLoginListener() {
 					//Login Listener
 					window.hello.on('auth.login', function (auth) {
-						_logger2['default'].info({ description: 'User logged in to google.', func: 'loadHello', obj: 'Google' });
+						_logger2.default.info({ description: 'User logged in to google.', func: 'loadHello', obj: 'Google' });
 						// Call user information, for the given network
 						window.hello(auth.network).api('/me').then(function (r) {
 							// Inject it into the container
@@ -40379,59 +39654,58 @@ return /******/ (function(modules) { // webpackBootstrap
 							var userData = r;
 							userData.provider = auth.network;
 							//Login or Signup endpoint
-							return _request2['default'].post(this.endpoint + '/provider', userData).then(function (response) {
-								_logger2['default'].log({ description: 'Provider request successful.', response: response, func: 'signup', obj: 'GoogleUtil' });
+							return _request2.default.post(this.endpoint + '/provider', userData).then(function (response) {
+								_logger2.default.log({ description: 'Provider request successful.', response: response, func: 'signup', obj: 'GoogleUtil' });
 								return response;
 							})['catch'](function (errRes) {
-								_logger2['default'].error({ description: 'Error requesting login.', error: errRes, func: 'signup', obj: 'Matter' });
+								_logger2.default.error({ description: 'Error requesting login.', error: errRes, func: 'signup', obj: 'Matter' });
 								return Promise.reject(errRes);
 							});
 						});
 					});
 				}
-	
 				/** Initialize hellojs library and request app providers
 		   */
+	
 			}, {
 				key: 'initHello',
 				value: function initHello() {
 					var _this = this;
 	
 					return this.loadHello().then(function () {
-						return _request2['default'].get(_this.app.endpoint + '/providers').then(function (response) {
-							_logger2['default'].log({
+						return _request2.default.get(_this.app.endpoint + '/providers').then(function (response) {
+							_logger2.default.log({
 								description: 'Provider request successful.', response: response,
 								func: 'initHello', obj: 'ProviderAuth'
 							});
 							var provider = response[_this.provider];
 							if (!provider) {
-								_logger2['default'].error({
+								_logger2.default.error({
 									description: 'Provider is not setup.\n' + 'Visit build.kyper.io to enter your client id for ' + _this.provider,
 									provider: _this.provider, clientIds: clientIds,
 									func: 'login', obj: 'ProviderAuth'
 								});
 								return Promise.reject({ message: 'Provider is not setup.' });
 							}
-							_logger2['default'].log({
+							_logger2.default.log({
 								description: 'Providers config built', providersConfig: response,
 								func: 'initHello', obj: 'ProviderAuth'
 							});
 							return window.hello.init(response, { redirect_uri: 'redirect.html' });
 						}, function (errRes) {
-							_logger2['default'].error({
+							_logger2.default.error({
 								description: 'Error loading hellojs.', error: errRes,
 								func: 'initHello', obj: 'ProviderAuth'
 							});
 							return Promise.reject({ message: 'Error requesting application third party providers.' });
 						})['catch'](function (errRes) {
-							_logger2['default'].error({
+							_logger2.default.error({
 								description: 'Error loading hellojs.', error: errRes, func: 'initHello', obj: 'ProviderAuth'
 							});
 							return Promise.reject({ message: 'Error loading third party login capability.' });
 						});
 					});
 				}
-	
 				/** External provider login
 		   * @example
 		   * //Login to account that was started through external account signup (Google, Facebook, Github)
@@ -40441,6 +39715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		   * 		console.error('Error with provider login:', err);
 		   * });
 		   */
+	
 			}, {
 				key: 'login',
 				value: function login() {
@@ -40449,11 +39724,10 @@ return /******/ (function(modules) { // webpackBootstrap
 					return this.initHello().then(function () {
 						return window.hello.login(_this2.provider);
 					}, function (err) {
-						_logger2['default'].error({ description: 'Error initalizing hellojs.', error: err, func: 'login', obj: 'Matter' });
+						_logger2.default.error({ description: 'Error initalizing hellojs.', error: err, func: 'login', obj: 'Matter' });
 						return Promise.reject({ message: 'Error with third party login.' });
 					});
 				}
-	
 				/** Signup using external provider account (Google, Facebook, Github)
 		    * @example
 		    * //Signup using external account (Google, Facebook, Github)
@@ -40463,6 +39737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		    * 		console.error('Error with provider signup:', err);
 		    * });
 		   */
+	
 			}, {
 				key: 'signup',
 				value: function signup() {
@@ -40474,7 +39749,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			return ProviderAuth;
 		})();
 	
-		exports['default'] = ProviderAuth;
+		exports.default = ProviderAuth;
 		module.exports = exports['default'];
 	
 	/***/ },
@@ -40711,11 +39986,29 @@ return /******/ (function(modules) { // webpackBootstrap
 		  var pairs = [];
 		  for (var key in obj) {
 		    if (null != obj[key]) {
-		      pairs.push(encodeURIComponent(key)
-		        + '=' + encodeURIComponent(obj[key]));
-		    }
-		  }
+		      pushEncodedKeyValuePair(pairs, key, obj[key]);
+		        }
+		      }
 		  return pairs.join('&');
+		}
+	
+		/**
+		 * Helps 'serialize' with serializing arrays.
+		 * Mutates the pairs array.
+		 *
+		 * @param {Array} pairs
+		 * @param {String} key
+		 * @param {Mixed} val
+		 */
+	
+		function pushEncodedKeyValuePair(pairs, key, val) {
+		  if (Array.isArray(val)) {
+		    return val.forEach(function(v) {
+		      pushEncodedKeyValuePair(pairs, key, v);
+		    });
+		  }
+		  pairs.push(encodeURIComponent(key)
+		    + '=' + encodeURIComponent(val));
 		}
 	
 		/**
@@ -40825,6 +40118,18 @@ return /******/ (function(modules) { // webpackBootstrap
 		  }
 	
 		  return fields;
+		}
+	
+		/**
+		 * Check if `mime` is json or has +json structured syntax suffix.
+		 *
+		 * @param {String} mime
+		 * @return {Boolean}
+		 * @api private
+		 */
+	
+		function isJSON(mime) {
+		  return /[\/+]json\b/.test(mime);
 		}
 	
 		/**
@@ -40960,20 +40265,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	
 		/**
-		 * Force given parser
-		 * 
-		 * Sets the body parser no matter type.
-		 * 
-		 * @param {Function}
-		 * @api public
-		 */
-	
-		Response.prototype.parse = function(fn){
-		  this.parser = fn;
-		  return this;
-		};
-	
-		/**
 		 * Parse the given body `str`.
 		 *
 		 * Used for auto-parsing of bodies. Parsers
@@ -40985,7 +40276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		 */
 	
 		Response.prototype.parseBody = function(str){
-		  var parse = this.parser || request.parse[this.type];
+		  var parse = request.parse[this.type];
 		  return parse && str && (str.length || str instanceof Object)
 		    ? parse(str)
 		    : null;
@@ -41096,6 +40387,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		      err = new Error('Parser is unable to parse the response');
 		      err.parse = true;
 		      err.original = e;
+		      // issue #675: return the raw response if the response parsing fails
+		      err.rawResponse = self.xhr && self.xhr.responseText ? self.xhr.responseText : null;
 		      return self.callback(err);
 		    }
 	
@@ -41267,6 +40560,20 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 	
 		/**
+		 * Force given parser
+		 *
+		 * Sets the body parser no matter type.
+		 *
+		 * @param {Function}
+		 * @api public
+		 */
+	
+		Request.prototype.parse = function(fn){
+		  this._parser = fn;
+		  return this;
+		};
+	
+		/**
 		 * Set Accept to `type`, mapping values from `request.types`.
 		 *
 		 * Examples:
@@ -41391,7 +40698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		 *       // manual json
 		 *       request.post('/user')
 		 *         .type('json')
-		 *         .send('{"name":"tj"})
+		 *         .send('{"name":"tj"}')
 		 *         .end(callback)
 		 *
 		 *       // auto json
@@ -41472,8 +40779,13 @@ return /******/ (function(modules) { // webpackBootstrap
 		 */
 	
 		Request.prototype.crossDomainError = function(){
-		  var err = new Error('Origin is not allowed by Access-Control-Allow-Origin');
+		  var err = new Error('Request has been terminated\nPossible causes: the network is offline, Origin is not allowed by Access-Control-Allow-Origin, the page is being unloaded, etc.');
 		  err.crossDomain = true;
+	
+		  err.status = this.status;
+		  err.method = this.method;
+		  err.url = this.url;
+	
 		  this.callback(err);
 		};
 	
@@ -41588,7 +40900,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		  if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {
 		    // serialize stuff
 		    var contentType = this.getHeader('Content-Type');
-		    var serialize = request.serialize[contentType ? contentType.split(';')[0] : ''];
+		    var serialize = this._parser || request.serialize[contentType ? contentType.split(';')[0] : ''];
+		    if (!serialize && isJSON(contentType)) serialize = request.serialize['application/json'];
 		    if (serialize) data = serialize(data);
 		  }
 	
@@ -41600,7 +40913,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		  // send stuff
 		  this.emit('request', this);
-		  xhr.send(data);
+	
+		  // IE11 xhr.send(undefined) sends 'undefined' string as POST payload (instead of nothing)
+		  // We need null here if data is undefined
+		  xhr.send(typeof data !== 'undefined' ? data : null);
 		  return this;
 		};
 	
@@ -41698,11 +41014,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		 * @api public
 		 */
 	
-		request.del = function(url, fn){
+		function del(url, fn){
 		  var req = request('DELETE', url);
 		  if (fn) req.end(fn);
 		  return req;
 		};
+	
+		request.del = del;
+		request.delete = del;
 	
 		/**
 		 * PATCH `url` with optional `data` and callback `fn(res)`.
@@ -41986,13 +41305,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 /***/ },
-/* 248 */
+/* 240 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 249 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42017,7 +41336,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	__webpack_require__(250);
+	__webpack_require__(242);
 	
 	var Home = (function (_Component) {
 	  _inherits(Home, _Component);
@@ -42096,13 +41415,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 250 */
+/* 242 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 251 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42157,7 +41476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 252 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42186,7 +41505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRedux = __webpack_require__(155);
 	
-	var _actionsAuth = __webpack_require__(246);
+	var _actionsAuth = __webpack_require__(238);
 	
 	var Actions = _interopRequireWildcard(_actionsAuth);
 	
@@ -42241,7 +41560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 253 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42272,15 +41591,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _componentsLoginFormLoginForm = __webpack_require__(254);
+	var _componentsLoginFormLoginForm = __webpack_require__(246);
 	
 	var _componentsLoginFormLoginForm2 = _interopRequireDefault(_componentsLoginFormLoginForm);
 	
-	var _actionsAuth = __webpack_require__(246);
+	var _actionsAuth = __webpack_require__(238);
 	
 	var Actions = _interopRequireWildcard(_actionsAuth);
 	
-	__webpack_require__(256);
+	__webpack_require__(248);
 	
 	var Login = (function (_Component) {
 	  _inherits(Login, _Component);
@@ -42337,7 +41656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 254 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42364,7 +41683,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	__webpack_require__(255);
+	__webpack_require__(247);
 	
 	var LoginForm = (function (_Component) {
 	  _inherits(LoginForm, _Component);
@@ -42464,19 +41783,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 255 */
+/* 247 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 256 */
+/* 248 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 257 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42507,15 +41826,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRouter = __webpack_require__(178);
 	
-	var _componentsSignupFormSignupForm = __webpack_require__(258);
+	var _componentsSignupFormSignupForm = __webpack_require__(250);
 	
 	var _componentsSignupFormSignupForm2 = _interopRequireDefault(_componentsSignupFormSignupForm);
 	
-	var _actionsAuth = __webpack_require__(246);
+	var _actionsAuth = __webpack_require__(238);
 	
 	var Actions = _interopRequireWildcard(_actionsAuth);
 	
-	__webpack_require__(259);
+	__webpack_require__(251);
 	
 	var Signup = (function (_Component) {
 	  _inherits(Signup, _Component);
@@ -42572,7 +41891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 258 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42730,13 +42049,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 259 */
+/* 251 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 260 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42792,7 +42111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 261 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42857,7 +42176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 262 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42886,19 +42205,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reactRedux = __webpack_require__(155);
 	
-	var _componentsMessageMessage = __webpack_require__(263);
+	var _componentsMessageMessage = __webpack_require__(255);
 	
 	var _componentsMessageMessage2 = _interopRequireDefault(_componentsMessageMessage);
 	
-	var _componentsMessageInputMessageInput = __webpack_require__(265);
+	var _componentsMessageInputMessageInput = __webpack_require__(257);
 	
 	var _componentsMessageInputMessageInput2 = _interopRequireDefault(_componentsMessageInputMessageInput);
 	
-	var _actionsMessages = __webpack_require__(267);
+	var _actionsMessages = __webpack_require__(259);
 	
 	var Actions = _interopRequireWildcard(_actionsMessages);
 	
-	__webpack_require__(310);
+	__webpack_require__(263);
 	
 	//Messages is an object
 	//The object Messages has methods
@@ -42995,7 +42314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 263 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43018,7 +42337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(264);
+	__webpack_require__(256);
 	
 	var Message = (function (_Component) {
 	  _inherits(Message, _Component);
@@ -43080,13 +42399,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 264 */
+/* 256 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 265 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43109,7 +42428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(266);
+	__webpack_require__(258);
 	
 	var MessageInput = (function (_Component) {
 	  _inherits(MessageInput, _Component);
@@ -43163,13 +42482,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 266 */
+/* 258 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 267 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -43190,9 +42509,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _lodash = __webpack_require__(268);
+	var _lodash = __webpack_require__(260);
 	
-	var _firebase = __webpack_require__(270);
+	var _firebase = __webpack_require__(262);
 	
 	var _firebase2 = _interopRequireDefault(_firebase);
 	
@@ -43314,7 +42633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 268 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {/**
@@ -55669,10 +54988,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(269)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(261)(module)))
 
 /***/ },
-/* 269 */
+/* 261 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -55688,3316 +55007,1253 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 270 */
-/***/ function(module, exports, __webpack_require__) {
+/* 262 */
+/***/ function(module, exports) {
 
 	/*! @license Firebase v2.3.2
 	    License: https://www.firebase.com/terms/terms-of-service.html */
-	var g,aa=this;function n(a){return void 0!==a}function ba(){}function ca(a){a.sb=function(){return a.rf?a.rf:a.rf=new a}}
+	(function() {var g,aa=this;function n(a){return void 0!==a}function ba(){}function ca(a){a.ub=function(){return a.uf?a.uf:a.uf=new a}}
 	function da(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
 	else if("function"==b&&"undefined"==typeof a.call)return"object";return b}function ea(a){return"array"==da(a)}function fa(a){var b=da(a);return"array"==b||"object"==b&&"number"==typeof a.length}function p(a){return"string"==typeof a}function ga(a){return"number"==typeof a}function ha(a){return"function"==da(a)}function ia(a){var b=typeof a;return"object"==b&&null!=a||"function"==b}function ja(a,b,c){return a.call.apply(a.bind,arguments)}
 	function ka(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function q(a,b,c){q=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?ja:ka;return q.apply(null,arguments)}var la=Date.now||function(){return+new Date};
-	function ma(a,b){function c(){}c.prototype=b.prototype;a.fh=b.prototype;a.prototype=new c;a.prototype.constructor=a;a.Zg=function(a,c,f){for(var h=Array(arguments.length-2),k=2;k<arguments.length;k++)h[k-2]=arguments[k];return b.prototype[c].apply(a,h)}};function t(a,b){for(var c in a)b.call(void 0,a[c],c,a)}function na(a,b){var c={},d;for(d in a)c[d]=b.call(void 0,a[d],d,a);return c}function oa(a,b){for(var c in a)if(!b.call(void 0,a[c],c,a))return!1;return!0}function pa(a){var b=0,c;for(c in a)b++;return b}function qa(a){for(var b in a)return b}function ra(a){var b=[],c=0,d;for(d in a)b[c++]=a[d];return b}function sa(a){var b=[],c=0,d;for(d in a)b[c++]=d;return b}function ta(a,b){for(var c in a)if(a[c]==b)return!0;return!1}
+	function ma(a,b){function c(){}c.prototype=b.prototype;a.bh=b.prototype;a.prototype=new c;a.prototype.constructor=a;a.Yg=function(a,c,f){for(var h=Array(arguments.length-2),k=2;k<arguments.length;k++)h[k-2]=arguments[k];return b.prototype[c].apply(a,h)}};function r(a,b){for(var c in a)b.call(void 0,a[c],c,a)}function na(a,b){var c={},d;for(d in a)c[d]=b.call(void 0,a[d],d,a);return c}function oa(a,b){for(var c in a)if(!b.call(void 0,a[c],c,a))return!1;return!0}function pa(a){var b=0,c;for(c in a)b++;return b}function qa(a){for(var b in a)return b}function ra(a){var b=[],c=0,d;for(d in a)b[c++]=a[d];return b}function sa(a){var b=[],c=0,d;for(d in a)b[c++]=d;return b}function ta(a,b){for(var c in a)if(a[c]==b)return!0;return!1}
 	function ua(a,b,c){for(var d in a)if(b.call(c,a[d],d,a))return d}function va(a,b){var c=ua(a,b,void 0);return c&&a[c]}function wa(a){for(var b in a)return!1;return!0}function xa(a){var b={},c;for(c in a)b[c]=a[c];return b}var ya="constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
-	function za(a,b){for(var c,d,e=1;e<arguments.length;e++){d=arguments[e];for(c in d)a[c]=d[c];for(var f=0;f<ya.length;f++)c=ya[f],Object.prototype.hasOwnProperty.call(d,c)&&(a[c]=d[c])}};function Aa(a){a=String(a);if(/^\s*$/.test(a)?0:/^[\],:{}\s\u2028\u2029]*$/.test(a.replace(/\\["\\\/bfnrtu]/g,"@").replace(/"[^"\\\n\r\u2028\u2029\x00-\x08\x0a-\x1f]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:[\s\u2028\u2029]*\[)+/g,"")))try{return eval("("+a+")")}catch(b){}throw Error("Invalid JSON string: "+a);}function Ba(){this.Qd=void 0}
-	function Ca(a,b,c){switch(typeof b){case "string":Da(b,c);break;case "number":c.push(isFinite(b)&&!isNaN(b)?b:"null");break;case "boolean":c.push(b);break;case "undefined":c.push("null");break;case "object":if(null==b){c.push("null");break}if(ea(b)){var d=b.length;c.push("[");for(var e="",f=0;f<d;f++)c.push(e),e=b[f],Ca(a,a.Qd?a.Qd.call(b,String(f),e):e,c),e=",";c.push("]");break}c.push("{");d="";for(f in b)Object.prototype.hasOwnProperty.call(b,f)&&(e=b[f],"function"!=typeof e&&(c.push(d),Da(f,c),
-	c.push(":"),Ca(a,a.Qd?a.Qd.call(b,f,e):e,c),d=","));c.push("}");break;case "function":break;default:throw Error("Unknown type: "+typeof b);}}var Ea={'"':'\\"',"\\":"\\\\","/":"\\/","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t","\x0B":"\\u000b"},Fa=/\uffff/.test("\uffff")?/[\\\"\x00-\x1f\x7f-\uffff]/g:/[\\\"\x00-\x1f\x7f-\xff]/g;
-	function Da(a,b){b.push('"',a.replace(Fa,function(a){if(a in Ea)return Ea[a];var b=a.charCodeAt(0),e="\\u";16>b?e+="000":256>b?e+="00":4096>b&&(e+="0");return Ea[a]=e+b.toString(16)}),'"')};function Ga(){return Math.floor(2147483648*Math.random()).toString(36)+Math.abs(Math.floor(2147483648*Math.random())^la()).toString(36)};var Ha;a:{var Ia=aa.navigator;if(Ia){var Ja=Ia.userAgent;if(Ja){Ha=Ja;break a}}Ha=""};function Ka(){this.Ua=-1};function La(){this.Ua=-1;this.Ua=64;this.N=[];this.ie=[];this.Vf=[];this.Jd=[];this.Jd[0]=128;for(var a=1;a<this.Ua;++a)this.Jd[a]=0;this.ae=this.$b=0;this.reset()}ma(La,Ka);La.prototype.reset=function(){this.N[0]=1732584193;this.N[1]=4023233417;this.N[2]=2562383102;this.N[3]=271733878;this.N[4]=3285377520;this.ae=this.$b=0};
-	function Ma(a,b,c){c||(c=0);var d=a.Vf;if(p(b))for(var e=0;16>e;e++)d[e]=b.charCodeAt(c)<<24|b.charCodeAt(c+1)<<16|b.charCodeAt(c+2)<<8|b.charCodeAt(c+3),c+=4;else for(e=0;16>e;e++)d[e]=b[c]<<24|b[c+1]<<16|b[c+2]<<8|b[c+3],c+=4;for(e=16;80>e;e++){var f=d[e-3]^d[e-8]^d[e-14]^d[e-16];d[e]=(f<<1|f>>>31)&4294967295}b=a.N[0];c=a.N[1];for(var h=a.N[2],k=a.N[3],m=a.N[4],l,e=0;80>e;e++)40>e?20>e?(f=k^c&(h^k),l=1518500249):(f=c^h^k,l=1859775393):60>e?(f=c&h|k&(c|h),l=2400959708):(f=c^h^k,l=3395469782),f=(b<<
-	5|b>>>27)+f+m+l+d[e]&4294967295,m=k,k=h,h=(c<<30|c>>>2)&4294967295,c=b,b=f;a.N[0]=a.N[0]+b&4294967295;a.N[1]=a.N[1]+c&4294967295;a.N[2]=a.N[2]+h&4294967295;a.N[3]=a.N[3]+k&4294967295;a.N[4]=a.N[4]+m&4294967295}
-	La.prototype.update=function(a,b){if(null!=a){n(b)||(b=a.length);for(var c=b-this.Ua,d=0,e=this.ie,f=this.$b;d<b;){if(0==f)for(;d<=c;)Ma(this,a,d),d+=this.Ua;if(p(a))for(;d<b;){if(e[f]=a.charCodeAt(d),++f,++d,f==this.Ua){Ma(this,e);f=0;break}}else for(;d<b;)if(e[f]=a[d],++f,++d,f==this.Ua){Ma(this,e);f=0;break}}this.$b=f;this.ae+=b}};var Na=Array.prototype,Oa=Na.indexOf?function(a,b,c){return Na.indexOf.call(a,b,c)}:function(a,b,c){c=null==c?0:0>c?Math.max(0,a.length+c):c;if(p(a))return p(b)&&1==b.length?a.indexOf(b,c):-1;for(;c<a.length;c++)if(c in a&&a[c]===b)return c;return-1},Pa=Na.forEach?function(a,b,c){Na.forEach.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)f in e&&b.call(c,e[f],f,a)},Qa=Na.filter?function(a,b,c){return Na.filter.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=[],f=
-	0,h=p(a)?a.split(""):a,k=0;k<d;k++)if(k in h){var m=h[k];b.call(c,m,k,a)&&(e[f++]=m)}return e},Ra=Na.map?function(a,b,c){return Na.map.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=Array(d),f=p(a)?a.split(""):a,h=0;h<d;h++)h in f&&(e[h]=b.call(c,f[h],h,a));return e},Sa=Na.reduce?function(a,b,c,d){for(var e=[],f=1,h=arguments.length;f<h;f++)e.push(arguments[f]);d&&(e[0]=q(b,d));return Na.reduce.apply(a,e)}:function(a,b,c,d){var e=c;Pa(a,function(c,h){e=b.call(d,e,c,h,a)});return e},Ta=Na.every?
-	function(a,b,c){return Na.every.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)if(f in e&&!b.call(c,e[f],f,a))return!1;return!0};function Ua(a,b){var c=Va(a,b,void 0);return 0>c?null:p(a)?a.charAt(c):a[c]}function Va(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)if(f in e&&b.call(c,e[f],f,a))return f;return-1}function Wa(a,b){var c=Oa(a,b);0<=c&&Na.splice.call(a,c,1)}function Xa(a,b){a.sort(b||Ya)}function Ya(a,b){return a>b?1:a<b?-1:0};var Za=-1!=Ha.indexOf("Opera")||-1!=Ha.indexOf("OPR"),$a=-1!=Ha.indexOf("Trident")||-1!=Ha.indexOf("MSIE"),ab=-1!=Ha.indexOf("Gecko")&&-1==Ha.toLowerCase().indexOf("webkit")&&!(-1!=Ha.indexOf("Trident")||-1!=Ha.indexOf("MSIE")),bb=-1!=Ha.toLowerCase().indexOf("webkit");
-	(function(){var a="",b;if(Za&&aa.opera)return a=aa.opera.version,ha(a)?a():a;ab?b=/rv\:([^\);]+)(\)|;)/:$a?b=/\b(?:MSIE|rv)[: ]([^\);]+)(\)|;)/:bb&&(b=/WebKit\/(\S+)/);b&&(a=(a=b.exec(Ha))?a[1]:"");return $a&&(b=(b=aa.document)?b.documentMode:void 0,b>parseFloat(a))?String(b):a})();var cb=null,db=null;
-	function eb(a,b){if(!fa(a))throw Error("encodeByteArray takes an array as a parameter");if(!cb){cb={};db={};for(var c=0;65>c;c++)cb[c]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".charAt(c),db[c]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".charAt(c)}for(var c=b?db:cb,d=[],e=0;e<a.length;e+=3){var f=a[e],h=e+1<a.length,k=h?a[e+1]:0,m=e+2<a.length,l=m?a[e+2]:0,r=f>>2,f=(f&3)<<4|k>>4,k=(k&15)<<2|l>>6,l=l&63;m||(l=64,h||(k=64));d.push(c[r],c[f],c[k],c[l])}return d.join("")}
-	;var fb=fb||"2.3.2";function u(a,b){return Object.prototype.hasOwnProperty.call(a,b)}function v(a,b){if(Object.prototype.hasOwnProperty.call(a,b))return a[b]}function gb(a,b){for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&b(c,a[c])}function hb(a){var b={};gb(a,function(a,d){b[a]=d});return b};function ib(a){var b=[];gb(a,function(a,d){ea(d)?Pa(d,function(d){b.push(encodeURIComponent(a)+"="+encodeURIComponent(d))}):b.push(encodeURIComponent(a)+"="+encodeURIComponent(d))});return b.length?"&"+b.join("&"):""}function jb(a){var b={};a=a.replace(/^\?/,"").split("&");Pa(a,function(a){a&&(a=a.split("="),b[a[0]]=a[1])});return b};function w(a,b,c,d){var e;d<b?e="at least "+b:d>c&&(e=0===c?"none":"no more than "+c);if(e)throw Error(a+" failed: Was called with "+d+(1===d?" argument.":" arguments.")+" Expects "+e+".");}function y(a,b,c){var d="";switch(b){case 1:d=c?"first":"First";break;case 2:d=c?"second":"Second";break;case 3:d=c?"third":"Third";break;case 4:d=c?"fourth":"Fourth";break;default:throw Error("errorPrefix called with argumentNumber > 4.  Need to update it?");}return a=a+" failed: "+(d+" argument ")}
-	function z(a,b,c,d){if((!d||n(c))&&!ha(c))throw Error(y(a,b,d)+"must be a valid function.");}function kb(a,b,c){if(n(c)&&(!ia(c)||null===c))throw Error(y(a,b,!0)+"must be a valid context object.");};function lb(a){return"undefined"!==typeof JSON&&n(JSON.parse)?JSON.parse(a):Aa(a)}function A(a){if("undefined"!==typeof JSON&&n(JSON.stringify))a=JSON.stringify(a);else{var b=[];Ca(new Ba,a,b);a=b.join("")}return a};function mb(){this.Ud=B}mb.prototype.j=function(a){return this.Ud.Q(a)};mb.prototype.toString=function(){return this.Ud.toString()};function nb(){}nb.prototype.nf=function(){return null};nb.prototype.ue=function(){return null};var ob=new nb;function pb(a,b,c){this.Sf=a;this.Ja=b;this.Id=c}pb.prototype.nf=function(a){var b=this.Ja.O;if(qb(b,a))return b.j().R(a);b=null!=this.Id?new rb(this.Id,!0,!1):this.Ja.w();return this.Sf.wc(a,b)};pb.prototype.ue=function(a,b,c){var d=null!=this.Id?this.Id:sb(this.Ja);a=this.Sf.je(d,b,1,c,a);return 0===a.length?null:a[0]};function tb(){this.rb=[]}function ub(a,b){for(var c=null,d=0;d<b.length;d++){var e=b[d],f=e.Yb();null===c||f.ca(c.Yb())||(a.rb.push(c),c=null);null===c&&(c=new vb(f));c.add(e)}c&&a.rb.push(c)}function wb(a,b,c){ub(a,c);xb(a,function(a){return a.ca(b)})}function yb(a,b,c){ub(a,c);xb(a,function(a){return a.contains(b)||b.contains(a)})}
-	function xb(a,b){for(var c=!0,d=0;d<a.rb.length;d++){var e=a.rb[d];if(e)if(e=e.Yb(),b(e)){for(var e=a.rb[d],f=0;f<e.sd.length;f++){var h=e.sd[f];if(null!==h){e.sd[f]=null;var k=h.Ub();zb&&Ab("event: "+h.toString());Bb(k)}}a.rb[d]=null}else c=!1}c&&(a.rb=[])}function vb(a){this.ra=a;this.sd=[]}vb.prototype.add=function(a){this.sd.push(a)};vb.prototype.Yb=function(){return this.ra};function C(a,b,c,d){this.type=a;this.Ia=b;this.Va=c;this.He=d;this.Od=void 0}function Cb(a){return new C(Db,a)}var Db="value";function Eb(a,b,c,d){this.qe=b;this.Wd=c;this.Od=d;this.rd=a}Eb.prototype.Yb=function(){var a=this.Wd.Gb();return"value"===this.rd?a.path:a.parent().path};Eb.prototype.ve=function(){return this.rd};Eb.prototype.Ub=function(){return this.qe.Ub(this)};Eb.prototype.toString=function(){return this.Yb().toString()+":"+this.rd+":"+A(this.Wd.jf())};function Fb(a,b,c){this.qe=a;this.error=b;this.path=c}Fb.prototype.Yb=function(){return this.path};Fb.prototype.ve=function(){return"cancel"};
-	Fb.prototype.Ub=function(){return this.qe.Ub(this)};Fb.prototype.toString=function(){return this.path.toString()+":cancel"};function rb(a,b,c){this.A=a;this.ea=b;this.Tb=c}function Gb(a){return a.ea}function Hb(a){return a.Tb}function Ib(a,b){return b.e()?a.ea&&!a.Tb:qb(a,D(b))}function qb(a,b){return a.ea&&!a.Tb||a.A.Da(b)}rb.prototype.j=function(){return this.A};function Jb(a){this.fg=a;this.Ad=null}Jb.prototype.get=function(){var a=this.fg.get(),b=xa(a);if(this.Ad)for(var c in this.Ad)b[c]-=this.Ad[c];this.Ad=a;return b};function Kb(a,b){this.Nf={};this.cd=new Jb(a);this.ba=b;var c=1E4+2E4*Math.random();setTimeout(q(this.Gf,this),Math.floor(c))}Kb.prototype.Gf=function(){var a=this.cd.get(),b={},c=!1,d;for(d in a)0<a[d]&&u(this.Nf,d)&&(b[d]=a[d],c=!0);c&&this.ba.Re(b);setTimeout(q(this.Gf,this),Math.floor(6E5*Math.random()))};function Lb(){this.Cc={}}function Mb(a,b,c){n(c)||(c=1);u(a.Cc,b)||(a.Cc[b]=0);a.Cc[b]+=c}Lb.prototype.get=function(){return xa(this.Cc)};var Nb={},Ob={};function Pb(a){a=a.toString();Nb[a]||(Nb[a]=new Lb);return Nb[a]}function Qb(a,b){var c=a.toString();Ob[c]||(Ob[c]=b());return Ob[c]};function E(a,b){this.name=a;this.S=b}function Rb(a,b){return new E(a,b)};function Sb(a,b){return Tb(a.name,b.name)}function Ub(a,b){return Tb(a,b)};function Vb(a,b,c){this.type=Wb;this.source=a;this.path=b;this.Fa=c}Vb.prototype.Vc=function(a){return this.path.e()?new Vb(this.source,F,this.Fa.R(a)):new Vb(this.source,G(this.path),this.Fa)};Vb.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" overwrite: "+this.Fa.toString()+")"};function Xb(a,b){this.type=Yb;this.source=a;this.path=b}Xb.prototype.Vc=function(){return this.path.e()?new Xb(this.source,F):new Xb(this.source,G(this.path))};Xb.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" listen_complete)"};function Zb(a,b){this.Ka=a;this.wa=b?b:$b}g=Zb.prototype;g.Na=function(a,b){return new Zb(this.Ka,this.wa.Na(a,b,this.Ka).Y(null,null,!1,null,null))};g.remove=function(a){return new Zb(this.Ka,this.wa.remove(a,this.Ka).Y(null,null,!1,null,null))};g.get=function(a){for(var b,c=this.wa;!c.e();){b=this.Ka(a,c.key);if(0===b)return c.value;0>b?c=c.left:0<b&&(c=c.right)}return null};
-	function ac(a,b){for(var c,d=a.wa,e=null;!d.e();){c=a.Ka(b,d.key);if(0===c){if(d.left.e())return e?e.key:null;for(d=d.left;!d.right.e();)d=d.right;return d.key}0>c?d=d.left:0<c&&(e=d,d=d.right)}throw Error("Attempted to find predecessor key for a nonexistent key.  What gives?");}g.e=function(){return this.wa.e()};g.count=function(){return this.wa.count()};g.Qc=function(){return this.wa.Qc()};g.ec=function(){return this.wa.ec()};g.ia=function(a){return this.wa.ia(a)};
-	g.Wb=function(a){return new bc(this.wa,null,this.Ka,!1,a)};g.Xb=function(a,b){return new bc(this.wa,a,this.Ka,!1,b)};g.Zb=function(a,b){return new bc(this.wa,a,this.Ka,!0,b)};g.pf=function(a){return new bc(this.wa,null,this.Ka,!0,a)};function bc(a,b,c,d,e){this.Sd=e||null;this.Be=d;this.Oa=[];for(e=1;!a.e();)if(e=b?c(a.key,b):1,d&&(e*=-1),0>e)a=this.Be?a.left:a.right;else if(0===e){this.Oa.push(a);break}else this.Oa.push(a),a=this.Be?a.right:a.left}
-	function H(a){if(0===a.Oa.length)return null;var b=a.Oa.pop(),c;c=a.Sd?a.Sd(b.key,b.value):{key:b.key,value:b.value};if(a.Be)for(b=b.left;!b.e();)a.Oa.push(b),b=b.right;else for(b=b.right;!b.e();)a.Oa.push(b),b=b.left;return c}function cc(a){if(0===a.Oa.length)return null;var b;b=a.Oa;b=b[b.length-1];return a.Sd?a.Sd(b.key,b.value):{key:b.key,value:b.value}}function dc(a,b,c,d,e){this.key=a;this.value=b;this.color=null!=c?c:!0;this.left=null!=d?d:$b;this.right=null!=e?e:$b}g=dc.prototype;
-	g.Y=function(a,b,c,d,e){return new dc(null!=a?a:this.key,null!=b?b:this.value,null!=c?c:this.color,null!=d?d:this.left,null!=e?e:this.right)};g.count=function(){return this.left.count()+1+this.right.count()};g.e=function(){return!1};g.ia=function(a){return this.left.ia(a)||a(this.key,this.value)||this.right.ia(a)};function ec(a){return a.left.e()?a:ec(a.left)}g.Qc=function(){return ec(this).key};g.ec=function(){return this.right.e()?this.key:this.right.ec()};
-	g.Na=function(a,b,c){var d,e;e=this;d=c(a,e.key);e=0>d?e.Y(null,null,null,e.left.Na(a,b,c),null):0===d?e.Y(null,b,null,null,null):e.Y(null,null,null,null,e.right.Na(a,b,c));return fc(e)};function gc(a){if(a.left.e())return $b;a.left.fa()||a.left.left.fa()||(a=hc(a));a=a.Y(null,null,null,gc(a.left),null);return fc(a)}
-	g.remove=function(a,b){var c,d;c=this;if(0>b(a,c.key))c.left.e()||c.left.fa()||c.left.left.fa()||(c=hc(c)),c=c.Y(null,null,null,c.left.remove(a,b),null);else{c.left.fa()&&(c=ic(c));c.right.e()||c.right.fa()||c.right.left.fa()||(c=jc(c),c.left.left.fa()&&(c=ic(c),c=jc(c)));if(0===b(a,c.key)){if(c.right.e())return $b;d=ec(c.right);c=c.Y(d.key,d.value,null,null,gc(c.right))}c=c.Y(null,null,null,null,c.right.remove(a,b))}return fc(c)};g.fa=function(){return this.color};
-	function fc(a){a.right.fa()&&!a.left.fa()&&(a=kc(a));a.left.fa()&&a.left.left.fa()&&(a=ic(a));a.left.fa()&&a.right.fa()&&(a=jc(a));return a}function hc(a){a=jc(a);a.right.left.fa()&&(a=a.Y(null,null,null,null,ic(a.right)),a=kc(a),a=jc(a));return a}function kc(a){return a.right.Y(null,null,a.color,a.Y(null,null,!0,null,a.right.left),null)}function ic(a){return a.left.Y(null,null,a.color,null,a.Y(null,null,!0,a.left.right,null))}
-	function jc(a){return a.Y(null,null,!a.color,a.left.Y(null,null,!a.left.color,null,null),a.right.Y(null,null,!a.right.color,null,null))}function lc(){}g=lc.prototype;g.Y=function(){return this};g.Na=function(a,b){return new dc(a,b,null)};g.remove=function(){return this};g.count=function(){return 0};g.e=function(){return!0};g.ia=function(){return!1};g.Qc=function(){return null};g.ec=function(){return null};g.fa=function(){return!1};var $b=new lc;(function(){var a=process.version;if("v0.10.22"===a||"v0.10.23"===a||"v0.10.24"===a){var b=function(a,b,c){this.chunk=a;this.encoding=b;this.callback=c},c=function(a,c,d,e,l){c.objectMode||!1===c.decodeStrings||"string"!==typeof d||(d=new Buffer(d,e));Buffer.isBuffer(d)&&(e="buffer");var r=c.objectMode?1:d.length;c.length+=r;var x=c.length<c.highWaterMark;x||(c.needDrain=!0);c.writing?c.buffer.push(new b(d,e,l)):(c.writelen=r,c.writecb=l,c.writing=!0,c.sync=!0,a._write(d,e,c.onwrite),c.sync=!1);return x},
-	d=function(a,b,c,d){var e=!0;if(!Buffer.isBuffer(c)&&"string"!==typeof c&&null!==c&&void 0!==c&&!b.objectMode){var r=new TypeError("Invalid non-string/buffer chunk");a.emit("error",r);process.nextTick(function(){d(r)});e=!1}return e},e=function(a,b){var c=Error("write after end");a.emit("error",c);process.nextTick(function(){b(c)})},a=__webpack_require__(271);a.prototype.write=function(a,b,k){var m=this._writableState,l=!1;"function"===typeof b&&(k=b,b=null);Buffer.isBuffer(a)?b="buffer":b||(b=
-	m.defaultEncoding);"function"!==typeof k&&(k=function(){});m.ended?e(this,k):d(this,m,a,k)&&(l=c(this,m,a,b,k));return l};__webpack_require__(272).prototype.write=a.prototype.write}})();function mc(a,b){return a&&"object"===typeof a?(I(".sv"in a,"Unexpected leaf node or priority contents"),b[a[".sv"]]):a}function nc(a,b){var c=new oc;pc(a,new K(""),function(a,e){c.mc(a,qc(e,b))});return c}function qc(a,b){var c=a.C().I(),c=mc(c,b),d;if(a.K()){var e=mc(a.Ca(),b);return e!==a.Ca()||c!==a.C().I()?new rc(e,L(c)):a}d=a;c!==a.C().I()&&(d=d.ga(new rc(c)));a.P(M,function(a,c){var e=qc(c,b);e!==c&&(d=d.U(a,e))});return d};function sc(){this.vc={}}sc.prototype.set=function(a,b){null==b?delete this.vc[a]:this.vc[a]=b};sc.prototype.get=function(a){return u(this.vc,a)?this.vc[a]:null};sc.prototype.remove=function(a){delete this.vc[a]};sc.prototype.sf=!0;function tc(a){this.Dc=a;this.Nd="firebase:"}g=tc.prototype;g.set=function(a,b){null==b?this.Dc.removeItem(this.Nd+a):this.Dc.setItem(this.Nd+a,A(b))};g.get=function(a){a=this.Dc.getItem(this.Nd+a);return null==a?null:lb(a)};g.remove=function(a){this.Dc.removeItem(this.Nd+a)};g.sf=!1;g.toString=function(){return this.Dc.toString()};function uc(a){try{if("undefined"!==typeof window&&"undefined"!==typeof window[a]){var b=window[a];b.setItem("firebase:sentinel","cache");b.removeItem("firebase:sentinel");return new tc(b)}}catch(c){}return new sc}var vc=uc("localStorage"),wc=uc("sessionStorage");function xc(a,b,c,d,e){this.host=a.toLowerCase();this.domain=this.host.substr(this.host.indexOf(".")+1);this.ib=b;this.fc=c;this.Xg=d;this.Md=e||"";this.Xa=vc.get("host:"+a)||this.host}function yc(a,b){b!==a.Xa&&(a.Xa=b,"s-"===a.Xa.substr(0,2)&&vc.set("host:"+a.host,a.Xa))}
-	function zc(a,b,c){I("string"===typeof b,"typeof type must == string");I("object"===typeof c,"typeof params must == object");if(b===Ac)b=(a.ib?"wss://":"ws://")+a.Xa+"/.ws?";else if(b===Bc)b=(a.ib?"https://":"http://")+a.Xa+"/.lp?";else throw Error("Unknown connection type: "+b);a.host!==a.Xa&&(c.ns=a.fc);var d=[];t(c,function(a,b){d.push(b+"="+a)});return b+d.join("&")}xc.prototype.toString=function(){var a=(this.ib?"https://":"http://")+this.host;this.Md&&(a+="<"+this.Md+">");return a};var Cc=function(){var a=1;return function(){return a++}}();function I(a,b){if(!a)throw Dc(b);}function Dc(a){return Error("Firebase ("+fb+") INTERNAL ASSERT FAILED: "+a)}function Ec(a){try{return(new Buffer(a,"base64")).toString("utf8")}catch(b){Ab("base64Decode failed: ",b)}return null}
-	function Fc(a){var b=Gc(a);a=new La;a.update(b);var b=[],c=8*a.ae;56>a.$b?a.update(a.Jd,56-a.$b):a.update(a.Jd,a.Ua-(a.$b-56));for(var d=a.Ua-1;56<=d;d--)a.ie[d]=c&255,c/=256;Ma(a,a.ie);for(d=c=0;5>d;d++)for(var e=24;0<=e;e-=8)b[c]=a.N[d]>>e&255,++c;return eb(b)}function Hc(a){for(var b="",c=0;c<arguments.length;c++)b=fa(arguments[c])?b+Hc.apply(null,arguments[c]):"object"===typeof arguments[c]?b+A(arguments[c]):b+arguments[c],b+=" ";return b}var zb=null,Ic=!0;
-	function Ab(a){!0===Ic&&(Ic=!1,null===zb&&!0===wc.get("logging_enabled")&&Jc(!0));if(zb){var b=Hc.apply(null,arguments);zb(b)}}function Kc(a){return function(){Ab(a,arguments)}}function Lc(a){if("undefined"!==typeof console){var b="FIREBASE INTERNAL ERROR: "+Hc.apply(null,arguments);"undefined"!==typeof console.error?console.error(b):console.log(b)}}function Mc(a){var b=Hc.apply(null,arguments);throw Error("FIREBASE FATAL ERROR: "+b);}
-	function N(a){if("undefined"!==typeof console){var b="FIREBASE WARNING: "+Hc.apply(null,arguments);"undefined"!==typeof console.warn?console.warn(b):console.log(b)}}
-	function Nc(a){var b="",c="",d="",e="",f=!0,h="https",k=443;if(p(a)){var m=a.indexOf("//");0<=m&&(h=a.substring(0,m-1),a=a.substring(m+2));m=a.indexOf("/");-1===m&&(m=a.length);b=a.substring(0,m);e="";a=a.substring(m).split("/");for(m=0;m<a.length;m++)if(0<a[m].length){var l=a[m];try{l=decodeURIComponent(l.replace(/\+/g," "))}catch(r){}e+="/"+l}a=b.split(".");3===a.length?(c=a[1],d=a[0].toLowerCase()):2===a.length&&(c=a[0]);m=b.indexOf(":");0<=m&&(f="https"===h||"wss"===h,k=b.substring(m+1),isFinite(k)&&
-	(k=String(k)),k=p(k)?/^\s*-?0x/i.test(k)?parseInt(k,16):parseInt(k,10):NaN)}return{host:b,port:k,domain:c,Tg:d,ib:f,scheme:h,kc:e}}function Oc(a){return ga(a)&&(a!=a||a==Number.POSITIVE_INFINITY||a==Number.NEGATIVE_INFINITY)}function Pc(a){a()}function Tb(a,b){if(a===b)return 0;if("[MIN_NAME]"===a||"[MAX_NAME]"===b)return-1;if("[MIN_NAME]"===b||"[MAX_NAME]"===a)return 1;var c=Qc(a),d=Qc(b);return null!==c?null!==d?0==c-d?a.length-b.length:c-d:-1:null!==d?1:a<b?-1:1}
-	function Rc(a,b){if(b&&a in b)return b[a];throw Error("Missing required key ("+a+") in object: "+A(b));}function Sc(a){if("object"!==typeof a||null===a)return A(a);var b=[],c;for(c in a)b.push(c);b.sort();c="{";for(var d=0;d<b.length;d++)0!==d&&(c+=","),c+=A(b[d]),c+=":",c+=Sc(a[b[d]]);return c+"}"}function Tc(a,b){if(a.length<=b)return[a];for(var c=[],d=0;d<a.length;d+=b)d+b>a?c.push(a.substring(d,a.length)):c.push(a.substring(d,d+b));return c}
-	function Uc(a,b){if(ea(a))for(var c=0;c<a.length;++c)b(c,a[c]);else t(a,b)}
-	function Vc(a){I(!Oc(a),"Invalid JSON number");var b,c,d,e;0===a?(d=c=0,b=-Infinity===1/a?1:0):(b=0>a,a=Math.abs(a),a>=Math.pow(2,-1022)?(d=Math.min(Math.floor(Math.log(a)/Math.LN2),1023),c=d+1023,d=Math.round(a*Math.pow(2,52-d)-Math.pow(2,52))):(c=0,d=Math.round(a/Math.pow(2,-1074))));e=[];for(a=52;a;--a)e.push(d%2?1:0),d=Math.floor(d/2);for(a=11;a;--a)e.push(c%2?1:0),c=Math.floor(c/2);e.push(b?1:0);e.reverse();b=e.join("");c="";for(a=0;64>a;a+=8)d=parseInt(b.substr(a,8),2).toString(16),1===d.length&&
-	(d="0"+d),c+=d;return c.toLowerCase()}var Wc=/^-?\d{1,10}$/;function Qc(a){return Wc.test(a)&&(a=Number(a),-2147483648<=a&&2147483647>=a)?a:null}function Bb(a){try{a()}catch(b){setTimeout(function(){N("Exception was thrown by user callback.",b.stack||"");throw b;},Math.floor(0))}}function O(a,b){if(ha(a)){var c=Array.prototype.slice.call(arguments,1).slice();Bb(function(){a.apply(null,c)})}};function Gc(a){for(var b=[],c=0,d=0;d<a.length;d++){var e=a.charCodeAt(d);55296<=e&&56319>=e&&(e-=55296,d++,I(d<a.length,"Surrogate pair missing trail surrogate."),e=65536+(e<<10)+(a.charCodeAt(d)-56320));128>e?b[c++]=e:(2048>e?b[c++]=e>>6|192:(65536>e?b[c++]=e>>12|224:(b[c++]=e>>18|240,b[c++]=e>>12&63|128),b[c++]=e>>6&63|128),b[c++]=e&63|128)}return b}function Xc(a){for(var b=0,c=0;c<a.length;c++){var d=a.charCodeAt(c);128>d?b++:2048>d?b+=2:55296<=d&&56319>=d?(b+=4,c++):b+=3}return b};function Yc(a){var b={},c={},d={},e="";try{var f=a.split("."),b=lb(Ec(f[0])||""),c=lb(Ec(f[1])||""),e=f[2],d=c.d||{};delete c.d}catch(h){}return{bh:b,Ac:c,data:d,Qg:e}}function Zc(a){a=Yc(a).Ac;return"object"===typeof a&&a.hasOwnProperty("iat")?v(a,"iat"):null}function $c(a){a=Yc(a);var b=a.Ac;return!!a.Qg&&!!b&&"object"===typeof b&&b.hasOwnProperty("iat")};function ad(a){this.W=a;this.g=a.n.g}function bd(a,b,c,d){var e=[],f=[];Pa(b,function(b){"child_changed"===b.type&&a.g.xd(b.He,b.Ia)&&f.push(new C("child_moved",b.Ia,b.Va))});cd(a,e,"child_removed",b,d,c);cd(a,e,"child_added",b,d,c);cd(a,e,"child_moved",f,d,c);cd(a,e,"child_changed",b,d,c);cd(a,e,Db,b,d,c);return e}function cd(a,b,c,d,e,f){d=Qa(d,function(a){return a.type===c});Xa(d,q(a.hg,a));Pa(d,function(c){var d=dd(a,c,f);Pa(e,function(e){e.If(c.type)&&b.push(e.createEvent(d,a.W))})})}
-	function dd(a,b,c){"value"!==b.type&&"child_removed"!==b.type&&(b.Od=c.of(b.Va,b.Ia,a.g));return b}ad.prototype.hg=function(a,b){if(null==a.Va||null==b.Va)throw Dc("Should only compare child_ events.");return this.g.compare(new E(a.Va,a.Ia),new E(b.Va,b.Ia))};function ed(){this.ab={}}
-	function fd(a,b){var c=b.type,d=b.Va;I("child_added"==c||"child_changed"==c||"child_removed"==c,"Only child changes supported for tracking");I(".priority"!==d,"Only non-priority child changes can be tracked.");var e=v(a.ab,d);if(e){var f=e.type;if("child_added"==c&&"child_removed"==f)a.ab[d]=new C("child_changed",b.Ia,d,e.Ia);else if("child_removed"==c&&"child_added"==f)delete a.ab[d];else if("child_removed"==c&&"child_changed"==f)a.ab[d]=new C("child_removed",e.He,d);else if("child_changed"==c&&
-	"child_added"==f)a.ab[d]=new C("child_added",b.Ia,d);else if("child_changed"==c&&"child_changed"==f)a.ab[d]=new C("child_changed",b.Ia,d,e.He);else throw Dc("Illegal combination of changes: "+b+" occurred after "+e);}else a.ab[d]=b};function gd(a,b,c){this.Pb=a;this.nb=b;this.pb=c||null}g=gd.prototype;g.If=function(a){return"value"===a};g.createEvent=function(a,b){var c=b.n.g;return new Eb("value",this,new P(a.Ia,b.Gb(),c))};g.Ub=function(a){var b=this.pb;if("cancel"===a.ve()){I(this.nb,"Raising a cancel event on a listener with no cancel callback");var c=this.nb;return function(){c.call(b,a.error)}}var d=this.Pb;return function(){d.call(b,a.Wd)}};g.df=function(a,b){return this.nb?new Fb(this,a,b):null};
-	g.matches=function(a){return a instanceof gd?a.Pb&&this.Pb?a.Pb===this.Pb&&a.pb===this.pb:!0:!1};g.qf=function(){return null!==this.Pb};function hd(a,b,c){this.ha=a;this.nb=b;this.pb=c}g=hd.prototype;g.If=function(a){a="children_added"===a?"child_added":a;return("children_removed"===a?"child_removed":a)in this.ha};g.df=function(a,b){return this.nb?new Fb(this,a,b):null};
-	g.createEvent=function(a,b){I(null!=a.Va,"Child events should have a childName.");var c=b.Gb().u(a.Va);return new Eb(a.type,this,new P(a.Ia,c,b.n.g),a.Od)};g.Ub=function(a){var b=this.pb;if("cancel"===a.ve()){I(this.nb,"Raising a cancel event on a listener with no cancel callback");var c=this.nb;return function(){c.call(b,a.error)}}var d=this.ha[a.rd];return function(){d.call(b,a.Wd,a.Od)}};
-	g.matches=function(a){if(a instanceof hd){if(!this.ha||!a.ha)return!0;if(this.pb===a.pb){var b=pa(a.ha);if(b===pa(this.ha)){if(1===b){var b=qa(a.ha),c=qa(this.ha);return c===b&&(!a.ha[b]||!this.ha[c]||a.ha[b]===this.ha[c])}return oa(this.ha,function(b,c){return a.ha[c]===b})}}}return!1};g.qf=function(){return null!==this.ha};function id(a){this.g=a}g=id.prototype;g.G=function(a,b,c,d,e,f){I(a.Hc(this.g),"A node must be indexed if only a child is updated");e=a.R(b);if(e.Q(d).ca(c.Q(d))&&e.e()==c.e())return a;null!=f&&(c.e()?a.Da(b)?fd(f,new C("child_removed",e,b)):I(a.K(),"A child remove without an old child only makes sense on a leaf node"):e.e()?fd(f,new C("child_added",c,b)):fd(f,new C("child_changed",c,b,e)));return a.K()&&c.e()?a:a.U(b,c).jb(this.g)};
-	g.xa=function(a,b,c){null!=c&&(a.K()||a.P(M,function(a,e){b.Da(a)||fd(c,new C("child_removed",e,a))}),b.K()||b.P(M,function(b,e){if(a.Da(b)){var f=a.R(b);f.ca(e)||fd(c,new C("child_changed",e,b,f))}else fd(c,new C("child_added",e,b))}));return b.jb(this.g)};g.ga=function(a,b){return a.e()?B:a.ga(b)};g.Ma=function(){return!1};g.Vb=function(){return this};function jd(a){this.xe=new id(a.g);this.g=a.g;var b;a.ma?(b=kd(a),b=a.g.Nc(ld(a),b)):b=a.g.Rc();this.bd=b;a.pa?(b=md(a),a=a.g.Nc(nd(a),b)):a=a.g.Oc();this.Ec=a}g=jd.prototype;g.matches=function(a){return 0>=this.g.compare(this.bd,a)&&0>=this.g.compare(a,this.Ec)};g.G=function(a,b,c,d,e,f){this.matches(new E(b,c))||(c=B);return this.xe.G(a,b,c,d,e,f)};
-	g.xa=function(a,b,c){b.K()&&(b=B);var d=b.jb(this.g),d=d.ga(B),e=this;b.P(M,function(a,b){e.matches(new E(a,b))||(d=d.U(a,B))});return this.xe.xa(a,d,c)};g.ga=function(a){return a};g.Ma=function(){return!0};g.Vb=function(){return this.xe};function od(a){this.sa=new jd(a);this.g=a.g;I(a.ja,"Only valid if limit has been set");this.ka=a.ka;this.Hb=!pd(a)}g=od.prototype;g.G=function(a,b,c,d,e,f){this.sa.matches(new E(b,c))||(c=B);return a.R(b).ca(c)?a:a.Bb()<this.ka?this.sa.Vb().G(a,b,c,d,e,f):qd(this,a,b,c,e,f)};
-	g.xa=function(a,b,c){var d;if(b.K()||b.e())d=B.jb(this.g);else if(2*this.ka<b.Bb()&&b.Hc(this.g)){d=B.jb(this.g);b=this.Hb?b.Zb(this.sa.Ec,this.g):b.Xb(this.sa.bd,this.g);for(var e=0;0<b.Oa.length&&e<this.ka;){var f=H(b),h;if(h=this.Hb?0>=this.g.compare(this.sa.bd,f):0>=this.g.compare(f,this.sa.Ec))d=d.U(f.name,f.S),e++;else break}}else{d=b.jb(this.g);d=d.ga(B);var k,m,l;if(this.Hb){b=d.pf(this.g);k=this.sa.Ec;m=this.sa.bd;var r=rd(this.g);l=function(a,b){return r(b,a)}}else b=d.Wb(this.g),k=this.sa.bd,
-	m=this.sa.Ec,l=rd(this.g);for(var e=0,x=!1;0<b.Oa.length;)f=H(b),!x&&0>=l(k,f)&&(x=!0),(h=x&&e<this.ka&&0>=l(f,m))?e++:d=d.U(f.name,B)}return this.sa.Vb().xa(a,d,c)};g.ga=function(a){return a};g.Ma=function(){return!0};g.Vb=function(){return this.sa.Vb()};
-	function qd(a,b,c,d,e,f){var h;if(a.Hb){var k=rd(a.g);h=function(a,b){return k(b,a)}}else h=rd(a.g);I(b.Bb()==a.ka,"");var m=new E(c,d),l=a.Hb?sd(b,a.g):td(b,a.g),r=a.sa.matches(m);if(b.Da(c)){for(var x=b.R(c),l=e.ue(a.g,l,a.Hb);null!=l&&(l.name==c||b.Da(l.name));)l=e.ue(a.g,l,a.Hb);e=null==l?1:h(l,m);if(r&&!d.e()&&0<=e)return null!=f&&fd(f,new C("child_changed",d,c,x)),b.U(c,d);null!=f&&fd(f,new C("child_removed",x,c));b=b.U(c,B);return null!=l&&a.sa.matches(l)?(null!=f&&fd(f,new C("child_added",
-	l.S,l.name)),b.U(l.name,l.S)):b}return d.e()?b:r&&0<=h(l,m)?(null!=f&&(fd(f,new C("child_removed",l.S,l.name)),fd(f,new C("child_added",d,c))),b.U(c,d).U(l.name,B)):b};function ud(a,b){this.fe=a;this.eg=b}function wd(a){this.V=a}
-	wd.prototype.$a=function(a,b,c,d){var e=new ed,f;if(b.type===Wb)b.source.se?c=xd(this,a,b.path,b.Fa,c,d,e):(I(b.source.mf,"Unknown source."),f=b.source.Ye||Hb(a.w())&&!b.path.e(),c=yd(this,a,b.path,b.Fa,c,d,f,e));else if(b.type===zd)b.source.se?c=Ad(this,a,b.path,b.children,c,d,e):(I(b.source.mf,"Unknown source."),f=b.source.Ye||Hb(a.w()),c=Bd(this,a,b.path,b.children,c,d,f,e));else if(b.type===Cd)if(b.Td)if(b=b.path,null!=c.sc(b))c=a;else{f=new pb(c,a,d);d=a.O.j();if(b.e()||".priority"===D(b))Gb(a.w())?
-	b=c.za(sb(a)):(b=a.w().j(),I(b instanceof Q,"serverChildren would be complete if leaf node"),b=c.xc(b)),b=this.V.xa(d,b,e);else{var h=D(b),k=c.wc(h,a.w());null==k&&qb(a.w(),h)&&(k=d.R(h));b=null!=k?this.V.G(d,h,k,G(b),f,e):a.O.j().Da(h)?this.V.G(d,h,B,G(b),f,e):d;b.e()&&Gb(a.w())&&(d=c.za(sb(a)),d.K()&&(b=this.V.xa(b,d,e)))}d=Gb(a.w())||null!=c.sc(F);c=Dd(a,b,d,this.V.Ma())}else c=Ed(this,a,b.path,b.Ob,c,d,e);else if(b.type===Yb)d=b.path,b=a.w(),f=b.j(),h=b.ea||d.e(),c=Fd(this,new Gd(a.O,new rb(f,
-	h,b.Tb)),d,c,ob,e);else throw Dc("Unknown operation type: "+b.type);e=ra(e.ab);d=c;b=d.O;b.ea&&(f=b.j().K()||b.j().e(),h=Hd(a),(0<e.length||!a.O.ea||f&&!b.j().ca(h)||!b.j().C().ca(h.C()))&&e.push(Cb(Hd(d))));return new ud(c,e)};
-	function Fd(a,b,c,d,e,f){var h=b.O;if(null!=d.sc(c))return b;var k;if(c.e())I(Gb(b.w()),"If change path is empty, we must have complete server data"),Hb(b.w())?(e=sb(b),d=d.xc(e instanceof Q?e:B)):d=d.za(sb(b)),f=a.V.xa(b.O.j(),d,f);else{var m=D(c);if(".priority"==m)I(1==Id(c),"Can't have a priority with additional path components"),f=h.j(),k=b.w().j(),d=d.hd(c,f,k),f=null!=d?a.V.ga(f,d):h.j();else{var l=G(c);qb(h,m)?(k=b.w().j(),d=d.hd(c,h.j(),k),d=null!=d?h.j().R(m).G(l,d):h.j().R(m)):d=d.wc(m,
-	b.w());f=null!=d?a.V.G(h.j(),m,d,l,e,f):h.j()}}return Dd(b,f,h.ea||c.e(),a.V.Ma())}function yd(a,b,c,d,e,f,h,k){var m=b.w();h=h?a.V:a.V.Vb();if(c.e())d=h.xa(m.j(),d,null);else if(h.Ma()&&!m.Tb)d=m.j().G(c,d),d=h.xa(m.j(),d,null);else{var l=D(c);if(!Ib(m,c)&&1<Id(c))return b;var r=G(c);d=m.j().R(l).G(r,d);d=".priority"==l?h.ga(m.j(),d):h.G(m.j(),l,d,r,ob,null)}m=m.ea||c.e();b=new Gd(b.O,new rb(d,m,h.Ma()));return Fd(a,b,c,e,new pb(e,b,f),k)}
-	function xd(a,b,c,d,e,f,h){var k=b.O;e=new pb(e,b,f);if(c.e())h=a.V.xa(b.O.j(),d,h),a=Dd(b,h,!0,a.V.Ma());else if(f=D(c),".priority"===f)h=a.V.ga(b.O.j(),d),a=Dd(b,h,k.ea,k.Tb);else{c=G(c);var m=k.j().R(f);if(!c.e()){var l=e.nf(f);d=null!=l?".priority"===Jd(c)&&l.Q(c.parent()).e()?l:l.G(c,d):B}m.ca(d)?a=b:(h=a.V.G(k.j(),f,d,c,e,h),a=Dd(b,h,k.ea,a.V.Ma()))}return a}
-	function Ad(a,b,c,d,e,f,h){var k=b;Kd(d,function(d,l){var r=c.u(d);qb(b.O,D(r))&&(k=xd(a,k,r,l,e,f,h))});Kd(d,function(d,l){var r=c.u(d);qb(b.O,D(r))||(k=xd(a,k,r,l,e,f,h))});return k}function Ld(a,b){Kd(b,function(b,d){a=a.G(b,d)});return a}
-	function Bd(a,b,c,d,e,f,h,k){if(b.w().j().e()&&!Gb(b.w()))return b;var m=b;c=c.e()?d:Md(Nd,c,d);var l=b.w().j();c.children.ia(function(c,d){if(l.Da(c)){var J=b.w().j().R(c),J=Ld(J,d);m=yd(a,m,new K(c),J,e,f,h,k)}});c.children.ia(function(c,d){var J=!qb(b.w(),c)&&null==d.value;l.Da(c)||J||(J=b.w().j().R(c),J=Ld(J,d),m=yd(a,m,new K(c),J,e,f,h,k))});return m}
-	function Ed(a,b,c,d,e,f,h){if(null!=e.sc(c))return b;var k=Hb(b.w()),m=b.w();if(null!=d.value){if(c.e()&&m.ea||Ib(m,c))return yd(a,b,c,m.j().Q(c),e,f,k,h);if(c.e()){var l=Nd;m.j().P(Od,function(a,b){l=l.set(new K(a),b)});return Bd(a,b,c,l,e,f,k,h)}return b}l=Nd;Kd(d,function(a){var b=c.u(a);Ib(m,b)&&(l=l.set(a,m.j().Q(b)))});return Bd(a,b,c,l,e,f,k,h)};function Pd(){}var Qd={};function rd(a){return q(a.compare,a)}Pd.prototype.xd=function(a,b){return 0!==this.compare(new E("[MIN_NAME]",a),new E("[MIN_NAME]",b))};Pd.prototype.Rc=function(){return Rd};function Sd(a){I(!a.e()&&".priority"!==D(a),"Can't create PathIndex with empty path or .priority key");this.bc=a}ma(Sd,Pd);g=Sd.prototype;g.Gc=function(a){return!a.Q(this.bc).e()};g.compare=function(a,b){var c=a.S.Q(this.bc),d=b.S.Q(this.bc),c=c.Bc(d);return 0===c?Tb(a.name,b.name):c};
-	g.Nc=function(a,b){var c=L(a),c=B.G(this.bc,c);return new E(b,c)};g.Oc=function(){var a=B.G(this.bc,Td);return new E("[MAX_NAME]",a)};g.toString=function(){return this.bc.slice().join("/")};function Ud(){}ma(Ud,Pd);g=Ud.prototype;g.compare=function(a,b){var c=a.S.C(),d=b.S.C(),c=c.Bc(d);return 0===c?Tb(a.name,b.name):c};g.Gc=function(a){return!a.C().e()};g.xd=function(a,b){return!a.C().ca(b.C())};g.Rc=function(){return Rd};g.Oc=function(){return new E("[MAX_NAME]",new rc("[PRIORITY-POST]",Td))};
-	g.Nc=function(a,b){var c=L(a);return new E(b,new rc("[PRIORITY-POST]",c))};g.toString=function(){return".priority"};var M=new Ud;function Vd(){}ma(Vd,Pd);g=Vd.prototype;g.compare=function(a,b){return Tb(a.name,b.name)};g.Gc=function(){throw Dc("KeyIndex.isDefinedOn not expected to be called.");};g.xd=function(){return!1};g.Rc=function(){return Rd};g.Oc=function(){return new E("[MAX_NAME]",B)};g.Nc=function(a){I(p(a),"KeyIndex indexValue must always be a string.");return new E(a,B)};g.toString=function(){return".key"};
-	var Od=new Vd;function Wd(){}ma(Wd,Pd);g=Wd.prototype;g.compare=function(a,b){var c=a.S.Bc(b.S);return 0===c?Tb(a.name,b.name):c};g.Gc=function(){return!0};g.xd=function(a,b){return!a.ca(b)};g.Rc=function(){return Rd};g.Oc=function(){return Xd};g.Nc=function(a,b){var c=L(a);return new E(b,c)};g.toString=function(){return".value"};var Yd=new Wd;function Zd(){this.Sb=this.pa=this.Jb=this.ma=this.ja=!1;this.ka=0;this.Lb="";this.dc=null;this.vb="";this.ac=null;this.tb="";this.g=M}var $d=new Zd;function pd(a){return""===a.Lb?a.ma:"l"===a.Lb}function ld(a){I(a.ma,"Only valid if start has been set");return a.dc}function kd(a){I(a.ma,"Only valid if start has been set");return a.Jb?a.vb:"[MIN_NAME]"}function nd(a){I(a.pa,"Only valid if end has been set");return a.ac}
-	function md(a){I(a.pa,"Only valid if end has been set");return a.Sb?a.tb:"[MAX_NAME]"}function ae(a){var b=new Zd;b.ja=a.ja;b.ka=a.ka;b.ma=a.ma;b.dc=a.dc;b.Jb=a.Jb;b.vb=a.vb;b.pa=a.pa;b.ac=a.ac;b.Sb=a.Sb;b.tb=a.tb;b.g=a.g;return b}g=Zd.prototype;g.De=function(a){var b=ae(this);b.ja=!0;b.ka=a;b.Lb="";return b};g.Ee=function(a){var b=ae(this);b.ja=!0;b.ka=a;b.Lb="l";return b};g.Fe=function(a){var b=ae(this);b.ja=!0;b.ka=a;b.Lb="r";return b};
-	g.Xd=function(a,b){var c=ae(this);c.ma=!0;n(a)||(a=null);c.dc=a;null!=b?(c.Jb=!0,c.vb=b):(c.Jb=!1,c.vb="");return c};g.qd=function(a,b){var c=ae(this);c.pa=!0;n(a)||(a=null);c.ac=a;n(b)?(c.Sb=!0,c.tb=b):(c.eh=!1,c.tb="");return c};function be(a,b){var c=ae(a);c.g=b;return c}function ce(a){var b={};a.ma&&(b.sp=a.dc,a.Jb&&(b.sn=a.vb));a.pa&&(b.ep=a.ac,a.Sb&&(b.en=a.tb));if(a.ja){b.l=a.ka;var c=a.Lb;""===c&&(c=pd(a)?"l":"r");b.vf=c}a.g!==M&&(b.i=a.g.toString());return b}
-	function R(a){return!(a.ma||a.pa||a.ja)}function de(a){return R(a)&&a.g==M}function ee(a){var b={};if(de(a))return b;var c;a.g===M?c="$priority":a.g===Yd?c="$value":a.g===Od?c="$key":(I(a.g instanceof Sd,"Unrecognized index type!"),c=a.g.toString());b.orderBy=A(c);a.ma&&(b.startAt=A(a.dc),a.Jb&&(b.startAt+=","+A(a.vb)));a.pa&&(b.endAt=A(a.ac),a.Sb&&(b.endAt+=","+A(a.tb)));a.ja&&(pd(a)?b.limitToFirst=a.ka:b.limitToLast=a.ka);return b}g.toString=function(){return A(ce(this))};function fe(a,b){this.yd=a;this.cc=b}fe.prototype.get=function(a){var b=v(this.yd,a);if(!b)throw Error("No index defined for "+a);return b===Qd?null:b};function ge(a,b,c){var d=na(a.yd,function(d,f){var h=v(a.cc,f);I(h,"Missing index implementation for "+f);if(d===Qd){if(h.Gc(b.S)){for(var k=[],m=c.Wb(Rb),l=H(m);l;)l.name!=b.name&&k.push(l),l=H(m);k.push(b);return he(k,rd(h))}return Qd}h=c.get(b.name);k=d;h&&(k=k.remove(new E(b.name,h)));return k.Na(b,b.S)});return new fe(d,a.cc)}
-	function ie(a,b,c){var d=na(a.yd,function(a){if(a===Qd)return a;var d=c.get(b.name);return d?a.remove(new E(b.name,d)):a});return new fe(d,a.cc)}var je=new fe({".priority":Qd},{".priority":M});function rc(a,b){this.B=a;I(n(this.B)&&null!==this.B,"LeafNode shouldn't be created with null/undefined value.");this.aa=b||B;ke(this.aa);this.Ab=null}var le=["object","boolean","number","string"];g=rc.prototype;g.K=function(){return!0};g.C=function(){return this.aa};g.ga=function(a){return new rc(this.B,a)};g.R=function(a){return".priority"===a?this.aa:B};g.Q=function(a){return a.e()?this:".priority"===D(a)?this.aa:B};g.Da=function(){return!1};g.of=function(){return null};
-	g.U=function(a,b){return".priority"===a?this.ga(b):b.e()&&".priority"!==a?this:B.U(a,b).ga(this.aa)};g.G=function(a,b){var c=D(a);if(null===c)return b;if(b.e()&&".priority"!==c)return this;I(".priority"!==c||1===Id(a),".priority must be the last token in a path");return this.U(c,B.G(G(a),b))};g.e=function(){return!1};g.Bb=function(){return 0};g.P=function(){return!1};g.I=function(a){return a&&!this.C().e()?{".value":this.Ca(),".priority":this.C().I()}:this.Ca()};
-	g.hash=function(){if(null===this.Ab){var a="";this.aa.e()||(a+="priority:"+me(this.aa.I())+":");var b=typeof this.B,a=a+(b+":"),a="number"===b?a+Vc(this.B):a+this.B;this.Ab=Fc(a)}return this.Ab};g.Ca=function(){return this.B};g.Bc=function(a){if(a===B)return 1;if(a instanceof Q)return-1;I(a.K(),"Unknown node type");var b=typeof a.B,c=typeof this.B,d=Oa(le,b),e=Oa(le,c);I(0<=d,"Unknown leaf type: "+b);I(0<=e,"Unknown leaf type: "+c);return d===e?"object"===c?0:this.B<a.B?-1:this.B===a.B?0:1:e-d};
-	g.jb=function(){return this};g.Hc=function(){return!0};g.ca=function(a){return a===this?!0:a.K()?this.B===a.B&&this.aa.ca(a.aa):!1};g.toString=function(){return A(this.I(!0))};function Q(a,b,c){this.m=a;(this.aa=b)&&ke(this.aa);a.e()&&I(!this.aa||this.aa.e(),"An empty node cannot have a priority");this.ub=c;this.Ab=null}g=Q.prototype;g.K=function(){return!1};g.C=function(){return this.aa||B};g.ga=function(a){return this.m.e()?this:new Q(this.m,a,this.ub)};g.R=function(a){if(".priority"===a)return this.C();a=this.m.get(a);return null===a?B:a};g.Q=function(a){var b=D(a);return null===b?this:this.R(b).Q(G(a))};g.Da=function(a){return null!==this.m.get(a)};
-	g.U=function(a,b){I(b,"We should always be passing snapshot nodes");if(".priority"===a)return this.ga(b);var c=new E(a,b),d,e;b.e()?(d=this.m.remove(a),c=ie(this.ub,c,this.m)):(d=this.m.Na(a,b),c=ge(this.ub,c,this.m));e=d.e()?B:this.aa;return new Q(d,e,c)};g.G=function(a,b){var c=D(a);if(null===c)return b;I(".priority"!==D(a)||1===Id(a),".priority must be the last token in a path");var d=this.R(c).G(G(a),b);return this.U(c,d)};g.e=function(){return this.m.e()};g.Bb=function(){return this.m.count()};
-	var ne=/^(0|[1-9]\d*)$/;g=Q.prototype;g.I=function(a){if(this.e())return null;var b={},c=0,d=0,e=!0;this.P(M,function(f,h){b[f]=h.I(a);c++;e&&ne.test(f)?d=Math.max(d,Number(f)):e=!1});if(!a&&e&&d<2*c){var f=[],h;for(h in b)f[h]=b[h];return f}a&&!this.C().e()&&(b[".priority"]=this.C().I());return b};g.hash=function(){if(null===this.Ab){var a="";this.C().e()||(a+="priority:"+me(this.C().I())+":");this.P(M,function(b,c){var d=c.hash();""!==d&&(a+=":"+b+":"+d)});this.Ab=""===a?"":Fc(a)}return this.Ab};
-	g.of=function(a,b,c){return(c=oe(this,c))?(a=ac(c,new E(a,b)))?a.name:null:ac(this.m,a)};function sd(a,b){var c;c=(c=oe(a,b))?(c=c.Qc())&&c.name:a.m.Qc();return c?new E(c,a.m.get(c)):null}function td(a,b){var c;c=(c=oe(a,b))?(c=c.ec())&&c.name:a.m.ec();return c?new E(c,a.m.get(c)):null}g.P=function(a,b){var c=oe(this,a);return c?c.ia(function(a){return b(a.name,a.S)}):this.m.ia(b)};g.Wb=function(a){return this.Xb(a.Rc(),a)};
-	g.Xb=function(a,b){var c=oe(this,b);if(c)return c.Xb(a,function(a){return a});for(var c=this.m.Xb(a.name,Rb),d=cc(c);null!=d&&0>b.compare(d,a);)H(c),d=cc(c);return c};g.pf=function(a){return this.Zb(a.Oc(),a)};g.Zb=function(a,b){var c=oe(this,b);if(c)return c.Zb(a,function(a){return a});for(var c=this.m.Zb(a.name,Rb),d=cc(c);null!=d&&0<b.compare(d,a);)H(c),d=cc(c);return c};g.Bc=function(a){return this.e()?a.e()?0:-1:a.K()||a.e()?1:a===Td?-1:0};
-	g.jb=function(a){if(a===Od||ta(this.ub.cc,a.toString()))return this;var b=this.ub,c=this.m;I(a!==Od,"KeyIndex always exists and isn't meant to be added to the IndexMap.");for(var d=[],e=!1,c=c.Wb(Rb),f=H(c);f;)e=e||a.Gc(f.S),d.push(f),f=H(c);d=e?he(d,rd(a)):Qd;e=a.toString();c=xa(b.cc);c[e]=a;a=xa(b.yd);a[e]=d;return new Q(this.m,this.aa,new fe(a,c))};g.Hc=function(a){return a===Od||ta(this.ub.cc,a.toString())};
-	g.ca=function(a){if(a===this)return!0;if(a.K())return!1;if(this.C().ca(a.C())&&this.m.count()===a.m.count()){var b=this.Wb(M);a=a.Wb(M);for(var c=H(b),d=H(a);c&&d;){if(c.name!==d.name||!c.S.ca(d.S))return!1;c=H(b);d=H(a)}return null===c&&null===d}return!1};function oe(a,b){return b===Od?null:a.ub.get(b.toString())}g.toString=function(){return A(this.I(!0))};function L(a,b){if(null===a)return B;var c=null;"object"===typeof a&&".priority"in a?c=a[".priority"]:"undefined"!==typeof b&&(c=b);I(null===c||"string"===typeof c||"number"===typeof c||"object"===typeof c&&".sv"in c,"Invalid priority type found: "+typeof c);"object"===typeof a&&".value"in a&&null!==a[".value"]&&(a=a[".value"]);if("object"!==typeof a||".sv"in a)return new rc(a,L(c));if(a instanceof Array){var d=B,e=a;t(e,function(a,b){if(u(e,b)&&"."!==b.substring(0,1)){var c=L(a);if(c.K()||!c.e())d=
-	d.U(b,c)}});return d.ga(L(c))}var f=[],h=!1,k=a;gb(k,function(a){if("string"!==typeof a||"."!==a.substring(0,1)){var b=L(k[a]);b.e()||(h=h||!b.C().e(),f.push(new E(a,b)))}});if(0==f.length)return B;var m=he(f,Sb,function(a){return a.name},Ub);if(h){var l=he(f,rd(M));return new Q(m,L(c),new fe({".priority":l},{".priority":M}))}return new Q(m,L(c),je)}var pe=Math.log(2);
-	function qe(a){this.count=parseInt(Math.log(a+1)/pe,10);this.ff=this.count-1;this.dg=a+1&parseInt(Array(this.count+1).join("1"),2)}function re(a){var b=!(a.dg&1<<a.ff);a.ff--;return b}
-	function he(a,b,c,d){function e(b,d){var f=d-b;if(0==f)return null;if(1==f){var l=a[b],r=c?c(l):l;return new dc(r,l.S,!1,null,null)}var l=parseInt(f/2,10)+b,f=e(b,l),x=e(l+1,d),l=a[l],r=c?c(l):l;return new dc(r,l.S,!1,f,x)}a.sort(b);var f=function(b){function d(b,h){var k=r-b,x=r;r-=b;var x=e(k+1,x),k=a[k],J=c?c(k):k,x=new dc(J,k.S,h,null,x);f?f.left=x:l=x;f=x}for(var f=null,l=null,r=a.length,x=0;x<b.count;++x){var J=re(b),vd=Math.pow(2,b.count-(x+1));J?d(vd,!1):(d(vd,!1),d(vd,!0))}return l}(new qe(a.length));
-	return null!==f?new Zb(d||b,f):new Zb(d||b)}function me(a){return"number"===typeof a?"number:"+Vc(a):"string:"+a}function ke(a){if(a.K()){var b=a.I();I("string"===typeof b||"number"===typeof b||"object"===typeof b&&u(b,".sv"),"Priority must be a string or number.")}else I(a===Td||a.e(),"priority of unexpected type.");I(a===Td||a.C().e(),"Priority nodes can't have a priority of their own.")}var B=new Q(new Zb(Ub),null,je);function se(){Q.call(this,new Zb(Ub),B,je)}ma(se,Q);g=se.prototype;
-	g.Bc=function(a){return a===this?0:1};g.ca=function(a){return a===this};g.C=function(){return this};g.R=function(){return B};g.e=function(){return!1};var Td=new se,Rd=new E("[MIN_NAME]",B),Xd=new E("[MAX_NAME]",Td);function Gd(a,b){this.O=a;this.Vd=b}function Dd(a,b,c,d){return new Gd(new rb(b,c,d),a.Vd)}function Hd(a){return a.O.ea?a.O.j():null}Gd.prototype.w=function(){return this.Vd};function sb(a){return a.Vd.ea?a.Vd.j():null};function te(a,b){this.W=a;var c=a.n,d=new id(c.g),c=R(c)?new id(c.g):c.ja?new od(c):new jd(c);this.Ff=new wd(c);var e=b.w(),f=b.O,h=d.xa(B,e.j(),null),k=c.xa(B,f.j(),null);this.Ja=new Gd(new rb(k,f.ea,c.Ma()),new rb(h,e.ea,d.Ma()));this.Wa=[];this.lg=new ad(a)}function ue(a){return a.W}g=te.prototype;g.w=function(){return this.Ja.w().j()};g.bb=function(a){var b=sb(this.Ja);return b&&(R(this.W.n)||!a.e()&&!b.R(D(a)).e())?b.Q(a):null};g.e=function(){return 0===this.Wa.length};g.Nb=function(a){this.Wa.push(a)};
-	g.hb=function(a,b){var c=[];if(b){I(null==a,"A cancel should cancel all event registrations.");var d=this.W.path;Pa(this.Wa,function(a){(a=a.df(b,d))&&c.push(a)})}if(a){for(var e=[],f=0;f<this.Wa.length;++f){var h=this.Wa[f];if(!h.matches(a))e.push(h);else if(a.qf()){e=e.concat(this.Wa.slice(f+1));break}}this.Wa=e}else this.Wa=[];return c};
-	g.$a=function(a,b,c){a.type===zd&&null!==a.source.Fb&&(I(sb(this.Ja),"We should always have a full cache before handling merges"),I(Hd(this.Ja),"Missing event cache, even though we have a server cache"));var d=this.Ja;a=this.Ff.$a(d,a,b,c);b=this.Ff;c=a.fe;I(c.O.j().Hc(b.V.g),"Event snap not indexed");I(c.w().j().Hc(b.V.g),"Server snap not indexed");I(Gb(a.fe.w())||!Gb(d.w()),"Once a server snap is complete, it should never go back");this.Ja=a.fe;return ve(this,a.eg,a.fe.O.j(),null)};
-	function we(a,b){var c=a.Ja.O,d=[];c.j().K()||c.j().P(M,function(a,b){d.push(new C("child_added",b,a))});c.ea&&d.push(Cb(c.j()));return ve(a,d,c.j(),b)}function ve(a,b,c,d){return bd(a.lg,b,c,d?[d]:a.Wa)};function xe(a,b,c){this.type=zd;this.source=a;this.path=b;this.children=c}xe.prototype.Vc=function(a){if(this.path.e())return a=this.children.subtree(new K(a)),a.e()?null:a.value?new Vb(this.source,F,a.value):new xe(this.source,F,a);I(D(this.path)===a,"Can't get a merge for a child not on the path of the operation");return new xe(this.source,G(this.path),this.children)};xe.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" merge: "+this.children.toString()+")"};function ye(a,b){this.f=Kc("p:rest:");this.F=a;this.Eb=b;this.Aa=null;this.$={}}function ze(a,b){if(n(b))return"tag$"+b;I(de(a.n),"should have a tag if it's not a default query.");return a.path.toString()}g=ye.prototype;
-	g.uf=function(a,b,c,d){var e=a.path.toString();this.f("Listen called for "+e+" "+a.va());var f=ze(a,c),h={};this.$[f]=h;a=ee(a.n);var k=this;Ae(this,e+".json",a,function(a,b){var r=b;404===a&&(a=r=null);null===a&&k.Eb(e,r,!1,c);v(k.$,f)===h&&d(a?401==a?"permission_denied":"rest_error:"+a:"ok",null)})};g.Qf=function(a,b){var c=ze(a,b);delete this.$[c]};g.M=function(a,b){this.Aa=a;var c=Yc(a),d=c.data,c=c.Ac&&c.Ac.exp;b&&b("ok",{auth:d,expires:c})};g.de=function(a){this.Aa=null;a("ok",null)};g.Je=function(){};
-	g.Bf=function(){};g.Hd=function(){};g.put=function(){};g.wf=function(){};g.Re=function(){};
-	function Ae(a,b,c,d){c=c||{};c.format="export";a.Aa&&(c.auth=a.Aa);var e=(a.F.ib?"https://":"http://")+a.F.host+b+"?"+ib(c);a.f("Sending REST request for "+e);var f=new XMLHttpRequest;f.onreadystatechange=function(){if(d&&4===f.readyState){a.f("REST Response for "+e+" received. status:",f.status,"response:",f.responseText);var b=null;if(200<=f.status&&300>f.status){try{b=lb(f.responseText)}catch(c){N("Failed to parse JSON response for "+e+": "+f.responseText)}d(null,b)}else 401!==f.status&&404!==
-	f.status&&N("Got unsuccessful REST response for "+e+" Status: "+f.status),d(f.status);d=null}};f.open("GET",e,!0);f.send()};function Be(a){I(ea(a)&&0<a.length,"Requires a non-empty array");this.Wf=a;this.Mc={}}Be.prototype.ce=function(a,b){var c;c=this.Mc[a]||[];var d=c.length;if(0<d){for(var e=Array(d),f=0;f<d;f++)e[f]=c[f];c=e}else c=[];for(d=0;d<c.length;d++)c[d].yc.apply(c[d].La,Array.prototype.slice.call(arguments,1))};Be.prototype.Cb=function(a,b,c){Ce(this,a);this.Mc[a]=this.Mc[a]||[];this.Mc[a].push({yc:b,La:c});(a=this.we(a))&&b.apply(c,a)};
-	Be.prototype.gc=function(a,b,c){Ce(this,a);a=this.Mc[a]||[];for(var d=0;d<a.length;d++)if(a[d].yc===b&&(!c||c===a[d].La)){a.splice(d,1);break}};function Ce(a,b){I(Ua(a.Wf,function(a){return a===b}),"Unknown event: "+b)};var De=function(){var a=0,b=[];return function(c){var d=c===a;a=c;for(var e=Array(8),f=7;0<=f;f--)e[f]="-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".charAt(c%64),c=Math.floor(c/64);I(0===c,"Cannot push at time == 0");c=e.join("");if(d){for(f=11;0<=f&&63===b[f];f--)b[f]=0;b[f]++}else for(f=0;12>f;f++)b[f]=Math.floor(64*Math.random());for(f=0;12>f;f++)c+="-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".charAt(b[f]);I(20===c.length,"nextPushId: Length should be 20.");
-	return c}}();function Ee(){Be.call(this,["online"]);this.ic=!0;if("undefined"!==typeof window&&"undefined"!==typeof window.addEventListener){var a=this;window.addEventListener("online",function(){a.ic||(a.ic=!0,a.ce("online",!0))},!1);window.addEventListener("offline",function(){a.ic&&(a.ic=!1,a.ce("online",!1))},!1)}}ma(Ee,Be);Ee.prototype.we=function(a){I("online"===a,"Unknown event type: "+a);return[this.ic]};ca(Ee);function Fe(){Be.call(this,["visible"]);var a,b;"undefined"!==typeof document&&"undefined"!==typeof document.addEventListener&&("undefined"!==typeof document.hidden?(b="visibilitychange",a="hidden"):"undefined"!==typeof document.mozHidden?(b="mozvisibilitychange",a="mozHidden"):"undefined"!==typeof document.msHidden?(b="msvisibilitychange",a="msHidden"):"undefined"!==typeof document.webkitHidden&&(b="webkitvisibilitychange",a="webkitHidden"));this.Mb=!0;if(b){var c=this;document.addEventListener(b,
-	function(){var b=!document[a];b!==c.Mb&&(c.Mb=b,c.ce("visible",b))},!1)}}ma(Fe,Be);Fe.prototype.we=function(a){I("visible"===a,"Unknown event type: "+a);return[this.Mb]};ca(Fe);function K(a,b){if(1==arguments.length){this.o=a.split("/");for(var c=0,d=0;d<this.o.length;d++)0<this.o[d].length&&(this.o[c]=this.o[d],c++);this.o.length=c;this.Z=0}else this.o=a,this.Z=b}function S(a,b){var c=D(a);if(null===c)return b;if(c===D(b))return S(G(a),G(b));throw Error("INTERNAL ERROR: innerPath ("+b+") is not within outerPath ("+a+")");}
-	function Ge(a,b){for(var c=a.slice(),d=b.slice(),e=0;e<c.length&&e<d.length;e++){var f=Tb(c[e],d[e]);if(0!==f)return f}return c.length===d.length?0:c.length<d.length?-1:1}function D(a){return a.Z>=a.o.length?null:a.o[a.Z]}function Id(a){return a.o.length-a.Z}function G(a){var b=a.Z;b<a.o.length&&b++;return new K(a.o,b)}function Jd(a){return a.Z<a.o.length?a.o[a.o.length-1]:null}g=K.prototype;
-	g.toString=function(){for(var a="",b=this.Z;b<this.o.length;b++)""!==this.o[b]&&(a+="/"+this.o[b]);return a||"/"};g.slice=function(a){return this.o.slice(this.Z+(a||0))};g.parent=function(){if(this.Z>=this.o.length)return null;for(var a=[],b=this.Z;b<this.o.length-1;b++)a.push(this.o[b]);return new K(a,0)};
-	g.u=function(a){for(var b=[],c=this.Z;c<this.o.length;c++)b.push(this.o[c]);if(a instanceof K)for(c=a.Z;c<a.o.length;c++)b.push(a.o[c]);else for(a=a.split("/"),c=0;c<a.length;c++)0<a[c].length&&b.push(a[c]);return new K(b,0)};g.e=function(){return this.Z>=this.o.length};g.ca=function(a){if(Id(this)!==Id(a))return!1;for(var b=this.Z,c=a.Z;b<=this.o.length;b++,c++)if(this.o[b]!==a.o[c])return!1;return!0};
-	g.contains=function(a){var b=this.Z,c=a.Z;if(Id(this)>Id(a))return!1;for(;b<this.o.length;){if(this.o[b]!==a.o[c])return!1;++b;++c}return!0};var F=new K("");function He(a,b){this.Pa=a.slice();this.Ga=Math.max(1,this.Pa.length);this.hf=b;for(var c=0;c<this.Pa.length;c++)this.Ga+=Xc(this.Pa[c]);Ie(this)}He.prototype.push=function(a){0<this.Pa.length&&(this.Ga+=1);this.Pa.push(a);this.Ga+=Xc(a);Ie(this)};He.prototype.pop=function(){var a=this.Pa.pop();this.Ga-=Xc(a);0<this.Pa.length&&--this.Ga};
-	function Ie(a){if(768<a.Ga)throw Error(a.hf+"has a key path longer than 768 bytes ("+a.Ga+").");if(32<a.Pa.length)throw Error(a.hf+"path specified exceeds the maximum depth that can be written (32) or object contains a cycle "+Je(a));}function Je(a){return 0==a.Pa.length?"":"in property '"+a.Pa.join(".")+"'"};function Ke(a,b){this.value=a;this.children=b||Le}var Le=new Zb(function(a,b){return a===b?0:a<b?-1:1});function Me(a){var b=Nd;t(a,function(a,d){b=b.set(new K(d),a)});return b}g=Ke.prototype;g.e=function(){return null===this.value&&this.children.e()};function Ne(a,b,c){if(null!=a.value&&c(a.value))return{path:F,value:a.value};if(b.e())return null;var d=D(b);a=a.children.get(d);return null!==a?(b=Ne(a,G(b),c),null!=b?{path:(new K(d)).u(b.path),value:b.value}:null):null}
-	function Oe(a,b){return Ne(a,b,function(){return!0})}g.subtree=function(a){if(a.e())return this;var b=this.children.get(D(a));return null!==b?b.subtree(G(a)):Nd};g.set=function(a,b){if(a.e())return new Ke(b,this.children);var c=D(a),d=(this.children.get(c)||Nd).set(G(a),b),c=this.children.Na(c,d);return new Ke(this.value,c)};
-	g.remove=function(a){if(a.e())return this.children.e()?Nd:new Ke(null,this.children);var b=D(a),c=this.children.get(b);return c?(a=c.remove(G(a)),b=a.e()?this.children.remove(b):this.children.Na(b,a),null===this.value&&b.e()?Nd:new Ke(this.value,b)):this};g.get=function(a){if(a.e())return this.value;var b=this.children.get(D(a));return b?b.get(G(a)):null};
-	function Md(a,b,c){if(b.e())return c;var d=D(b);b=Md(a.children.get(d)||Nd,G(b),c);d=b.e()?a.children.remove(d):a.children.Na(d,b);return new Ke(a.value,d)}function Pe(a,b){return Qe(a,F,b)}function Qe(a,b,c){var d={};a.children.ia(function(a,f){d[a]=Qe(f,b.u(a),c)});return c(b,a.value,d)}function Re(a,b,c){return Se(a,b,F,c)}function Se(a,b,c,d){var e=a.value?d(c,a.value):!1;if(e)return e;if(b.e())return null;e=D(b);return(a=a.children.get(e))?Se(a,G(b),c.u(e),d):null}
-	function Te(a,b,c){Ue(a,b,F,c)}function Ue(a,b,c,d){if(b.e())return a;a.value&&d(c,a.value);var e=D(b);return(a=a.children.get(e))?Ue(a,G(b),c.u(e),d):Nd}function Kd(a,b){Ve(a,F,b)}function Ve(a,b,c){a.children.ia(function(a,e){Ve(e,b.u(a),c)});a.value&&c(b,a.value)}function We(a,b){a.children.ia(function(a,d){d.value&&b(a,d.value)})}var Nd=new Ke(null);Ke.prototype.toString=function(){var a={};Kd(this,function(b,c){a[b.toString()]=c.toString()});return A(a)};function Xe(a,b,c){this.type=Cd;this.source=Ye;this.path=a;this.Ob=b;this.Td=c}Xe.prototype.Vc=function(a){if(this.path.e()){if(null!=this.Ob.value)return I(this.Ob.children.e(),"affectedTree should not have overlapping affected paths."),this;a=this.Ob.subtree(new K(a));return new Xe(F,a,this.Td)}I(D(this.path)===a,"operationForChild called for unrelated child.");return new Xe(G(this.path),this.Ob,this.Td)};
-	Xe.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" ack write revert="+this.Td+" affectedTree="+this.Ob+")"};var Wb=0,zd=1,Cd=2,Yb=3;function Ze(a,b,c,d){this.se=a;this.mf=b;this.Fb=c;this.Ye=d;I(!d||b,"Tagged queries must be from server.")}var Ye=new Ze(!0,!1,null,!1),$e=new Ze(!1,!0,null,!1);Ze.prototype.toString=function(){return this.se?"user":this.Ye?"server(queryID="+this.Fb+")":"server"};function af(a){this.X=a}var bf=new af(new Ke(null));function cf(a,b,c){if(b.e())return new af(new Ke(c));var d=Oe(a.X,b);if(null!=d){var e=d.path,d=d.value;b=S(e,b);d=d.G(b,c);return new af(a.X.set(e,d))}a=Md(a.X,b,new Ke(c));return new af(a)}function df(a,b,c){var d=a;gb(c,function(a,c){d=cf(d,b.u(a),c)});return d}af.prototype.Pd=function(a){if(a.e())return bf;a=Md(this.X,a,Nd);return new af(a)};function ef(a,b){var c=Oe(a.X,b);return null!=c?a.X.get(c.path).Q(S(c.path,b)):null}
-	function ff(a){var b=[],c=a.X.value;null!=c?c.K()||c.P(M,function(a,c){b.push(new E(a,c))}):a.X.children.ia(function(a,c){null!=c.value&&b.push(new E(a,c.value))});return b}function gf(a,b){if(b.e())return a;var c=ef(a,b);return null!=c?new af(new Ke(c)):new af(a.X.subtree(b))}af.prototype.e=function(){return this.X.e()};af.prototype.apply=function(a){return hf(F,this.X,a)};
-	function hf(a,b,c){if(null!=b.value)return c.G(a,b.value);var d=null;b.children.ia(function(b,f){".priority"===b?(I(null!==f.value,"Priority writes must always be leaf nodes"),d=f.value):c=hf(a.u(b),f,c)});c.Q(a).e()||null===d||(c=c.G(a.u(".priority"),d));return c};function jf(){this.T=bf;this.na=[];this.Kc=-1}function kf(a,b){for(var c=0;c<a.na.length;c++){var d=a.na[c];if(d.gd===b)return d}return null}g=jf.prototype;
-	g.Pd=function(a){var b=Va(this.na,function(b){return b.gd===a});I(0<=b,"removeWrite called with nonexistent writeId.");var c=this.na[b];this.na.splice(b,1);for(var d=c.visible,e=!1,f=this.na.length-1;d&&0<=f;){var h=this.na[f];h.visible&&(f>=b&&lf(h,c.path)?d=!1:c.path.contains(h.path)&&(e=!0));f--}if(d){if(e)this.T=mf(this.na,nf,F),this.Kc=0<this.na.length?this.na[this.na.length-1].gd:-1;else if(c.Fa)this.T=this.T.Pd(c.path);else{var k=this;t(c.children,function(a,b){k.T=k.T.Pd(c.path.u(b))})}return!0}return!1};
-	g.za=function(a,b,c,d){if(c||d){var e=gf(this.T,a);return!d&&e.e()?b:d||null!=b||null!=ef(e,F)?(e=mf(this.na,function(b){return(b.visible||d)&&(!c||!(0<=Oa(c,b.gd)))&&(b.path.contains(a)||a.contains(b.path))},a),b=b||B,e.apply(b)):null}e=ef(this.T,a);if(null!=e)return e;e=gf(this.T,a);return e.e()?b:null!=b||null!=ef(e,F)?(b=b||B,e.apply(b)):null};
-	g.xc=function(a,b){var c=B,d=ef(this.T,a);if(d)d.K()||d.P(M,function(a,b){c=c.U(a,b)});else if(b){var e=gf(this.T,a);b.P(M,function(a,b){var d=gf(e,new K(a)).apply(b);c=c.U(a,d)});Pa(ff(e),function(a){c=c.U(a.name,a.S)})}else e=gf(this.T,a),Pa(ff(e),function(a){c=c.U(a.name,a.S)});return c};g.hd=function(a,b,c,d){I(c||d,"Either existingEventSnap or existingServerSnap must exist");a=a.u(b);if(null!=ef(this.T,a))return null;a=gf(this.T,a);return a.e()?d.Q(b):a.apply(d.Q(b))};
-	g.wc=function(a,b,c){a=a.u(b);var d=ef(this.T,a);return null!=d?d:qb(c,b)?gf(this.T,a).apply(c.j().R(b)):null};g.sc=function(a){return ef(this.T,a)};g.je=function(a,b,c,d,e,f){var h;a=gf(this.T,a);h=ef(a,F);if(null==h)if(null!=b)h=a.apply(b);else return[];h=h.jb(f);if(h.e()||h.K())return[];b=[];a=rd(f);e=e?h.Zb(c,f):h.Xb(c,f);for(f=H(e);f&&b.length<d;)0!==a(f,c)&&b.push(f),f=H(e);return b};
-	function lf(a,b){return a.Fa?a.path.contains(b):!!ua(a.children,function(c,d){return a.path.u(d).contains(b)})}function nf(a){return a.visible}
-	function mf(a,b,c){for(var d=bf,e=0;e<a.length;++e){var f=a[e];if(b(f)){var h=f.path;if(f.Fa)c.contains(h)?(h=S(c,h),d=cf(d,h,f.Fa)):h.contains(c)&&(h=S(h,c),d=cf(d,F,f.Fa.Q(h)));else if(f.children)if(c.contains(h))h=S(c,h),d=df(d,h,f.children);else{if(h.contains(c))if(h=S(h,c),h.e())d=df(d,F,f.children);else if(f=v(f.children,D(h)))f=f.Q(G(h)),d=cf(d,F,f)}else throw Dc("WriteRecord should have .snap or .children");}}return d}function of(a,b){this.Kb=a;this.X=b}g=of.prototype;
-	g.za=function(a,b,c){return this.X.za(this.Kb,a,b,c)};g.xc=function(a){return this.X.xc(this.Kb,a)};g.hd=function(a,b,c){return this.X.hd(this.Kb,a,b,c)};g.sc=function(a){return this.X.sc(this.Kb.u(a))};g.je=function(a,b,c,d,e){return this.X.je(this.Kb,a,b,c,d,e)};g.wc=function(a,b){return this.X.wc(this.Kb,a,b)};g.u=function(a){return new of(this.Kb.u(a),this.X)};function pf(){this.ya={}}g=pf.prototype;g.e=function(){return wa(this.ya)};g.$a=function(a,b,c){var d=a.source.Fb;if(null!==d)return d=v(this.ya,d),I(null!=d,"SyncTree gave us an op for an invalid query."),d.$a(a,b,c);var e=[];t(this.ya,function(d){e=e.concat(d.$a(a,b,c))});return e};g.Nb=function(a,b,c,d,e){var f=a.va(),h=v(this.ya,f);if(!h){var h=c.za(e?d:null),k=!1;h?k=!0:(h=d instanceof Q?c.xc(d):B,k=!1);h=new te(a,new Gd(new rb(h,k,!1),new rb(d,e,!1)));this.ya[f]=h}h.Nb(b);return we(h,b)};
-	g.hb=function(a,b,c){var d=a.va(),e=[],f=[],h=null!=qf(this);if("default"===d){var k=this;t(this.ya,function(a,d){f=f.concat(a.hb(b,c));a.e()&&(delete k.ya[d],R(a.W.n)||e.push(a.W))})}else{var m=v(this.ya,d);m&&(f=f.concat(m.hb(b,c)),m.e()&&(delete this.ya[d],R(m.W.n)||e.push(m.W)))}h&&null==qf(this)&&e.push(new T(a.k,a.path));return{Kg:e,mg:f}};function rf(a){return Qa(ra(a.ya),function(a){return!R(a.W.n)})}g.bb=function(a){var b=null;t(this.ya,function(c){b=b||c.bb(a)});return b};
-	function sf(a,b){if(R(b.n))return qf(a);var c=b.va();return v(a.ya,c)}function qf(a){return va(a.ya,function(a){return R(a.W.n)})||null};function tf(a){this.ta=Nd;this.gb=new jf;this.Xe={};this.lc={};this.Lc=a}function uf(a,b,c,d,e){var f=a.gb,h=e;I(d>f.Kc,"Stacking an older write on top of newer ones");n(h)||(h=!0);f.na.push({path:b,Fa:c,gd:d,visible:h});h&&(f.T=cf(f.T,b,c));f.Kc=d;return e?vf(a,new Vb(Ye,b,c)):[]}function wf(a,b,c,d){var e=a.gb;I(d>e.Kc,"Stacking an older merge on top of newer ones");e.na.push({path:b,children:c,gd:d,visible:!0});e.T=df(e.T,b,c);e.Kc=d;c=Me(c);return vf(a,new xe(Ye,b,c))}
-	function xf(a,b,c){c=c||!1;var d=kf(a.gb,b);if(a.gb.Pd(b)){var e=Nd;null!=d.Fa?e=e.set(F,!0):gb(d.children,function(a,b){e=e.set(new K(a),b)});return vf(a,new Xe(d.path,e,c))}return[]}function yf(a,b,c){c=Me(c);return vf(a,new xe($e,b,c))}function zf(a,b,c,d){d=Af(a,d);if(null!=d){var e=Bf(d);d=e.path;e=e.Fb;b=S(d,b);c=new Vb(new Ze(!1,!0,e,!0),b,c);return Cf(a,d,c)}return[]}
-	function Df(a,b,c,d){if(d=Af(a,d)){var e=Bf(d);d=e.path;e=e.Fb;b=S(d,b);c=Me(c);c=new xe(new Ze(!1,!0,e,!0),b,c);return Cf(a,d,c)}return[]}
-	tf.prototype.Nb=function(a,b){var c=a.path,d=null,e=!1;Te(this.ta,c,function(a,b){var f=S(a,c);d=d||b.bb(f);e=e||null!=qf(b)});var f=this.ta.get(c);f?(e=e||null!=qf(f),d=d||f.bb(F)):(f=new pf,this.ta=this.ta.set(c,f));var h;null!=d?h=!0:(h=!1,d=B,We(this.ta.subtree(c),function(a,b){var c=b.bb(F);c&&(d=d.U(a,c))}));var k=null!=sf(f,a);if(!k&&!R(a.n)){var m=Ef(a);I(!(m in this.lc),"View does not exist, but we have a tag");var l=Ff++;this.lc[m]=l;this.Xe["_"+l]=m}h=f.Nb(a,b,new of(c,this.gb),d,h);k||
-	e||(f=sf(f,a),h=h.concat(Gf(this,a,f)));return h};
-	tf.prototype.hb=function(a,b,c){var d=a.path,e=this.ta.get(d),f=[];if(e&&("default"===a.va()||null!=sf(e,a))){f=e.hb(a,b,c);e.e()&&(this.ta=this.ta.remove(d));e=f.Kg;f=f.mg;b=-1!==Va(e,function(a){return R(a.n)});var h=Re(this.ta,d,function(a,b){return null!=qf(b)});if(b&&!h&&(d=this.ta.subtree(d),!d.e()))for(var d=Hf(d),k=0;k<d.length;++k){var m=d[k],l=m.W,m=If(this,m);this.Lc.Ue(Jf(l),Kf(this,l),m.ud,m.H)}if(!h&&0<e.length&&!c)if(b)this.Lc.Yd(Jf(a),null);else{var r=this;Pa(e,function(a){a.va();
-	var b=r.lc[Ef(a)];r.Lc.Yd(Jf(a),b)})}Lf(this,e)}return f};tf.prototype.za=function(a,b){var c=this.gb,d=Re(this.ta,a,function(b,c){var d=S(b,a);if(d=c.bb(d))return d});return c.za(a,d,b,!0)};function Hf(a){return Pe(a,function(a,c,d){if(c&&null!=qf(c))return[qf(c)];var e=[];c&&(e=rf(c));t(d,function(a){e=e.concat(a)});return e})}function Lf(a,b){for(var c=0;c<b.length;++c){var d=b[c];if(!R(d.n)){var d=Ef(d),e=a.lc[d];delete a.lc[d];delete a.Xe["_"+e]}}}
-	function Jf(a){return R(a.n)&&!de(a.n)?a.Gb():a}function Gf(a,b,c){var d=b.path,e=Kf(a,b);c=If(a,c);b=a.Lc.Ue(Jf(b),e,c.ud,c.H);d=a.ta.subtree(d);if(e)I(null==qf(d.value),"If we're adding a query, it shouldn't be shadowed");else for(e=Pe(d,function(a,b,c){if(!a.e()&&b&&null!=qf(b))return[ue(qf(b))];var d=[];b&&(d=d.concat(Ra(rf(b),function(a){return a.W})));t(c,function(a){d=d.concat(a)});return d}),d=0;d<e.length;++d)c=e[d],a.Lc.Yd(Jf(c),Kf(a,c));return b}
-	function If(a,b){var c=b.W,d=Kf(a,c);return{ud:function(){return(b.w()||B).hash()},H:function(b){if("ok"===b){if(d){var f=c.path;if(b=Af(a,d)){var h=Bf(b);b=h.path;h=h.Fb;f=S(b,f);f=new Xb(new Ze(!1,!0,h,!0),f);b=Cf(a,b,f)}else b=[]}else b=vf(a,new Xb($e,c.path));return b}f="Unknown Error";"too_big"===b?f="The data requested exceeds the maximum size that can be accessed with a single request.":"permission_denied"==b?f="Client doesn't have permission to access the desired data.":"unavailable"==b&&
-	(f="The service is unavailable");f=Error(b+": "+f);f.code=b.toUpperCase();return a.hb(c,null,f)}}}function Ef(a){return a.path.toString()+"$"+a.va()}function Bf(a){var b=a.indexOf("$");I(-1!==b&&b<a.length-1,"Bad queryKey.");return{Fb:a.substr(b+1),path:new K(a.substr(0,b))}}function Af(a,b){var c=a.Xe,d="_"+b;return d in c?c[d]:void 0}function Kf(a,b){var c=Ef(b);return v(a.lc,c)}var Ff=1;
-	function Cf(a,b,c){var d=a.ta.get(b);I(d,"Missing sync point for query tag that we're tracking");return d.$a(c,new of(b,a.gb),null)}function vf(a,b){return Mf(a,b,a.ta,null,new of(F,a.gb))}function Mf(a,b,c,d,e){if(b.path.e())return Nf(a,b,c,d,e);var f=c.get(F);null==d&&null!=f&&(d=f.bb(F));var h=[],k=D(b.path),m=b.Vc(k);if((c=c.children.get(k))&&m)var l=d?d.R(k):null,k=e.u(k),h=h.concat(Mf(a,m,c,l,k));f&&(h=h.concat(f.$a(b,e,d)));return h}
-	function Nf(a,b,c,d,e){var f=c.get(F);null==d&&null!=f&&(d=f.bb(F));var h=[];c.children.ia(function(c,f){var l=d?d.R(c):null,r=e.u(c),x=b.Vc(c);x&&(h=h.concat(Nf(a,x,f,l,r)))});f&&(h=h.concat(f.$a(b,e,d)));return h};function Of(){this.children={};this.kd=0;this.value=null}function Pf(a,b,c){this.Ed=a?a:"";this.Xc=b?b:null;this.A=c?c:new Of}function Qf(a,b){for(var c=b instanceof K?b:new K(b),d=a,e;null!==(e=D(c));)d=new Pf(e,d,v(d.A.children,e)||new Of),c=G(c);return d}g=Pf.prototype;g.Ca=function(){return this.A.value};function Rf(a,b){I("undefined"!==typeof b,"Cannot set value to undefined");a.A.value=b;Sf(a)}g.clear=function(){this.A.value=null;this.A.children={};this.A.kd=0;Sf(this)};
-	g.td=function(){return 0<this.A.kd};g.e=function(){return null===this.Ca()&&!this.td()};g.P=function(a){var b=this;t(this.A.children,function(c,d){a(new Pf(d,b,c))})};function Tf(a,b,c,d){c&&!d&&b(a);a.P(function(a){Tf(a,b,!0,d)});c&&d&&b(a)}function Uf(a,b){for(var c=a.parent();null!==c&&!b(c);)c=c.parent()}g.path=function(){return new K(null===this.Xc?this.Ed:this.Xc.path()+"/"+this.Ed)};g.name=function(){return this.Ed};g.parent=function(){return this.Xc};
-	function Sf(a){if(null!==a.Xc){var b=a.Xc,c=a.Ed,d=a.e(),e=u(b.A.children,c);d&&e?(delete b.A.children[c],b.A.kd--,Sf(b)):d||e||(b.A.children[c]=a.A,b.A.kd++,Sf(b))}};var Vf=/[\[\].#$\/\u0000-\u001F\u007F]/,Wf=/[\[\].#$\u0000-\u001F\u007F]/,Xf=/^[a-zA-Z][a-zA-Z._\-+]+$/;function Yf(a){return p(a)&&0!==a.length&&!Vf.test(a)}function Zf(a){return null===a||p(a)||ga(a)&&!Oc(a)||ia(a)&&u(a,".sv")}function $f(a,b,c,d){d&&!n(b)||ag(y(a,1,d),b,c)}
-	function ag(a,b,c){c instanceof K&&(c=new He(c,a));if(!n(b))throw Error(a+"contains undefined "+Je(c));if(ha(b))throw Error(a+"contains a function "+Je(c)+" with contents: "+b.toString());if(Oc(b))throw Error(a+"contains "+b.toString()+" "+Je(c));if(p(b)&&b.length>10485760/3&&10485760<Xc(b))throw Error(a+"contains a string greater than 10485760 utf8 bytes "+Je(c)+" ('"+b.substring(0,50)+"...')");if(ia(b)){var d=!1,e=!1;gb(b,function(b,h){if(".value"===b)d=!0;else if(".priority"!==b&&".sv"!==b&&(e=
-	!0,!Yf(b)))throw Error(a+" contains an invalid key ("+b+") "+Je(c)+'.  Keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]"');c.push(b);ag(a,h,c);c.pop()});if(d&&e)throw Error(a+' contains ".value" child '+Je(c)+" in addition to actual children.");}}
-	function bg(a,b){var c,d;for(c=0;c<b.length;c++){d=b[c];for(var e=d.slice(),f=0;f<e.length;f++)if((".priority"!==e[f]||f!==e.length-1)&&!Yf(e[f]))throw Error(a+"contains an invalid key ("+e[f]+") in path "+d.toString()+'. Keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]"');}b.sort(Ge);e=null;for(c=0;c<b.length;c++){d=b[c];if(null!==e&&e.contains(d))throw Error(a+"contains a path "+e.toString()+" that is ancestor of another path "+d.toString());e=d}}
-	function cg(a,b,c){var d=y(a,1,!1);if(!ia(b)||ea(b))throw Error(d+" must be an object containing the children to replace.");var e=[];gb(b,function(a,b){var k=new K(a);ag(d,b,c.u(k));if(".priority"===Jd(k)&&!Zf(b))throw Error(d+"contains an invalid value for '"+k.toString()+"', which must be a valid Firebase priority (a string, finite number, server value, or null).");e.push(k)});bg(d,e)}
-	function dg(a,b,c){if(Oc(c))throw Error(y(a,b,!1)+"is "+c.toString()+", but must be a valid Firebase priority (a string, finite number, server value, or null).");if(!Zf(c))throw Error(y(a,b,!1)+"must be a valid Firebase priority (a string, finite number, server value, or null).");}
-	function eg(a,b,c){if(!c||n(b))switch(b){case "value":case "child_added":case "child_removed":case "child_changed":case "child_moved":break;default:throw Error(y(a,1,c)+'must be a valid event type: "value", "child_added", "child_removed", "child_changed", or "child_moved".');}}function fg(a,b){if(n(b)&&!Yf(b))throw Error(y(a,2,!0)+'was an invalid key: "'+b+'".  Firebase keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]").');}
-	function gg(a,b){if(!p(b)||0===b.length||Wf.test(b))throw Error(y(a,1,!1)+'was an invalid path: "'+b+'". Paths must be non-empty strings and can\'t contain ".", "#", "$", "[", or "]"');}function hg(a,b){if(".info"===D(b))throw Error(a+" failed: Can't modify data under /.info/");}function ig(a,b){if(!p(b))throw Error(y(a,1,!1)+"must be a valid credential (a string).");}function jg(a,b,c){if(!p(c))throw Error(y(a,b,!1)+"must be a valid string.");}
-	function kg(a,b){jg(a,1,b);if(!Xf.test(b))throw Error(y(a,1,!1)+"'"+b+"' is not a valid authentication provider.");}function lg(a,b,c,d){if(!d||n(c))if(!ia(c)||null===c)throw Error(y(a,b,d)+"must be a valid object.");}function mg(a,b,c){if(!ia(b)||!u(b,c))throw Error(y(a,1,!1)+'must contain the key "'+c+'"');if(!p(v(b,c)))throw Error(y(a,1,!1)+'must contain the key "'+c+'" with type "string"');};function ng(){this.set={}}g=ng.prototype;g.add=function(a,b){this.set[a]=null!==b?b:!0};g.contains=function(a){return u(this.set,a)};g.get=function(a){return this.contains(a)?this.set[a]:void 0};g.remove=function(a){delete this.set[a]};g.clear=function(){this.set={}};g.e=function(){return wa(this.set)};g.count=function(){return pa(this.set)};function og(a,b){t(a.set,function(a,d){b(d,a)})}g.keys=function(){var a=[];t(this.set,function(b,c){a.push(c)});return a};function oc(){this.m=this.B=null}oc.prototype.find=function(a){if(null!=this.B)return this.B.Q(a);if(a.e()||null==this.m)return null;var b=D(a);a=G(a);return this.m.contains(b)?this.m.get(b).find(a):null};oc.prototype.mc=function(a,b){if(a.e())this.B=b,this.m=null;else if(null!==this.B)this.B=this.B.G(a,b);else{null==this.m&&(this.m=new ng);var c=D(a);this.m.contains(c)||this.m.add(c,new oc);c=this.m.get(c);a=G(a);c.mc(a,b)}};
-	function pg(a,b){if(b.e())return a.B=null,a.m=null,!0;if(null!==a.B){if(a.B.K())return!1;var c=a.B;a.B=null;c.P(M,function(b,c){a.mc(new K(b),c)});return pg(a,b)}return null!==a.m?(c=D(b),b=G(b),a.m.contains(c)&&pg(a.m.get(c),b)&&a.m.remove(c),a.m.e()?(a.m=null,!0):!1):!0}function pc(a,b,c){null!==a.B?c(b,a.B):a.P(function(a,e){var f=new K(b.toString()+"/"+a);pc(e,f,c)})}oc.prototype.P=function(a){null!==this.m&&og(this.m,function(b,c){a(b,c)})};var qg="auth.firebase.com";function rg(a,b,c){this.ld=a||{};this.be=b||{};this.Za=c||{};this.ld.remember||(this.ld.remember="default")}var sg=["remember","redirectTo"];function tg(a){var b={},c={};gb(a||{},function(a,e){0<=Oa(sg,a)?b[a]=e:c[a]=e});return new rg(b,{},c)};function ug(a,b){this.Ne=["session",a.Md,a.fc].join(":");this.Zd=b}ug.prototype.set=function(a,b){if(!b)if(this.Zd.length)b=this.Zd[0];else throw Error("fb.login.SessionManager : No storage options available!");b.set(this.Ne,a)};ug.prototype.get=function(){var a=Ra(this.Zd,q(this.qg,this)),a=Qa(a,function(a){return null!==a});Xa(a,function(a,c){return Zc(c.token)-Zc(a.token)});return 0<a.length?a.shift():null};ug.prototype.qg=function(a){try{var b=a.get(this.Ne);if(b&&b.token)return b}catch(c){}return null};
-	ug.prototype.clear=function(){var a=this;Pa(this.Zd,function(b){b.remove(a.Ne)})};function vg(){return"undefined"!==typeof navigator&&"string"===typeof navigator.userAgent?navigator.userAgent:""}function wg(){var a=vg();if(""===a)return!1;if("Microsoft Internet Explorer"===navigator.appName){if((a=a.match(/MSIE ([0-9]{1,}[\.0-9]{0,})/))&&1<a.length)return 8<=parseFloat(a[1])}else if(-1<a.indexOf("Trident")&&(a=a.match(/rv:([0-9]{2,2}[\.0-9]{0,})/))&&1<a.length)return 8<=parseFloat(a[1]);return!1};function xg(){var a=window.opener.frames,b;for(b=a.length-1;0<=b;b--)try{if(a[b].location.protocol===window.location.protocol&&a[b].location.host===window.location.host&&"__winchan_relay_frame"===a[b].name)return a[b]}catch(c){}return null}function yg(a,b,c){a.attachEvent?a.attachEvent("on"+b,c):a.addEventListener&&a.addEventListener(b,c,!1)}function zg(a,b,c){a.detachEvent?a.detachEvent("on"+b,c):a.removeEventListener&&a.removeEventListener(b,c,!1)}
-	function Ag(a){/^https?:\/\//.test(a)||(a=window.location.href);var b=/^(https?:\/\/[\-_a-zA-Z\.0-9:]+)/.exec(a);return b?b[1]:a}function Bg(a){var b="";try{a=a.replace("#","");var c=jb(a);c&&u(c,"__firebase_request_key")&&(b=v(c,"__firebase_request_key"))}catch(d){}return b}function Cg(){var a=Nc(qg);return a.scheme+"://"+a.host+"/v2"}function Dg(a){return Cg()+"/"+a+"/auth/channel"};function Eg(a){var b=this;this.zc=a;this.$d="*";wg()?this.Pc=this.wd=xg():(this.Pc=window.opener,this.wd=window);if(!b.Pc)throw"Unable to find relay frame";yg(this.wd,"message",q(this.hc,this));yg(this.wd,"message",q(this.Af,this));try{Fg(this,{a:"ready"})}catch(c){yg(this.Pc,"load",function(){Fg(b,{a:"ready"})})}yg(window,"unload",q(this.Ag,this))}function Fg(a,b){b=A(b);wg()?a.Pc.doPost(b,a.$d):a.Pc.postMessage(b,a.$d)}
-	Eg.prototype.hc=function(a){var b=this,c;try{c=lb(a.data)}catch(d){}c&&"request"===c.a&&(zg(window,"message",this.hc),this.$d=a.origin,this.zc&&setTimeout(function(){b.zc(b.$d,c.d,function(a,c){b.cg=!c;b.zc=void 0;Fg(b,{a:"response",d:a,forceKeepWindowOpen:c})})},0))};Eg.prototype.Ag=function(){try{zg(this.wd,"message",this.Af)}catch(a){}this.zc&&(Fg(this,{a:"error",d:"unknown closed window"}),this.zc=void 0);try{window.close()}catch(b){}};Eg.prototype.Af=function(a){if(this.cg&&"die"===a.data)try{window.close()}catch(b){}};function Gg(a){this.oc=Ga()+Ga()+Ga();this.Df=a}Gg.prototype.open=function(a,b){wc.set("redirect_request_id",this.oc);wc.set("redirect_request_id",this.oc);b.requestId=this.oc;b.redirectTo=b.redirectTo||window.location.href;a+=(/\?/.test(a)?"":"?")+ib(b);window.location=a};Gg.isAvailable=function(){return!1};Gg.prototype.Qb=function(){return"redirect"};var Hg={NETWORK_ERROR:"Unable to contact the Firebase server.",SERVER_ERROR:"An unknown server error occurred.",TRANSPORT_UNAVAILABLE:"There are no login transports available for the requested method.",REQUEST_INTERRUPTED:"The browser redirected the page before the login request could complete.",USER_CANCELLED:"The user cancelled authentication."};function U(a){var b=Error(v(Hg,a),a);b.code=a;return b};function Ig(a){var b;(b=!a.window_features)||(b=vg(),b=-1!==b.indexOf("Fennec/")||-1!==b.indexOf("Firefox/")&&-1!==b.indexOf("Android"));b&&(a.window_features=void 0);a.window_name||(a.window_name="_blank");this.options=a}
-	Ig.prototype.open=function(a,b,c){function d(a){h&&(document.body.removeChild(h),h=void 0);r&&(r=clearInterval(r));zg(window,"message",e);zg(window,"unload",d);if(l&&!a)try{l.close()}catch(b){k.postMessage("die",m)}l=k=void 0}function e(a){if(a.origin===m)try{var b=lb(a.data);"ready"===b.a?k.postMessage(x,m):"error"===b.a?(d(!1),c&&(c(b.d),c=null)):"response"===b.a&&(d(b.forceKeepWindowOpen),c&&(c(null,b.d),c=null))}catch(e){}}var f=wg(),h,k;if(!this.options.relay_url)return c(Error("invalid arguments: origin of url and relay_url must match"));
-	var m=Ag(a);if(m!==Ag(this.options.relay_url))c&&setTimeout(function(){c(Error("invalid arguments: origin of url and relay_url must match"))},0);else{f&&(h=document.createElement("iframe"),h.setAttribute("src",this.options.relay_url),h.style.display="none",h.setAttribute("name","__winchan_relay_frame"),document.body.appendChild(h),k=h.contentWindow);a+=(/\?/.test(a)?"":"?")+ib(b);var l=window.open(a,this.options.window_name,this.options.window_features);k||(k=l);var r=setInterval(function(){l&&l.closed&&
-	(d(!1),c&&(c(U("USER_CANCELLED")),c=null))},500),x=A({a:"request",d:b});yg(window,"unload",d);yg(window,"message",e)}};Ig.isAvailable=function(){return!1};Ig.prototype.Qb=function(){return"popup"};function Jg(a){a.method||(a.method="GET");a.headers||(a.headers={});a.headers.content_type||(a.headers.content_type="application/json");a.headers.content_type=a.headers.content_type.toLowerCase();this.options=a}
-	Jg.prototype.open=function(a,b,c){var d=Nc(a),e="http"===d.scheme?__webpack_require__(273):__webpack_require__(274);a=this.options.method;var f,h={Accept:"application/json;text/plain"};za(h,this.options.headers);d={host:d.host.split(":")[0],port:d.port,path:d.kc,method:this.options.method.toUpperCase()};if("GET"===a)d.path+=(/\?/.test(d.path)?"":"?")+ib(b),f=null;else{var k=this.options.headers.content_type;"application/json"===k&&(f=A(b));"application/x-www-form-urlencoded"===k&&(f=ib(b));h["Content-Length"]=Buffer.byteLength(f,
-	"utf8")}d.headers=h;b=e.request(d,function(a){var b="";a.setEncoding("utf8");a.on("data",function(a){b+=a});a.on("end",function(){try{b=lb(b+"")}catch(a){}c&&(c(null,b),c=null)})});"GET"!==a&&b.write(f);b.on("error",function(a){a&&a.code&&("ENOTFOUND"===a.code||"ENETDOWN"===a.code)?c(U("NETWORK_ERROR")):c(U("SERVER_ERROR"));c=null});b.end()};Jg.isAvailable=function(){return!0};Jg.prototype.Qb=function(){return"json"};function Kg(a){a.method||(a.method="GET");a.headers||(a.headers={});a.headers.content_type||(a.headers.content_type="application/json");a.headers.content_type=a.headers.content_type.toLowerCase();this.options=a}
-	Kg.prototype.open=function(a,b,c){function d(){c&&(c(U("REQUEST_INTERRUPTED")),c=null)}var e=new XMLHttpRequest,f=this.options.method.toUpperCase(),h;yg(window,"beforeunload",d);e.onreadystatechange=function(){if(c&&4===e.readyState){var a;if(200<=e.status&&300>e.status){try{a=lb(e.responseText)}catch(b){}c(null,a)}else 500<=e.status&&600>e.status?c(U("SERVER_ERROR")):c(U("NETWORK_ERROR"));c=null;zg(window,"beforeunload",d)}};if("GET"===f)a+=(/\?/.test(a)?"":"?")+ib(b),h=null;else{var k=this.options.headers.content_type;
-	"application/json"===k&&(h=A(b));"application/x-www-form-urlencoded"===k&&(h=ib(b))}e.open(f,a,!0);a={"X-Requested-With":"XMLHttpRequest",Accept:"application/json;text/plain"};za(a,this.options.headers);for(var m in a)e.setRequestHeader(m,a[m]);e.send(h)};Kg.isAvailable=function(){return!1};Kg.prototype.Qb=function(){return"json"};function Lg(a){this.oc=Ga()+Ga()+Ga();this.Df=a}
-	Lg.prototype.open=function(a,b,c){function d(){c&&(c(U("USER_CANCELLED")),c=null)}var e=this,f=Nc(qg),h;b.requestId=this.oc;b.redirectTo=f.scheme+"://"+f.host+"/blank/page.html";a+=/\?/.test(a)?"":"?";a+=ib(b);(h=window.open(a,"_blank","location=no"))&&ha(h.addEventListener)?(h.addEventListener("loadstart",function(a){var b;if(b=a&&a.url)a:{try{var l=document.createElement("a");l.href=a.url;b=l.host===f.host&&"/blank/page.html"===l.pathname;break a}catch(r){}b=!1}b&&(a=Bg(a.url),h.removeEventListener("exit",
-	d),h.close(),a=new rg(null,null,{requestId:e.oc,requestKey:a}),e.Df.requestWithCredential("/auth/session",a,c),c=null)}),h.addEventListener("exit",d)):c(U("TRANSPORT_UNAVAILABLE"))};Lg.isAvailable=function(){return!1};Lg.prototype.Qb=function(){return"redirect"};function Mg(a){a.callback_parameter||(a.callback_parameter="callback");this.options=a;window.__firebase_auth_jsonp=window.__firebase_auth_jsonp||{}}
-	Mg.prototype.open=function(a,b,c){function d(){c&&(c(U("REQUEST_INTERRUPTED")),c=null)}function e(){setTimeout(function(){window.__firebase_auth_jsonp[f]=void 0;wa(window.__firebase_auth_jsonp)&&(window.__firebase_auth_jsonp=void 0);try{var a=document.getElementById(f);a&&a.parentNode.removeChild(a)}catch(b){}},1);zg(window,"beforeunload",d)}var f="fn"+(new Date).getTime()+Math.floor(99999*Math.random());b[this.options.callback_parameter]="__firebase_auth_jsonp."+f;a+=(/\?/.test(a)?"":"?")+ib(b);
-	yg(window,"beforeunload",d);window.__firebase_auth_jsonp[f]=function(a){c&&(c(null,a),c=null);e()};Ng(f,a,c)};
-	function Ng(a,b,c){setTimeout(function(){try{var d=document.createElement("script");d.type="text/javascript";d.id=a;d.async=!0;d.src=b;d.onerror=function(){var b=document.getElementById(a);null!==b&&b.parentNode.removeChild(b);c&&c(U("NETWORK_ERROR"))};var e=document.getElementsByTagName("head");(e&&0!=e.length?e[0]:document.documentElement).appendChild(d)}catch(f){c&&c(U("NETWORK_ERROR"))}},0)}Mg.isAvailable=function(){return"undefined"!==typeof document&&null!=document.createElement};
-	Mg.prototype.Qb=function(){return"json"};function Og(a,b,c,d){Be.call(this,["auth_status"]);this.F=a;this.af=b;this.Vg=c;this.Ie=d;this.rc=new ug(a,[vc,wc]);this.kb=null;this.Pe=!1;Pg(this)}ma(Og,Be);g=Og.prototype;g.te=function(){return this.kb||null};function Pg(a){wc.get("redirect_request_id")&&Qg(a);var b=a.rc.get();b&&b.token?(Rg(a,b),a.af(b.token,function(c,d){Sg(a,c,d,!1,b.token,b)},function(b,d){Tg(a,"resumeSession()",b,d)})):Rg(a,null)}
-	function Ug(a,b,c,d,e,f){"firebaseio-demo.com"===a.F.domain&&N("Firebase authentication is not supported on demo Firebases (*.firebaseio-demo.com). To secure your Firebase, create a production Firebase at https://www.firebase.com.");a.af(b,function(f,k){Sg(a,f,k,!0,b,c,d||{},e)},function(b,c){Tg(a,"auth()",b,c,f)})}function Vg(a,b){a.rc.clear();Rg(a,null);a.Vg(function(a,d){if("ok"===a)O(b,null);else{var e=(a||"error").toUpperCase(),f=e;d&&(f+=": "+d);f=Error(f);f.code=e;O(b,f)}})}
-	function Sg(a,b,c,d,e,f,h,k){"ok"===b?(d&&(b=c.auth,f.auth=b,f.expires=c.expires,f.token=$c(e)?e:"",c=null,b&&u(b,"uid")?c=v(b,"uid"):u(f,"uid")&&(c=v(f,"uid")),f.uid=c,c="custom",b&&u(b,"provider")?c=v(b,"provider"):u(f,"provider")&&(c=v(f,"provider")),f.provider=c,a.rc.clear(),$c(e)&&(h=h||{},c=vc,"sessionOnly"===h.remember&&(c=wc),"none"!==h.remember&&a.rc.set(f,c)),Rg(a,f)),O(k,null,f)):(a.rc.clear(),Rg(a,null),f=a=(b||"error").toUpperCase(),c&&(f+=": "+c),f=Error(f),f.code=a,O(k,f))}
-	function Tg(a,b,c,d,e){N(b+" was canceled: "+d);a.rc.clear();Rg(a,null);a=Error(d);a.code=c.toUpperCase();O(e,a)}function Wg(a,b,c,d,e){Xg(a);c=new rg(d||{},{},c||{});Yg(a,[Jg],"/auth/"+b,c,e)}
-	function Zg(a,b,c,d){Xg(a);var e=[Ig,Lg];c=tg(c);"anonymous"===b||"password"===b?setTimeout(function(){O(d,U("TRANSPORT_UNAVAILABLE"))},0):(c.be.window_features="menubar=yes,modal=yes,alwaysRaised=yeslocation=yes,resizable=yes,scrollbars=yes,status=yes,height=625,width=625,top="+("object"===typeof screen?.5*(screen.height-625):0)+",left="+("object"===typeof screen?.5*(screen.width-625):0),c.be.relay_url=Dg(a.F.fc),c.be.requestWithCredential=q(a.pc,a),Yg(a,e,"/auth/"+b,c,d))}
-	function Qg(a){var b=wc.get("redirect_request_id");if(b){var c=wc.get("redirect_client_options");wc.remove("redirect_request_id");wc.remove("redirect_client_options");var d=[Kg,Mg],b={requestId:b,requestKey:Bg(document.location.hash)},c=new rg(c,{},b);a.Pe=!0;try{document.location.hash=document.location.hash.replace(/&__firebase_request_key=([a-zA-z0-9]*)/,"")}catch(e){}Yg(a,d,"/auth/session",c,function(){this.Pe=!1}.bind(a))}}
-	g.oe=function(a,b){Xg(this);var c=tg(a);c.Za._method="POST";this.pc("/users",c,function(a,c){a?O(b,a):O(b,a,c)})};g.Qe=function(a,b){var c=this;Xg(this);var d="/users/"+encodeURIComponent(a.email),e=tg(a);e.Za._method="DELETE";this.pc(d,e,function(a,d){!a&&d&&d.uid&&c.kb&&c.kb.uid&&c.kb.uid===d.uid&&Vg(c);O(b,a)})};g.le=function(a,b){Xg(this);var c="/users/"+encodeURIComponent(a.email)+"/password",d=tg(a);d.Za._method="PUT";d.Za.password=a.newPassword;this.pc(c,d,function(a){O(b,a)})};
-	g.ke=function(a,b){Xg(this);var c="/users/"+encodeURIComponent(a.oldEmail)+"/email",d=tg(a);d.Za._method="PUT";d.Za.email=a.newEmail;d.Za.password=a.password;this.pc(c,d,function(a){O(b,a)})};g.Se=function(a,b){Xg(this);var c="/users/"+encodeURIComponent(a.email)+"/password",d=tg(a);d.Za._method="POST";this.pc(c,d,function(a){O(b,a)})};g.pc=function(a,b,c){$g(this,[Jg],a,b,c)};
-	function Yg(a,b,c,d,e){$g(a,b,c,d,function(b,c){!b&&c&&c.token&&c.uid?Ug(a,c.token,c,d.ld,function(a,b){a?O(e,a):O(e,null,b)}):O(e,b||U("UNKNOWN_ERROR"))})}
-	function $g(a,b,c,d,e){b=Qa(b,function(a){return"function"===typeof a.isAvailable&&a.isAvailable()});0===b.length?setTimeout(function(){O(e,U("TRANSPORT_UNAVAILABLE"))},0):(b=new (b.shift())(d.be),d=hb(d.Za),d.v="node-"+fb,d.transport=b.Qb(),d.suppress_status_codes=!0,a=Cg()+"/"+a.F.fc+c,b.open(a,d,function(a,b){if(a)O(e,a);else if(b&&b.error){var c=Error(b.error.message);c.code=b.error.code;c.details=b.error.details;O(e,c)}else O(e,null,b)}))}
-	function Rg(a,b){var c=null!==a.kb||null!==b;a.kb=b;c&&a.ce("auth_status",b);a.Ie(null!==b)}g.we=function(a){I("auth_status"===a,'initial event must be of type "auth_status"');return this.Pe?null:[this.kb]};function Xg(a){var b=a.F;if("firebaseio.com"!==b.domain&&"firebaseio-demo.com"!==b.domain&&"auth.firebase.com"===qg)throw Error("This custom Firebase server ('"+a.F.domain+"') does not support delegated login.");};var Ac="websocket",Bc="long_polling";function ah(a){this.hc=a;this.Ld=[];this.Rb=0;this.me=-1;this.Db=null}function bh(a,b,c){a.me=b;a.Db=c;a.me<a.Rb&&(a.Db(),a.Db=null)}function ch(a,b,c){for(a.Ld[b]=c;a.Ld[a.Rb];){var d=a.Ld[a.Rb];delete a.Ld[a.Rb];for(var e=0;e<d.length;++e)if(d[e]){var f=a;Bb(function(){f.hc(d[e])})}if(a.Rb===a.me){a.Db&&(clearTimeout(a.Db),a.Db(),a.Db=null);break}a.Rb++}};function dh(a,b,c,d){this.ne=a;this.f=Kc(a);this.lb=this.mb=0;this.Ta=Pb(b);this.Pf=c;this.Fc=!1;this.zb=d;this.fd=function(a){return zc(b,Bc,a)}}var eh,fh;
-	dh.prototype.open=function(a,b){this.ef=0;this.la=b;this.zf=new ah(a);this.xb=!1;var c=this;this.ob=setTimeout(function(){c.f("Timed out trying to connect.");c.eb();c.ob=null},Math.floor(3E4));Pc(function(){if(!c.xb){c.Ra=new gh(function(a,b,d,k,m){hh(c,arguments);if(c.Ra)if(c.ob&&(clearTimeout(c.ob),c.ob=null),c.Fc=!0,"start"==a)c.id=b,c.Hg=d;else if("close"===a)b?(c.Ra.Lf=!1,bh(c.zf,b,function(){c.eb()})):c.eb();else throw Error("Unrecognized command received: "+a);},function(a,b){hh(c,arguments);
-	ch(c.zf,a,b)},function(){c.eb()},c.fd);var a={start:"t"};a.ser=Math.floor(1E8*Math.random());c.Ra.Wg&&(a.cb=c.Ra.Wg);a.v="5";c.Pf&&(a.s=c.Pf);c.zb&&(a.ls=c.zb);a=c.fd(a);c.f("Connecting via long-poll to "+a);ih(c.Ra,a,function(){})}})};dh.prototype.start=function(){var a=this.Ra,b=this.Hg;a.Ge=this.id;a.yf=b;for(a.he=!0;jh(a););};
-	dh.isAvailable=function(){return eh||!fh&&"undefined"!==typeof document&&null!=document.createElement&&!("object"===typeof window&&window.chrome&&window.chrome.extension&&!/^chrome/.test(window.location.href))&&!("object"===typeof Windows&&"object"===typeof Windows.Yg)&&!1};g=dh.prototype;g.Bd=function(){};g.ad=function(){this.xb=!0;this.Ra&&(this.Ra.close(),this.Ra=null);this.xf&&(document.body.removeChild(this.xf),this.xf=null);this.ob&&(clearTimeout(this.ob),this.ob=null)};
-	g.eb=function(){this.xb||(this.f("Longpoll is closing itself"),this.ad(),this.la&&(this.la(this.Fc),this.la=null))};g.close=function(){this.xb||(this.f("Longpoll is being closed."),this.ad())};g.send=function(a){a=A(a);this.mb+=a.length;Mb(this.Ta,"bytes_sent",a.length);a=Gc(a);a=eb(a,!0);a=Tc(a,1840);for(var b=0;b<a.length;b++){var c=this.Ra;c.Yc.push({Mg:this.ef,Ug:a.length,gf:a[b]});c.he&&jh(c);this.ef++}};function hh(a,b){var c=A(b).length;a.lb+=c;Mb(a.Ta,"bytes_received",c)}
-	function gh(a,b,c,d){this.fd=d;this.fb=c;this.Me=new ng;this.Yc=[];this.pe=Math.floor(1E8*Math.random());this.Lf=!0;this.gg=a;this.yg=b}gh.prototype.close=function(){this.he=!1;if(this.Dd){this.Dd.$g.body.innerHTML="";var a=this;setTimeout(function(){null!==a.Dd&&(document.body.removeChild(a.Dd),a.Dd=null)},Math.floor(0))}if(this.Ge){var b={disconn:"t"};b.id=this.Ge;b.pw=this.yf;b=this.fd(b);kh(b)}if(b=this.fb)this.fb=null,b()};
-	function jh(a){if(a.he&&a.Lf&&a.Me.count()<(0<a.Yc.length?2:1)){a.pe++;var b={};b.id=a.Ge;b.pw=a.yf;b.ser=a.pe;for(var b=a.fd(b),c="",d=0;0<a.Yc.length;)if(1870>=a.Yc[0].gf.length+30+c.length){var e=a.Yc.shift(),c=c+"&seg"+d+"="+e.Mg+"&ts"+d+"="+e.Ug+"&d"+d+"="+e.gf;d++}else break;lh(a,b+c,a.pe);return!0}return!1}function lh(a,b,c){function d(){a.Me.remove(c);jh(a)}a.Me.add(c,1);var e=setTimeout(d,Math.floor(25E3));ih(a,b,function(){clearTimeout(e);d()})}function ih(a,b,c){mh(a,b,c)}var nh=null;
-	function kh(a,b){nh||(nh=__webpack_require__(275));nh(a,function(c,d,e){if(c)throw"Rest request for "+a.url+" failed.";b&&b(e)})}function mh(a,b,c){kh({url:b,ah:!0},function(b){oh(a,b);c()})}function oh(a,b){eval("var jsonpCB = function(pLPCommand, pRTLPCB) {"+b+"}");jsonpCB(a.gg,a.yg)};var ph=null,ph=__webpack_require__(276).Client;function qh(a,b,c,d){this.ne=a;this.f=Kc(this.ne);this.frames=this.Ic=null;this.lb=this.mb=this.Ze=0;this.Ta=Pb(b);a={v:"5"};c&&(a.s=c);d&&(a.ls=d);this.bf=zc(b,Ac,a)}var rh;
-	qh.prototype.open=function(a,b){this.fb=b;this.xg=a;this.f("Websocket connecting to "+this.bf);this.Fc=!1;vc.set("previous_websocket_failure",!0);try{this.ua=new ph(this.bf,[],{headers:{"User-Agent":"Firebase/5/"+fb+"/"+process.platform+"/Node"}})}catch(c){this.f("Error instantiating WebSocket.");var d=c.message||c.data;d&&this.f(d);this.eb();return}var e=this;this.ua.onopen=function(){e.f("Websocket connected.");e.Fc=!0};this.ua.onclose=function(){e.f("Websocket connection was disconnected.");e.ua=
-	null;e.eb()};this.ua.onmessage=function(a){if(null!==e.ua)if(a=a.data,e.lb+=a.length,Mb(e.Ta,"bytes_received",a.length),sh(e),null!==e.frames)th(e,a);else{a:{I(null===e.frames,"We already have a frame buffer");if(6>=a.length){var b=Number(a);if(!isNaN(b)){e.Ze=b;e.frames=[];a=null;break a}}e.Ze=1;e.frames=[]}null!==a&&th(e,a)}};this.ua.onerror=function(a){e.f("WebSocket error.  Closing connection.");(a=a.message||a.data)&&e.f(a);e.eb()}};qh.prototype.start=function(){};
-	qh.isAvailable=function(){var a=!1;if("undefined"!==typeof navigator&&navigator.userAgent){var b=navigator.userAgent.match(/Android ([0-9]{0,}\.[0-9]{0,})/);b&&1<b.length&&4.4>parseFloat(b[1])&&(a=!0)}return!a&&null!==ph&&!rh};qh.responsesRequiredToBeHealthy=2;qh.healthyTimeout=3E4;g=qh.prototype;g.Bd=function(){vc.remove("previous_websocket_failure")};function th(a,b){a.frames.push(b);if(a.frames.length==a.Ze){var c=a.frames.join("");a.frames=null;c=lb(c);a.xg(c)}}
-	g.send=function(a){sh(this);a=A(a);this.mb+=a.length;Mb(this.Ta,"bytes_sent",a.length);a=Tc(a,16384);1<a.length&&this.ua.send(String(a.length));for(var b=0;b<a.length;b++)this.ua.send(a[b])};g.ad=function(){this.xb=!0;this.Ic&&(clearInterval(this.Ic),this.Ic=null);this.ua&&(this.ua.close(),this.ua=null)};g.eb=function(){this.xb||(this.f("WebSocket is closing itself"),this.ad(),this.fb&&(this.fb(this.Fc),this.fb=null))};g.close=function(){this.xb||(this.f("WebSocket is being closed"),this.ad())};
-	function sh(a){clearInterval(a.Ic);a.Ic=setInterval(function(){a.ua&&a.ua.send("0");sh(a)},Math.floor(45E3))};function uh(a){vh(this,a)}var wh=[dh,qh];function vh(a,b){var c=qh&&qh.isAvailable(),d=c&&!(vc.sf||!0===vc.get("previous_websocket_failure"));b.Xg&&(c||N("wss:// URL used, but browser isn't known to support websockets.  Trying anyway."),d=!0);if(d)a.dd=[qh];else{var e=a.dd=[];Uc(wh,function(a,b){b&&b.isAvailable()&&e.push(b)})}}function xh(a){if(0<a.dd.length)return a.dd[0];throw Error("No transports available");};function yh(a,b,c,d,e,f,h){this.id=a;this.f=Kc("c:"+this.id+":");this.hc=c;this.Uc=d;this.la=e;this.Ke=f;this.F=b;this.Kd=[];this.cf=0;this.Of=new uh(b);this.Sa=0;this.zb=h;this.f("Connection created");zh(this)}
-	function zh(a){var b=xh(a.Of);a.J=new b("c:"+a.id+":"+a.cf++,a.F,void 0,a.zb);a.Oe=b.responsesRequiredToBeHealthy||0;var c=Ah(a,a.J),d=Bh(a,a.J);a.ed=a.J;a.$c=a.J;a.D=null;a.yb=!1;setTimeout(function(){a.J&&a.J.open(c,d)},Math.floor(0));b=b.healthyTimeout||0;0<b&&(a.vd=setTimeout(function(){a.vd=null;a.yb||(a.J&&102400<a.J.lb?(a.f("Connection exceeded healthy timeout but has received "+a.J.lb+" bytes.  Marking connection healthy."),a.yb=!0,a.J.Bd()):a.J&&10240<a.J.mb?a.f("Connection exceeded healthy timeout but has sent "+
-	a.J.mb+" bytes.  Leaving connection alive."):(a.f("Closing unhealthy connection after timeout."),a.close()))},Math.floor(b)))}function Bh(a,b){return function(c){b===a.J?(a.J=null,c||0!==a.Sa?1===a.Sa&&a.f("Realtime connection lost."):(a.f("Realtime connection failed."),"s-"===a.F.Xa.substr(0,2)&&(vc.remove("host:"+a.F.host),a.F.Xa=a.F.host)),a.close()):b===a.D?(a.f("Secondary connection lost."),c=a.D,a.D=null,a.ed!==c&&a.$c!==c||a.close()):a.f("closing an old connection")}}
-	function Ah(a,b){return function(c){if(2!=a.Sa)if(b===a.$c){var d=Rc("t",c);c=Rc("d",c);if("c"==d){if(d=Rc("t",c),"d"in c)if(c=c.d,"h"===d){var d=c.ts,e=c.v,f=c.h;a.Mf=c.s;yc(a.F,f);0==a.Sa&&(a.J.start(),Ch(a,a.J,d),"5"!==e&&N("Protocol version mismatch detected"),c=a.Of,(c=1<c.dd.length?c.dd[1]:null)&&Dh(a,c))}else if("n"===d){a.f("recvd end transmission on primary");a.$c=a.D;for(c=0;c<a.Kd.length;++c)a.Gd(a.Kd[c]);a.Kd=[];Eh(a)}else"s"===d?(a.f("Connection shutdown command received. Shutting down..."),
-	a.Ke&&(a.Ke(c),a.Ke=null),a.la=null,a.close()):"r"===d?(a.f("Reset packet received.  New host: "+c),yc(a.F,c),1===a.Sa?a.close():(Fh(a),zh(a))):"e"===d?Lc("Server Error: "+c):"o"===d?(a.f("got pong on primary."),Gh(a),Hh(a)):Lc("Unknown control packet command: "+d)}else"d"==d&&a.Gd(c)}else if(b===a.D)if(d=Rc("t",c),c=Rc("d",c),"c"==d)"t"in c&&(c=c.t,"a"===c?Ih(a):"r"===c?(a.f("Got a reset on secondary, closing it"),a.D.close(),a.ed!==a.D&&a.$c!==a.D||a.close()):"o"===c&&(a.f("got pong on secondary."),
-	a.Kf--,Ih(a)));else if("d"==d)a.Kd.push(c);else throw Error("Unknown protocol layer: "+d);else a.f("message on old connection")}}yh.prototype.Ea=function(a){Jh(this,{t:"d",d:a})};function Eh(a){a.ed===a.D&&a.$c===a.D&&(a.f("cleaning up and promoting a connection: "+a.D.ne),a.J=a.D,a.D=null)}
-	function Ih(a){0>=a.Kf?(a.f("Secondary connection is healthy."),a.yb=!0,a.D.Bd(),a.D.start(),a.f("sending client ack on secondary"),a.D.send({t:"c",d:{t:"a",d:{}}}),a.f("Ending transmission on primary"),a.J.send({t:"c",d:{t:"n",d:{}}}),a.ed=a.D,Eh(a)):(a.f("sending ping on secondary."),a.D.send({t:"c",d:{t:"p",d:{}}}))}yh.prototype.Gd=function(a){Gh(this);this.hc(a)};function Gh(a){a.yb||(a.Oe--,0>=a.Oe&&(a.f("Primary connection is healthy."),a.yb=!0,a.J.Bd()))}
-	function Dh(a,b){a.D=new b("c:"+a.id+":"+a.cf++,a.F,a.Mf);a.Kf=b.responsesRequiredToBeHealthy||0;a.D.open(Ah(a,a.D),Bh(a,a.D));setTimeout(function(){a.D&&(a.f("Timed out trying to upgrade."),a.D.close())},Math.floor(6E4))}function Ch(a,b,c){a.f("Realtime connection established.");a.J=b;a.Sa=1;a.Uc&&(a.Uc(c,a.Mf),a.Uc=null);0===a.Oe?(a.f("Primary connection is healthy."),a.yb=!0):setTimeout(function(){Hh(a)},Math.floor(5E3))}
-	function Hh(a){a.yb||1!==a.Sa||(a.f("sending ping on primary."),Jh(a,{t:"c",d:{t:"p",d:{}}}))}function Jh(a,b){if(1!==a.Sa)throw"Connection is not connected";a.ed.send(b)}yh.prototype.close=function(){2!==this.Sa&&(this.f("Closing realtime connection."),this.Sa=2,Fh(this),this.la&&(this.la(),this.la=null))};function Fh(a){a.f("Shutting down all connections");a.J&&(a.J.close(),a.J=null);a.D&&(a.D.close(),a.D=null);a.vd&&(clearTimeout(a.vd),a.vd=null)};function Kh(a,b,c,d){this.id=Lh++;this.f=Kc("p:"+this.id+":");this.tf=this.Ae=!1;this.$={};this.qa=[];this.Wc=0;this.Tc=[];this.oa=!1;this.Ya=1E3;this.Cd=3E5;this.Eb=b;this.Sc=c;this.Le=d;this.F=a;this.qb=this.Aa=this.Ha=this.zb=this.Te=null;this.Mb=!1;this.Rd={};this.Lg=0;this.kf=!0;this.Jc=this.Ce=null;Mh(this,0);Fe.sb().Cb("visible",this.Bg,this);-1===a.host.indexOf("fblocal")&&Ee.sb().Cb("online",this.zg,this)}var Lh=0,Nh=0;g=Kh.prototype;
-	g.Ea=function(a,b,c){var d=++this.Lg;a={r:d,a:a,b:b};this.f(A(a));I(this.oa,"sendRequest call when we're not connected not allowed.");this.Ha.Ea(a);c&&(this.Rd[d]=c)};g.uf=function(a,b,c,d){var e=a.va(),f=a.path.toString();this.f("Listen called for "+f+" "+e);this.$[f]=this.$[f]||{};I(de(a.n)||!R(a.n),"listen() called for non-default but complete query");I(!this.$[f][e],"listen() called twice for same path/queryId.");a={H:d,ud:b,Ig:a,tag:c};this.$[f][e]=a;this.oa&&Oh(this,a)};
-	function Oh(a,b){var c=b.Ig,d=c.path.toString(),e=c.va();a.f("Listen on "+d+" for "+e);var f={p:d};b.tag&&(f.q=ce(c.n),f.t=b.tag);f.h=b.ud();a.Ea("q",f,function(f){var k=f.d,m=f.s;if(k&&"object"===typeof k&&u(k,"w")){var l=v(k,"w");ea(l)&&0<=Oa(l,"no_index")&&N("Using an unspecified index. Consider adding "+('".indexOn": "'+c.n.g.toString()+'"')+" at "+c.path.toString()+" to your security rules for better performance")}(a.$[d]&&a.$[d][e])===b&&(a.f("listen response",f),"ok"!==m&&Ph(a,d,e),b.H&&b.H(m,
-	k))})}g.M=function(a,b,c){this.Aa={ig:a,lf:!1,yc:b,jd:c};this.f("Authenticating using credential: "+a);Qh(this);(b=40==a.length)||(a=Yc(a).Ac,b="object"===typeof a&&!0===v(a,"admin"));b&&(this.f("Admin auth credential detected.  Reducing max reconnect time."),this.Cd=3E4)};g.de=function(a){delete this.Aa;this.oa&&this.Ea("unauth",{},function(b){a(b.s,b.d)})};
-	function Qh(a){var b=a.Aa;a.oa&&b&&a.Ea("auth",{cred:b.ig},function(c){var d=c.s;c=c.d||"error";"ok"!==d&&a.Aa===b&&delete a.Aa;b.lf?"ok"!==d&&b.jd&&b.jd(d,c):(b.lf=!0,b.yc&&b.yc(d,c))})}g.Qf=function(a,b){var c=a.path.toString(),d=a.va();this.f("Unlisten called for "+c+" "+d);I(de(a.n)||!R(a.n),"unlisten() called for non-default but complete query");if(Ph(this,c,d)&&this.oa){var e=ce(a.n);this.f("Unlisten on "+c+" for "+d);c={p:c};b&&(c.q=e,c.t=b);this.Ea("n",c)}};
-	g.Je=function(a,b,c){this.oa?Rh(this,"o",a,b,c):this.Tc.push({kc:a,action:"o",data:b,H:c})};g.Bf=function(a,b,c){this.oa?Rh(this,"om",a,b,c):this.Tc.push({kc:a,action:"om",data:b,H:c})};g.Hd=function(a,b){this.oa?Rh(this,"oc",a,null,b):this.Tc.push({kc:a,action:"oc",data:null,H:b})};function Rh(a,b,c,d,e){c={p:c,d:d};a.f("onDisconnect "+b,c);a.Ea(b,c,function(a){e&&setTimeout(function(){e(a.s,a.d)},Math.floor(0))})}g.put=function(a,b,c,d){Sh(this,"p",a,b,c,d)};
-	g.wf=function(a,b,c,d){Sh(this,"m",a,b,c,d)};function Sh(a,b,c,d,e,f){d={p:c,d:d};n(f)&&(d.h=f);a.qa.push({action:b,Hf:d,H:e});a.Wc++;b=a.qa.length-1;a.oa?Th(a,b):a.f("Buffering put: "+c)}function Th(a,b){var c=a.qa[b].action,d=a.qa[b].Hf,e=a.qa[b].H;a.qa[b].Jg=a.oa;a.Ea(c,d,function(d){a.f(c+" response",d);delete a.qa[b];a.Wc--;0===a.Wc&&(a.qa=[]);e&&e(d.s,d.d)})}
-	g.Re=function(a){this.oa&&(a={c:a},this.f("reportStats",a),this.Ea("s",a,function(a){"ok"!==a.s&&this.f("reportStats","Error sending stats: "+a.d)}))};
-	g.Gd=function(a){if("r"in a){this.f("from server: "+A(a));var b=a.r,c=this.Rd[b];c&&(delete this.Rd[b],c(a.b))}else{if("error"in a)throw"A server-side error has occurred: "+a.error;"a"in a&&(b=a.a,c=a.b,this.f("handleServerMessage",b,c),"d"===b?this.Eb(c.p,c.d,!1,c.t):"m"===b?this.Eb(c.p,c.d,!0,c.t):"c"===b?Uh(this,c.p,c.q):"ac"===b?(a=c.s,b=c.d,c=this.Aa,delete this.Aa,c&&c.jd&&c.jd(a,b)):"sd"===b?this.Te?this.Te(c):"msg"in c&&"undefined"!==typeof console&&console.log("FIREBASE: "+c.msg.replace("\n",
-	"\nFIREBASE: ")):Lc("Unrecognized action received from server: "+A(b)+"\nAre you using the latest client?"))}};
-	g.Uc=function(a,b){this.f("connection ready");this.oa=!0;this.Jc=(new Date).getTime();this.Le({serverTimeOffset:a-(new Date).getTime()});this.zb=b;if(this.kf){var c={};c["sdk.js."+fb.replace(/\./g,"-")]=1;"undefined"!==typeof window&&(window.cordova||window.phonegap||window.PhoneGap)&&/ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(vg())&&(c["framework.cordova"]=1);this.Re(c)}Vh(this);this.kf=!1;this.Sc(!0)};
-	function Mh(a,b){I(!a.Ha,"Scheduling a connect when we're already connected/ing?");a.qb&&clearTimeout(a.qb);a.qb=setTimeout(function(){a.qb=null;Wh(a)},Math.floor(b))}g.Bg=function(a){a&&!this.Mb&&this.Ya===this.Cd&&(this.f("Window became visible.  Reducing delay."),this.Ya=1E3,this.Ha||Mh(this,0));this.Mb=a};g.zg=function(a){a?(this.f("Browser went online."),this.Ya=1E3,this.Ha||Mh(this,0)):(this.f("Browser went offline.  Killing connection."),this.Ha&&this.Ha.close())};
-	g.Cf=function(){this.f("data client disconnected");this.oa=!1;this.Ha=null;for(var a=0;a<this.qa.length;a++){var b=this.qa[a];b&&"h"in b.Hf&&b.Jg&&(b.H&&b.H("disconnect"),delete this.qa[a],this.Wc--)}0===this.Wc&&(this.qa=[]);this.Rd={};Xh(this)&&(this.Mb?this.Jc&&(3E4<(new Date).getTime()-this.Jc&&(this.Ya=1E3),this.Jc=null):(this.f("Window isn't visible.  Delaying reconnect."),this.Ya=this.Cd,this.Ce=(new Date).getTime()),a=Math.max(0,this.Ya-((new Date).getTime()-this.Ce)),a*=Math.random(),this.f("Trying to reconnect in "+
-	a+"ms"),Mh(this,a),this.Ya=Math.min(this.Cd,1.3*this.Ya));this.Sc(!1)};function Wh(a){if(Xh(a)){a.f("Making a connection attempt");a.Ce=(new Date).getTime();a.Jc=null;var b=q(a.Gd,a),c=q(a.Uc,a),d=q(a.Cf,a),e=a.id+":"+Nh++;a.Ha=new yh(e,a.F,b,c,d,function(b){N(b+" ("+a.F.toString()+")");a.tf=!0},a.zb)}}g.wb=function(){this.Ae=!0;this.Ha?this.Ha.close():(this.qb&&(clearTimeout(this.qb),this.qb=null),this.oa&&this.Cf())};g.qc=function(){this.Ae=!1;this.Ya=1E3;this.Ha||Mh(this,0)};
-	function Uh(a,b,c){c=c?Ra(c,function(a){return Sc(a)}).join("$"):"default";(a=Ph(a,b,c))&&a.H&&a.H("permission_denied")}function Ph(a,b,c){b=(new K(b)).toString();var d;n(a.$[b])?(d=a.$[b][c],delete a.$[b][c],0===pa(a.$[b])&&delete a.$[b]):d=void 0;return d}function Vh(a){Qh(a);t(a.$,function(b){t(b,function(b){Oh(a,b)})});for(var b=0;b<a.qa.length;b++)a.qa[b]&&Th(a,b);for(;a.Tc.length;)b=a.Tc.shift(),Rh(a,b.action,b.kc,b.data,b.H)}function Xh(a){var b;b=Ee.sb().ic;return!a.tf&&!a.Ae&&b};var V={og:function(){eh=rh=!0}};V.forceLongPolling=V.og;V.pg=function(){fh=!0};V.forceWebSockets=V.pg;V.Pg=function(a,b){a.k.Qa.Te=b};V.setSecurityDebugCallback=V.Pg;V.Ve=function(a,b){a.k.Ve(b)};V.stats=V.Ve;V.We=function(a,b){a.k.We(b)};V.statsIncrementCounter=V.We;V.pd=function(a){return a.k.pd};V.dataUpdateCount=V.pd;V.sg=function(a,b){a.k.ze=b};V.interceptServerData=V.sg;V.wg=function(a){new Eg(a)};V.onPopupOpen=V.wg;V.Ng=function(a){qg=a};V.setAuthenticationServer=V.Ng;function P(a,b,c){this.A=a;this.W=b;this.g=c}P.prototype.I=function(){w("Firebase.DataSnapshot.val",0,0,arguments.length);return this.A.I()};P.prototype.val=P.prototype.I;P.prototype.jf=function(){w("Firebase.DataSnapshot.exportVal",0,0,arguments.length);return this.A.I(!0)};P.prototype.exportVal=P.prototype.jf;P.prototype.ng=function(){w("Firebase.DataSnapshot.exists",0,0,arguments.length);return!this.A.e()};P.prototype.exists=P.prototype.ng;
-	P.prototype.u=function(a){w("Firebase.DataSnapshot.child",0,1,arguments.length);ga(a)&&(a=String(a));gg("Firebase.DataSnapshot.child",a);var b=new K(a),c=this.W.u(b);return new P(this.A.Q(b),c,M)};P.prototype.child=P.prototype.u;P.prototype.Da=function(a){w("Firebase.DataSnapshot.hasChild",1,1,arguments.length);gg("Firebase.DataSnapshot.hasChild",a);var b=new K(a);return!this.A.Q(b).e()};P.prototype.hasChild=P.prototype.Da;
-	P.prototype.C=function(){w("Firebase.DataSnapshot.getPriority",0,0,arguments.length);return this.A.C().I()};P.prototype.getPriority=P.prototype.C;P.prototype.forEach=function(a){w("Firebase.DataSnapshot.forEach",1,1,arguments.length);z("Firebase.DataSnapshot.forEach",1,a,!1);if(this.A.K())return!1;var b=this;return!!this.A.P(this.g,function(c,d){return a(new P(d,b.W.u(c),M))})};P.prototype.forEach=P.prototype.forEach;
-	P.prototype.td=function(){w("Firebase.DataSnapshot.hasChildren",0,0,arguments.length);return this.A.K()?!1:!this.A.e()};P.prototype.hasChildren=P.prototype.td;P.prototype.name=function(){N("Firebase.DataSnapshot.name() being deprecated. Please use Firebase.DataSnapshot.key() instead.");w("Firebase.DataSnapshot.name",0,0,arguments.length);return this.key()};P.prototype.name=P.prototype.name;P.prototype.key=function(){w("Firebase.DataSnapshot.key",0,0,arguments.length);return this.W.key()};
-	P.prototype.key=P.prototype.key;P.prototype.Bb=function(){w("Firebase.DataSnapshot.numChildren",0,0,arguments.length);return this.A.Bb()};P.prototype.numChildren=P.prototype.Bb;P.prototype.Gb=function(){w("Firebase.DataSnapshot.ref",0,0,arguments.length);return this.W};P.prototype.ref=P.prototype.Gb;function Yh(a,b){this.F=a;this.Ta=Pb(a);this.cd=null;this.da=new tb;this.Fd=1;this.Qa=null;b||0<=("object"===typeof window&&window.navigator&&window.navigator.userAgent||"").search(/googlebot|google webmaster tools|bingbot|yahoo! slurp|baiduspider|yandexbot|duckduckbot/i)?(this.ba=new ye(this.F,q(this.Eb,this)),setTimeout(q(this.Sc,this,!0),0)):this.ba=this.Qa=new Kh(this.F,q(this.Eb,this),q(this.Sc,this),q(this.Le,this));this.Sg=Qb(a,q(function(){return new Kb(this.Ta,this.ba)},this));this.tc=new Pf;
-	this.ye=new mb;var c=this;this.zd=new tf({Ue:function(a,b,f,h){b=[];f=c.ye.j(a.path);f.e()||(b=vf(c.zd,new Vb($e,a.path,f)),setTimeout(function(){h("ok")},0));return b},Yd:ba});Zh(this,"connected",!1);this.la=new oc;this.M=new Og(a,q(this.ba.M,this.ba),q(this.ba.de,this.ba),q(this.Ie,this));this.pd=0;this.ze=null;this.L=new tf({Ue:function(a,b,f,h){c.ba.uf(a,f,b,function(b,e){var f=h(b,e);yb(c.da,a.path,f)});return[]},Yd:function(a,b){c.ba.Qf(a,b)}})}g=Yh.prototype;
-	g.toString=function(){return(this.F.ib?"https://":"http://")+this.F.host};g.name=function(){return this.F.fc};function $h(a){a=a.ye.j(new K(".info/serverTimeOffset")).I()||0;return(new Date).getTime()+a}function ai(a){a=a={timestamp:$h(a)};a.timestamp=a.timestamp||(new Date).getTime();return a}
-	g.Eb=function(a,b,c,d){this.pd++;var e=new K(a);b=this.ze?this.ze(a,b):b;a=[];d?c?(b=na(b,function(a){return L(a)}),a=Df(this.L,e,b,d)):(b=L(b),a=zf(this.L,e,b,d)):c?(d=na(b,function(a){return L(a)}),a=yf(this.L,e,d)):(d=L(b),a=vf(this.L,new Vb($e,e,d)));d=e;0<a.length&&(d=bi(this,e));yb(this.da,d,a)};g.Sc=function(a){Zh(this,"connected",a);!1===a&&ci(this)};g.Le=function(a){var b=this;Uc(a,function(a,d){Zh(b,d,a)})};g.Ie=function(a){Zh(this,"authenticated",a)};
-	function Zh(a,b,c){b=new K("/.info/"+b);c=L(c);var d=a.ye;d.Ud=d.Ud.G(b,c);c=vf(a.zd,new Vb($e,b,c));yb(a.da,b,c)}g.Ib=function(a,b,c,d){this.f("set",{path:a.toString(),value:b,dh:c});var e=ai(this);b=L(b,c);var e=qc(b,e),f=this.Fd++,e=uf(this.L,a,e,f,!0);ub(this.da,e);var h=this;this.ba.put(a.toString(),b.I(!0),function(b,c){var e="ok"===b;e||N("set at "+a+" failed: "+b);e=xf(h.L,f,!e);yb(h.da,a,e);di(d,b,c)});e=ei(this,a);bi(this,e);yb(this.da,e,[])};
-	g.update=function(a,b,c){this.f("update",{path:a.toString(),value:b});var d=!0,e=ai(this),f={};t(b,function(a,b){d=!1;var c=L(a);f[b]=qc(c,e)});if(d)Ab("update() called with empty data.  Don't do anything."),di(c,"ok");else{var h=this.Fd++,k=wf(this.L,a,f,h);ub(this.da,k);var m=this;this.ba.wf(a.toString(),b,function(b,d){var e="ok"===b;e||N("update at "+a+" failed: "+b);var e=xf(m.L,h,!e),f=a;0<e.length&&(f=bi(m,a));yb(m.da,f,e);di(c,b,d)});b=ei(this,a);bi(this,b);yb(this.da,a,[])}};
-	function ci(a){a.f("onDisconnectEvents");var b=ai(a),c=[];pc(nc(a.la,b),F,function(b,e){c=c.concat(vf(a.L,new Vb($e,b,e)));var f=ei(a,b);bi(a,f)});a.la=new oc;yb(a.da,F,c)}g.Hd=function(a,b){var c=this;this.ba.Hd(a.toString(),function(d,e){"ok"===d&&pg(c.la,a);di(b,d,e)})};function fi(a,b,c,d){var e=L(c);a.ba.Je(b.toString(),e.I(!0),function(c,h){"ok"===c&&a.la.mc(b,e);di(d,c,h)})}function gi(a,b,c,d,e){var f=L(c,d);a.ba.Je(b.toString(),f.I(!0),function(c,d){"ok"===c&&a.la.mc(b,f);di(e,c,d)})}
-	function hi(a,b,c,d){var e=!0,f;for(f in c)e=!1;e?(Ab("onDisconnect().update() called with empty data.  Don't do anything."),di(d,"ok")):a.ba.Bf(b.toString(),c,function(e,f){if("ok"===e)for(var m in c){var l=L(c[m]);a.la.mc(b.u(m),l)}di(d,e,f)})}function ii(a,b,c){c=".info"===D(b.path)?a.zd.Nb(b,c):a.L.Nb(b,c);wb(a.da,b.path,c)}g.wb=function(){this.Qa&&this.Qa.wb()};g.qc=function(){this.Qa&&this.Qa.qc()};
-	g.Ve=function(a){if("undefined"!==typeof console){a?(this.cd||(this.cd=new Jb(this.Ta)),a=this.cd.get()):a=this.Ta.get();var b=Sa(sa(a),function(a,b){return Math.max(b.length,a)},0),c;for(c in a){for(var d=a[c],e=c.length;e<b+2;e++)c+=" ";console.log(c+d)}}};g.We=function(a){Mb(this.Ta,a);this.Sg.Nf[a]=!0};g.f=function(a){var b="";this.Qa&&(b=this.Qa.id+":");Ab(b,arguments)};
-	function di(a,b,c){a&&Bb(function(){if("ok"==b)a(null);else{var d=(b||"error").toUpperCase(),e=d;c&&(e+=": "+c);e=Error(e);e.code=d;a(e)}})};function ji(a,b,c,d,e){function f(){}a.f("transaction on "+b);var h=new T(a,b);h.Cb("value",f);c={path:b,update:c,H:d,status:null,Ef:Cc(),$e:e,Jf:0,ee:function(){h.gc("value",f)},ge:null,Ba:null,md:null,nd:null,od:null};d=a.L.za(b,void 0)||B;c.md=d;d=c.update(d.I());if(n(d)){ag("transaction failed: Data returned ",d,c.path);c.status=1;e=Qf(a.tc,b);var k=e.Ca()||[];k.push(c);Rf(e,k);"object"===typeof d&&null!==d&&u(d,".priority")?(k=v(d,".priority"),I(Zf(k),"Invalid priority returned by transaction. Priority must be a valid string, finite number, server value, or null.")):
-	k=(a.L.za(b)||B).C().I();e=ai(a);d=L(d,k);e=qc(d,e);c.nd=d;c.od=e;c.Ba=a.Fd++;c=uf(a.L,b,e,c.Ba,c.$e);yb(a.da,b,c);ki(a)}else c.ee(),c.nd=null,c.od=null,c.H&&(a=new P(c.md,new T(a,c.path),M),c.H(null,!1,a))}function ki(a,b){var c=b||a.tc;b||li(a,c);if(null!==c.Ca()){var d=mi(a,c);I(0<d.length,"Sending zero length transaction queue");Ta(d,function(a){return 1===a.status})&&ni(a,c.path(),d)}else c.td()&&c.P(function(b){ki(a,b)})}
-	function ni(a,b,c){for(var d=Ra(c,function(a){return a.Ba}),e=a.L.za(b,d)||B,d=e,e=e.hash(),f=0;f<c.length;f++){var h=c[f];I(1===h.status,"tryToSendTransactionQueue_: items in queue should all be run.");h.status=2;h.Jf++;var k=S(b,h.path),d=d.G(k,h.nd)}d=d.I(!0);a.ba.put(b.toString(),d,function(d){a.f("transaction put response",{path:b.toString(),status:d});var e=[];if("ok"===d){d=[];for(f=0;f<c.length;f++){c[f].status=3;e=e.concat(xf(a.L,c[f].Ba));if(c[f].H){var h=c[f].od,k=new T(a,c[f].path);d.push(q(c[f].H,
-	null,null,!0,new P(h,k,M)))}c[f].ee()}li(a,Qf(a.tc,b));ki(a);yb(a.da,b,e);for(f=0;f<d.length;f++)Bb(d[f])}else{if("datastale"===d)for(f=0;f<c.length;f++)c[f].status=4===c[f].status?5:1;else for(N("transaction at "+b.toString()+" failed: "+d),f=0;f<c.length;f++)c[f].status=5,c[f].ge=d;bi(a,b)}},e)}function bi(a,b){var c=oi(a,b),d=c.path(),c=mi(a,c);pi(a,c,d);return d}
-	function pi(a,b,c){if(0!==b.length){for(var d=[],e=[],f=Ra(b,function(a){return a.Ba}),h=0;h<b.length;h++){var k=b[h],m=S(c,k.path),l=!1,r;I(null!==m,"rerunTransactionsUnderNode_: relativePath should not be null.");if(5===k.status)l=!0,r=k.ge,e=e.concat(xf(a.L,k.Ba,!0));else if(1===k.status)if(25<=k.Jf)l=!0,r="maxretry",e=e.concat(xf(a.L,k.Ba,!0));else{var x=a.L.za(k.path,f)||B;k.md=x;var J=b[h].update(x.I());n(J)?(ag("transaction failed: Data returned ",J,k.path),m=L(J),"object"===typeof J&&null!=
-	J&&u(J,".priority")||(m=m.ga(x.C())),x=k.Ba,J=ai(a),J=qc(m,J),k.nd=m,k.od=J,k.Ba=a.Fd++,Wa(f,x),e=e.concat(uf(a.L,k.path,J,k.Ba,k.$e)),e=e.concat(xf(a.L,x,!0))):(l=!0,r="nodata",e=e.concat(xf(a.L,k.Ba,!0)))}yb(a.da,c,e);e=[];l&&(b[h].status=3,setTimeout(b[h].ee,Math.floor(0)),b[h].H&&("nodata"===r?(k=new T(a,b[h].path),d.push(q(b[h].H,null,null,!1,new P(b[h].md,k,M)))):d.push(q(b[h].H,null,Error(r),!1,null))))}li(a,a.tc);for(h=0;h<d.length;h++)Bb(d[h]);ki(a)}}
-	function oi(a,b){for(var c,d=a.tc;null!==(c=D(b))&&null===d.Ca();)d=Qf(d,c),b=G(b);return d}function mi(a,b){var c=[];qi(a,b,c);c.sort(function(a,b){return a.Ef-b.Ef});return c}function qi(a,b,c){var d=b.Ca();if(null!==d)for(var e=0;e<d.length;e++)c.push(d[e]);b.P(function(b){qi(a,b,c)})}function li(a,b){var c=b.Ca();if(c){for(var d=0,e=0;e<c.length;e++)3!==c[e].status&&(c[d]=c[e],d++);c.length=d;Rf(b,0<c.length?c:null)}b.P(function(b){li(a,b)})}
-	function ei(a,b){var c=oi(a,b).path(),d=Qf(a.tc,b);Uf(d,function(b){ri(a,b)});ri(a,d);Tf(d,function(b){ri(a,b)});return c}
-	function ri(a,b){var c=b.Ca();if(null!==c){for(var d=[],e=[],f=-1,h=0;h<c.length;h++)4!==c[h].status&&(2===c[h].status?(I(f===h-1,"All SENT items should be at beginning of queue."),f=h,c[h].status=4,c[h].ge="set"):(I(1===c[h].status,"Unexpected transaction status in abort"),c[h].ee(),e=e.concat(xf(a.L,c[h].Ba,!0)),c[h].H&&d.push(q(c[h].H,null,Error("set"),!1,null))));-1===f?Rf(b,null):c.length=f+1;yb(a.da,b.path(),e);for(h=0;h<d.length;h++)Bb(d[h])}};function W(){this.nc={};this.Rf=!1}W.prototype.wb=function(){for(var a in this.nc)this.nc[a].wb()};W.prototype.qc=function(){for(var a in this.nc)this.nc[a].qc()};W.prototype.re=function(){this.Rf=!0};ca(W);W.prototype.interrupt=W.prototype.wb;W.prototype.resume=W.prototype.qc;function X(a,b){this.Zc=a;this.ra=b}X.prototype.cancel=function(a){w("Firebase.onDisconnect().cancel",0,1,arguments.length);z("Firebase.onDisconnect().cancel",1,a,!0);this.Zc.Hd(this.ra,a||null)};X.prototype.cancel=X.prototype.cancel;X.prototype.remove=function(a){w("Firebase.onDisconnect().remove",0,1,arguments.length);hg("Firebase.onDisconnect().remove",this.ra);z("Firebase.onDisconnect().remove",1,a,!0);fi(this.Zc,this.ra,null,a)};X.prototype.remove=X.prototype.remove;
-	X.prototype.set=function(a,b){w("Firebase.onDisconnect().set",1,2,arguments.length);hg("Firebase.onDisconnect().set",this.ra);$f("Firebase.onDisconnect().set",a,this.ra,!1);z("Firebase.onDisconnect().set",2,b,!0);fi(this.Zc,this.ra,a,b)};X.prototype.set=X.prototype.set;
-	X.prototype.Ib=function(a,b,c){w("Firebase.onDisconnect().setWithPriority",2,3,arguments.length);hg("Firebase.onDisconnect().setWithPriority",this.ra);$f("Firebase.onDisconnect().setWithPriority",a,this.ra,!1);dg("Firebase.onDisconnect().setWithPriority",2,b);z("Firebase.onDisconnect().setWithPriority",3,c,!0);gi(this.Zc,this.ra,a,b,c)};X.prototype.setWithPriority=X.prototype.Ib;
-	X.prototype.update=function(a,b){w("Firebase.onDisconnect().update",1,2,arguments.length);hg("Firebase.onDisconnect().update",this.ra);if(ea(a)){for(var c={},d=0;d<a.length;++d)c[""+d]=a[d];a=c;N("Passing an Array to Firebase.onDisconnect().update() is deprecated. Use set() if you want to overwrite the existing data, or an Object with integer keys if you really do want to only update some of the children.")}cg("Firebase.onDisconnect().update",a,this.ra);z("Firebase.onDisconnect().update",2,b,!0);
-	hi(this.Zc,this.ra,a,b)};X.prototype.update=X.prototype.update;function Y(a,b,c,d){this.k=a;this.path=b;this.n=c;this.jc=d}
-	function si(a){var b=null,c=null;a.ma&&(b=ld(a));a.pa&&(c=nd(a));if(a.g===Od){if(a.ma){if("[MIN_NAME]"!=kd(a))throw Error("Query: When ordering by key, you may only pass one argument to startAt(), endAt(), or equalTo().");if("string"!==typeof b)throw Error("Query: When ordering by key, the argument passed to startAt(), endAt(),or equalTo() must be a string.");}if(a.pa){if("[MAX_NAME]"!=md(a))throw Error("Query: When ordering by key, you may only pass one argument to startAt(), endAt(), or equalTo().");if("string"!==
-	typeof c)throw Error("Query: When ordering by key, the argument passed to startAt(), endAt(),or equalTo() must be a string.");}}else if(a.g===M){if(null!=b&&!Zf(b)||null!=c&&!Zf(c))throw Error("Query: When ordering by priority, the first argument passed to startAt(), endAt(), or equalTo() must be a valid priority value (null, a number, or a string).");}else if(I(a.g instanceof Sd||a.g===Yd,"unknown index type."),null!=b&&"object"===typeof b||null!=c&&"object"===typeof c)throw Error("Query: First argument passed to startAt(), endAt(), or equalTo() cannot be an object.");
-	}function ti(a){if(a.ma&&a.pa&&a.ja&&(!a.ja||""===a.Lb))throw Error("Query: Can't combine startAt(), endAt(), and limit(). Use limitToFirst() or limitToLast() instead.");}function ui(a,b){if(!0===a.jc)throw Error(b+": You can't combine multiple orderBy calls.");}g=Y.prototype;g.Gb=function(){w("Query.ref",0,0,arguments.length);return new T(this.k,this.path)};
-	g.Cb=function(a,b,c,d){w("Query.on",2,4,arguments.length);eg("Query.on",a,!1);z("Query.on",2,b,!1);var e=vi("Query.on",c,d);if("value"===a)ii(this.k,this,new gd(b,e.cancel||null,e.La||null));else{var f={};f[a]=b;ii(this.k,this,new hd(f,e.cancel,e.La))}return b};
-	g.gc=function(a,b,c){w("Query.off",0,3,arguments.length);eg("Query.off",a,!0);z("Query.off",2,b,!0);kb("Query.off",3,c);var d=null,e=null;"value"===a?d=new gd(b||null,null,c||null):a&&(b&&(e={},e[a]=b),d=new hd(e,null,c||null));e=this.k;d=".info"===D(this.path)?e.zd.hb(this,d):e.L.hb(this,d);wb(e.da,this.path,d)};
-	g.Cg=function(a,b){function c(h){f&&(f=!1,e.gc(a,c),b.call(d.La,h))}w("Query.once",2,4,arguments.length);eg("Query.once",a,!1);z("Query.once",2,b,!1);var d=vi("Query.once",arguments[2],arguments[3]),e=this,f=!0;this.Cb(a,c,function(b){e.gc(a,c);d.cancel&&d.cancel.call(d.La,b)})};
-	g.De=function(a){N("Query.limit() being deprecated. Please use Query.limitToFirst() or Query.limitToLast() instead.");w("Query.limit",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limit: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limit: Limit was already set (by another call to limit, limitToFirst, orlimitToLast.");var b=this.n.De(a);ti(b);return new Y(this.k,this.path,b,this.jc)};
-	g.Ee=function(a){w("Query.limitToFirst",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limitToFirst: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limitToFirst: Limit was already set (by another call to limit, limitToFirst, or limitToLast).");return new Y(this.k,this.path,this.n.Ee(a),this.jc)};
-	g.Fe=function(a){w("Query.limitToLast",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limitToLast: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limitToLast: Limit was already set (by another call to limit, limitToFirst, or limitToLast).");return new Y(this.k,this.path,this.n.Fe(a),this.jc)};
-	g.Dg=function(a){w("Query.orderByChild",1,1,arguments.length);if("$key"===a)throw Error('Query.orderByChild: "$key" is invalid.  Use Query.orderByKey() instead.');if("$priority"===a)throw Error('Query.orderByChild: "$priority" is invalid.  Use Query.orderByPriority() instead.');if("$value"===a)throw Error('Query.orderByChild: "$value" is invalid.  Use Query.orderByValue() instead.');gg("Query.orderByChild",a);ui(this,"Query.orderByChild");var b=new K(a);if(b.e())throw Error("Query.orderByChild: cannot pass in empty path.  Use Query.orderByValue() instead.");
-	b=new Sd(b);b=be(this.n,b);si(b);return new Y(this.k,this.path,b,!0)};g.Eg=function(){w("Query.orderByKey",0,0,arguments.length);ui(this,"Query.orderByKey");var a=be(this.n,Od);si(a);return new Y(this.k,this.path,a,!0)};g.Fg=function(){w("Query.orderByPriority",0,0,arguments.length);ui(this,"Query.orderByPriority");var a=be(this.n,M);si(a);return new Y(this.k,this.path,a,!0)};
-	g.Gg=function(){w("Query.orderByValue",0,0,arguments.length);ui(this,"Query.orderByValue");var a=be(this.n,Yd);si(a);return new Y(this.k,this.path,a,!0)};g.Xd=function(a,b){w("Query.startAt",0,2,arguments.length);$f("Query.startAt",a,this.path,!0);fg("Query.startAt",b);var c=this.n.Xd(a,b);ti(c);si(c);if(this.n.ma)throw Error("Query.startAt: Starting point was already set (by another call to startAt or equalTo).");n(a)||(b=a=null);return new Y(this.k,this.path,c,this.jc)};
-	g.qd=function(a,b){w("Query.endAt",0,2,arguments.length);$f("Query.endAt",a,this.path,!0);fg("Query.endAt",b);var c=this.n.qd(a,b);ti(c);si(c);if(this.n.pa)throw Error("Query.endAt: Ending point was already set (by another call to endAt or equalTo).");return new Y(this.k,this.path,c,this.jc)};
-	g.kg=function(a,b){w("Query.equalTo",1,2,arguments.length);$f("Query.equalTo",a,this.path,!1);fg("Query.equalTo",b);if(this.n.ma)throw Error("Query.equalTo: Starting point was already set (by another call to endAt or equalTo).");if(this.n.pa)throw Error("Query.equalTo: Ending point was already set (by another call to endAt or equalTo).");return this.Xd(a,b).qd(a,b)};
-	g.toString=function(){w("Query.toString",0,0,arguments.length);for(var a=this.path,b="",c=a.Z;c<a.o.length;c++)""!==a.o[c]&&(b+="/"+encodeURIComponent(String(a.o[c])));return this.k.toString()+(b||"/")};g.va=function(){var a=Sc(ce(this.n));return"{}"===a?"default":a};
-	function vi(a,b,c){var d={cancel:null,La:null};if(b&&c)d.cancel=b,z(a,3,d.cancel,!0),d.La=c,kb(a,4,d.La);else if(b)if("object"===typeof b&&null!==b)d.La=b;else if("function"===typeof b)d.cancel=b;else throw Error(y(a,3,!0)+" must either be a cancel callback or a context object.");return d}Y.prototype.ref=Y.prototype.Gb;Y.prototype.on=Y.prototype.Cb;Y.prototype.off=Y.prototype.gc;Y.prototype.once=Y.prototype.Cg;Y.prototype.limit=Y.prototype.De;Y.prototype.limitToFirst=Y.prototype.Ee;
-	Y.prototype.limitToLast=Y.prototype.Fe;Y.prototype.orderByChild=Y.prototype.Dg;Y.prototype.orderByKey=Y.prototype.Eg;Y.prototype.orderByPriority=Y.prototype.Fg;Y.prototype.orderByValue=Y.prototype.Gg;Y.prototype.startAt=Y.prototype.Xd;Y.prototype.endAt=Y.prototype.qd;Y.prototype.equalTo=Y.prototype.kg;Y.prototype.toString=Y.prototype.toString;var Z={};Z.uc=Kh;Z.DataConnection=Z.uc;Kh.prototype.Rg=function(a,b){this.Ea("q",{p:a},b)};Z.uc.prototype.simpleListen=Z.uc.prototype.Rg;Kh.prototype.jg=function(a,b){this.Ea("echo",{d:a},b)};Z.uc.prototype.echo=Z.uc.prototype.jg;Kh.prototype.interrupt=Kh.prototype.wb;Z.Uf=yh;Z.RealTimeConnection=Z.Uf;yh.prototype.sendRequest=yh.prototype.Ea;yh.prototype.close=yh.prototype.close;
-	Z.rg=function(a){var b=Kh.prototype.put;Kh.prototype.put=function(c,d,e,f){n(f)&&(f=a());b.call(this,c,d,e,f)};return function(){Kh.prototype.put=b}};Z.hijackHash=Z.rg;Z.Tf=xc;Z.ConnectionTarget=Z.Tf;Z.va=function(a){return a.va()};Z.queryIdentifier=Z.va;Z.tg=function(a){return a.k.Qa.$};Z.listens=Z.tg;Z.re=function(a){a.re()};Z.forceRestClient=Z.re;function T(a,b){var c,d,e;if(a instanceof Yh)c=a,d=b;else{w("new Firebase",1,2,arguments.length);d=Nc(arguments[0]);c=d.Tg;"firebase"===d.domain&&Mc(d.host+" is no longer supported. Please use <YOUR FIREBASE>.firebaseio.com instead");c&&"undefined"!=c||Mc("Cannot parse Firebase url. Please use https://<YOUR FIREBASE>.firebaseio.com");d.ib||"undefined"!==typeof window&&window.location&&window.location.protocol&&-1!==window.location.protocol.indexOf("https:")&&N("Insecure Firebase access from a secure page. Please use https in calls to new Firebase().");
-	c=new xc(d.host,d.ib,c,"ws"===d.scheme||"wss"===d.scheme);d=new K(d.kc);e=d.toString();var f;!(f=!p(c.host)||0===c.host.length||!Yf(c.fc))&&(f=0!==e.length)&&(e&&(e=e.replace(/^\/*\.info(\/|$)/,"/")),f=!(p(e)&&0!==e.length&&!Wf.test(e)));if(f)throw Error(y("new Firebase",1,!1)+'must be a valid firebase URL and the path can\'t contain ".", "#", "$", "[", or "]".');if(b)if(b instanceof W)e=b;else if(p(b))e=W.sb(),c.Md=b;else throw Error("Expected a valid Firebase.Context for second argument to new Firebase()");
-	else e=W.sb();f=c.toString();var h=v(e.nc,f);h||(h=new Yh(c,e.Rf),e.nc[f]=h);c=h}Y.call(this,c,d,$d,!1)}ma(T,Y);var wi=T,xi=["Firebase"],yi=aa;xi[0]in yi||!yi.execScript||yi.execScript("var "+xi[0]);for(var zi;xi.length&&(zi=xi.shift());)!xi.length&&n(wi)?yi[zi]=wi:yi=yi[zi]?yi[zi]:yi[zi]={};T.goOffline=function(){w("Firebase.goOffline",0,0,arguments.length);W.sb().wb()};T.goOnline=function(){w("Firebase.goOnline",0,0,arguments.length);W.sb().qc()};
-	function Jc(a,b){I(!b||!0===a||!1===a,"Can't turn on custom loggers persistently.");!0===a?("undefined"!==typeof console&&("function"===typeof console.log?zb=q(console.log,console):"object"===typeof console.log&&(zb=function(a){console.log(a)})),b&&wc.set("logging_enabled",!0)):a?zb=a:(zb=null,wc.remove("logging_enabled"))}T.enableLogging=Jc;T.ServerValue={TIMESTAMP:{".sv":"timestamp"}};T.SDK_VERSION=fb;T.INTERNAL=V;T.Context=W;T.TEST_ACCESS=Z;
-	T.prototype.name=function(){N("Firebase.name() being deprecated. Please use Firebase.key() instead.");w("Firebase.name",0,0,arguments.length);return this.key()};T.prototype.name=T.prototype.name;T.prototype.key=function(){w("Firebase.key",0,0,arguments.length);return this.path.e()?null:Jd(this.path)};T.prototype.key=T.prototype.key;
-	T.prototype.u=function(a){w("Firebase.child",1,1,arguments.length);if(ga(a))a=String(a);else if(!(a instanceof K))if(null===D(this.path)){var b=a;b&&(b=b.replace(/^\/*\.info(\/|$)/,"/"));gg("Firebase.child",b)}else gg("Firebase.child",a);return new T(this.k,this.path.u(a))};T.prototype.child=T.prototype.u;T.prototype.parent=function(){w("Firebase.parent",0,0,arguments.length);var a=this.path.parent();return null===a?null:new T(this.k,a)};T.prototype.parent=T.prototype.parent;
-	T.prototype.root=function(){w("Firebase.ref",0,0,arguments.length);for(var a=this;null!==a.parent();)a=a.parent();return a};T.prototype.root=T.prototype.root;T.prototype.set=function(a,b){w("Firebase.set",1,2,arguments.length);hg("Firebase.set",this.path);$f("Firebase.set",a,this.path,!1);z("Firebase.set",2,b,!0);this.k.Ib(this.path,a,null,b||null)};T.prototype.set=T.prototype.set;
-	T.prototype.update=function(a,b){w("Firebase.update",1,2,arguments.length);hg("Firebase.update",this.path);if(ea(a)){for(var c={},d=0;d<a.length;++d)c[""+d]=a[d];a=c;N("Passing an Array to Firebase.update() is deprecated. Use set() if you want to overwrite the existing data, or an Object with integer keys if you really do want to only update some of the children.")}cg("Firebase.update",a,this.path);z("Firebase.update",2,b,!0);this.k.update(this.path,a,b||null)};T.prototype.update=T.prototype.update;
-	T.prototype.Ib=function(a,b,c){w("Firebase.setWithPriority",2,3,arguments.length);hg("Firebase.setWithPriority",this.path);$f("Firebase.setWithPriority",a,this.path,!1);dg("Firebase.setWithPriority",2,b);z("Firebase.setWithPriority",3,c,!0);if(".length"===this.key()||".keys"===this.key())throw"Firebase.setWithPriority failed: "+this.key()+" is a read-only object.";this.k.Ib(this.path,a,b,c||null)};T.prototype.setWithPriority=T.prototype.Ib;
-	T.prototype.remove=function(a){w("Firebase.remove",0,1,arguments.length);hg("Firebase.remove",this.path);z("Firebase.remove",1,a,!0);this.set(null,a)};T.prototype.remove=T.prototype.remove;
-	T.prototype.transaction=function(a,b,c){w("Firebase.transaction",1,3,arguments.length);hg("Firebase.transaction",this.path);z("Firebase.transaction",1,a,!1);z("Firebase.transaction",2,b,!0);if(n(c)&&"boolean"!=typeof c)throw Error(y("Firebase.transaction",3,!0)+"must be a boolean.");if(".length"===this.key()||".keys"===this.key())throw"Firebase.transaction failed: "+this.key()+" is a read-only object.";"undefined"===typeof c&&(c=!0);ji(this.k,this.path,a,b||null,c)};T.prototype.transaction=T.prototype.transaction;
-	T.prototype.Og=function(a,b){w("Firebase.setPriority",1,2,arguments.length);hg("Firebase.setPriority",this.path);dg("Firebase.setPriority",1,a);z("Firebase.setPriority",2,b,!0);this.k.Ib(this.path.u(".priority"),a,null,b)};T.prototype.setPriority=T.prototype.Og;
-	T.prototype.push=function(a,b){w("Firebase.push",0,2,arguments.length);hg("Firebase.push",this.path);$f("Firebase.push",a,this.path,!0);z("Firebase.push",2,b,!0);var c=$h(this.k),c=De(c),c=this.u(c);"undefined"!==typeof a&&null!==a&&c.set(a,b);return c};T.prototype.push=T.prototype.push;T.prototype.fb=function(){hg("Firebase.onDisconnect",this.path);return new X(this.k,this.path)};T.prototype.onDisconnect=T.prototype.fb;
-	T.prototype.M=function(a,b,c){N("FirebaseRef.auth() being deprecated. Please use FirebaseRef.authWithCustomToken() instead.");w("Firebase.auth",1,3,arguments.length);ig("Firebase.auth",a);z("Firebase.auth",2,b,!0);z("Firebase.auth",3,b,!0);Ug(this.k.M,a,{},{remember:"none"},b,c)};T.prototype.auth=T.prototype.M;T.prototype.de=function(a){w("Firebase.unauth",0,1,arguments.length);z("Firebase.unauth",1,a,!0);Vg(this.k.M,a)};T.prototype.unauth=T.prototype.de;
-	T.prototype.te=function(){w("Firebase.getAuth",0,0,arguments.length);return this.k.M.te()};T.prototype.getAuth=T.prototype.te;T.prototype.vg=function(a,b){w("Firebase.onAuth",1,2,arguments.length);z("Firebase.onAuth",1,a,!1);kb("Firebase.onAuth",2,b);this.k.M.Cb("auth_status",a,b)};T.prototype.onAuth=T.prototype.vg;T.prototype.ug=function(a,b){w("Firebase.offAuth",1,2,arguments.length);z("Firebase.offAuth",1,a,!1);kb("Firebase.offAuth",2,b);this.k.M.gc("auth_status",a,b)};T.prototype.offAuth=T.prototype.ug;
-	T.prototype.Yf=function(a,b,c){w("Firebase.authWithCustomToken",2,3,arguments.length);ig("Firebase.authWithCustomToken",a);z("Firebase.authWithCustomToken",2,b,!1);lg("Firebase.authWithCustomToken",3,c,!0);Ug(this.k.M,a,{},c||{},b)};T.prototype.authWithCustomToken=T.prototype.Yf;T.prototype.Zf=function(a,b,c){w("Firebase.authWithOAuthPopup",2,3,arguments.length);kg("Firebase.authWithOAuthPopup",a);z("Firebase.authWithOAuthPopup",2,b,!1);lg("Firebase.authWithOAuthPopup",3,c,!0);Zg(this.k.M,a,c,b)};
-	T.prototype.authWithOAuthPopup=T.prototype.Zf;T.prototype.$f=function(a,b,c){w("Firebase.authWithOAuthRedirect",2,3,arguments.length);kg("Firebase.authWithOAuthRedirect",a);z("Firebase.authWithOAuthRedirect",2,b,!1);lg("Firebase.authWithOAuthRedirect",3,c,!0);var d=this.k.M;Xg(d);var e=[Gg],f=tg(c);"anonymous"===a||"firebase"===a?O(b,U("TRANSPORT_UNAVAILABLE")):(wc.set("redirect_client_options",f.ld),Yg(d,e,"/auth/"+a,f,b))};T.prototype.authWithOAuthRedirect=T.prototype.$f;
-	T.prototype.ag=function(a,b,c,d){w("Firebase.authWithOAuthToken",3,4,arguments.length);kg("Firebase.authWithOAuthToken",a);z("Firebase.authWithOAuthToken",3,c,!1);lg("Firebase.authWithOAuthToken",4,d,!0);p(b)?(jg("Firebase.authWithOAuthToken",2,b),Wg(this.k.M,a+"/token",{access_token:b},d,c)):(lg("Firebase.authWithOAuthToken",2,b,!1),Wg(this.k.M,a+"/token",b,d,c))};T.prototype.authWithOAuthToken=T.prototype.ag;
-	T.prototype.Xf=function(a,b){w("Firebase.authAnonymously",1,2,arguments.length);z("Firebase.authAnonymously",1,a,!1);lg("Firebase.authAnonymously",2,b,!0);Wg(this.k.M,"anonymous",{},b,a)};T.prototype.authAnonymously=T.prototype.Xf;
-	T.prototype.bg=function(a,b,c){w("Firebase.authWithPassword",2,3,arguments.length);lg("Firebase.authWithPassword",1,a,!1);mg("Firebase.authWithPassword",a,"email");mg("Firebase.authWithPassword",a,"password");z("Firebase.authWithPassword",2,b,!1);lg("Firebase.authWithPassword",3,c,!0);Wg(this.k.M,"password",a,c,b)};T.prototype.authWithPassword=T.prototype.bg;
-	T.prototype.oe=function(a,b){w("Firebase.createUser",2,2,arguments.length);lg("Firebase.createUser",1,a,!1);mg("Firebase.createUser",a,"email");mg("Firebase.createUser",a,"password");z("Firebase.createUser",2,b,!1);this.k.M.oe(a,b)};T.prototype.createUser=T.prototype.oe;T.prototype.Qe=function(a,b){w("Firebase.removeUser",2,2,arguments.length);lg("Firebase.removeUser",1,a,!1);mg("Firebase.removeUser",a,"email");mg("Firebase.removeUser",a,"password");z("Firebase.removeUser",2,b,!1);this.k.M.Qe(a,b)};
-	T.prototype.removeUser=T.prototype.Qe;T.prototype.le=function(a,b){w("Firebase.changePassword",2,2,arguments.length);lg("Firebase.changePassword",1,a,!1);mg("Firebase.changePassword",a,"email");mg("Firebase.changePassword",a,"oldPassword");mg("Firebase.changePassword",a,"newPassword");z("Firebase.changePassword",2,b,!1);this.k.M.le(a,b)};T.prototype.changePassword=T.prototype.le;
-	T.prototype.ke=function(a,b){w("Firebase.changeEmail",2,2,arguments.length);lg("Firebase.changeEmail",1,a,!1);mg("Firebase.changeEmail",a,"oldEmail");mg("Firebase.changeEmail",a,"newEmail");mg("Firebase.changeEmail",a,"password");z("Firebase.changeEmail",2,b,!1);this.k.M.ke(a,b)};T.prototype.changeEmail=T.prototype.ke;
-	T.prototype.Se=function(a,b){w("Firebase.resetPassword",2,2,arguments.length);lg("Firebase.resetPassword",1,a,!1);mg("Firebase.resetPassword",a,"email");z("Firebase.resetPassword",2,b,!1);this.k.M.Se(a,b)};T.prototype.resetPassword=T.prototype.Se;module.exports=T;
+	function za(a,b){for(var c,d,e=1;e<arguments.length;e++){d=arguments[e];for(c in d)a[c]=d[c];for(var f=0;f<ya.length;f++)c=ya[f],Object.prototype.hasOwnProperty.call(d,c)&&(a[c]=d[c])}};function Aa(a){a=String(a);if(/^\s*$/.test(a)?0:/^[\],:{}\s\u2028\u2029]*$/.test(a.replace(/\\["\\\/bfnrtu]/g,"@").replace(/"[^"\\\n\r\u2028\u2029\x00-\x08\x0a-\x1f]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:[\s\u2028\u2029]*\[)+/g,"")))try{return eval("("+a+")")}catch(b){}throw Error("Invalid JSON string: "+a);}function Ba(){this.Sd=void 0}
+	function Ca(a,b,c){switch(typeof b){case "string":Da(b,c);break;case "number":c.push(isFinite(b)&&!isNaN(b)?b:"null");break;case "boolean":c.push(b);break;case "undefined":c.push("null");break;case "object":if(null==b){c.push("null");break}if(ea(b)){var d=b.length;c.push("[");for(var e="",f=0;f<d;f++)c.push(e),e=b[f],Ca(a,a.Sd?a.Sd.call(b,String(f),e):e,c),e=",";c.push("]");break}c.push("{");d="";for(f in b)Object.prototype.hasOwnProperty.call(b,f)&&(e=b[f],"function"!=typeof e&&(c.push(d),Da(f,c),
+	c.push(":"),Ca(a,a.Sd?a.Sd.call(b,f,e):e,c),d=","));c.push("}");break;case "function":break;default:throw Error("Unknown type: "+typeof b);}}var Ea={'"':'\\"',"\\":"\\\\","/":"\\/","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t","\x0B":"\\u000b"},Fa=/\uffff/.test("\uffff")?/[\\\"\x00-\x1f\x7f-\uffff]/g:/[\\\"\x00-\x1f\x7f-\xff]/g;
+	function Da(a,b){b.push('"',a.replace(Fa,function(a){if(a in Ea)return Ea[a];var b=a.charCodeAt(0),e="\\u";16>b?e+="000":256>b?e+="00":4096>b&&(e+="0");return Ea[a]=e+b.toString(16)}),'"')};function Ga(){return Math.floor(2147483648*Math.random()).toString(36)+Math.abs(Math.floor(2147483648*Math.random())^la()).toString(36)};var Ha;a:{var Ia=aa.navigator;if(Ia){var Ja=Ia.userAgent;if(Ja){Ha=Ja;break a}}Ha=""};function Ka(){this.Va=-1};function La(){this.Va=-1;this.Va=64;this.N=[];this.me=[];this.Wf=[];this.Ld=[];this.Ld[0]=128;for(var a=1;a<this.Va;++a)this.Ld[a]=0;this.de=this.ac=0;this.reset()}ma(La,Ka);La.prototype.reset=function(){this.N[0]=1732584193;this.N[1]=4023233417;this.N[2]=2562383102;this.N[3]=271733878;this.N[4]=3285377520;this.de=this.ac=0};
+	function Ma(a,b,c){c||(c=0);var d=a.Wf;if(p(b))for(var e=0;16>e;e++)d[e]=b.charCodeAt(c)<<24|b.charCodeAt(c+1)<<16|b.charCodeAt(c+2)<<8|b.charCodeAt(c+3),c+=4;else for(e=0;16>e;e++)d[e]=b[c]<<24|b[c+1]<<16|b[c+2]<<8|b[c+3],c+=4;for(e=16;80>e;e++){var f=d[e-3]^d[e-8]^d[e-14]^d[e-16];d[e]=(f<<1|f>>>31)&4294967295}b=a.N[0];c=a.N[1];for(var h=a.N[2],k=a.N[3],l=a.N[4],m,e=0;80>e;e++)40>e?20>e?(f=k^c&(h^k),m=1518500249):(f=c^h^k,m=1859775393):60>e?(f=c&h|k&(c|h),m=2400959708):(f=c^h^k,m=3395469782),f=(b<<
+	5|b>>>27)+f+l+m+d[e]&4294967295,l=k,k=h,h=(c<<30|c>>>2)&4294967295,c=b,b=f;a.N[0]=a.N[0]+b&4294967295;a.N[1]=a.N[1]+c&4294967295;a.N[2]=a.N[2]+h&4294967295;a.N[3]=a.N[3]+k&4294967295;a.N[4]=a.N[4]+l&4294967295}
+	La.prototype.update=function(a,b){if(null!=a){n(b)||(b=a.length);for(var c=b-this.Va,d=0,e=this.me,f=this.ac;d<b;){if(0==f)for(;d<=c;)Ma(this,a,d),d+=this.Va;if(p(a))for(;d<b;){if(e[f]=a.charCodeAt(d),++f,++d,f==this.Va){Ma(this,e);f=0;break}}else for(;d<b;)if(e[f]=a[d],++f,++d,f==this.Va){Ma(this,e);f=0;break}}this.ac=f;this.de+=b}};var u=Array.prototype,Na=u.indexOf?function(a,b,c){return u.indexOf.call(a,b,c)}:function(a,b,c){c=null==c?0:0>c?Math.max(0,a.length+c):c;if(p(a))return p(b)&&1==b.length?a.indexOf(b,c):-1;for(;c<a.length;c++)if(c in a&&a[c]===b)return c;return-1},Oa=u.forEach?function(a,b,c){u.forEach.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)f in e&&b.call(c,e[f],f,a)},Pa=u.filter?function(a,b,c){return u.filter.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=[],f=0,h=p(a)?
+	a.split(""):a,k=0;k<d;k++)if(k in h){var l=h[k];b.call(c,l,k,a)&&(e[f++]=l)}return e},Qa=u.map?function(a,b,c){return u.map.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=Array(d),f=p(a)?a.split(""):a,h=0;h<d;h++)h in f&&(e[h]=b.call(c,f[h],h,a));return e},Ra=u.reduce?function(a,b,c,d){for(var e=[],f=1,h=arguments.length;f<h;f++)e.push(arguments[f]);d&&(e[0]=q(b,d));return u.reduce.apply(a,e)}:function(a,b,c,d){var e=c;Oa(a,function(c,h){e=b.call(d,e,c,h,a)});return e},Sa=u.every?function(a,b,
+	c){return u.every.call(a,b,c)}:function(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)if(f in e&&!b.call(c,e[f],f,a))return!1;return!0};function Ta(a,b){var c=Ua(a,b,void 0);return 0>c?null:p(a)?a.charAt(c):a[c]}function Ua(a,b,c){for(var d=a.length,e=p(a)?a.split(""):a,f=0;f<d;f++)if(f in e&&b.call(c,e[f],f,a))return f;return-1}function Va(a,b){var c=Na(a,b);0<=c&&u.splice.call(a,c,1)}function Wa(a,b,c){return 2>=arguments.length?u.slice.call(a,b):u.slice.call(a,b,c)}
+	function Xa(a,b){a.sort(b||Ya)}function Ya(a,b){return a>b?1:a<b?-1:0};var Za=-1!=Ha.indexOf("Opera")||-1!=Ha.indexOf("OPR"),$a=-1!=Ha.indexOf("Trident")||-1!=Ha.indexOf("MSIE"),ab=-1!=Ha.indexOf("Gecko")&&-1==Ha.toLowerCase().indexOf("webkit")&&!(-1!=Ha.indexOf("Trident")||-1!=Ha.indexOf("MSIE")),bb=-1!=Ha.toLowerCase().indexOf("webkit");
+	(function(){var a="",b;if(Za&&aa.opera)return a=aa.opera.version,ha(a)?a():a;ab?b=/rv\:([^\);]+)(\)|;)/:$a?b=/\b(?:MSIE|rv)[: ]([^\);]+)(\)|;)/:bb&&(b=/WebKit\/(\S+)/);b&&(a=(a=b.exec(Ha))?a[1]:"");return $a&&(b=(b=aa.document)?b.documentMode:void 0,b>parseFloat(a))?String(b):a})();var cb=null,db=null,eb=null;function fb(a,b){if(!fa(a))throw Error("encodeByteArray takes an array as a parameter");gb();for(var c=b?db:cb,d=[],e=0;e<a.length;e+=3){var f=a[e],h=e+1<a.length,k=h?a[e+1]:0,l=e+2<a.length,m=l?a[e+2]:0,t=f>>2,f=(f&3)<<4|k>>4,k=(k&15)<<2|m>>6,m=m&63;l||(m=64,h||(k=64));d.push(c[t],c[f],c[k],c[m])}return d.join("")}
+	function gb(){if(!cb){cb={};db={};eb={};for(var a=0;65>a;a++)cb[a]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".charAt(a),db[a]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".charAt(a),eb[db[a]]=a,62<=a&&(eb["ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".charAt(a)]=a)}};var hb=hb||"2.3.2";function v(a,b){return Object.prototype.hasOwnProperty.call(a,b)}function w(a,b){if(Object.prototype.hasOwnProperty.call(a,b))return a[b]}function ib(a,b){for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&b(c,a[c])}function jb(a){var b={};ib(a,function(a,d){b[a]=d});return b};function kb(a){var b=[];ib(a,function(a,d){ea(d)?Oa(d,function(d){b.push(encodeURIComponent(a)+"="+encodeURIComponent(d))}):b.push(encodeURIComponent(a)+"="+encodeURIComponent(d))});return b.length?"&"+b.join("&"):""}function lb(a){var b={};a=a.replace(/^\?/,"").split("&");Oa(a,function(a){a&&(a=a.split("="),b[a[0]]=a[1])});return b};function x(a,b,c,d){var e;d<b?e="at least "+b:d>c&&(e=0===c?"none":"no more than "+c);if(e)throw Error(a+" failed: Was called with "+d+(1===d?" argument.":" arguments.")+" Expects "+e+".");}function y(a,b,c){var d="";switch(b){case 1:d=c?"first":"First";break;case 2:d=c?"second":"Second";break;case 3:d=c?"third":"Third";break;case 4:d=c?"fourth":"Fourth";break;default:throw Error("errorPrefix called with argumentNumber > 4.  Need to update it?");}return a=a+" failed: "+(d+" argument ")}
+	function A(a,b,c,d){if((!d||n(c))&&!ha(c))throw Error(y(a,b,d)+"must be a valid function.");}function mb(a,b,c){if(n(c)&&(!ia(c)||null===c))throw Error(y(a,b,!0)+"must be a valid context object.");};function nb(a){return"undefined"!==typeof JSON&&n(JSON.parse)?JSON.parse(a):Aa(a)}function B(a){if("undefined"!==typeof JSON&&n(JSON.stringify))a=JSON.stringify(a);else{var b=[];Ca(new Ba,a,b);a=b.join("")}return a};function ob(){this.Wd=C}ob.prototype.j=function(a){return this.Wd.Q(a)};ob.prototype.toString=function(){return this.Wd.toString()};function pb(){}pb.prototype.qf=function(){return null};pb.prototype.ye=function(){return null};var qb=new pb;function rb(a,b,c){this.Tf=a;this.Ka=b;this.Kd=c}rb.prototype.qf=function(a){var b=this.Ka.O;if(sb(b,a))return b.j().R(a);b=null!=this.Kd?new tb(this.Kd,!0,!1):this.Ka.w();return this.Tf.xc(a,b)};rb.prototype.ye=function(a,b,c){var d=null!=this.Kd?this.Kd:ub(this.Ka);a=this.Tf.ne(d,b,1,c,a);return 0===a.length?null:a[0]};function vb(){this.tb=[]}function wb(a,b){for(var c=null,d=0;d<b.length;d++){var e=b[d],f=e.Zb();null===c||f.ca(c.Zb())||(a.tb.push(c),c=null);null===c&&(c=new xb(f));c.add(e)}c&&a.tb.push(c)}function yb(a,b,c){wb(a,c);zb(a,function(a){return a.ca(b)})}function Ab(a,b,c){wb(a,c);zb(a,function(a){return a.contains(b)||b.contains(a)})}
+	function zb(a,b){for(var c=!0,d=0;d<a.tb.length;d++){var e=a.tb[d];if(e)if(e=e.Zb(),b(e)){for(var e=a.tb[d],f=0;f<e.vd.length;f++){var h=e.vd[f];if(null!==h){e.vd[f]=null;var k=h.Vb();Bb&&Cb("event: "+h.toString());Db(k)}}a.tb[d]=null}else c=!1}c&&(a.tb=[])}function xb(a){this.ra=a;this.vd=[]}xb.prototype.add=function(a){this.vd.push(a)};xb.prototype.Zb=function(){return this.ra};function D(a,b,c,d){this.type=a;this.Ja=b;this.Wa=c;this.Ke=d;this.Qd=void 0}function Eb(a){return new D(Fb,a)}var Fb="value";function Gb(a,b,c,d){this.ue=b;this.Zd=c;this.Qd=d;this.ud=a}Gb.prototype.Zb=function(){var a=this.Zd.Ib();return"value"===this.ud?a.path:a.parent().path};Gb.prototype.ze=function(){return this.ud};Gb.prototype.Vb=function(){return this.ue.Vb(this)};Gb.prototype.toString=function(){return this.Zb().toString()+":"+this.ud+":"+B(this.Zd.mf())};function Hb(a,b,c){this.ue=a;this.error=b;this.path=c}Hb.prototype.Zb=function(){return this.path};Hb.prototype.ze=function(){return"cancel"};
+	Hb.prototype.Vb=function(){return this.ue.Vb(this)};Hb.prototype.toString=function(){return this.path.toString()+":cancel"};function tb(a,b,c){this.A=a;this.ea=b;this.Ub=c}function Ib(a){return a.ea}function Jb(a){return a.Ub}function Kb(a,b){return b.e()?a.ea&&!a.Ub:sb(a,E(b))}function sb(a,b){return a.ea&&!a.Ub||a.A.Da(b)}tb.prototype.j=function(){return this.A};function Lb(a){this.gg=a;this.Dd=null}Lb.prototype.get=function(){var a=this.gg.get(),b=xa(a);if(this.Dd)for(var c in this.Dd)b[c]-=this.Dd[c];this.Dd=a;return b};function Mb(a,b){this.Of={};this.fd=new Lb(a);this.ba=b;var c=1E4+2E4*Math.random();setTimeout(q(this.If,this),Math.floor(c))}Mb.prototype.If=function(){var a=this.fd.get(),b={},c=!1,d;for(d in a)0<a[d]&&v(this.Of,d)&&(b[d]=a[d],c=!0);c&&this.ba.Ue(b);setTimeout(q(this.If,this),Math.floor(6E5*Math.random()))};function Nb(){this.Ec={}}function Ob(a,b,c){n(c)||(c=1);v(a.Ec,b)||(a.Ec[b]=0);a.Ec[b]+=c}Nb.prototype.get=function(){return xa(this.Ec)};var Pb={},Qb={};function Rb(a){a=a.toString();Pb[a]||(Pb[a]=new Nb);return Pb[a]}function Sb(a,b){var c=a.toString();Qb[c]||(Qb[c]=b());return Qb[c]};function F(a,b){this.name=a;this.S=b}function Tb(a,b){return new F(a,b)};function Ub(a,b){return Vb(a.name,b.name)}function Wb(a,b){return Vb(a,b)};function Xb(a,b,c){this.type=Yb;this.source=a;this.path=b;this.Ga=c}Xb.prototype.Xc=function(a){return this.path.e()?new Xb(this.source,G,this.Ga.R(a)):new Xb(this.source,H(this.path),this.Ga)};Xb.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" overwrite: "+this.Ga.toString()+")"};function Zb(a,b){this.type=$b;this.source=a;this.path=b}Zb.prototype.Xc=function(){return this.path.e()?new Zb(this.source,G):new Zb(this.source,H(this.path))};Zb.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" listen_complete)"};function ac(a,b){this.La=a;this.wa=b?b:bc}g=ac.prototype;g.Oa=function(a,b){return new ac(this.La,this.wa.Oa(a,b,this.La).Y(null,null,!1,null,null))};g.remove=function(a){return new ac(this.La,this.wa.remove(a,this.La).Y(null,null,!1,null,null))};g.get=function(a){for(var b,c=this.wa;!c.e();){b=this.La(a,c.key);if(0===b)return c.value;0>b?c=c.left:0<b&&(c=c.right)}return null};
+	function cc(a,b){for(var c,d=a.wa,e=null;!d.e();){c=a.La(b,d.key);if(0===c){if(d.left.e())return e?e.key:null;for(d=d.left;!d.right.e();)d=d.right;return d.key}0>c?d=d.left:0<c&&(e=d,d=d.right)}throw Error("Attempted to find predecessor key for a nonexistent key.  What gives?");}g.e=function(){return this.wa.e()};g.count=function(){return this.wa.count()};g.Sc=function(){return this.wa.Sc()};g.fc=function(){return this.wa.fc()};g.ia=function(a){return this.wa.ia(a)};
+	g.Xb=function(a){return new dc(this.wa,null,this.La,!1,a)};g.Yb=function(a,b){return new dc(this.wa,a,this.La,!1,b)};g.$b=function(a,b){return new dc(this.wa,a,this.La,!0,b)};g.sf=function(a){return new dc(this.wa,null,this.La,!0,a)};function dc(a,b,c,d,e){this.Ud=e||null;this.Fe=d;this.Pa=[];for(e=1;!a.e();)if(e=b?c(a.key,b):1,d&&(e*=-1),0>e)a=this.Fe?a.left:a.right;else if(0===e){this.Pa.push(a);break}else this.Pa.push(a),a=this.Fe?a.right:a.left}
+	function J(a){if(0===a.Pa.length)return null;var b=a.Pa.pop(),c;c=a.Ud?a.Ud(b.key,b.value):{key:b.key,value:b.value};if(a.Fe)for(b=b.left;!b.e();)a.Pa.push(b),b=b.right;else for(b=b.right;!b.e();)a.Pa.push(b),b=b.left;return c}function ec(a){if(0===a.Pa.length)return null;var b;b=a.Pa;b=b[b.length-1];return a.Ud?a.Ud(b.key,b.value):{key:b.key,value:b.value}}function fc(a,b,c,d,e){this.key=a;this.value=b;this.color=null!=c?c:!0;this.left=null!=d?d:bc;this.right=null!=e?e:bc}g=fc.prototype;
+	g.Y=function(a,b,c,d,e){return new fc(null!=a?a:this.key,null!=b?b:this.value,null!=c?c:this.color,null!=d?d:this.left,null!=e?e:this.right)};g.count=function(){return this.left.count()+1+this.right.count()};g.e=function(){return!1};g.ia=function(a){return this.left.ia(a)||a(this.key,this.value)||this.right.ia(a)};function gc(a){return a.left.e()?a:gc(a.left)}g.Sc=function(){return gc(this).key};g.fc=function(){return this.right.e()?this.key:this.right.fc()};
+	g.Oa=function(a,b,c){var d,e;e=this;d=c(a,e.key);e=0>d?e.Y(null,null,null,e.left.Oa(a,b,c),null):0===d?e.Y(null,b,null,null,null):e.Y(null,null,null,null,e.right.Oa(a,b,c));return hc(e)};function ic(a){if(a.left.e())return bc;a.left.fa()||a.left.left.fa()||(a=jc(a));a=a.Y(null,null,null,ic(a.left),null);return hc(a)}
+	g.remove=function(a,b){var c,d;c=this;if(0>b(a,c.key))c.left.e()||c.left.fa()||c.left.left.fa()||(c=jc(c)),c=c.Y(null,null,null,c.left.remove(a,b),null);else{c.left.fa()&&(c=kc(c));c.right.e()||c.right.fa()||c.right.left.fa()||(c=lc(c),c.left.left.fa()&&(c=kc(c),c=lc(c)));if(0===b(a,c.key)){if(c.right.e())return bc;d=gc(c.right);c=c.Y(d.key,d.value,null,null,ic(c.right))}c=c.Y(null,null,null,null,c.right.remove(a,b))}return hc(c)};g.fa=function(){return this.color};
+	function hc(a){a.right.fa()&&!a.left.fa()&&(a=mc(a));a.left.fa()&&a.left.left.fa()&&(a=kc(a));a.left.fa()&&a.right.fa()&&(a=lc(a));return a}function jc(a){a=lc(a);a.right.left.fa()&&(a=a.Y(null,null,null,null,kc(a.right)),a=mc(a),a=lc(a));return a}function mc(a){return a.right.Y(null,null,a.color,a.Y(null,null,!0,null,a.right.left),null)}function kc(a){return a.left.Y(null,null,a.color,null,a.Y(null,null,!0,a.left.right,null))}
+	function lc(a){return a.Y(null,null,!a.color,a.left.Y(null,null,!a.left.color,null,null),a.right.Y(null,null,!a.right.color,null,null))}function nc(){}g=nc.prototype;g.Y=function(){return this};g.Oa=function(a,b){return new fc(a,b,null)};g.remove=function(){return this};g.count=function(){return 0};g.e=function(){return!0};g.ia=function(){return!1};g.Sc=function(){return null};g.fc=function(){return null};g.fa=function(){return!1};var bc=new nc;function oc(a,b){return a&&"object"===typeof a?(K(".sv"in a,"Unexpected leaf node or priority contents"),b[a[".sv"]]):a}function pc(a,b){var c=new qc;rc(a,new L(""),function(a,e){c.nc(a,sc(e,b))});return c}function sc(a,b){var c=a.C().I(),c=oc(c,b),d;if(a.K()){var e=oc(a.Ca(),b);return e!==a.Ca()||c!==a.C().I()?new tc(e,M(c)):a}d=a;c!==a.C().I()&&(d=d.ga(new tc(c)));a.P(N,function(a,c){var e=sc(c,b);e!==c&&(d=d.U(a,e))});return d};function uc(){this.wc={}}uc.prototype.set=function(a,b){null==b?delete this.wc[a]:this.wc[a]=b};uc.prototype.get=function(a){return v(this.wc,a)?this.wc[a]:null};uc.prototype.remove=function(a){delete this.wc[a]};uc.prototype.wf=!0;function vc(a){this.Fc=a;this.Pd="firebase:"}g=vc.prototype;g.set=function(a,b){null==b?this.Fc.removeItem(this.Pd+a):this.Fc.setItem(this.Pd+a,B(b))};g.get=function(a){a=this.Fc.getItem(this.Pd+a);return null==a?null:nb(a)};g.remove=function(a){this.Fc.removeItem(this.Pd+a)};g.wf=!1;g.toString=function(){return this.Fc.toString()};function wc(a){try{if("undefined"!==typeof window&&"undefined"!==typeof window[a]){var b=window[a];b.setItem("firebase:sentinel","cache");b.removeItem("firebase:sentinel");return new vc(b)}}catch(c){}return new uc}var xc=wc("localStorage"),yc=wc("sessionStorage");function zc(a,b,c,d,e){this.host=a.toLowerCase();this.domain=this.host.substr(this.host.indexOf(".")+1);this.kb=b;this.hc=c;this.Wg=d;this.Od=e||"";this.Ya=xc.get("host:"+a)||this.host}function Ac(a,b){b!==a.Ya&&(a.Ya=b,"s-"===a.Ya.substr(0,2)&&xc.set("host:"+a.host,a.Ya))}
+	function Bc(a,b,c){K("string"===typeof b,"typeof type must == string");K("object"===typeof c,"typeof params must == object");if(b===Cc)b=(a.kb?"wss://":"ws://")+a.Ya+"/.ws?";else if(b===Dc)b=(a.kb?"https://":"http://")+a.Ya+"/.lp?";else throw Error("Unknown connection type: "+b);a.host!==a.Ya&&(c.ns=a.hc);var d=[];r(c,function(a,b){d.push(b+"="+a)});return b+d.join("&")}zc.prototype.toString=function(){var a=(this.kb?"https://":"http://")+this.host;this.Od&&(a+="<"+this.Od+">");return a};var Ec=function(){var a=1;return function(){return a++}}();function K(a,b){if(!a)throw Fc(b);}function Fc(a){return Error("Firebase ("+hb+") INTERNAL ASSERT FAILED: "+a)}
+	function Gc(a){try{var b;if("undefined"!==typeof atob)b=atob(a);else{gb();for(var c=eb,d=[],e=0;e<a.length;){var f=c[a.charAt(e++)],h=e<a.length?c[a.charAt(e)]:0;++e;var k=e<a.length?c[a.charAt(e)]:64;++e;var l=e<a.length?c[a.charAt(e)]:64;++e;if(null==f||null==h||null==k||null==l)throw Error();d.push(f<<2|h>>4);64!=k&&(d.push(h<<4&240|k>>2),64!=l&&d.push(k<<6&192|l))}if(8192>d.length)b=String.fromCharCode.apply(null,d);else{a="";for(c=0;c<d.length;c+=8192)a+=String.fromCharCode.apply(null,Wa(d,c,
+	c+8192));b=a}}return b}catch(m){Cb("base64Decode failed: ",m)}return null}function Hc(a){var b=Ic(a);a=new La;a.update(b);var b=[],c=8*a.de;56>a.ac?a.update(a.Ld,56-a.ac):a.update(a.Ld,a.Va-(a.ac-56));for(var d=a.Va-1;56<=d;d--)a.me[d]=c&255,c/=256;Ma(a,a.me);for(d=c=0;5>d;d++)for(var e=24;0<=e;e-=8)b[c]=a.N[d]>>e&255,++c;return fb(b)}
+	function Jc(a){for(var b="",c=0;c<arguments.length;c++)b=fa(arguments[c])?b+Jc.apply(null,arguments[c]):"object"===typeof arguments[c]?b+B(arguments[c]):b+arguments[c],b+=" ";return b}var Bb=null,Kc=!0;function Cb(a){!0===Kc&&(Kc=!1,null===Bb&&!0===yc.get("logging_enabled")&&Lc(!0));if(Bb){var b=Jc.apply(null,arguments);Bb(b)}}function Mc(a){return function(){Cb(a,arguments)}}
+	function Nc(a){if("undefined"!==typeof console){var b="FIREBASE INTERNAL ERROR: "+Jc.apply(null,arguments);"undefined"!==typeof console.error?console.error(b):console.log(b)}}function Oc(a){var b=Jc.apply(null,arguments);throw Error("FIREBASE FATAL ERROR: "+b);}function O(a){if("undefined"!==typeof console){var b="FIREBASE WARNING: "+Jc.apply(null,arguments);"undefined"!==typeof console.warn?console.warn(b):console.log(b)}}
+	function Pc(a){var b="",c="",d="",e="",f=!0,h="https",k=443;if(p(a)){var l=a.indexOf("//");0<=l&&(h=a.substring(0,l-1),a=a.substring(l+2));l=a.indexOf("/");-1===l&&(l=a.length);b=a.substring(0,l);e="";a=a.substring(l).split("/");for(l=0;l<a.length;l++)if(0<a[l].length){var m=a[l];try{m=decodeURIComponent(m.replace(/\+/g," "))}catch(t){}e+="/"+m}a=b.split(".");3===a.length?(c=a[1],d=a[0].toLowerCase()):2===a.length&&(c=a[0]);l=b.indexOf(":");0<=l&&(f="https"===h||"wss"===h,k=b.substring(l+1),isFinite(k)&&
+	(k=String(k)),k=p(k)?/^\s*-?0x/i.test(k)?parseInt(k,16):parseInt(k,10):NaN)}return{host:b,port:k,domain:c,Tg:d,kb:f,scheme:h,$c:e}}function Qc(a){return ga(a)&&(a!=a||a==Number.POSITIVE_INFINITY||a==Number.NEGATIVE_INFINITY)}
+	function Rc(a){if("complete"===document.readyState)a();else{var b=!1,c=function(){document.body?b||(b=!0,a()):setTimeout(c,Math.floor(10))};document.addEventListener?(document.addEventListener("DOMContentLoaded",c,!1),window.addEventListener("load",c,!1)):document.attachEvent&&(document.attachEvent("onreadystatechange",function(){"complete"===document.readyState&&c()}),window.attachEvent("onload",c))}}
+	function Vb(a,b){if(a===b)return 0;if("[MIN_NAME]"===a||"[MAX_NAME]"===b)return-1;if("[MIN_NAME]"===b||"[MAX_NAME]"===a)return 1;var c=Sc(a),d=Sc(b);return null!==c?null!==d?0==c-d?a.length-b.length:c-d:-1:null!==d?1:a<b?-1:1}function Tc(a,b){if(b&&a in b)return b[a];throw Error("Missing required key ("+a+") in object: "+B(b));}
+	function Uc(a){if("object"!==typeof a||null===a)return B(a);var b=[],c;for(c in a)b.push(c);b.sort();c="{";for(var d=0;d<b.length;d++)0!==d&&(c+=","),c+=B(b[d]),c+=":",c+=Uc(a[b[d]]);return c+"}"}function Vc(a,b){if(a.length<=b)return[a];for(var c=[],d=0;d<a.length;d+=b)d+b>a?c.push(a.substring(d,a.length)):c.push(a.substring(d,d+b));return c}function Wc(a,b){if(ea(a))for(var c=0;c<a.length;++c)b(c,a[c]);else r(a,b)}
+	function Xc(a){K(!Qc(a),"Invalid JSON number");var b,c,d,e;0===a?(d=c=0,b=-Infinity===1/a?1:0):(b=0>a,a=Math.abs(a),a>=Math.pow(2,-1022)?(d=Math.min(Math.floor(Math.log(a)/Math.LN2),1023),c=d+1023,d=Math.round(a*Math.pow(2,52-d)-Math.pow(2,52))):(c=0,d=Math.round(a/Math.pow(2,-1074))));e=[];for(a=52;a;--a)e.push(d%2?1:0),d=Math.floor(d/2);for(a=11;a;--a)e.push(c%2?1:0),c=Math.floor(c/2);e.push(b?1:0);e.reverse();b=e.join("");c="";for(a=0;64>a;a+=8)d=parseInt(b.substr(a,8),2).toString(16),1===d.length&&
+	(d="0"+d),c+=d;return c.toLowerCase()}var Yc=/^-?\d{1,10}$/;function Sc(a){return Yc.test(a)&&(a=Number(a),-2147483648<=a&&2147483647>=a)?a:null}function Db(a){try{a()}catch(b){setTimeout(function(){O("Exception was thrown by user callback.",b.stack||"");throw b;},Math.floor(0))}}function P(a,b){if(ha(a)){var c=Array.prototype.slice.call(arguments,1).slice();Db(function(){a.apply(null,c)})}};function Ic(a){for(var b=[],c=0,d=0;d<a.length;d++){var e=a.charCodeAt(d);55296<=e&&56319>=e&&(e-=55296,d++,K(d<a.length,"Surrogate pair missing trail surrogate."),e=65536+(e<<10)+(a.charCodeAt(d)-56320));128>e?b[c++]=e:(2048>e?b[c++]=e>>6|192:(65536>e?b[c++]=e>>12|224:(b[c++]=e>>18|240,b[c++]=e>>12&63|128),b[c++]=e>>6&63|128),b[c++]=e&63|128)}return b}function Zc(a){for(var b=0,c=0;c<a.length;c++){var d=a.charCodeAt(c);128>d?b++:2048>d?b+=2:55296<=d&&56319>=d?(b+=4,c++):b+=3}return b};function $c(a){var b={},c={},d={},e="";try{var f=a.split("."),b=nb(Gc(f[0])||""),c=nb(Gc(f[1])||""),e=f[2],d=c.d||{};delete c.d}catch(h){}return{Zg:b,Bc:c,data:d,Qg:e}}function ad(a){a=$c(a).Bc;return"object"===typeof a&&a.hasOwnProperty("iat")?w(a,"iat"):null}function bd(a){a=$c(a);var b=a.Bc;return!!a.Qg&&!!b&&"object"===typeof b&&b.hasOwnProperty("iat")};function cd(a){this.W=a;this.g=a.n.g}function dd(a,b,c,d){var e=[],f=[];Oa(b,function(b){"child_changed"===b.type&&a.g.Ad(b.Ke,b.Ja)&&f.push(new D("child_moved",b.Ja,b.Wa))});ed(a,e,"child_removed",b,d,c);ed(a,e,"child_added",b,d,c);ed(a,e,"child_moved",f,d,c);ed(a,e,"child_changed",b,d,c);ed(a,e,Fb,b,d,c);return e}function ed(a,b,c,d,e,f){d=Pa(d,function(a){return a.type===c});Xa(d,q(a.hg,a));Oa(d,function(c){var d=fd(a,c,f);Oa(e,function(e){e.Kf(c.type)&&b.push(e.createEvent(d,a.W))})})}
+	function fd(a,b,c){"value"!==b.type&&"child_removed"!==b.type&&(b.Qd=c.rf(b.Wa,b.Ja,a.g));return b}cd.prototype.hg=function(a,b){if(null==a.Wa||null==b.Wa)throw Fc("Should only compare child_ events.");return this.g.compare(new F(a.Wa,a.Ja),new F(b.Wa,b.Ja))};function gd(){this.bb={}}
+	function hd(a,b){var c=b.type,d=b.Wa;K("child_added"==c||"child_changed"==c||"child_removed"==c,"Only child changes supported for tracking");K(".priority"!==d,"Only non-priority child changes can be tracked.");var e=w(a.bb,d);if(e){var f=e.type;if("child_added"==c&&"child_removed"==f)a.bb[d]=new D("child_changed",b.Ja,d,e.Ja);else if("child_removed"==c&&"child_added"==f)delete a.bb[d];else if("child_removed"==c&&"child_changed"==f)a.bb[d]=new D("child_removed",e.Ke,d);else if("child_changed"==c&&
+	"child_added"==f)a.bb[d]=new D("child_added",b.Ja,d);else if("child_changed"==c&&"child_changed"==f)a.bb[d]=new D("child_changed",b.Ja,d,e.Ke);else throw Fc("Illegal combination of changes: "+b+" occurred after "+e);}else a.bb[d]=b};function id(a,b,c){this.Rb=a;this.pb=b;this.rb=c||null}g=id.prototype;g.Kf=function(a){return"value"===a};g.createEvent=function(a,b){var c=b.n.g;return new Gb("value",this,new Q(a.Ja,b.Ib(),c))};g.Vb=function(a){var b=this.rb;if("cancel"===a.ze()){K(this.pb,"Raising a cancel event on a listener with no cancel callback");var c=this.pb;return function(){c.call(b,a.error)}}var d=this.Rb;return function(){d.call(b,a.Zd)}};g.gf=function(a,b){return this.pb?new Hb(this,a,b):null};
+	g.matches=function(a){return a instanceof id?a.Rb&&this.Rb?a.Rb===this.Rb&&a.rb===this.rb:!0:!1};g.tf=function(){return null!==this.Rb};function jd(a,b,c){this.ha=a;this.pb=b;this.rb=c}g=jd.prototype;g.Kf=function(a){a="children_added"===a?"child_added":a;return("children_removed"===a?"child_removed":a)in this.ha};g.gf=function(a,b){return this.pb?new Hb(this,a,b):null};
+	g.createEvent=function(a,b){K(null!=a.Wa,"Child events should have a childName.");var c=b.Ib().u(a.Wa);return new Gb(a.type,this,new Q(a.Ja,c,b.n.g),a.Qd)};g.Vb=function(a){var b=this.rb;if("cancel"===a.ze()){K(this.pb,"Raising a cancel event on a listener with no cancel callback");var c=this.pb;return function(){c.call(b,a.error)}}var d=this.ha[a.ud];return function(){d.call(b,a.Zd,a.Qd)}};
+	g.matches=function(a){if(a instanceof jd){if(!this.ha||!a.ha)return!0;if(this.rb===a.rb){var b=pa(a.ha);if(b===pa(this.ha)){if(1===b){var b=qa(a.ha),c=qa(this.ha);return c===b&&(!a.ha[b]||!this.ha[c]||a.ha[b]===this.ha[c])}return oa(this.ha,function(b,c){return a.ha[c]===b})}}}return!1};g.tf=function(){return null!==this.ha};function kd(a){this.g=a}g=kd.prototype;g.G=function(a,b,c,d,e,f){K(a.Jc(this.g),"A node must be indexed if only a child is updated");e=a.R(b);if(e.Q(d).ca(c.Q(d))&&e.e()==c.e())return a;null!=f&&(c.e()?a.Da(b)?hd(f,new D("child_removed",e,b)):K(a.K(),"A child remove without an old child only makes sense on a leaf node"):e.e()?hd(f,new D("child_added",c,b)):hd(f,new D("child_changed",c,b,e)));return a.K()&&c.e()?a:a.U(b,c).lb(this.g)};
+	g.xa=function(a,b,c){null!=c&&(a.K()||a.P(N,function(a,e){b.Da(a)||hd(c,new D("child_removed",e,a))}),b.K()||b.P(N,function(b,e){if(a.Da(b)){var f=a.R(b);f.ca(e)||hd(c,new D("child_changed",e,b,f))}else hd(c,new D("child_added",e,b))}));return b.lb(this.g)};g.ga=function(a,b){return a.e()?C:a.ga(b)};g.Na=function(){return!1};g.Wb=function(){return this};function ld(a){this.Be=new kd(a.g);this.g=a.g;var b;a.ma?(b=md(a),b=a.g.Pc(nd(a),b)):b=a.g.Tc();this.ed=b;a.pa?(b=od(a),a=a.g.Pc(pd(a),b)):a=a.g.Qc();this.Gc=a}g=ld.prototype;g.matches=function(a){return 0>=this.g.compare(this.ed,a)&&0>=this.g.compare(a,this.Gc)};g.G=function(a,b,c,d,e,f){this.matches(new F(b,c))||(c=C);return this.Be.G(a,b,c,d,e,f)};
+	g.xa=function(a,b,c){b.K()&&(b=C);var d=b.lb(this.g),d=d.ga(C),e=this;b.P(N,function(a,b){e.matches(new F(a,b))||(d=d.U(a,C))});return this.Be.xa(a,d,c)};g.ga=function(a){return a};g.Na=function(){return!0};g.Wb=function(){return this.Be};function qd(a){this.sa=new ld(a);this.g=a.g;K(a.ja,"Only valid if limit has been set");this.ka=a.ka;this.Jb=!rd(a)}g=qd.prototype;g.G=function(a,b,c,d,e,f){this.sa.matches(new F(b,c))||(c=C);return a.R(b).ca(c)?a:a.Db()<this.ka?this.sa.Wb().G(a,b,c,d,e,f):sd(this,a,b,c,e,f)};
+	g.xa=function(a,b,c){var d;if(b.K()||b.e())d=C.lb(this.g);else if(2*this.ka<b.Db()&&b.Jc(this.g)){d=C.lb(this.g);b=this.Jb?b.$b(this.sa.Gc,this.g):b.Yb(this.sa.ed,this.g);for(var e=0;0<b.Pa.length&&e<this.ka;){var f=J(b),h;if(h=this.Jb?0>=this.g.compare(this.sa.ed,f):0>=this.g.compare(f,this.sa.Gc))d=d.U(f.name,f.S),e++;else break}}else{d=b.lb(this.g);d=d.ga(C);var k,l,m;if(this.Jb){b=d.sf(this.g);k=this.sa.Gc;l=this.sa.ed;var t=td(this.g);m=function(a,b){return t(b,a)}}else b=d.Xb(this.g),k=this.sa.ed,
+	l=this.sa.Gc,m=td(this.g);for(var e=0,z=!1;0<b.Pa.length;)f=J(b),!z&&0>=m(k,f)&&(z=!0),(h=z&&e<this.ka&&0>=m(f,l))?e++:d=d.U(f.name,C)}return this.sa.Wb().xa(a,d,c)};g.ga=function(a){return a};g.Na=function(){return!0};g.Wb=function(){return this.sa.Wb()};
+	function sd(a,b,c,d,e,f){var h;if(a.Jb){var k=td(a.g);h=function(a,b){return k(b,a)}}else h=td(a.g);K(b.Db()==a.ka,"");var l=new F(c,d),m=a.Jb?ud(b,a.g):vd(b,a.g),t=a.sa.matches(l);if(b.Da(c)){for(var z=b.R(c),m=e.ye(a.g,m,a.Jb);null!=m&&(m.name==c||b.Da(m.name));)m=e.ye(a.g,m,a.Jb);e=null==m?1:h(m,l);if(t&&!d.e()&&0<=e)return null!=f&&hd(f,new D("child_changed",d,c,z)),b.U(c,d);null!=f&&hd(f,new D("child_removed",z,c));b=b.U(c,C);return null!=m&&a.sa.matches(m)?(null!=f&&hd(f,new D("child_added",
+	m.S,m.name)),b.U(m.name,m.S)):b}return d.e()?b:t&&0<=h(m,l)?(null!=f&&(hd(f,new D("child_removed",m.S,m.name)),hd(f,new D("child_added",d,c))),b.U(c,d).U(m.name,C)):b};function wd(a,b){this.je=a;this.fg=b}function xd(a){this.V=a}
+	xd.prototype.ab=function(a,b,c,d){var e=new gd,f;if(b.type===Yb)b.source.we?c=yd(this,a,b.path,b.Ga,c,d,e):(K(b.source.pf,"Unknown source."),f=b.source.af||Jb(a.w())&&!b.path.e(),c=Ad(this,a,b.path,b.Ga,c,d,f,e));else if(b.type===Bd)b.source.we?c=Cd(this,a,b.path,b.children,c,d,e):(K(b.source.pf,"Unknown source."),f=b.source.af||Jb(a.w()),c=Dd(this,a,b.path,b.children,c,d,f,e));else if(b.type===Ed)if(b.Vd)if(b=b.path,null!=c.tc(b))c=a;else{f=new rb(c,a,d);d=a.O.j();if(b.e()||".priority"===E(b))Ib(a.w())?
+	b=c.za(ub(a)):(b=a.w().j(),K(b instanceof R,"serverChildren would be complete if leaf node"),b=c.yc(b)),b=this.V.xa(d,b,e);else{var h=E(b),k=c.xc(h,a.w());null==k&&sb(a.w(),h)&&(k=d.R(h));b=null!=k?this.V.G(d,h,k,H(b),f,e):a.O.j().Da(h)?this.V.G(d,h,C,H(b),f,e):d;b.e()&&Ib(a.w())&&(d=c.za(ub(a)),d.K()&&(b=this.V.xa(b,d,e)))}d=Ib(a.w())||null!=c.tc(G);c=Fd(a,b,d,this.V.Na())}else c=Gd(this,a,b.path,b.Qb,c,d,e);else if(b.type===$b)d=b.path,b=a.w(),f=b.j(),h=b.ea||d.e(),c=Hd(this,new Id(a.O,new tb(f,
+	h,b.Ub)),d,c,qb,e);else throw Fc("Unknown operation type: "+b.type);e=ra(e.bb);d=c;b=d.O;b.ea&&(f=b.j().K()||b.j().e(),h=Jd(a),(0<e.length||!a.O.ea||f&&!b.j().ca(h)||!b.j().C().ca(h.C()))&&e.push(Eb(Jd(d))));return new wd(c,e)};
+	function Hd(a,b,c,d,e,f){var h=b.O;if(null!=d.tc(c))return b;var k;if(c.e())K(Ib(b.w()),"If change path is empty, we must have complete server data"),Jb(b.w())?(e=ub(b),d=d.yc(e instanceof R?e:C)):d=d.za(ub(b)),f=a.V.xa(b.O.j(),d,f);else{var l=E(c);if(".priority"==l)K(1==Kd(c),"Can't have a priority with additional path components"),f=h.j(),k=b.w().j(),d=d.ld(c,f,k),f=null!=d?a.V.ga(f,d):h.j();else{var m=H(c);sb(h,l)?(k=b.w().j(),d=d.ld(c,h.j(),k),d=null!=d?h.j().R(l).G(m,d):h.j().R(l)):d=d.xc(l,
+	b.w());f=null!=d?a.V.G(h.j(),l,d,m,e,f):h.j()}}return Fd(b,f,h.ea||c.e(),a.V.Na())}function Ad(a,b,c,d,e,f,h,k){var l=b.w();h=h?a.V:a.V.Wb();if(c.e())d=h.xa(l.j(),d,null);else if(h.Na()&&!l.Ub)d=l.j().G(c,d),d=h.xa(l.j(),d,null);else{var m=E(c);if(!Kb(l,c)&&1<Kd(c))return b;var t=H(c);d=l.j().R(m).G(t,d);d=".priority"==m?h.ga(l.j(),d):h.G(l.j(),m,d,t,qb,null)}l=l.ea||c.e();b=new Id(b.O,new tb(d,l,h.Na()));return Hd(a,b,c,e,new rb(e,b,f),k)}
+	function yd(a,b,c,d,e,f,h){var k=b.O;e=new rb(e,b,f);if(c.e())h=a.V.xa(b.O.j(),d,h),a=Fd(b,h,!0,a.V.Na());else if(f=E(c),".priority"===f)h=a.V.ga(b.O.j(),d),a=Fd(b,h,k.ea,k.Ub);else{c=H(c);var l=k.j().R(f);if(!c.e()){var m=e.qf(f);d=null!=m?".priority"===Ld(c)&&m.Q(c.parent()).e()?m:m.G(c,d):C}l.ca(d)?a=b:(h=a.V.G(k.j(),f,d,c,e,h),a=Fd(b,h,k.ea,a.V.Na()))}return a}
+	function Cd(a,b,c,d,e,f,h){var k=b;Md(d,function(d,m){var t=c.u(d);sb(b.O,E(t))&&(k=yd(a,k,t,m,e,f,h))});Md(d,function(d,m){var t=c.u(d);sb(b.O,E(t))||(k=yd(a,k,t,m,e,f,h))});return k}function Nd(a,b){Md(b,function(b,d){a=a.G(b,d)});return a}
+	function Dd(a,b,c,d,e,f,h,k){if(b.w().j().e()&&!Ib(b.w()))return b;var l=b;c=c.e()?d:Od(Pd,c,d);var m=b.w().j();c.children.ia(function(c,d){if(m.Da(c)){var I=b.w().j().R(c),I=Nd(I,d);l=Ad(a,l,new L(c),I,e,f,h,k)}});c.children.ia(function(c,d){var I=!sb(b.w(),c)&&null==d.value;m.Da(c)||I||(I=b.w().j().R(c),I=Nd(I,d),l=Ad(a,l,new L(c),I,e,f,h,k))});return l}
+	function Gd(a,b,c,d,e,f,h){if(null!=e.tc(c))return b;var k=Jb(b.w()),l=b.w();if(null!=d.value){if(c.e()&&l.ea||Kb(l,c))return Ad(a,b,c,l.j().Q(c),e,f,k,h);if(c.e()){var m=Pd;l.j().P(Qd,function(a,b){m=m.set(new L(a),b)});return Dd(a,b,c,m,e,f,k,h)}return b}m=Pd;Md(d,function(a){var b=c.u(a);Kb(l,b)&&(m=m.set(a,l.j().Q(b)))});return Dd(a,b,c,m,e,f,k,h)};function Rd(){}var Sd={};function td(a){return q(a.compare,a)}Rd.prototype.Ad=function(a,b){return 0!==this.compare(new F("[MIN_NAME]",a),new F("[MIN_NAME]",b))};Rd.prototype.Tc=function(){return Td};function Ud(a){K(!a.e()&&".priority"!==E(a),"Can't create PathIndex with empty path or .priority key");this.cc=a}ma(Ud,Rd);g=Ud.prototype;g.Ic=function(a){return!a.Q(this.cc).e()};g.compare=function(a,b){var c=a.S.Q(this.cc),d=b.S.Q(this.cc),c=c.Dc(d);return 0===c?Vb(a.name,b.name):c};
+	g.Pc=function(a,b){var c=M(a),c=C.G(this.cc,c);return new F(b,c)};g.Qc=function(){var a=C.G(this.cc,Vd);return new F("[MAX_NAME]",a)};g.toString=function(){return this.cc.slice().join("/")};function Wd(){}ma(Wd,Rd);g=Wd.prototype;g.compare=function(a,b){var c=a.S.C(),d=b.S.C(),c=c.Dc(d);return 0===c?Vb(a.name,b.name):c};g.Ic=function(a){return!a.C().e()};g.Ad=function(a,b){return!a.C().ca(b.C())};g.Tc=function(){return Td};g.Qc=function(){return new F("[MAX_NAME]",new tc("[PRIORITY-POST]",Vd))};
+	g.Pc=function(a,b){var c=M(a);return new F(b,new tc("[PRIORITY-POST]",c))};g.toString=function(){return".priority"};var N=new Wd;function Xd(){}ma(Xd,Rd);g=Xd.prototype;g.compare=function(a,b){return Vb(a.name,b.name)};g.Ic=function(){throw Fc("KeyIndex.isDefinedOn not expected to be called.");};g.Ad=function(){return!1};g.Tc=function(){return Td};g.Qc=function(){return new F("[MAX_NAME]",C)};g.Pc=function(a){K(p(a),"KeyIndex indexValue must always be a string.");return new F(a,C)};g.toString=function(){return".key"};
+	var Qd=new Xd;function Yd(){}ma(Yd,Rd);g=Yd.prototype;g.compare=function(a,b){var c=a.S.Dc(b.S);return 0===c?Vb(a.name,b.name):c};g.Ic=function(){return!0};g.Ad=function(a,b){return!a.ca(b)};g.Tc=function(){return Td};g.Qc=function(){return Zd};g.Pc=function(a,b){var c=M(a);return new F(b,c)};g.toString=function(){return".value"};var $d=new Yd;function ae(){this.Tb=this.pa=this.Lb=this.ma=this.ja=!1;this.ka=0;this.Nb="";this.ec=null;this.xb="";this.bc=null;this.vb="";this.g=N}var be=new ae;function rd(a){return""===a.Nb?a.ma:"l"===a.Nb}function nd(a){K(a.ma,"Only valid if start has been set");return a.ec}function md(a){K(a.ma,"Only valid if start has been set");return a.Lb?a.xb:"[MIN_NAME]"}function pd(a){K(a.pa,"Only valid if end has been set");return a.bc}
+	function od(a){K(a.pa,"Only valid if end has been set");return a.Tb?a.vb:"[MAX_NAME]"}function ce(a){var b=new ae;b.ja=a.ja;b.ka=a.ka;b.ma=a.ma;b.ec=a.ec;b.Lb=a.Lb;b.xb=a.xb;b.pa=a.pa;b.bc=a.bc;b.Tb=a.Tb;b.vb=a.vb;b.g=a.g;return b}g=ae.prototype;g.He=function(a){var b=ce(this);b.ja=!0;b.ka=a;b.Nb="";return b};g.Ie=function(a){var b=ce(this);b.ja=!0;b.ka=a;b.Nb="l";return b};g.Je=function(a){var b=ce(this);b.ja=!0;b.ka=a;b.Nb="r";return b};
+	g.$d=function(a,b){var c=ce(this);c.ma=!0;n(a)||(a=null);c.ec=a;null!=b?(c.Lb=!0,c.xb=b):(c.Lb=!1,c.xb="");return c};g.td=function(a,b){var c=ce(this);c.pa=!0;n(a)||(a=null);c.bc=a;n(b)?(c.Tb=!0,c.vb=b):(c.ah=!1,c.vb="");return c};function de(a,b){var c=ce(a);c.g=b;return c}function ee(a){var b={};a.ma&&(b.sp=a.ec,a.Lb&&(b.sn=a.xb));a.pa&&(b.ep=a.bc,a.Tb&&(b.en=a.vb));if(a.ja){b.l=a.ka;var c=a.Nb;""===c&&(c=rd(a)?"l":"r");b.vf=c}a.g!==N&&(b.i=a.g.toString());return b}
+	function S(a){return!(a.ma||a.pa||a.ja)}function fe(a){return S(a)&&a.g==N}function ge(a){var b={};if(fe(a))return b;var c;a.g===N?c="$priority":a.g===$d?c="$value":a.g===Qd?c="$key":(K(a.g instanceof Ud,"Unrecognized index type!"),c=a.g.toString());b.orderBy=B(c);a.ma&&(b.startAt=B(a.ec),a.Lb&&(b.startAt+=","+B(a.xb)));a.pa&&(b.endAt=B(a.bc),a.Tb&&(b.endAt+=","+B(a.vb)));a.ja&&(rd(a)?b.limitToFirst=a.ka:b.limitToLast=a.ka);return b}g.toString=function(){return B(ee(this))};function he(a,b){this.Bd=a;this.dc=b}he.prototype.get=function(a){var b=w(this.Bd,a);if(!b)throw Error("No index defined for "+a);return b===Sd?null:b};function ie(a,b,c){var d=na(a.Bd,function(d,f){var h=w(a.dc,f);K(h,"Missing index implementation for "+f);if(d===Sd){if(h.Ic(b.S)){for(var k=[],l=c.Xb(Tb),m=J(l);m;)m.name!=b.name&&k.push(m),m=J(l);k.push(b);return je(k,td(h))}return Sd}h=c.get(b.name);k=d;h&&(k=k.remove(new F(b.name,h)));return k.Oa(b,b.S)});return new he(d,a.dc)}
+	function ke(a,b,c){var d=na(a.Bd,function(a){if(a===Sd)return a;var d=c.get(b.name);return d?a.remove(new F(b.name,d)):a});return new he(d,a.dc)}var le=new he({".priority":Sd},{".priority":N});function tc(a,b){this.B=a;K(n(this.B)&&null!==this.B,"LeafNode shouldn't be created with null/undefined value.");this.aa=b||C;me(this.aa);this.Cb=null}var ne=["object","boolean","number","string"];g=tc.prototype;g.K=function(){return!0};g.C=function(){return this.aa};g.ga=function(a){return new tc(this.B,a)};g.R=function(a){return".priority"===a?this.aa:C};g.Q=function(a){return a.e()?this:".priority"===E(a)?this.aa:C};g.Da=function(){return!1};g.rf=function(){return null};
+	g.U=function(a,b){return".priority"===a?this.ga(b):b.e()&&".priority"!==a?this:C.U(a,b).ga(this.aa)};g.G=function(a,b){var c=E(a);if(null===c)return b;if(b.e()&&".priority"!==c)return this;K(".priority"!==c||1===Kd(a),".priority must be the last token in a path");return this.U(c,C.G(H(a),b))};g.e=function(){return!1};g.Db=function(){return 0};g.P=function(){return!1};g.I=function(a){return a&&!this.C().e()?{".value":this.Ca(),".priority":this.C().I()}:this.Ca()};
+	g.hash=function(){if(null===this.Cb){var a="";this.aa.e()||(a+="priority:"+oe(this.aa.I())+":");var b=typeof this.B,a=a+(b+":"),a="number"===b?a+Xc(this.B):a+this.B;this.Cb=Hc(a)}return this.Cb};g.Ca=function(){return this.B};g.Dc=function(a){if(a===C)return 1;if(a instanceof R)return-1;K(a.K(),"Unknown node type");var b=typeof a.B,c=typeof this.B,d=Na(ne,b),e=Na(ne,c);K(0<=d,"Unknown leaf type: "+b);K(0<=e,"Unknown leaf type: "+c);return d===e?"object"===c?0:this.B<a.B?-1:this.B===a.B?0:1:e-d};
+	g.lb=function(){return this};g.Jc=function(){return!0};g.ca=function(a){return a===this?!0:a.K()?this.B===a.B&&this.aa.ca(a.aa):!1};g.toString=function(){return B(this.I(!0))};function R(a,b,c){this.m=a;(this.aa=b)&&me(this.aa);a.e()&&K(!this.aa||this.aa.e(),"An empty node cannot have a priority");this.wb=c;this.Cb=null}g=R.prototype;g.K=function(){return!1};g.C=function(){return this.aa||C};g.ga=function(a){return this.m.e()?this:new R(this.m,a,this.wb)};g.R=function(a){if(".priority"===a)return this.C();a=this.m.get(a);return null===a?C:a};g.Q=function(a){var b=E(a);return null===b?this:this.R(b).Q(H(a))};g.Da=function(a){return null!==this.m.get(a)};
+	g.U=function(a,b){K(b,"We should always be passing snapshot nodes");if(".priority"===a)return this.ga(b);var c=new F(a,b),d,e;b.e()?(d=this.m.remove(a),c=ke(this.wb,c,this.m)):(d=this.m.Oa(a,b),c=ie(this.wb,c,this.m));e=d.e()?C:this.aa;return new R(d,e,c)};g.G=function(a,b){var c=E(a);if(null===c)return b;K(".priority"!==E(a)||1===Kd(a),".priority must be the last token in a path");var d=this.R(c).G(H(a),b);return this.U(c,d)};g.e=function(){return this.m.e()};g.Db=function(){return this.m.count()};
+	var pe=/^(0|[1-9]\d*)$/;g=R.prototype;g.I=function(a){if(this.e())return null;var b={},c=0,d=0,e=!0;this.P(N,function(f,h){b[f]=h.I(a);c++;e&&pe.test(f)?d=Math.max(d,Number(f)):e=!1});if(!a&&e&&d<2*c){var f=[],h;for(h in b)f[h]=b[h];return f}a&&!this.C().e()&&(b[".priority"]=this.C().I());return b};g.hash=function(){if(null===this.Cb){var a="";this.C().e()||(a+="priority:"+oe(this.C().I())+":");this.P(N,function(b,c){var d=c.hash();""!==d&&(a+=":"+b+":"+d)});this.Cb=""===a?"":Hc(a)}return this.Cb};
+	g.rf=function(a,b,c){return(c=qe(this,c))?(a=cc(c,new F(a,b)))?a.name:null:cc(this.m,a)};function ud(a,b){var c;c=(c=qe(a,b))?(c=c.Sc())&&c.name:a.m.Sc();return c?new F(c,a.m.get(c)):null}function vd(a,b){var c;c=(c=qe(a,b))?(c=c.fc())&&c.name:a.m.fc();return c?new F(c,a.m.get(c)):null}g.P=function(a,b){var c=qe(this,a);return c?c.ia(function(a){return b(a.name,a.S)}):this.m.ia(b)};g.Xb=function(a){return this.Yb(a.Tc(),a)};
+	g.Yb=function(a,b){var c=qe(this,b);if(c)return c.Yb(a,function(a){return a});for(var c=this.m.Yb(a.name,Tb),d=ec(c);null!=d&&0>b.compare(d,a);)J(c),d=ec(c);return c};g.sf=function(a){return this.$b(a.Qc(),a)};g.$b=function(a,b){var c=qe(this,b);if(c)return c.$b(a,function(a){return a});for(var c=this.m.$b(a.name,Tb),d=ec(c);null!=d&&0<b.compare(d,a);)J(c),d=ec(c);return c};g.Dc=function(a){return this.e()?a.e()?0:-1:a.K()||a.e()?1:a===Vd?-1:0};
+	g.lb=function(a){if(a===Qd||ta(this.wb.dc,a.toString()))return this;var b=this.wb,c=this.m;K(a!==Qd,"KeyIndex always exists and isn't meant to be added to the IndexMap.");for(var d=[],e=!1,c=c.Xb(Tb),f=J(c);f;)e=e||a.Ic(f.S),d.push(f),f=J(c);d=e?je(d,td(a)):Sd;e=a.toString();c=xa(b.dc);c[e]=a;a=xa(b.Bd);a[e]=d;return new R(this.m,this.aa,new he(a,c))};g.Jc=function(a){return a===Qd||ta(this.wb.dc,a.toString())};
+	g.ca=function(a){if(a===this)return!0;if(a.K())return!1;if(this.C().ca(a.C())&&this.m.count()===a.m.count()){var b=this.Xb(N);a=a.Xb(N);for(var c=J(b),d=J(a);c&&d;){if(c.name!==d.name||!c.S.ca(d.S))return!1;c=J(b);d=J(a)}return null===c&&null===d}return!1};function qe(a,b){return b===Qd?null:a.wb.get(b.toString())}g.toString=function(){return B(this.I(!0))};function M(a,b){if(null===a)return C;var c=null;"object"===typeof a&&".priority"in a?c=a[".priority"]:"undefined"!==typeof b&&(c=b);K(null===c||"string"===typeof c||"number"===typeof c||"object"===typeof c&&".sv"in c,"Invalid priority type found: "+typeof c);"object"===typeof a&&".value"in a&&null!==a[".value"]&&(a=a[".value"]);if("object"!==typeof a||".sv"in a)return new tc(a,M(c));if(a instanceof Array){var d=C,e=a;r(e,function(a,b){if(v(e,b)&&"."!==b.substring(0,1)){var c=M(a);if(c.K()||!c.e())d=
+	d.U(b,c)}});return d.ga(M(c))}var f=[],h=!1,k=a;ib(k,function(a){if("string"!==typeof a||"."!==a.substring(0,1)){var b=M(k[a]);b.e()||(h=h||!b.C().e(),f.push(new F(a,b)))}});if(0==f.length)return C;var l=je(f,Ub,function(a){return a.name},Wb);if(h){var m=je(f,td(N));return new R(l,M(c),new he({".priority":m},{".priority":N}))}return new R(l,M(c),le)}var re=Math.log(2);
+	function se(a){this.count=parseInt(Math.log(a+1)/re,10);this.jf=this.count-1;this.eg=a+1&parseInt(Array(this.count+1).join("1"),2)}function te(a){var b=!(a.eg&1<<a.jf);a.jf--;return b}
+	function je(a,b,c,d){function e(b,d){var f=d-b;if(0==f)return null;if(1==f){var m=a[b],t=c?c(m):m;return new fc(t,m.S,!1,null,null)}var m=parseInt(f/2,10)+b,f=e(b,m),z=e(m+1,d),m=a[m],t=c?c(m):m;return new fc(t,m.S,!1,f,z)}a.sort(b);var f=function(b){function d(b,h){var k=t-b,z=t;t-=b;var z=e(k+1,z),k=a[k],I=c?c(k):k,z=new fc(I,k.S,h,null,z);f?f.left=z:m=z;f=z}for(var f=null,m=null,t=a.length,z=0;z<b.count;++z){var I=te(b),zd=Math.pow(2,b.count-(z+1));I?d(zd,!1):(d(zd,!1),d(zd,!0))}return m}(new se(a.length));
+	return null!==f?new ac(d||b,f):new ac(d||b)}function oe(a){return"number"===typeof a?"number:"+Xc(a):"string:"+a}function me(a){if(a.K()){var b=a.I();K("string"===typeof b||"number"===typeof b||"object"===typeof b&&v(b,".sv"),"Priority must be a string or number.")}else K(a===Vd||a.e(),"priority of unexpected type.");K(a===Vd||a.C().e(),"Priority nodes can't have a priority of their own.")}var C=new R(new ac(Wb),null,le);function ue(){R.call(this,new ac(Wb),C,le)}ma(ue,R);g=ue.prototype;
+	g.Dc=function(a){return a===this?0:1};g.ca=function(a){return a===this};g.C=function(){return this};g.R=function(){return C};g.e=function(){return!1};var Vd=new ue,Td=new F("[MIN_NAME]",C),Zd=new F("[MAX_NAME]",Vd);function Id(a,b){this.O=a;this.Yd=b}function Fd(a,b,c,d){return new Id(new tb(b,c,d),a.Yd)}function Jd(a){return a.O.ea?a.O.j():null}Id.prototype.w=function(){return this.Yd};function ub(a){return a.Yd.ea?a.Yd.j():null};function ve(a,b){this.W=a;var c=a.n,d=new kd(c.g),c=S(c)?new kd(c.g):c.ja?new qd(c):new ld(c);this.Hf=new xd(c);var e=b.w(),f=b.O,h=d.xa(C,e.j(),null),k=c.xa(C,f.j(),null);this.Ka=new Id(new tb(k,f.ea,c.Na()),new tb(h,e.ea,d.Na()));this.Xa=[];this.lg=new cd(a)}function we(a){return a.W}g=ve.prototype;g.w=function(){return this.Ka.w().j()};g.fb=function(a){var b=ub(this.Ka);return b&&(S(this.W.n)||!a.e()&&!b.R(E(a)).e())?b.Q(a):null};g.e=function(){return 0===this.Xa.length};g.Pb=function(a){this.Xa.push(a)};
+	g.jb=function(a,b){var c=[];if(b){K(null==a,"A cancel should cancel all event registrations.");var d=this.W.path;Oa(this.Xa,function(a){(a=a.gf(b,d))&&c.push(a)})}if(a){for(var e=[],f=0;f<this.Xa.length;++f){var h=this.Xa[f];if(!h.matches(a))e.push(h);else if(a.tf()){e=e.concat(this.Xa.slice(f+1));break}}this.Xa=e}else this.Xa=[];return c};
+	g.ab=function(a,b,c){a.type===Bd&&null!==a.source.Hb&&(K(ub(this.Ka),"We should always have a full cache before handling merges"),K(Jd(this.Ka),"Missing event cache, even though we have a server cache"));var d=this.Ka;a=this.Hf.ab(d,a,b,c);b=this.Hf;c=a.je;K(c.O.j().Jc(b.V.g),"Event snap not indexed");K(c.w().j().Jc(b.V.g),"Server snap not indexed");K(Ib(a.je.w())||!Ib(d.w()),"Once a server snap is complete, it should never go back");this.Ka=a.je;return xe(this,a.fg,a.je.O.j(),null)};
+	function ye(a,b){var c=a.Ka.O,d=[];c.j().K()||c.j().P(N,function(a,b){d.push(new D("child_added",b,a))});c.ea&&d.push(Eb(c.j()));return xe(a,d,c.j(),b)}function xe(a,b,c,d){return dd(a.lg,b,c,d?[d]:a.Xa)};function ze(a,b,c){this.type=Bd;this.source=a;this.path=b;this.children=c}ze.prototype.Xc=function(a){if(this.path.e())return a=this.children.subtree(new L(a)),a.e()?null:a.value?new Xb(this.source,G,a.value):new ze(this.source,G,a);K(E(this.path)===a,"Can't get a merge for a child not on the path of the operation");return new ze(this.source,H(this.path),this.children)};ze.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" merge: "+this.children.toString()+")"};function Ae(a,b){this.f=Mc("p:rest:");this.F=a;this.Gb=b;this.Aa=null;this.$={}}function Be(a,b){if(n(b))return"tag$"+b;K(fe(a.n),"should have a tag if it's not a default query.");return a.path.toString()}g=Ae.prototype;
+	g.yf=function(a,b,c,d){var e=a.path.toString();this.f("Listen called for "+e+" "+a.va());var f=Be(a,c),h={};this.$[f]=h;a=ge(a.n);var k=this;Ce(this,e+".json",a,function(a,b){var t=b;404===a&&(a=t=null);null===a&&k.Gb(e,t,!1,c);w(k.$,f)===h&&d(a?401==a?"permission_denied":"rest_error:"+a:"ok",null)})};g.Rf=function(a,b){var c=Be(a,b);delete this.$[c]};g.M=function(a,b){this.Aa=a;var c=$c(a),d=c.data,c=c.Bc&&c.Bc.exp;b&&b("ok",{auth:d,expires:c})};g.ge=function(a){this.Aa=null;a("ok",null)};g.Me=function(){};
+	g.Cf=function(){};g.Jd=function(){};g.put=function(){};g.zf=function(){};g.Ue=function(){};
+	function Ce(a,b,c,d){c=c||{};c.format="export";a.Aa&&(c.auth=a.Aa);var e=(a.F.kb?"https://":"http://")+a.F.host+b+"?"+kb(c);a.f("Sending REST request for "+e);var f=new XMLHttpRequest;f.onreadystatechange=function(){if(d&&4===f.readyState){a.f("REST Response for "+e+" received. status:",f.status,"response:",f.responseText);var b=null;if(200<=f.status&&300>f.status){try{b=nb(f.responseText)}catch(c){O("Failed to parse JSON response for "+e+": "+f.responseText)}d(null,b)}else 401!==f.status&&404!==
+	f.status&&O("Got unsuccessful REST response for "+e+" Status: "+f.status),d(f.status);d=null}};f.open("GET",e,!0);f.send()};function De(a){K(ea(a)&&0<a.length,"Requires a non-empty array");this.Xf=a;this.Oc={}}De.prototype.fe=function(a,b){var c;c=this.Oc[a]||[];var d=c.length;if(0<d){for(var e=Array(d),f=0;f<d;f++)e[f]=c[f];c=e}else c=[];for(d=0;d<c.length;d++)c[d].zc.apply(c[d].Ma,Array.prototype.slice.call(arguments,1))};De.prototype.Eb=function(a,b,c){Ee(this,a);this.Oc[a]=this.Oc[a]||[];this.Oc[a].push({zc:b,Ma:c});(a=this.Ae(a))&&b.apply(c,a)};
+	De.prototype.ic=function(a,b,c){Ee(this,a);a=this.Oc[a]||[];for(var d=0;d<a.length;d++)if(a[d].zc===b&&(!c||c===a[d].Ma)){a.splice(d,1);break}};function Ee(a,b){K(Ta(a.Xf,function(a){return a===b}),"Unknown event: "+b)};var Fe=function(){var a=0,b=[];return function(c){var d=c===a;a=c;for(var e=Array(8),f=7;0<=f;f--)e[f]="-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".charAt(c%64),c=Math.floor(c/64);K(0===c,"Cannot push at time == 0");c=e.join("");if(d){for(f=11;0<=f&&63===b[f];f--)b[f]=0;b[f]++}else for(f=0;12>f;f++)b[f]=Math.floor(64*Math.random());for(f=0;12>f;f++)c+="-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".charAt(b[f]);K(20===c.length,"nextPushId: Length should be 20.");
+	return c}}();function Ge(){De.call(this,["online"]);this.kc=!0;if("undefined"!==typeof window&&"undefined"!==typeof window.addEventListener){var a=this;window.addEventListener("online",function(){a.kc||(a.kc=!0,a.fe("online",!0))},!1);window.addEventListener("offline",function(){a.kc&&(a.kc=!1,a.fe("online",!1))},!1)}}ma(Ge,De);Ge.prototype.Ae=function(a){K("online"===a,"Unknown event type: "+a);return[this.kc]};ca(Ge);function He(){De.call(this,["visible"]);var a,b;"undefined"!==typeof document&&"undefined"!==typeof document.addEventListener&&("undefined"!==typeof document.hidden?(b="visibilitychange",a="hidden"):"undefined"!==typeof document.mozHidden?(b="mozvisibilitychange",a="mozHidden"):"undefined"!==typeof document.msHidden?(b="msvisibilitychange",a="msHidden"):"undefined"!==typeof document.webkitHidden&&(b="webkitvisibilitychange",a="webkitHidden"));this.Ob=!0;if(b){var c=this;document.addEventListener(b,
+	function(){var b=!document[a];b!==c.Ob&&(c.Ob=b,c.fe("visible",b))},!1)}}ma(He,De);He.prototype.Ae=function(a){K("visible"===a,"Unknown event type: "+a);return[this.Ob]};ca(He);function L(a,b){if(1==arguments.length){this.o=a.split("/");for(var c=0,d=0;d<this.o.length;d++)0<this.o[d].length&&(this.o[c]=this.o[d],c++);this.o.length=c;this.Z=0}else this.o=a,this.Z=b}function T(a,b){var c=E(a);if(null===c)return b;if(c===E(b))return T(H(a),H(b));throw Error("INTERNAL ERROR: innerPath ("+b+") is not within outerPath ("+a+")");}
+	function Ie(a,b){for(var c=a.slice(),d=b.slice(),e=0;e<c.length&&e<d.length;e++){var f=Vb(c[e],d[e]);if(0!==f)return f}return c.length===d.length?0:c.length<d.length?-1:1}function E(a){return a.Z>=a.o.length?null:a.o[a.Z]}function Kd(a){return a.o.length-a.Z}function H(a){var b=a.Z;b<a.o.length&&b++;return new L(a.o,b)}function Ld(a){return a.Z<a.o.length?a.o[a.o.length-1]:null}g=L.prototype;
+	g.toString=function(){for(var a="",b=this.Z;b<this.o.length;b++)""!==this.o[b]&&(a+="/"+this.o[b]);return a||"/"};g.slice=function(a){return this.o.slice(this.Z+(a||0))};g.parent=function(){if(this.Z>=this.o.length)return null;for(var a=[],b=this.Z;b<this.o.length-1;b++)a.push(this.o[b]);return new L(a,0)};
+	g.u=function(a){for(var b=[],c=this.Z;c<this.o.length;c++)b.push(this.o[c]);if(a instanceof L)for(c=a.Z;c<a.o.length;c++)b.push(a.o[c]);else for(a=a.split("/"),c=0;c<a.length;c++)0<a[c].length&&b.push(a[c]);return new L(b,0)};g.e=function(){return this.Z>=this.o.length};g.ca=function(a){if(Kd(this)!==Kd(a))return!1;for(var b=this.Z,c=a.Z;b<=this.o.length;b++,c++)if(this.o[b]!==a.o[c])return!1;return!0};
+	g.contains=function(a){var b=this.Z,c=a.Z;if(Kd(this)>Kd(a))return!1;for(;b<this.o.length;){if(this.o[b]!==a.o[c])return!1;++b;++c}return!0};var G=new L("");function Je(a,b){this.Qa=a.slice();this.Ha=Math.max(1,this.Qa.length);this.lf=b;for(var c=0;c<this.Qa.length;c++)this.Ha+=Zc(this.Qa[c]);Ke(this)}Je.prototype.push=function(a){0<this.Qa.length&&(this.Ha+=1);this.Qa.push(a);this.Ha+=Zc(a);Ke(this)};Je.prototype.pop=function(){var a=this.Qa.pop();this.Ha-=Zc(a);0<this.Qa.length&&--this.Ha};
+	function Ke(a){if(768<a.Ha)throw Error(a.lf+"has a key path longer than 768 bytes ("+a.Ha+").");if(32<a.Qa.length)throw Error(a.lf+"path specified exceeds the maximum depth that can be written (32) or object contains a cycle "+Le(a));}function Le(a){return 0==a.Qa.length?"":"in property '"+a.Qa.join(".")+"'"};function Me(a,b){this.value=a;this.children=b||Ne}var Ne=new ac(function(a,b){return a===b?0:a<b?-1:1});function Oe(a){var b=Pd;r(a,function(a,d){b=b.set(new L(d),a)});return b}g=Me.prototype;g.e=function(){return null===this.value&&this.children.e()};function Pe(a,b,c){if(null!=a.value&&c(a.value))return{path:G,value:a.value};if(b.e())return null;var d=E(b);a=a.children.get(d);return null!==a?(b=Pe(a,H(b),c),null!=b?{path:(new L(d)).u(b.path),value:b.value}:null):null}
+	function Qe(a,b){return Pe(a,b,function(){return!0})}g.subtree=function(a){if(a.e())return this;var b=this.children.get(E(a));return null!==b?b.subtree(H(a)):Pd};g.set=function(a,b){if(a.e())return new Me(b,this.children);var c=E(a),d=(this.children.get(c)||Pd).set(H(a),b),c=this.children.Oa(c,d);return new Me(this.value,c)};
+	g.remove=function(a){if(a.e())return this.children.e()?Pd:new Me(null,this.children);var b=E(a),c=this.children.get(b);return c?(a=c.remove(H(a)),b=a.e()?this.children.remove(b):this.children.Oa(b,a),null===this.value&&b.e()?Pd:new Me(this.value,b)):this};g.get=function(a){if(a.e())return this.value;var b=this.children.get(E(a));return b?b.get(H(a)):null};
+	function Od(a,b,c){if(b.e())return c;var d=E(b);b=Od(a.children.get(d)||Pd,H(b),c);d=b.e()?a.children.remove(d):a.children.Oa(d,b);return new Me(a.value,d)}function Re(a,b){return Se(a,G,b)}function Se(a,b,c){var d={};a.children.ia(function(a,f){d[a]=Se(f,b.u(a),c)});return c(b,a.value,d)}function Te(a,b,c){return Ue(a,b,G,c)}function Ue(a,b,c,d){var e=a.value?d(c,a.value):!1;if(e)return e;if(b.e())return null;e=E(b);return(a=a.children.get(e))?Ue(a,H(b),c.u(e),d):null}
+	function Ve(a,b,c){We(a,b,G,c)}function We(a,b,c,d){if(b.e())return a;a.value&&d(c,a.value);var e=E(b);return(a=a.children.get(e))?We(a,H(b),c.u(e),d):Pd}function Md(a,b){Xe(a,G,b)}function Xe(a,b,c){a.children.ia(function(a,e){Xe(e,b.u(a),c)});a.value&&c(b,a.value)}function Ye(a,b){a.children.ia(function(a,d){d.value&&b(a,d.value)})}var Pd=new Me(null);Me.prototype.toString=function(){var a={};Md(this,function(b,c){a[b.toString()]=c.toString()});return B(a)};function Ze(a,b,c){this.type=Ed;this.source=$e;this.path=a;this.Qb=b;this.Vd=c}Ze.prototype.Xc=function(a){if(this.path.e()){if(null!=this.Qb.value)return K(this.Qb.children.e(),"affectedTree should not have overlapping affected paths."),this;a=this.Qb.subtree(new L(a));return new Ze(G,a,this.Vd)}K(E(this.path)===a,"operationForChild called for unrelated child.");return new Ze(H(this.path),this.Qb,this.Vd)};
+	Ze.prototype.toString=function(){return"Operation("+this.path+": "+this.source.toString()+" ack write revert="+this.Vd+" affectedTree="+this.Qb+")"};var Yb=0,Bd=1,Ed=2,$b=3;function af(a,b,c,d){this.we=a;this.pf=b;this.Hb=c;this.af=d;K(!d||b,"Tagged queries must be from server.")}var $e=new af(!0,!1,null,!1),bf=new af(!1,!0,null,!1);af.prototype.toString=function(){return this.we?"user":this.af?"server(queryID="+this.Hb+")":"server"};function cf(a){this.X=a}var df=new cf(new Me(null));function ef(a,b,c){if(b.e())return new cf(new Me(c));var d=Qe(a.X,b);if(null!=d){var e=d.path,d=d.value;b=T(e,b);d=d.G(b,c);return new cf(a.X.set(e,d))}a=Od(a.X,b,new Me(c));return new cf(a)}function ff(a,b,c){var d=a;ib(c,function(a,c){d=ef(d,b.u(a),c)});return d}cf.prototype.Rd=function(a){if(a.e())return df;a=Od(this.X,a,Pd);return new cf(a)};function gf(a,b){var c=Qe(a.X,b);return null!=c?a.X.get(c.path).Q(T(c.path,b)):null}
+	function hf(a){var b=[],c=a.X.value;null!=c?c.K()||c.P(N,function(a,c){b.push(new F(a,c))}):a.X.children.ia(function(a,c){null!=c.value&&b.push(new F(a,c.value))});return b}function jf(a,b){if(b.e())return a;var c=gf(a,b);return null!=c?new cf(new Me(c)):new cf(a.X.subtree(b))}cf.prototype.e=function(){return this.X.e()};cf.prototype.apply=function(a){return kf(G,this.X,a)};
+	function kf(a,b,c){if(null!=b.value)return c.G(a,b.value);var d=null;b.children.ia(function(b,f){".priority"===b?(K(null!==f.value,"Priority writes must always be leaf nodes"),d=f.value):c=kf(a.u(b),f,c)});c.Q(a).e()||null===d||(c=c.G(a.u(".priority"),d));return c};function lf(){this.T=df;this.na=[];this.Mc=-1}function mf(a,b){for(var c=0;c<a.na.length;c++){var d=a.na[c];if(d.kd===b)return d}return null}g=lf.prototype;
+	g.Rd=function(a){var b=Ua(this.na,function(b){return b.kd===a});K(0<=b,"removeWrite called with nonexistent writeId.");var c=this.na[b];this.na.splice(b,1);for(var d=c.visible,e=!1,f=this.na.length-1;d&&0<=f;){var h=this.na[f];h.visible&&(f>=b&&nf(h,c.path)?d=!1:c.path.contains(h.path)&&(e=!0));f--}if(d){if(e)this.T=of(this.na,pf,G),this.Mc=0<this.na.length?this.na[this.na.length-1].kd:-1;else if(c.Ga)this.T=this.T.Rd(c.path);else{var k=this;r(c.children,function(a,b){k.T=k.T.Rd(c.path.u(b))})}return!0}return!1};
+	g.za=function(a,b,c,d){if(c||d){var e=jf(this.T,a);return!d&&e.e()?b:d||null!=b||null!=gf(e,G)?(e=of(this.na,function(b){return(b.visible||d)&&(!c||!(0<=Na(c,b.kd)))&&(b.path.contains(a)||a.contains(b.path))},a),b=b||C,e.apply(b)):null}e=gf(this.T,a);if(null!=e)return e;e=jf(this.T,a);return e.e()?b:null!=b||null!=gf(e,G)?(b=b||C,e.apply(b)):null};
+	g.yc=function(a,b){var c=C,d=gf(this.T,a);if(d)d.K()||d.P(N,function(a,b){c=c.U(a,b)});else if(b){var e=jf(this.T,a);b.P(N,function(a,b){var d=jf(e,new L(a)).apply(b);c=c.U(a,d)});Oa(hf(e),function(a){c=c.U(a.name,a.S)})}else e=jf(this.T,a),Oa(hf(e),function(a){c=c.U(a.name,a.S)});return c};g.ld=function(a,b,c,d){K(c||d,"Either existingEventSnap or existingServerSnap must exist");a=a.u(b);if(null!=gf(this.T,a))return null;a=jf(this.T,a);return a.e()?d.Q(b):a.apply(d.Q(b))};
+	g.xc=function(a,b,c){a=a.u(b);var d=gf(this.T,a);return null!=d?d:sb(c,b)?jf(this.T,a).apply(c.j().R(b)):null};g.tc=function(a){return gf(this.T,a)};g.ne=function(a,b,c,d,e,f){var h;a=jf(this.T,a);h=gf(a,G);if(null==h)if(null!=b)h=a.apply(b);else return[];h=h.lb(f);if(h.e()||h.K())return[];b=[];a=td(f);e=e?h.$b(c,f):h.Yb(c,f);for(f=J(e);f&&b.length<d;)0!==a(f,c)&&b.push(f),f=J(e);return b};
+	function nf(a,b){return a.Ga?a.path.contains(b):!!ua(a.children,function(c,d){return a.path.u(d).contains(b)})}function pf(a){return a.visible}
+	function of(a,b,c){for(var d=df,e=0;e<a.length;++e){var f=a[e];if(b(f)){var h=f.path;if(f.Ga)c.contains(h)?(h=T(c,h),d=ef(d,h,f.Ga)):h.contains(c)&&(h=T(h,c),d=ef(d,G,f.Ga.Q(h)));else if(f.children)if(c.contains(h))h=T(c,h),d=ff(d,h,f.children);else{if(h.contains(c))if(h=T(h,c),h.e())d=ff(d,G,f.children);else if(f=w(f.children,E(h)))f=f.Q(H(h)),d=ef(d,G,f)}else throw Fc("WriteRecord should have .snap or .children");}}return d}function qf(a,b){this.Mb=a;this.X=b}g=qf.prototype;
+	g.za=function(a,b,c){return this.X.za(this.Mb,a,b,c)};g.yc=function(a){return this.X.yc(this.Mb,a)};g.ld=function(a,b,c){return this.X.ld(this.Mb,a,b,c)};g.tc=function(a){return this.X.tc(this.Mb.u(a))};g.ne=function(a,b,c,d,e){return this.X.ne(this.Mb,a,b,c,d,e)};g.xc=function(a,b){return this.X.xc(this.Mb,a,b)};g.u=function(a){return new qf(this.Mb.u(a),this.X)};function rf(){this.ya={}}g=rf.prototype;g.e=function(){return wa(this.ya)};g.ab=function(a,b,c){var d=a.source.Hb;if(null!==d)return d=w(this.ya,d),K(null!=d,"SyncTree gave us an op for an invalid query."),d.ab(a,b,c);var e=[];r(this.ya,function(d){e=e.concat(d.ab(a,b,c))});return e};g.Pb=function(a,b,c,d,e){var f=a.va(),h=w(this.ya,f);if(!h){var h=c.za(e?d:null),k=!1;h?k=!0:(h=d instanceof R?c.yc(d):C,k=!1);h=new ve(a,new Id(new tb(h,k,!1),new tb(d,e,!1)));this.ya[f]=h}h.Pb(b);return ye(h,b)};
+	g.jb=function(a,b,c){var d=a.va(),e=[],f=[],h=null!=sf(this);if("default"===d){var k=this;r(this.ya,function(a,d){f=f.concat(a.jb(b,c));a.e()&&(delete k.ya[d],S(a.W.n)||e.push(a.W))})}else{var l=w(this.ya,d);l&&(f=f.concat(l.jb(b,c)),l.e()&&(delete this.ya[d],S(l.W.n)||e.push(l.W)))}h&&null==sf(this)&&e.push(new U(a.k,a.path));return{Kg:e,mg:f}};function tf(a){return Pa(ra(a.ya),function(a){return!S(a.W.n)})}g.fb=function(a){var b=null;r(this.ya,function(c){b=b||c.fb(a)});return b};
+	function uf(a,b){if(S(b.n))return sf(a);var c=b.va();return w(a.ya,c)}function sf(a){return va(a.ya,function(a){return S(a.W.n)})||null};function vf(a){this.ta=Pd;this.ib=new lf;this.$e={};this.mc={};this.Nc=a}function wf(a,b,c,d,e){var f=a.ib,h=e;K(d>f.Mc,"Stacking an older write on top of newer ones");n(h)||(h=!0);f.na.push({path:b,Ga:c,kd:d,visible:h});h&&(f.T=ef(f.T,b,c));f.Mc=d;return e?xf(a,new Xb($e,b,c)):[]}function yf(a,b,c,d){var e=a.ib;K(d>e.Mc,"Stacking an older merge on top of newer ones");e.na.push({path:b,children:c,kd:d,visible:!0});e.T=ff(e.T,b,c);e.Mc=d;c=Oe(c);return xf(a,new ze($e,b,c))}
+	function zf(a,b,c){c=c||!1;var d=mf(a.ib,b);if(a.ib.Rd(b)){var e=Pd;null!=d.Ga?e=e.set(G,!0):ib(d.children,function(a,b){e=e.set(new L(a),b)});return xf(a,new Ze(d.path,e,c))}return[]}function Af(a,b,c){c=Oe(c);return xf(a,new ze(bf,b,c))}function Bf(a,b,c,d){d=Cf(a,d);if(null!=d){var e=Df(d);d=e.path;e=e.Hb;b=T(d,b);c=new Xb(new af(!1,!0,e,!0),b,c);return Ef(a,d,c)}return[]}
+	function Ff(a,b,c,d){if(d=Cf(a,d)){var e=Df(d);d=e.path;e=e.Hb;b=T(d,b);c=Oe(c);c=new ze(new af(!1,!0,e,!0),b,c);return Ef(a,d,c)}return[]}
+	vf.prototype.Pb=function(a,b){var c=a.path,d=null,e=!1;Ve(this.ta,c,function(a,b){var f=T(a,c);d=d||b.fb(f);e=e||null!=sf(b)});var f=this.ta.get(c);f?(e=e||null!=sf(f),d=d||f.fb(G)):(f=new rf,this.ta=this.ta.set(c,f));var h;null!=d?h=!0:(h=!1,d=C,Ye(this.ta.subtree(c),function(a,b){var c=b.fb(G);c&&(d=d.U(a,c))}));var k=null!=uf(f,a);if(!k&&!S(a.n)){var l=Gf(a);K(!(l in this.mc),"View does not exist, but we have a tag");var m=Hf++;this.mc[l]=m;this.$e["_"+m]=l}h=f.Pb(a,b,new qf(c,this.ib),d,h);k||
+	e||(f=uf(f,a),h=h.concat(If(this,a,f)));return h};
+	vf.prototype.jb=function(a,b,c){var d=a.path,e=this.ta.get(d),f=[];if(e&&("default"===a.va()||null!=uf(e,a))){f=e.jb(a,b,c);e.e()&&(this.ta=this.ta.remove(d));e=f.Kg;f=f.mg;b=-1!==Ua(e,function(a){return S(a.n)});var h=Te(this.ta,d,function(a,b){return null!=sf(b)});if(b&&!h&&(d=this.ta.subtree(d),!d.e()))for(var d=Jf(d),k=0;k<d.length;++k){var l=d[k],m=l.W,l=Kf(this,l);this.Nc.Xe(Lf(m),Mf(this,m),l.xd,l.H)}if(!h&&0<e.length&&!c)if(b)this.Nc.ae(Lf(a),null);else{var t=this;Oa(e,function(a){a.va();
+	var b=t.mc[Gf(a)];t.Nc.ae(Lf(a),b)})}Nf(this,e)}return f};vf.prototype.za=function(a,b){var c=this.ib,d=Te(this.ta,a,function(b,c){var d=T(b,a);if(d=c.fb(d))return d});return c.za(a,d,b,!0)};function Jf(a){return Re(a,function(a,c,d){if(c&&null!=sf(c))return[sf(c)];var e=[];c&&(e=tf(c));r(d,function(a){e=e.concat(a)});return e})}function Nf(a,b){for(var c=0;c<b.length;++c){var d=b[c];if(!S(d.n)){var d=Gf(d),e=a.mc[d];delete a.mc[d];delete a.$e["_"+e]}}}
+	function Lf(a){return S(a.n)&&!fe(a.n)?a.Ib():a}function If(a,b,c){var d=b.path,e=Mf(a,b);c=Kf(a,c);b=a.Nc.Xe(Lf(b),e,c.xd,c.H);d=a.ta.subtree(d);if(e)K(null==sf(d.value),"If we're adding a query, it shouldn't be shadowed");else for(e=Re(d,function(a,b,c){if(!a.e()&&b&&null!=sf(b))return[we(sf(b))];var d=[];b&&(d=d.concat(Qa(tf(b),function(a){return a.W})));r(c,function(a){d=d.concat(a)});return d}),d=0;d<e.length;++d)c=e[d],a.Nc.ae(Lf(c),Mf(a,c));return b}
+	function Kf(a,b){var c=b.W,d=Mf(a,c);return{xd:function(){return(b.w()||C).hash()},H:function(b){if("ok"===b){if(d){var f=c.path;if(b=Cf(a,d)){var h=Df(b);b=h.path;h=h.Hb;f=T(b,f);f=new Zb(new af(!1,!0,h,!0),f);b=Ef(a,b,f)}else b=[]}else b=xf(a,new Zb(bf,c.path));return b}f="Unknown Error";"too_big"===b?f="The data requested exceeds the maximum size that can be accessed with a single request.":"permission_denied"==b?f="Client doesn't have permission to access the desired data.":"unavailable"==b&&
+	(f="The service is unavailable");f=Error(b+": "+f);f.code=b.toUpperCase();return a.jb(c,null,f)}}}function Gf(a){return a.path.toString()+"$"+a.va()}function Df(a){var b=a.indexOf("$");K(-1!==b&&b<a.length-1,"Bad queryKey.");return{Hb:a.substr(b+1),path:new L(a.substr(0,b))}}function Cf(a,b){var c=a.$e,d="_"+b;return d in c?c[d]:void 0}function Mf(a,b){var c=Gf(b);return w(a.mc,c)}var Hf=1;
+	function Ef(a,b,c){var d=a.ta.get(b);K(d,"Missing sync point for query tag that we're tracking");return d.ab(c,new qf(b,a.ib),null)}function xf(a,b){return Of(a,b,a.ta,null,new qf(G,a.ib))}function Of(a,b,c,d,e){if(b.path.e())return Pf(a,b,c,d,e);var f=c.get(G);null==d&&null!=f&&(d=f.fb(G));var h=[],k=E(b.path),l=b.Xc(k);if((c=c.children.get(k))&&l)var m=d?d.R(k):null,k=e.u(k),h=h.concat(Of(a,l,c,m,k));f&&(h=h.concat(f.ab(b,e,d)));return h}
+	function Pf(a,b,c,d,e){var f=c.get(G);null==d&&null!=f&&(d=f.fb(G));var h=[];c.children.ia(function(c,f){var m=d?d.R(c):null,t=e.u(c),z=b.Xc(c);z&&(h=h.concat(Pf(a,z,f,m,t)))});f&&(h=h.concat(f.ab(b,e,d)));return h};function Qf(){this.children={};this.nd=0;this.value=null}function Rf(a,b,c){this.Gd=a?a:"";this.Zc=b?b:null;this.A=c?c:new Qf}function Sf(a,b){for(var c=b instanceof L?b:new L(b),d=a,e;null!==(e=E(c));)d=new Rf(e,d,w(d.A.children,e)||new Qf),c=H(c);return d}g=Rf.prototype;g.Ca=function(){return this.A.value};function Tf(a,b){K("undefined"!==typeof b,"Cannot set value to undefined");a.A.value=b;Uf(a)}g.clear=function(){this.A.value=null;this.A.children={};this.A.nd=0;Uf(this)};
+	g.wd=function(){return 0<this.A.nd};g.e=function(){return null===this.Ca()&&!this.wd()};g.P=function(a){var b=this;r(this.A.children,function(c,d){a(new Rf(d,b,c))})};function Vf(a,b,c,d){c&&!d&&b(a);a.P(function(a){Vf(a,b,!0,d)});c&&d&&b(a)}function Wf(a,b){for(var c=a.parent();null!==c&&!b(c);)c=c.parent()}g.path=function(){return new L(null===this.Zc?this.Gd:this.Zc.path()+"/"+this.Gd)};g.name=function(){return this.Gd};g.parent=function(){return this.Zc};
+	function Uf(a){if(null!==a.Zc){var b=a.Zc,c=a.Gd,d=a.e(),e=v(b.A.children,c);d&&e?(delete b.A.children[c],b.A.nd--,Uf(b)):d||e||(b.A.children[c]=a.A,b.A.nd++,Uf(b))}};var Xf=/[\[\].#$\/\u0000-\u001F\u007F]/,Yf=/[\[\].#$\u0000-\u001F\u007F]/,Zf=/^[a-zA-Z][a-zA-Z._\-+]+$/;function $f(a){return p(a)&&0!==a.length&&!Xf.test(a)}function ag(a){return null===a||p(a)||ga(a)&&!Qc(a)||ia(a)&&v(a,".sv")}function bg(a,b,c,d){d&&!n(b)||cg(y(a,1,d),b,c)}
+	function cg(a,b,c){c instanceof L&&(c=new Je(c,a));if(!n(b))throw Error(a+"contains undefined "+Le(c));if(ha(b))throw Error(a+"contains a function "+Le(c)+" with contents: "+b.toString());if(Qc(b))throw Error(a+"contains "+b.toString()+" "+Le(c));if(p(b)&&b.length>10485760/3&&10485760<Zc(b))throw Error(a+"contains a string greater than 10485760 utf8 bytes "+Le(c)+" ('"+b.substring(0,50)+"...')");if(ia(b)){var d=!1,e=!1;ib(b,function(b,h){if(".value"===b)d=!0;else if(".priority"!==b&&".sv"!==b&&(e=
+	!0,!$f(b)))throw Error(a+" contains an invalid key ("+b+") "+Le(c)+'.  Keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]"');c.push(b);cg(a,h,c);c.pop()});if(d&&e)throw Error(a+' contains ".value" child '+Le(c)+" in addition to actual children.");}}
+	function dg(a,b){var c,d;for(c=0;c<b.length;c++){d=b[c];for(var e=d.slice(),f=0;f<e.length;f++)if((".priority"!==e[f]||f!==e.length-1)&&!$f(e[f]))throw Error(a+"contains an invalid key ("+e[f]+") in path "+d.toString()+'. Keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]"');}b.sort(Ie);e=null;for(c=0;c<b.length;c++){d=b[c];if(null!==e&&e.contains(d))throw Error(a+"contains a path "+e.toString()+" that is ancestor of another path "+d.toString());e=d}}
+	function eg(a,b,c){var d=y(a,1,!1);if(!ia(b)||ea(b))throw Error(d+" must be an object containing the children to replace.");var e=[];ib(b,function(a,b){var k=new L(a);cg(d,b,c.u(k));if(".priority"===Ld(k)&&!ag(b))throw Error(d+"contains an invalid value for '"+k.toString()+"', which must be a valid Firebase priority (a string, finite number, server value, or null).");e.push(k)});dg(d,e)}
+	function fg(a,b,c){if(Qc(c))throw Error(y(a,b,!1)+"is "+c.toString()+", but must be a valid Firebase priority (a string, finite number, server value, or null).");if(!ag(c))throw Error(y(a,b,!1)+"must be a valid Firebase priority (a string, finite number, server value, or null).");}
+	function gg(a,b,c){if(!c||n(b))switch(b){case "value":case "child_added":case "child_removed":case "child_changed":case "child_moved":break;default:throw Error(y(a,1,c)+'must be a valid event type: "value", "child_added", "child_removed", "child_changed", or "child_moved".');}}function hg(a,b){if(n(b)&&!$f(b))throw Error(y(a,2,!0)+'was an invalid key: "'+b+'".  Firebase keys must be non-empty strings and can\'t contain ".", "#", "$", "/", "[", or "]").');}
+	function ig(a,b){if(!p(b)||0===b.length||Yf.test(b))throw Error(y(a,1,!1)+'was an invalid path: "'+b+'". Paths must be non-empty strings and can\'t contain ".", "#", "$", "[", or "]"');}function jg(a,b){if(".info"===E(b))throw Error(a+" failed: Can't modify data under /.info/");}function kg(a,b){if(!p(b))throw Error(y(a,1,!1)+"must be a valid credential (a string).");}function lg(a,b,c){if(!p(c))throw Error(y(a,b,!1)+"must be a valid string.");}
+	function mg(a,b){lg(a,1,b);if(!Zf.test(b))throw Error(y(a,1,!1)+"'"+b+"' is not a valid authentication provider.");}function ng(a,b,c,d){if(!d||n(c))if(!ia(c)||null===c)throw Error(y(a,b,d)+"must be a valid object.");}function og(a,b,c){if(!ia(b)||!v(b,c))throw Error(y(a,1,!1)+'must contain the key "'+c+'"');if(!p(w(b,c)))throw Error(y(a,1,!1)+'must contain the key "'+c+'" with type "string"');};function pg(){this.set={}}g=pg.prototype;g.add=function(a,b){this.set[a]=null!==b?b:!0};g.contains=function(a){return v(this.set,a)};g.get=function(a){return this.contains(a)?this.set[a]:void 0};g.remove=function(a){delete this.set[a]};g.clear=function(){this.set={}};g.e=function(){return wa(this.set)};g.count=function(){return pa(this.set)};function qg(a,b){r(a.set,function(a,d){b(d,a)})}g.keys=function(){var a=[];r(this.set,function(b,c){a.push(c)});return a};function qc(){this.m=this.B=null}qc.prototype.find=function(a){if(null!=this.B)return this.B.Q(a);if(a.e()||null==this.m)return null;var b=E(a);a=H(a);return this.m.contains(b)?this.m.get(b).find(a):null};qc.prototype.nc=function(a,b){if(a.e())this.B=b,this.m=null;else if(null!==this.B)this.B=this.B.G(a,b);else{null==this.m&&(this.m=new pg);var c=E(a);this.m.contains(c)||this.m.add(c,new qc);c=this.m.get(c);a=H(a);c.nc(a,b)}};
+	function rg(a,b){if(b.e())return a.B=null,a.m=null,!0;if(null!==a.B){if(a.B.K())return!1;var c=a.B;a.B=null;c.P(N,function(b,c){a.nc(new L(b),c)});return rg(a,b)}return null!==a.m?(c=E(b),b=H(b),a.m.contains(c)&&rg(a.m.get(c),b)&&a.m.remove(c),a.m.e()?(a.m=null,!0):!1):!0}function rc(a,b,c){null!==a.B?c(b,a.B):a.P(function(a,e){var f=new L(b.toString()+"/"+a);rc(e,f,c)})}qc.prototype.P=function(a){null!==this.m&&qg(this.m,function(b,c){a(b,c)})};var sg="auth.firebase.com";function tg(a,b,c){this.od=a||{};this.ee=b||{};this.$a=c||{};this.od.remember||(this.od.remember="default")}var ug=["remember","redirectTo"];function vg(a){var b={},c={};ib(a||{},function(a,e){0<=Na(ug,a)?b[a]=e:c[a]=e});return new tg(b,{},c)};function wg(a,b){this.Qe=["session",a.Od,a.hc].join(":");this.be=b}wg.prototype.set=function(a,b){if(!b)if(this.be.length)b=this.be[0];else throw Error("fb.login.SessionManager : No storage options available!");b.set(this.Qe,a)};wg.prototype.get=function(){var a=Qa(this.be,q(this.qg,this)),a=Pa(a,function(a){return null!==a});Xa(a,function(a,c){return ad(c.token)-ad(a.token)});return 0<a.length?a.shift():null};wg.prototype.qg=function(a){try{var b=a.get(this.Qe);if(b&&b.token)return b}catch(c){}return null};
+	wg.prototype.clear=function(){var a=this;Oa(this.be,function(b){b.remove(a.Qe)})};function xg(){return"undefined"!==typeof navigator&&"string"===typeof navigator.userAgent?navigator.userAgent:""}function yg(){return"undefined"!==typeof window&&!!(window.cordova||window.phonegap||window.PhoneGap)&&/ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(xg())}function zg(){return"undefined"!==typeof location&&/^file:\//.test(location.href)}
+	function Ag(a){var b=xg();if(""===b)return!1;if("Microsoft Internet Explorer"===navigator.appName){if((b=b.match(/MSIE ([0-9]{1,}[\.0-9]{0,})/))&&1<b.length)return parseFloat(b[1])>=a}else if(-1<b.indexOf("Trident")&&(b=b.match(/rv:([0-9]{2,2}[\.0-9]{0,})/))&&1<b.length)return parseFloat(b[1])>=a;return!1};function Bg(){var a=window.opener.frames,b;for(b=a.length-1;0<=b;b--)try{if(a[b].location.protocol===window.location.protocol&&a[b].location.host===window.location.host&&"__winchan_relay_frame"===a[b].name)return a[b]}catch(c){}return null}function Cg(a,b,c){a.attachEvent?a.attachEvent("on"+b,c):a.addEventListener&&a.addEventListener(b,c,!1)}function Dg(a,b,c){a.detachEvent?a.detachEvent("on"+b,c):a.removeEventListener&&a.removeEventListener(b,c,!1)}
+	function Eg(a){/^https?:\/\//.test(a)||(a=window.location.href);var b=/^(https?:\/\/[\-_a-zA-Z\.0-9:]+)/.exec(a);return b?b[1]:a}function Fg(a){var b="";try{a=a.replace("#","");var c=lb(a);c&&v(c,"__firebase_request_key")&&(b=w(c,"__firebase_request_key"))}catch(d){}return b}function Gg(){var a=Pc(sg);return a.scheme+"://"+a.host+"/v2"}function Hg(a){return Gg()+"/"+a+"/auth/channel"};function Ig(a){var b=this;this.Ac=a;this.ce="*";Ag(8)?this.Rc=this.zd=Bg():(this.Rc=window.opener,this.zd=window);if(!b.Rc)throw"Unable to find relay frame";Cg(this.zd,"message",q(this.jc,this));Cg(this.zd,"message",q(this.Bf,this));try{Jg(this,{a:"ready"})}catch(c){Cg(this.Rc,"load",function(){Jg(b,{a:"ready"})})}Cg(window,"unload",q(this.Bg,this))}function Jg(a,b){b=B(b);Ag(8)?a.Rc.doPost(b,a.ce):a.Rc.postMessage(b,a.ce)}
+	Ig.prototype.jc=function(a){var b=this,c;try{c=nb(a.data)}catch(d){}c&&"request"===c.a&&(Dg(window,"message",this.jc),this.ce=a.origin,this.Ac&&setTimeout(function(){b.Ac(b.ce,c.d,function(a,c){b.dg=!c;b.Ac=void 0;Jg(b,{a:"response",d:a,forceKeepWindowOpen:c})})},0))};Ig.prototype.Bg=function(){try{Dg(this.zd,"message",this.Bf)}catch(a){}this.Ac&&(Jg(this,{a:"error",d:"unknown closed window"}),this.Ac=void 0);try{window.close()}catch(b){}};Ig.prototype.Bf=function(a){if(this.dg&&"die"===a.data)try{window.close()}catch(b){}};function Kg(a){this.pc=Ga()+Ga()+Ga();this.Ef=a}Kg.prototype.open=function(a,b){yc.set("redirect_request_id",this.pc);yc.set("redirect_request_id",this.pc);b.requestId=this.pc;b.redirectTo=b.redirectTo||window.location.href;a+=(/\?/.test(a)?"":"?")+kb(b);window.location=a};Kg.isAvailable=function(){return!zg()&&!yg()};Kg.prototype.Cc=function(){return"redirect"};var Lg={NETWORK_ERROR:"Unable to contact the Firebase server.",SERVER_ERROR:"An unknown server error occurred.",TRANSPORT_UNAVAILABLE:"There are no login transports available for the requested method.",REQUEST_INTERRUPTED:"The browser redirected the page before the login request could complete.",USER_CANCELLED:"The user cancelled authentication."};function Mg(a){var b=Error(w(Lg,a),a);b.code=a;return b};function Ng(a){var b;(b=!a.window_features)||(b=xg(),b=-1!==b.indexOf("Fennec/")||-1!==b.indexOf("Firefox/")&&-1!==b.indexOf("Android"));b&&(a.window_features=void 0);a.window_name||(a.window_name="_blank");this.options=a}
+	Ng.prototype.open=function(a,b,c){function d(a){h&&(document.body.removeChild(h),h=void 0);t&&(t=clearInterval(t));Dg(window,"message",e);Dg(window,"unload",d);if(m&&!a)try{m.close()}catch(b){k.postMessage("die",l)}m=k=void 0}function e(a){if(a.origin===l)try{var b=nb(a.data);"ready"===b.a?k.postMessage(z,l):"error"===b.a?(d(!1),c&&(c(b.d),c=null)):"response"===b.a&&(d(b.forceKeepWindowOpen),c&&(c(null,b.d),c=null))}catch(e){}}var f=Ag(8),h,k;if(!this.options.relay_url)return c(Error("invalid arguments: origin of url and relay_url must match"));
+	var l=Eg(a);if(l!==Eg(this.options.relay_url))c&&setTimeout(function(){c(Error("invalid arguments: origin of url and relay_url must match"))},0);else{f&&(h=document.createElement("iframe"),h.setAttribute("src",this.options.relay_url),h.style.display="none",h.setAttribute("name","__winchan_relay_frame"),document.body.appendChild(h),k=h.contentWindow);a+=(/\?/.test(a)?"":"?")+kb(b);var m=window.open(a,this.options.window_name,this.options.window_features);k||(k=m);var t=setInterval(function(){m&&m.closed&&
+	(d(!1),c&&(c(Mg("USER_CANCELLED")),c=null))},500),z=B({a:"request",d:b});Cg(window,"unload",d);Cg(window,"message",e)}};
+	Ng.isAvailable=function(){var a;if(a="postMessage"in window&&!zg())(a=yg()||"undefined"!==typeof navigator&&(!!xg().match(/Windows Phone/)||!!window.Windows&&/^ms-appx:/.test(location.href)))||(a=xg(),a="undefined"!==typeof navigator&&"undefined"!==typeof window&&!!(a.match(/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i)||a.match(/CriOS/)||a.match(/Twitter for iPhone/)||a.match(/FBAN\/FBIOS/)||window.navigator.standalone)),a=!a;return a&&!xg().match(/PhantomJS/)};Ng.prototype.Cc=function(){return"popup"};function Og(a){a.method||(a.method="GET");a.headers||(a.headers={});a.headers.content_type||(a.headers.content_type="application/json");a.headers.content_type=a.headers.content_type.toLowerCase();this.options=a}
+	Og.prototype.open=function(a,b,c){function d(){c&&(c(Mg("REQUEST_INTERRUPTED")),c=null)}var e=new XMLHttpRequest,f=this.options.method.toUpperCase(),h;Cg(window,"beforeunload",d);e.onreadystatechange=function(){if(c&&4===e.readyState){var a;if(200<=e.status&&300>e.status){try{a=nb(e.responseText)}catch(b){}c(null,a)}else 500<=e.status&&600>e.status?c(Mg("SERVER_ERROR")):c(Mg("NETWORK_ERROR"));c=null;Dg(window,"beforeunload",d)}};if("GET"===f)a+=(/\?/.test(a)?"":"?")+kb(b),h=null;else{var k=this.options.headers.content_type;
+	"application/json"===k&&(h=B(b));"application/x-www-form-urlencoded"===k&&(h=kb(b))}e.open(f,a,!0);a={"X-Requested-With":"XMLHttpRequest",Accept:"application/json;text/plain"};za(a,this.options.headers);for(var l in a)e.setRequestHeader(l,a[l]);e.send(h)};Og.isAvailable=function(){var a;if(a=!!window.XMLHttpRequest)a=xg(),a=!(a.match(/MSIE/)||a.match(/Trident/))||Ag(10);return a};Og.prototype.Cc=function(){return"json"};function Pg(a){this.pc=Ga()+Ga()+Ga();this.Ef=a}
+	Pg.prototype.open=function(a,b,c){function d(){c&&(c(Mg("USER_CANCELLED")),c=null)}var e=this,f=Pc(sg),h;b.requestId=this.pc;b.redirectTo=f.scheme+"://"+f.host+"/blank/page.html";a+=/\?/.test(a)?"":"?";a+=kb(b);(h=window.open(a,"_blank","location=no"))&&ha(h.addEventListener)?(h.addEventListener("loadstart",function(a){var b;if(b=a&&a.url)a:{try{var m=document.createElement("a");m.href=a.url;b=m.host===f.host&&"/blank/page.html"===m.pathname;break a}catch(t){}b=!1}b&&(a=Fg(a.url),h.removeEventListener("exit",
+	d),h.close(),a=new tg(null,null,{requestId:e.pc,requestKey:a}),e.Ef.requestWithCredential("/auth/session",a,c),c=null)}),h.addEventListener("exit",d)):c(Mg("TRANSPORT_UNAVAILABLE"))};Pg.isAvailable=function(){return yg()};Pg.prototype.Cc=function(){return"redirect"};function Qg(a){a.callback_parameter||(a.callback_parameter="callback");this.options=a;window.__firebase_auth_jsonp=window.__firebase_auth_jsonp||{}}
+	Qg.prototype.open=function(a,b,c){function d(){c&&(c(Mg("REQUEST_INTERRUPTED")),c=null)}function e(){setTimeout(function(){window.__firebase_auth_jsonp[f]=void 0;wa(window.__firebase_auth_jsonp)&&(window.__firebase_auth_jsonp=void 0);try{var a=document.getElementById(f);a&&a.parentNode.removeChild(a)}catch(b){}},1);Dg(window,"beforeunload",d)}var f="fn"+(new Date).getTime()+Math.floor(99999*Math.random());b[this.options.callback_parameter]="__firebase_auth_jsonp."+f;a+=(/\?/.test(a)?"":"?")+kb(b);
+	Cg(window,"beforeunload",d);window.__firebase_auth_jsonp[f]=function(a){c&&(c(null,a),c=null);e()};Rg(f,a,c)};
+	function Rg(a,b,c){setTimeout(function(){try{var d=document.createElement("script");d.type="text/javascript";d.id=a;d.async=!0;d.src=b;d.onerror=function(){var b=document.getElementById(a);null!==b&&b.parentNode.removeChild(b);c&&c(Mg("NETWORK_ERROR"))};var e=document.getElementsByTagName("head");(e&&0!=e.length?e[0]:document.documentElement).appendChild(d)}catch(f){c&&c(Mg("NETWORK_ERROR"))}},0)}Qg.isAvailable=function(){return"undefined"!==typeof document&&null!=document.createElement};
+	Qg.prototype.Cc=function(){return"json"};function Sg(a,b,c,d){De.call(this,["auth_status"]);this.F=a;this.df=b;this.Vg=c;this.Le=d;this.sc=new wg(a,[xc,yc]);this.mb=null;this.Se=!1;Tg(this)}ma(Sg,De);g=Sg.prototype;g.xe=function(){return this.mb||null};function Tg(a){yc.get("redirect_request_id")&&Ug(a);var b=a.sc.get();b&&b.token?(Vg(a,b),a.df(b.token,function(c,d){Wg(a,c,d,!1,b.token,b)},function(b,d){Xg(a,"resumeSession()",b,d)})):Vg(a,null)}
+	function Yg(a,b,c,d,e,f){"firebaseio-demo.com"===a.F.domain&&O("Firebase authentication is not supported on demo Firebases (*.firebaseio-demo.com). To secure your Firebase, create a production Firebase at https://www.firebase.com.");a.df(b,function(f,k){Wg(a,f,k,!0,b,c,d||{},e)},function(b,c){Xg(a,"auth()",b,c,f)})}function Zg(a,b){a.sc.clear();Vg(a,null);a.Vg(function(a,d){if("ok"===a)P(b,null);else{var e=(a||"error").toUpperCase(),f=e;d&&(f+=": "+d);f=Error(f);f.code=e;P(b,f)}})}
+	function Wg(a,b,c,d,e,f,h,k){"ok"===b?(d&&(b=c.auth,f.auth=b,f.expires=c.expires,f.token=bd(e)?e:"",c=null,b&&v(b,"uid")?c=w(b,"uid"):v(f,"uid")&&(c=w(f,"uid")),f.uid=c,c="custom",b&&v(b,"provider")?c=w(b,"provider"):v(f,"provider")&&(c=w(f,"provider")),f.provider=c,a.sc.clear(),bd(e)&&(h=h||{},c=xc,"sessionOnly"===h.remember&&(c=yc),"none"!==h.remember&&a.sc.set(f,c)),Vg(a,f)),P(k,null,f)):(a.sc.clear(),Vg(a,null),f=a=(b||"error").toUpperCase(),c&&(f+=": "+c),f=Error(f),f.code=a,P(k,f))}
+	function Xg(a,b,c,d,e){O(b+" was canceled: "+d);a.sc.clear();Vg(a,null);a=Error(d);a.code=c.toUpperCase();P(e,a)}function $g(a,b,c,d,e){ah(a);c=new tg(d||{},{},c||{});bh(a,[Og,Qg],"/auth/"+b,c,e)}
+	function ch(a,b,c,d){ah(a);var e=[Ng,Pg];c=vg(c);"anonymous"===b||"password"===b?setTimeout(function(){P(d,Mg("TRANSPORT_UNAVAILABLE"))},0):(c.ee.window_features="menubar=yes,modal=yes,alwaysRaised=yeslocation=yes,resizable=yes,scrollbars=yes,status=yes,height=625,width=625,top="+("object"===typeof screen?.5*(screen.height-625):0)+",left="+("object"===typeof screen?.5*(screen.width-625):0),c.ee.relay_url=Hg(a.F.hc),c.ee.requestWithCredential=q(a.qc,a),bh(a,e,"/auth/"+b,c,d))}
+	function Ug(a){var b=yc.get("redirect_request_id");if(b){var c=yc.get("redirect_client_options");yc.remove("redirect_request_id");yc.remove("redirect_client_options");var d=[Og,Qg],b={requestId:b,requestKey:Fg(document.location.hash)},c=new tg(c,{},b);a.Se=!0;try{document.location.hash=document.location.hash.replace(/&__firebase_request_key=([a-zA-z0-9]*)/,"")}catch(e){}bh(a,d,"/auth/session",c,function(){this.Se=!1}.bind(a))}}
+	g.se=function(a,b){ah(this);var c=vg(a);c.$a._method="POST";this.qc("/users",c,function(a,c){a?P(b,a):P(b,a,c)})};g.Te=function(a,b){var c=this;ah(this);var d="/users/"+encodeURIComponent(a.email),e=vg(a);e.$a._method="DELETE";this.qc(d,e,function(a,d){!a&&d&&d.uid&&c.mb&&c.mb.uid&&c.mb.uid===d.uid&&Zg(c);P(b,a)})};g.pe=function(a,b){ah(this);var c="/users/"+encodeURIComponent(a.email)+"/password",d=vg(a);d.$a._method="PUT";d.$a.password=a.newPassword;this.qc(c,d,function(a){P(b,a)})};
+	g.oe=function(a,b){ah(this);var c="/users/"+encodeURIComponent(a.oldEmail)+"/email",d=vg(a);d.$a._method="PUT";d.$a.email=a.newEmail;d.$a.password=a.password;this.qc(c,d,function(a){P(b,a)})};g.Ve=function(a,b){ah(this);var c="/users/"+encodeURIComponent(a.email)+"/password",d=vg(a);d.$a._method="POST";this.qc(c,d,function(a){P(b,a)})};g.qc=function(a,b,c){dh(this,[Og,Qg],a,b,c)};
+	function bh(a,b,c,d,e){dh(a,b,c,d,function(b,c){!b&&c&&c.token&&c.uid?Yg(a,c.token,c,d.od,function(a,b){a?P(e,a):P(e,null,b)}):P(e,b||Mg("UNKNOWN_ERROR"))})}
+	function dh(a,b,c,d,e){b=Pa(b,function(a){return"function"===typeof a.isAvailable&&a.isAvailable()});0===b.length?setTimeout(function(){P(e,Mg("TRANSPORT_UNAVAILABLE"))},0):(b=new (b.shift())(d.ee),d=jb(d.$a),d.v="js-"+hb,d.transport=b.Cc(),d.suppress_status_codes=!0,a=Gg()+"/"+a.F.hc+c,b.open(a,d,function(a,b){if(a)P(e,a);else if(b&&b.error){var c=Error(b.error.message);c.code=b.error.code;c.details=b.error.details;P(e,c)}else P(e,null,b)}))}
+	function Vg(a,b){var c=null!==a.mb||null!==b;a.mb=b;c&&a.fe("auth_status",b);a.Le(null!==b)}g.Ae=function(a){K("auth_status"===a,'initial event must be of type "auth_status"');return this.Se?null:[this.mb]};function ah(a){var b=a.F;if("firebaseio.com"!==b.domain&&"firebaseio-demo.com"!==b.domain&&"auth.firebase.com"===sg)throw Error("This custom Firebase server ('"+a.F.domain+"') does not support delegated login.");};var Cc="websocket",Dc="long_polling";function eh(a){this.jc=a;this.Nd=[];this.Sb=0;this.qe=-1;this.Fb=null}function fh(a,b,c){a.qe=b;a.Fb=c;a.qe<a.Sb&&(a.Fb(),a.Fb=null)}function gh(a,b,c){for(a.Nd[b]=c;a.Nd[a.Sb];){var d=a.Nd[a.Sb];delete a.Nd[a.Sb];for(var e=0;e<d.length;++e)if(d[e]){var f=a;Db(function(){f.jc(d[e])})}if(a.Sb===a.qe){a.Fb&&(clearTimeout(a.Fb),a.Fb(),a.Fb=null);break}a.Sb++}};function hh(a,b,c,d){this.re=a;this.f=Mc(a);this.nb=this.ob=0;this.Ua=Rb(b);this.Qf=c;this.Hc=!1;this.Bb=d;this.jd=function(a){return Bc(b,Dc,a)}}var ih,jh;
+	hh.prototype.open=function(a,b){this.hf=0;this.la=b;this.Af=new eh(a);this.zb=!1;var c=this;this.qb=setTimeout(function(){c.f("Timed out trying to connect.");c.gb();c.qb=null},Math.floor(3E4));Rc(function(){if(!c.zb){c.Sa=new kh(function(a,b,d,k,l){lh(c,arguments);if(c.Sa)if(c.qb&&(clearTimeout(c.qb),c.qb=null),c.Hc=!0,"start"==a)c.id=b,c.Gf=d;else if("close"===a)b?(c.Sa.Xd=!1,fh(c.Af,b,function(){c.gb()})):c.gb();else throw Error("Unrecognized command received: "+a);},function(a,b){lh(c,arguments);
+	gh(c.Af,a,b)},function(){c.gb()},c.jd);var a={start:"t"};a.ser=Math.floor(1E8*Math.random());c.Sa.he&&(a.cb=c.Sa.he);a.v="5";c.Qf&&(a.s=c.Qf);c.Bb&&(a.ls=c.Bb);"undefined"!==typeof location&&location.href&&-1!==location.href.indexOf("firebaseio.com")&&(a.r="f");a=c.jd(a);c.f("Connecting via long-poll to "+a);mh(c.Sa,a,function(){})}})};
+	hh.prototype.start=function(){var a=this.Sa,b=this.Gf;a.ug=this.id;a.vg=b;for(a.le=!0;nh(a););a=this.id;b=this.Gf;this.gc=document.createElement("iframe");var c={dframe:"t"};c.id=a;c.pw=b;this.gc.src=this.jd(c);this.gc.style.display="none";document.body.appendChild(this.gc)};
+	hh.isAvailable=function(){return ih||!jh&&"undefined"!==typeof document&&null!=document.createElement&&!("object"===typeof window&&window.chrome&&window.chrome.extension&&!/^chrome/.test(window.location.href))&&!("object"===typeof Windows&&"object"===typeof Windows.Xg)&&!0};g=hh.prototype;g.Ed=function(){};g.dd=function(){this.zb=!0;this.Sa&&(this.Sa.close(),this.Sa=null);this.gc&&(document.body.removeChild(this.gc),this.gc=null);this.qb&&(clearTimeout(this.qb),this.qb=null)};
+	g.gb=function(){this.zb||(this.f("Longpoll is closing itself"),this.dd(),this.la&&(this.la(this.Hc),this.la=null))};g.close=function(){this.zb||(this.f("Longpoll is being closed."),this.dd())};g.send=function(a){a=B(a);this.ob+=a.length;Ob(this.Ua,"bytes_sent",a.length);a=Ic(a);a=fb(a,!0);a=Vc(a,1840);for(var b=0;b<a.length;b++){var c=this.Sa;c.ad.push({Mg:this.hf,Ug:a.length,kf:a[b]});c.le&&nh(c);this.hf++}};function lh(a,b){var c=B(b).length;a.nb+=c;Ob(a.Ua,"bytes_received",c)}
+	function kh(a,b,c,d){this.jd=d;this.hb=c;this.Pe=new pg;this.ad=[];this.te=Math.floor(1E8*Math.random());this.Xd=!0;this.he=Ec();window["pLPCommand"+this.he]=a;window["pRTLPCB"+this.he]=b;a=document.createElement("iframe");a.style.display="none";if(document.body){document.body.appendChild(a);try{a.contentWindow.document||Cb("No IE domain setting required")}catch(e){a.src="javascript:void((function(){document.open();document.domain='"+document.domain+"';document.close();})())"}}else throw"Document body has not initialized. Wait to initialize Firebase until after the document is ready.";
+	a.contentDocument?a.eb=a.contentDocument:a.contentWindow?a.eb=a.contentWindow.document:a.document&&(a.eb=a.document);this.Ea=a;a="";this.Ea.src&&"javascript:"===this.Ea.src.substr(0,11)&&(a='<script>document.domain="'+document.domain+'";\x3c/script>');a="<html><body>"+a+"</body></html>";try{this.Ea.eb.open(),this.Ea.eb.write(a),this.Ea.eb.close()}catch(f){Cb("frame writing exception"),f.stack&&Cb(f.stack),Cb(f)}}
+	kh.prototype.close=function(){this.le=!1;if(this.Ea){this.Ea.eb.body.innerHTML="";var a=this;setTimeout(function(){null!==a.Ea&&(document.body.removeChild(a.Ea),a.Ea=null)},Math.floor(0))}var b=this.hb;b&&(this.hb=null,b())};
+	function nh(a){if(a.le&&a.Xd&&a.Pe.count()<(0<a.ad.length?2:1)){a.te++;var b={};b.id=a.ug;b.pw=a.vg;b.ser=a.te;for(var b=a.jd(b),c="",d=0;0<a.ad.length;)if(1870>=a.ad[0].kf.length+30+c.length){var e=a.ad.shift(),c=c+"&seg"+d+"="+e.Mg+"&ts"+d+"="+e.Ug+"&d"+d+"="+e.kf;d++}else break;oh(a,b+c,a.te);return!0}return!1}function oh(a,b,c){function d(){a.Pe.remove(c);nh(a)}a.Pe.add(c,1);var e=setTimeout(d,Math.floor(25E3));mh(a,b,function(){clearTimeout(e);d()})}
+	function mh(a,b,c){setTimeout(function(){try{if(a.Xd){var d=a.Ea.eb.createElement("script");d.type="text/javascript";d.async=!0;d.src=b;d.onload=d.onreadystatechange=function(){var a=d.readyState;a&&"loaded"!==a&&"complete"!==a||(d.onload=d.onreadystatechange=null,d.parentNode&&d.parentNode.removeChild(d),c())};d.onerror=function(){Cb("Long-poll script failed to load: "+b);a.Xd=!1;a.close()};a.Ea.eb.body.appendChild(d)}}catch(e){}},Math.floor(1))};var ph=null;"undefined"!==typeof MozWebSocket?ph=MozWebSocket:"undefined"!==typeof WebSocket&&(ph=WebSocket);function qh(a,b,c,d){this.re=a;this.f=Mc(this.re);this.frames=this.Kc=null;this.nb=this.ob=this.bf=0;this.Ua=Rb(b);a={v:"5"};"undefined"!==typeof location&&location.href&&-1!==location.href.indexOf("firebaseio.com")&&(a.r="f");c&&(a.s=c);d&&(a.ls=d);this.ef=Bc(b,Cc,a)}var rh;
+	qh.prototype.open=function(a,b){this.hb=b;this.zg=a;this.f("Websocket connecting to "+this.ef);this.Hc=!1;xc.set("previous_websocket_failure",!0);try{this.ua=new ph(this.ef)}catch(c){this.f("Error instantiating WebSocket.");var d=c.message||c.data;d&&this.f(d);this.gb();return}var e=this;this.ua.onopen=function(){e.f("Websocket connected.");e.Hc=!0};this.ua.onclose=function(){e.f("Websocket connection was disconnected.");e.ua=null;e.gb()};this.ua.onmessage=function(a){if(null!==e.ua)if(a=a.data,e.nb+=
+	a.length,Ob(e.Ua,"bytes_received",a.length),sh(e),null!==e.frames)th(e,a);else{a:{K(null===e.frames,"We already have a frame buffer");if(6>=a.length){var b=Number(a);if(!isNaN(b)){e.bf=b;e.frames=[];a=null;break a}}e.bf=1;e.frames=[]}null!==a&&th(e,a)}};this.ua.onerror=function(a){e.f("WebSocket error.  Closing connection.");(a=a.message||a.data)&&e.f(a);e.gb()}};qh.prototype.start=function(){};
+	qh.isAvailable=function(){var a=!1;if("undefined"!==typeof navigator&&navigator.userAgent){var b=navigator.userAgent.match(/Android ([0-9]{0,}\.[0-9]{0,})/);b&&1<b.length&&4.4>parseFloat(b[1])&&(a=!0)}return!a&&null!==ph&&!rh};qh.responsesRequiredToBeHealthy=2;qh.healthyTimeout=3E4;g=qh.prototype;g.Ed=function(){xc.remove("previous_websocket_failure")};function th(a,b){a.frames.push(b);if(a.frames.length==a.bf){var c=a.frames.join("");a.frames=null;c=nb(c);a.zg(c)}}
+	g.send=function(a){sh(this);a=B(a);this.ob+=a.length;Ob(this.Ua,"bytes_sent",a.length);a=Vc(a,16384);1<a.length&&this.ua.send(String(a.length));for(var b=0;b<a.length;b++)this.ua.send(a[b])};g.dd=function(){this.zb=!0;this.Kc&&(clearInterval(this.Kc),this.Kc=null);this.ua&&(this.ua.close(),this.ua=null)};g.gb=function(){this.zb||(this.f("WebSocket is closing itself"),this.dd(),this.hb&&(this.hb(this.Hc),this.hb=null))};g.close=function(){this.zb||(this.f("WebSocket is being closed"),this.dd())};
+	function sh(a){clearInterval(a.Kc);a.Kc=setInterval(function(){a.ua&&a.ua.send("0");sh(a)},Math.floor(45E3))};function uh(a){vh(this,a)}var wh=[hh,qh];function vh(a,b){var c=qh&&qh.isAvailable(),d=c&&!(xc.wf||!0===xc.get("previous_websocket_failure"));b.Wg&&(c||O("wss:// URL used, but browser isn't known to support websockets.  Trying anyway."),d=!0);if(d)a.gd=[qh];else{var e=a.gd=[];Wc(wh,function(a,b){b&&b.isAvailable()&&e.push(b)})}}function xh(a){if(0<a.gd.length)return a.gd[0];throw Error("No transports available");};function yh(a,b,c,d,e,f,h){this.id=a;this.f=Mc("c:"+this.id+":");this.jc=c;this.Wc=d;this.la=e;this.Ne=f;this.F=b;this.Md=[];this.ff=0;this.Pf=new uh(b);this.Ta=0;this.Bb=h;this.f("Connection created");zh(this)}
+	function zh(a){var b=xh(a.Pf);a.J=new b("c:"+a.id+":"+a.ff++,a.F,void 0,a.Bb);a.Re=b.responsesRequiredToBeHealthy||0;var c=Ah(a,a.J),d=Bh(a,a.J);a.hd=a.J;a.cd=a.J;a.D=null;a.Ab=!1;setTimeout(function(){a.J&&a.J.open(c,d)},Math.floor(0));b=b.healthyTimeout||0;0<b&&(a.yd=setTimeout(function(){a.yd=null;a.Ab||(a.J&&102400<a.J.nb?(a.f("Connection exceeded healthy timeout but has received "+a.J.nb+" bytes.  Marking connection healthy."),a.Ab=!0,a.J.Ed()):a.J&&10240<a.J.ob?a.f("Connection exceeded healthy timeout but has sent "+
+	a.J.ob+" bytes.  Leaving connection alive."):(a.f("Closing unhealthy connection after timeout."),a.close()))},Math.floor(b)))}function Bh(a,b){return function(c){b===a.J?(a.J=null,c||0!==a.Ta?1===a.Ta&&a.f("Realtime connection lost."):(a.f("Realtime connection failed."),"s-"===a.F.Ya.substr(0,2)&&(xc.remove("host:"+a.F.host),a.F.Ya=a.F.host)),a.close()):b===a.D?(a.f("Secondary connection lost."),c=a.D,a.D=null,a.hd!==c&&a.cd!==c||a.close()):a.f("closing an old connection")}}
+	function Ah(a,b){return function(c){if(2!=a.Ta)if(b===a.cd){var d=Tc("t",c);c=Tc("d",c);if("c"==d){if(d=Tc("t",c),"d"in c)if(c=c.d,"h"===d){var d=c.ts,e=c.v,f=c.h;a.Nf=c.s;Ac(a.F,f);0==a.Ta&&(a.J.start(),Ch(a,a.J,d),"5"!==e&&O("Protocol version mismatch detected"),c=a.Pf,(c=1<c.gd.length?c.gd[1]:null)&&Dh(a,c))}else if("n"===d){a.f("recvd end transmission on primary");a.cd=a.D;for(c=0;c<a.Md.length;++c)a.Id(a.Md[c]);a.Md=[];Eh(a)}else"s"===d?(a.f("Connection shutdown command received. Shutting down..."),
+	a.Ne&&(a.Ne(c),a.Ne=null),a.la=null,a.close()):"r"===d?(a.f("Reset packet received.  New host: "+c),Ac(a.F,c),1===a.Ta?a.close():(Fh(a),zh(a))):"e"===d?Nc("Server Error: "+c):"o"===d?(a.f("got pong on primary."),Gh(a),Hh(a)):Nc("Unknown control packet command: "+d)}else"d"==d&&a.Id(c)}else if(b===a.D)if(d=Tc("t",c),c=Tc("d",c),"c"==d)"t"in c&&(c=c.t,"a"===c?Ih(a):"r"===c?(a.f("Got a reset on secondary, closing it"),a.D.close(),a.hd!==a.D&&a.cd!==a.D||a.close()):"o"===c&&(a.f("got pong on secondary."),
+	a.Mf--,Ih(a)));else if("d"==d)a.Md.push(c);else throw Error("Unknown protocol layer: "+d);else a.f("message on old connection")}}yh.prototype.Fa=function(a){Jh(this,{t:"d",d:a})};function Eh(a){a.hd===a.D&&a.cd===a.D&&(a.f("cleaning up and promoting a connection: "+a.D.re),a.J=a.D,a.D=null)}
+	function Ih(a){0>=a.Mf?(a.f("Secondary connection is healthy."),a.Ab=!0,a.D.Ed(),a.D.start(),a.f("sending client ack on secondary"),a.D.send({t:"c",d:{t:"a",d:{}}}),a.f("Ending transmission on primary"),a.J.send({t:"c",d:{t:"n",d:{}}}),a.hd=a.D,Eh(a)):(a.f("sending ping on secondary."),a.D.send({t:"c",d:{t:"p",d:{}}}))}yh.prototype.Id=function(a){Gh(this);this.jc(a)};function Gh(a){a.Ab||(a.Re--,0>=a.Re&&(a.f("Primary connection is healthy."),a.Ab=!0,a.J.Ed()))}
+	function Dh(a,b){a.D=new b("c:"+a.id+":"+a.ff++,a.F,a.Nf);a.Mf=b.responsesRequiredToBeHealthy||0;a.D.open(Ah(a,a.D),Bh(a,a.D));setTimeout(function(){a.D&&(a.f("Timed out trying to upgrade."),a.D.close())},Math.floor(6E4))}function Ch(a,b,c){a.f("Realtime connection established.");a.J=b;a.Ta=1;a.Wc&&(a.Wc(c,a.Nf),a.Wc=null);0===a.Re?(a.f("Primary connection is healthy."),a.Ab=!0):setTimeout(function(){Hh(a)},Math.floor(5E3))}
+	function Hh(a){a.Ab||1!==a.Ta||(a.f("sending ping on primary."),Jh(a,{t:"c",d:{t:"p",d:{}}}))}function Jh(a,b){if(1!==a.Ta)throw"Connection is not connected";a.hd.send(b)}yh.prototype.close=function(){2!==this.Ta&&(this.f("Closing realtime connection."),this.Ta=2,Fh(this),this.la&&(this.la(),this.la=null))};function Fh(a){a.f("Shutting down all connections");a.J&&(a.J.close(),a.J=null);a.D&&(a.D.close(),a.D=null);a.yd&&(clearTimeout(a.yd),a.yd=null)};function Kh(a,b,c,d){this.id=Lh++;this.f=Mc("p:"+this.id+":");this.xf=this.Ee=!1;this.$={};this.qa=[];this.Yc=0;this.Vc=[];this.oa=!1;this.Za=1E3;this.Fd=3E5;this.Gb=b;this.Uc=c;this.Oe=d;this.F=a;this.sb=this.Aa=this.Ia=this.Bb=this.We=null;this.Ob=!1;this.Td={};this.Lg=0;this.nf=!0;this.Lc=this.Ge=null;Mh(this,0);He.ub().Eb("visible",this.Cg,this);-1===a.host.indexOf("fblocal")&&Ge.ub().Eb("online",this.Ag,this)}var Lh=0,Nh=0;g=Kh.prototype;
+	g.Fa=function(a,b,c){var d=++this.Lg;a={r:d,a:a,b:b};this.f(B(a));K(this.oa,"sendRequest call when we're not connected not allowed.");this.Ia.Fa(a);c&&(this.Td[d]=c)};g.yf=function(a,b,c,d){var e=a.va(),f=a.path.toString();this.f("Listen called for "+f+" "+e);this.$[f]=this.$[f]||{};K(fe(a.n)||!S(a.n),"listen() called for non-default but complete query");K(!this.$[f][e],"listen() called twice for same path/queryId.");a={H:d,xd:b,Ig:a,tag:c};this.$[f][e]=a;this.oa&&Oh(this,a)};
+	function Oh(a,b){var c=b.Ig,d=c.path.toString(),e=c.va();a.f("Listen on "+d+" for "+e);var f={p:d};b.tag&&(f.q=ee(c.n),f.t=b.tag);f.h=b.xd();a.Fa("q",f,function(f){var k=f.d,l=f.s;if(k&&"object"===typeof k&&v(k,"w")){var m=w(k,"w");ea(m)&&0<=Na(m,"no_index")&&O("Using an unspecified index. Consider adding "+('".indexOn": "'+c.n.g.toString()+'"')+" at "+c.path.toString()+" to your security rules for better performance")}(a.$[d]&&a.$[d][e])===b&&(a.f("listen response",f),"ok"!==l&&Ph(a,d,e),b.H&&b.H(l,
+	k))})}g.M=function(a,b,c){this.Aa={ig:a,of:!1,zc:b,md:c};this.f("Authenticating using credential: "+a);Qh(this);(b=40==a.length)||(a=$c(a).Bc,b="object"===typeof a&&!0===w(a,"admin"));b&&(this.f("Admin auth credential detected.  Reducing max reconnect time."),this.Fd=3E4)};g.ge=function(a){delete this.Aa;this.oa&&this.Fa("unauth",{},function(b){a(b.s,b.d)})};
+	function Qh(a){var b=a.Aa;a.oa&&b&&a.Fa("auth",{cred:b.ig},function(c){var d=c.s;c=c.d||"error";"ok"!==d&&a.Aa===b&&delete a.Aa;b.of?"ok"!==d&&b.md&&b.md(d,c):(b.of=!0,b.zc&&b.zc(d,c))})}g.Rf=function(a,b){var c=a.path.toString(),d=a.va();this.f("Unlisten called for "+c+" "+d);K(fe(a.n)||!S(a.n),"unlisten() called for non-default but complete query");if(Ph(this,c,d)&&this.oa){var e=ee(a.n);this.f("Unlisten on "+c+" for "+d);c={p:c};b&&(c.q=e,c.t=b);this.Fa("n",c)}};
+	g.Me=function(a,b,c){this.oa?Rh(this,"o",a,b,c):this.Vc.push({$c:a,action:"o",data:b,H:c})};g.Cf=function(a,b,c){this.oa?Rh(this,"om",a,b,c):this.Vc.push({$c:a,action:"om",data:b,H:c})};g.Jd=function(a,b){this.oa?Rh(this,"oc",a,null,b):this.Vc.push({$c:a,action:"oc",data:null,H:b})};function Rh(a,b,c,d,e){c={p:c,d:d};a.f("onDisconnect "+b,c);a.Fa(b,c,function(a){e&&setTimeout(function(){e(a.s,a.d)},Math.floor(0))})}g.put=function(a,b,c,d){Sh(this,"p",a,b,c,d)};
+	g.zf=function(a,b,c,d){Sh(this,"m",a,b,c,d)};function Sh(a,b,c,d,e,f){d={p:c,d:d};n(f)&&(d.h=f);a.qa.push({action:b,Jf:d,H:e});a.Yc++;b=a.qa.length-1;a.oa?Th(a,b):a.f("Buffering put: "+c)}function Th(a,b){var c=a.qa[b].action,d=a.qa[b].Jf,e=a.qa[b].H;a.qa[b].Jg=a.oa;a.Fa(c,d,function(d){a.f(c+" response",d);delete a.qa[b];a.Yc--;0===a.Yc&&(a.qa=[]);e&&e(d.s,d.d)})}
+	g.Ue=function(a){this.oa&&(a={c:a},this.f("reportStats",a),this.Fa("s",a,function(a){"ok"!==a.s&&this.f("reportStats","Error sending stats: "+a.d)}))};
+	g.Id=function(a){if("r"in a){this.f("from server: "+B(a));var b=a.r,c=this.Td[b];c&&(delete this.Td[b],c(a.b))}else{if("error"in a)throw"A server-side error has occurred: "+a.error;"a"in a&&(b=a.a,c=a.b,this.f("handleServerMessage",b,c),"d"===b?this.Gb(c.p,c.d,!1,c.t):"m"===b?this.Gb(c.p,c.d,!0,c.t):"c"===b?Uh(this,c.p,c.q):"ac"===b?(a=c.s,b=c.d,c=this.Aa,delete this.Aa,c&&c.md&&c.md(a,b)):"sd"===b?this.We?this.We(c):"msg"in c&&"undefined"!==typeof console&&console.log("FIREBASE: "+c.msg.replace("\n",
+	"\nFIREBASE: ")):Nc("Unrecognized action received from server: "+B(b)+"\nAre you using the latest client?"))}};g.Wc=function(a,b){this.f("connection ready");this.oa=!0;this.Lc=(new Date).getTime();this.Oe({serverTimeOffset:a-(new Date).getTime()});this.Bb=b;if(this.nf){var c={};c["sdk.js."+hb.replace(/\./g,"-")]=1;yg()&&(c["framework.cordova"]=1);this.Ue(c)}Vh(this);this.nf=!1;this.Uc(!0)};
+	function Mh(a,b){K(!a.Ia,"Scheduling a connect when we're already connected/ing?");a.sb&&clearTimeout(a.sb);a.sb=setTimeout(function(){a.sb=null;Wh(a)},Math.floor(b))}g.Cg=function(a){a&&!this.Ob&&this.Za===this.Fd&&(this.f("Window became visible.  Reducing delay."),this.Za=1E3,this.Ia||Mh(this,0));this.Ob=a};g.Ag=function(a){a?(this.f("Browser went online."),this.Za=1E3,this.Ia||Mh(this,0)):(this.f("Browser went offline.  Killing connection."),this.Ia&&this.Ia.close())};
+	g.Df=function(){this.f("data client disconnected");this.oa=!1;this.Ia=null;for(var a=0;a<this.qa.length;a++){var b=this.qa[a];b&&"h"in b.Jf&&b.Jg&&(b.H&&b.H("disconnect"),delete this.qa[a],this.Yc--)}0===this.Yc&&(this.qa=[]);this.Td={};Xh(this)&&(this.Ob?this.Lc&&(3E4<(new Date).getTime()-this.Lc&&(this.Za=1E3),this.Lc=null):(this.f("Window isn't visible.  Delaying reconnect."),this.Za=this.Fd,this.Ge=(new Date).getTime()),a=Math.max(0,this.Za-((new Date).getTime()-this.Ge)),a*=Math.random(),this.f("Trying to reconnect in "+
+	a+"ms"),Mh(this,a),this.Za=Math.min(this.Fd,1.3*this.Za));this.Uc(!1)};function Wh(a){if(Xh(a)){a.f("Making a connection attempt");a.Ge=(new Date).getTime();a.Lc=null;var b=q(a.Id,a),c=q(a.Wc,a),d=q(a.Df,a),e=a.id+":"+Nh++;a.Ia=new yh(e,a.F,b,c,d,function(b){O(b+" ("+a.F.toString()+")");a.xf=!0},a.Bb)}}g.yb=function(){this.Ee=!0;this.Ia?this.Ia.close():(this.sb&&(clearTimeout(this.sb),this.sb=null),this.oa&&this.Df())};g.rc=function(){this.Ee=!1;this.Za=1E3;this.Ia||Mh(this,0)};
+	function Uh(a,b,c){c=c?Qa(c,function(a){return Uc(a)}).join("$"):"default";(a=Ph(a,b,c))&&a.H&&a.H("permission_denied")}function Ph(a,b,c){b=(new L(b)).toString();var d;n(a.$[b])?(d=a.$[b][c],delete a.$[b][c],0===pa(a.$[b])&&delete a.$[b]):d=void 0;return d}function Vh(a){Qh(a);r(a.$,function(b){r(b,function(b){Oh(a,b)})});for(var b=0;b<a.qa.length;b++)a.qa[b]&&Th(a,b);for(;a.Vc.length;)b=a.Vc.shift(),Rh(a,b.action,b.$c,b.data,b.H)}function Xh(a){var b;b=Ge.ub().kc;return!a.xf&&!a.Ee&&b};var V={og:function(){ih=rh=!0}};V.forceLongPolling=V.og;V.pg=function(){jh=!0};V.forceWebSockets=V.pg;V.Pg=function(a,b){a.k.Ra.We=b};V.setSecurityDebugCallback=V.Pg;V.Ye=function(a,b){a.k.Ye(b)};V.stats=V.Ye;V.Ze=function(a,b){a.k.Ze(b)};V.statsIncrementCounter=V.Ze;V.sd=function(a){return a.k.sd};V.dataUpdateCount=V.sd;V.sg=function(a,b){a.k.De=b};V.interceptServerData=V.sg;V.yg=function(a){new Ig(a)};V.onPopupOpen=V.yg;V.Ng=function(a){sg=a};V.setAuthenticationServer=V.Ng;function Q(a,b,c){this.A=a;this.W=b;this.g=c}Q.prototype.I=function(){x("Firebase.DataSnapshot.val",0,0,arguments.length);return this.A.I()};Q.prototype.val=Q.prototype.I;Q.prototype.mf=function(){x("Firebase.DataSnapshot.exportVal",0,0,arguments.length);return this.A.I(!0)};Q.prototype.exportVal=Q.prototype.mf;Q.prototype.ng=function(){x("Firebase.DataSnapshot.exists",0,0,arguments.length);return!this.A.e()};Q.prototype.exists=Q.prototype.ng;
+	Q.prototype.u=function(a){x("Firebase.DataSnapshot.child",0,1,arguments.length);ga(a)&&(a=String(a));ig("Firebase.DataSnapshot.child",a);var b=new L(a),c=this.W.u(b);return new Q(this.A.Q(b),c,N)};Q.prototype.child=Q.prototype.u;Q.prototype.Da=function(a){x("Firebase.DataSnapshot.hasChild",1,1,arguments.length);ig("Firebase.DataSnapshot.hasChild",a);var b=new L(a);return!this.A.Q(b).e()};Q.prototype.hasChild=Q.prototype.Da;
+	Q.prototype.C=function(){x("Firebase.DataSnapshot.getPriority",0,0,arguments.length);return this.A.C().I()};Q.prototype.getPriority=Q.prototype.C;Q.prototype.forEach=function(a){x("Firebase.DataSnapshot.forEach",1,1,arguments.length);A("Firebase.DataSnapshot.forEach",1,a,!1);if(this.A.K())return!1;var b=this;return!!this.A.P(this.g,function(c,d){return a(new Q(d,b.W.u(c),N))})};Q.prototype.forEach=Q.prototype.forEach;
+	Q.prototype.wd=function(){x("Firebase.DataSnapshot.hasChildren",0,0,arguments.length);return this.A.K()?!1:!this.A.e()};Q.prototype.hasChildren=Q.prototype.wd;Q.prototype.name=function(){O("Firebase.DataSnapshot.name() being deprecated. Please use Firebase.DataSnapshot.key() instead.");x("Firebase.DataSnapshot.name",0,0,arguments.length);return this.key()};Q.prototype.name=Q.prototype.name;Q.prototype.key=function(){x("Firebase.DataSnapshot.key",0,0,arguments.length);return this.W.key()};
+	Q.prototype.key=Q.prototype.key;Q.prototype.Db=function(){x("Firebase.DataSnapshot.numChildren",0,0,arguments.length);return this.A.Db()};Q.prototype.numChildren=Q.prototype.Db;Q.prototype.Ib=function(){x("Firebase.DataSnapshot.ref",0,0,arguments.length);return this.W};Q.prototype.ref=Q.prototype.Ib;function Yh(a,b){this.F=a;this.Ua=Rb(a);this.fd=null;this.da=new vb;this.Hd=1;this.Ra=null;b||0<=("object"===typeof window&&window.navigator&&window.navigator.userAgent||"").search(/googlebot|google webmaster tools|bingbot|yahoo! slurp|baiduspider|yandexbot|duckduckbot/i)?(this.ba=new Ae(this.F,q(this.Gb,this)),setTimeout(q(this.Uc,this,!0),0)):this.ba=this.Ra=new Kh(this.F,q(this.Gb,this),q(this.Uc,this),q(this.Oe,this));this.Sg=Sb(a,q(function(){return new Mb(this.Ua,this.ba)},this));this.uc=new Rf;
+	this.Ce=new ob;var c=this;this.Cd=new vf({Xe:function(a,b,f,h){b=[];f=c.Ce.j(a.path);f.e()||(b=xf(c.Cd,new Xb(bf,a.path,f)),setTimeout(function(){h("ok")},0));return b},ae:ba});Zh(this,"connected",!1);this.la=new qc;this.M=new Sg(a,q(this.ba.M,this.ba),q(this.ba.ge,this.ba),q(this.Le,this));this.sd=0;this.De=null;this.L=new vf({Xe:function(a,b,f,h){c.ba.yf(a,f,b,function(b,e){var f=h(b,e);Ab(c.da,a.path,f)});return[]},ae:function(a,b){c.ba.Rf(a,b)}})}g=Yh.prototype;
+	g.toString=function(){return(this.F.kb?"https://":"http://")+this.F.host};g.name=function(){return this.F.hc};function $h(a){a=a.Ce.j(new L(".info/serverTimeOffset")).I()||0;return(new Date).getTime()+a}function ai(a){a=a={timestamp:$h(a)};a.timestamp=a.timestamp||(new Date).getTime();return a}
+	g.Gb=function(a,b,c,d){this.sd++;var e=new L(a);b=this.De?this.De(a,b):b;a=[];d?c?(b=na(b,function(a){return M(a)}),a=Ff(this.L,e,b,d)):(b=M(b),a=Bf(this.L,e,b,d)):c?(d=na(b,function(a){return M(a)}),a=Af(this.L,e,d)):(d=M(b),a=xf(this.L,new Xb(bf,e,d)));d=e;0<a.length&&(d=bi(this,e));Ab(this.da,d,a)};g.Uc=function(a){Zh(this,"connected",a);!1===a&&ci(this)};g.Oe=function(a){var b=this;Wc(a,function(a,d){Zh(b,d,a)})};g.Le=function(a){Zh(this,"authenticated",a)};
+	function Zh(a,b,c){b=new L("/.info/"+b);c=M(c);var d=a.Ce;d.Wd=d.Wd.G(b,c);c=xf(a.Cd,new Xb(bf,b,c));Ab(a.da,b,c)}g.Kb=function(a,b,c,d){this.f("set",{path:a.toString(),value:b,$g:c});var e=ai(this);b=M(b,c);var e=sc(b,e),f=this.Hd++,e=wf(this.L,a,e,f,!0);wb(this.da,e);var h=this;this.ba.put(a.toString(),b.I(!0),function(b,c){var e="ok"===b;e||O("set at "+a+" failed: "+b);e=zf(h.L,f,!e);Ab(h.da,a,e);di(d,b,c)});e=ei(this,a);bi(this,e);Ab(this.da,e,[])};
+	g.update=function(a,b,c){this.f("update",{path:a.toString(),value:b});var d=!0,e=ai(this),f={};r(b,function(a,b){d=!1;var c=M(a);f[b]=sc(c,e)});if(d)Cb("update() called with empty data.  Don't do anything."),di(c,"ok");else{var h=this.Hd++,k=yf(this.L,a,f,h);wb(this.da,k);var l=this;this.ba.zf(a.toString(),b,function(b,d){var e="ok"===b;e||O("update at "+a+" failed: "+b);var e=zf(l.L,h,!e),f=a;0<e.length&&(f=bi(l,a));Ab(l.da,f,e);di(c,b,d)});b=ei(this,a);bi(this,b);Ab(this.da,a,[])}};
+	function ci(a){a.f("onDisconnectEvents");var b=ai(a),c=[];rc(pc(a.la,b),G,function(b,e){c=c.concat(xf(a.L,new Xb(bf,b,e)));var f=ei(a,b);bi(a,f)});a.la=new qc;Ab(a.da,G,c)}g.Jd=function(a,b){var c=this;this.ba.Jd(a.toString(),function(d,e){"ok"===d&&rg(c.la,a);di(b,d,e)})};function fi(a,b,c,d){var e=M(c);a.ba.Me(b.toString(),e.I(!0),function(c,h){"ok"===c&&a.la.nc(b,e);di(d,c,h)})}function gi(a,b,c,d,e){var f=M(c,d);a.ba.Me(b.toString(),f.I(!0),function(c,d){"ok"===c&&a.la.nc(b,f);di(e,c,d)})}
+	function hi(a,b,c,d){var e=!0,f;for(f in c)e=!1;e?(Cb("onDisconnect().update() called with empty data.  Don't do anything."),di(d,"ok")):a.ba.Cf(b.toString(),c,function(e,f){if("ok"===e)for(var l in c){var m=M(c[l]);a.la.nc(b.u(l),m)}di(d,e,f)})}function ii(a,b,c){c=".info"===E(b.path)?a.Cd.Pb(b,c):a.L.Pb(b,c);yb(a.da,b.path,c)}g.yb=function(){this.Ra&&this.Ra.yb()};g.rc=function(){this.Ra&&this.Ra.rc()};
+	g.Ye=function(a){if("undefined"!==typeof console){a?(this.fd||(this.fd=new Lb(this.Ua)),a=this.fd.get()):a=this.Ua.get();var b=Ra(sa(a),function(a,b){return Math.max(b.length,a)},0),c;for(c in a){for(var d=a[c],e=c.length;e<b+2;e++)c+=" ";console.log(c+d)}}};g.Ze=function(a){Ob(this.Ua,a);this.Sg.Of[a]=!0};g.f=function(a){var b="";this.Ra&&(b=this.Ra.id+":");Cb(b,arguments)};
+	function di(a,b,c){a&&Db(function(){if("ok"==b)a(null);else{var d=(b||"error").toUpperCase(),e=d;c&&(e+=": "+c);e=Error(e);e.code=d;a(e)}})};function ji(a,b,c,d,e){function f(){}a.f("transaction on "+b);var h=new U(a,b);h.Eb("value",f);c={path:b,update:c,H:d,status:null,Ff:Ec(),cf:e,Lf:0,ie:function(){h.ic("value",f)},ke:null,Ba:null,pd:null,qd:null,rd:null};d=a.L.za(b,void 0)||C;c.pd=d;d=c.update(d.I());if(n(d)){cg("transaction failed: Data returned ",d,c.path);c.status=1;e=Sf(a.uc,b);var k=e.Ca()||[];k.push(c);Tf(e,k);"object"===typeof d&&null!==d&&v(d,".priority")?(k=w(d,".priority"),K(ag(k),"Invalid priority returned by transaction. Priority must be a valid string, finite number, server value, or null.")):
+	k=(a.L.za(b)||C).C().I();e=ai(a);d=M(d,k);e=sc(d,e);c.qd=d;c.rd=e;c.Ba=a.Hd++;c=wf(a.L,b,e,c.Ba,c.cf);Ab(a.da,b,c);ki(a)}else c.ie(),c.qd=null,c.rd=null,c.H&&(a=new Q(c.pd,new U(a,c.path),N),c.H(null,!1,a))}function ki(a,b){var c=b||a.uc;b||li(a,c);if(null!==c.Ca()){var d=mi(a,c);K(0<d.length,"Sending zero length transaction queue");Sa(d,function(a){return 1===a.status})&&ni(a,c.path(),d)}else c.wd()&&c.P(function(b){ki(a,b)})}
+	function ni(a,b,c){for(var d=Qa(c,function(a){return a.Ba}),e=a.L.za(b,d)||C,d=e,e=e.hash(),f=0;f<c.length;f++){var h=c[f];K(1===h.status,"tryToSendTransactionQueue_: items in queue should all be run.");h.status=2;h.Lf++;var k=T(b,h.path),d=d.G(k,h.qd)}d=d.I(!0);a.ba.put(b.toString(),d,function(d){a.f("transaction put response",{path:b.toString(),status:d});var e=[];if("ok"===d){d=[];for(f=0;f<c.length;f++){c[f].status=3;e=e.concat(zf(a.L,c[f].Ba));if(c[f].H){var h=c[f].rd,k=new U(a,c[f].path);d.push(q(c[f].H,
+	null,null,!0,new Q(h,k,N)))}c[f].ie()}li(a,Sf(a.uc,b));ki(a);Ab(a.da,b,e);for(f=0;f<d.length;f++)Db(d[f])}else{if("datastale"===d)for(f=0;f<c.length;f++)c[f].status=4===c[f].status?5:1;else for(O("transaction at "+b.toString()+" failed: "+d),f=0;f<c.length;f++)c[f].status=5,c[f].ke=d;bi(a,b)}},e)}function bi(a,b){var c=oi(a,b),d=c.path(),c=mi(a,c);pi(a,c,d);return d}
+	function pi(a,b,c){if(0!==b.length){for(var d=[],e=[],f=Qa(b,function(a){return a.Ba}),h=0;h<b.length;h++){var k=b[h],l=T(c,k.path),m=!1,t;K(null!==l,"rerunTransactionsUnderNode_: relativePath should not be null.");if(5===k.status)m=!0,t=k.ke,e=e.concat(zf(a.L,k.Ba,!0));else if(1===k.status)if(25<=k.Lf)m=!0,t="maxretry",e=e.concat(zf(a.L,k.Ba,!0));else{var z=a.L.za(k.path,f)||C;k.pd=z;var I=b[h].update(z.I());n(I)?(cg("transaction failed: Data returned ",I,k.path),l=M(I),"object"===typeof I&&null!=
+	I&&v(I,".priority")||(l=l.ga(z.C())),z=k.Ba,I=ai(a),I=sc(l,I),k.qd=l,k.rd=I,k.Ba=a.Hd++,Va(f,z),e=e.concat(wf(a.L,k.path,I,k.Ba,k.cf)),e=e.concat(zf(a.L,z,!0))):(m=!0,t="nodata",e=e.concat(zf(a.L,k.Ba,!0)))}Ab(a.da,c,e);e=[];m&&(b[h].status=3,setTimeout(b[h].ie,Math.floor(0)),b[h].H&&("nodata"===t?(k=new U(a,b[h].path),d.push(q(b[h].H,null,null,!1,new Q(b[h].pd,k,N)))):d.push(q(b[h].H,null,Error(t),!1,null))))}li(a,a.uc);for(h=0;h<d.length;h++)Db(d[h]);ki(a)}}
+	function oi(a,b){for(var c,d=a.uc;null!==(c=E(b))&&null===d.Ca();)d=Sf(d,c),b=H(b);return d}function mi(a,b){var c=[];qi(a,b,c);c.sort(function(a,b){return a.Ff-b.Ff});return c}function qi(a,b,c){var d=b.Ca();if(null!==d)for(var e=0;e<d.length;e++)c.push(d[e]);b.P(function(b){qi(a,b,c)})}function li(a,b){var c=b.Ca();if(c){for(var d=0,e=0;e<c.length;e++)3!==c[e].status&&(c[d]=c[e],d++);c.length=d;Tf(b,0<c.length?c:null)}b.P(function(b){li(a,b)})}
+	function ei(a,b){var c=oi(a,b).path(),d=Sf(a.uc,b);Wf(d,function(b){ri(a,b)});ri(a,d);Vf(d,function(b){ri(a,b)});return c}
+	function ri(a,b){var c=b.Ca();if(null!==c){for(var d=[],e=[],f=-1,h=0;h<c.length;h++)4!==c[h].status&&(2===c[h].status?(K(f===h-1,"All SENT items should be at beginning of queue."),f=h,c[h].status=4,c[h].ke="set"):(K(1===c[h].status,"Unexpected transaction status in abort"),c[h].ie(),e=e.concat(zf(a.L,c[h].Ba,!0)),c[h].H&&d.push(q(c[h].H,null,Error("set"),!1,null))));-1===f?Tf(b,null):c.length=f+1;Ab(a.da,b.path(),e);for(h=0;h<d.length;h++)Db(d[h])}};function W(){this.oc={};this.Sf=!1}W.prototype.yb=function(){for(var a in this.oc)this.oc[a].yb()};W.prototype.rc=function(){for(var a in this.oc)this.oc[a].rc()};W.prototype.ve=function(){this.Sf=!0};ca(W);W.prototype.interrupt=W.prototype.yb;W.prototype.resume=W.prototype.rc;function X(a,b){this.bd=a;this.ra=b}X.prototype.cancel=function(a){x("Firebase.onDisconnect().cancel",0,1,arguments.length);A("Firebase.onDisconnect().cancel",1,a,!0);this.bd.Jd(this.ra,a||null)};X.prototype.cancel=X.prototype.cancel;X.prototype.remove=function(a){x("Firebase.onDisconnect().remove",0,1,arguments.length);jg("Firebase.onDisconnect().remove",this.ra);A("Firebase.onDisconnect().remove",1,a,!0);fi(this.bd,this.ra,null,a)};X.prototype.remove=X.prototype.remove;
+	X.prototype.set=function(a,b){x("Firebase.onDisconnect().set",1,2,arguments.length);jg("Firebase.onDisconnect().set",this.ra);bg("Firebase.onDisconnect().set",a,this.ra,!1);A("Firebase.onDisconnect().set",2,b,!0);fi(this.bd,this.ra,a,b)};X.prototype.set=X.prototype.set;
+	X.prototype.Kb=function(a,b,c){x("Firebase.onDisconnect().setWithPriority",2,3,arguments.length);jg("Firebase.onDisconnect().setWithPriority",this.ra);bg("Firebase.onDisconnect().setWithPriority",a,this.ra,!1);fg("Firebase.onDisconnect().setWithPriority",2,b);A("Firebase.onDisconnect().setWithPriority",3,c,!0);gi(this.bd,this.ra,a,b,c)};X.prototype.setWithPriority=X.prototype.Kb;
+	X.prototype.update=function(a,b){x("Firebase.onDisconnect().update",1,2,arguments.length);jg("Firebase.onDisconnect().update",this.ra);if(ea(a)){for(var c={},d=0;d<a.length;++d)c[""+d]=a[d];a=c;O("Passing an Array to Firebase.onDisconnect().update() is deprecated. Use set() if you want to overwrite the existing data, or an Object with integer keys if you really do want to only update some of the children.")}eg("Firebase.onDisconnect().update",a,this.ra);A("Firebase.onDisconnect().update",2,b,!0);
+	hi(this.bd,this.ra,a,b)};X.prototype.update=X.prototype.update;function Y(a,b,c,d){this.k=a;this.path=b;this.n=c;this.lc=d}
+	function si(a){var b=null,c=null;a.ma&&(b=nd(a));a.pa&&(c=pd(a));if(a.g===Qd){if(a.ma){if("[MIN_NAME]"!=md(a))throw Error("Query: When ordering by key, you may only pass one argument to startAt(), endAt(), or equalTo().");if("string"!==typeof b)throw Error("Query: When ordering by key, the argument passed to startAt(), endAt(),or equalTo() must be a string.");}if(a.pa){if("[MAX_NAME]"!=od(a))throw Error("Query: When ordering by key, you may only pass one argument to startAt(), endAt(), or equalTo().");if("string"!==
+	typeof c)throw Error("Query: When ordering by key, the argument passed to startAt(), endAt(),or equalTo() must be a string.");}}else if(a.g===N){if(null!=b&&!ag(b)||null!=c&&!ag(c))throw Error("Query: When ordering by priority, the first argument passed to startAt(), endAt(), or equalTo() must be a valid priority value (null, a number, or a string).");}else if(K(a.g instanceof Ud||a.g===$d,"unknown index type."),null!=b&&"object"===typeof b||null!=c&&"object"===typeof c)throw Error("Query: First argument passed to startAt(), endAt(), or equalTo() cannot be an object.");
+	}function ti(a){if(a.ma&&a.pa&&a.ja&&(!a.ja||""===a.Nb))throw Error("Query: Can't combine startAt(), endAt(), and limit(). Use limitToFirst() or limitToLast() instead.");}function ui(a,b){if(!0===a.lc)throw Error(b+": You can't combine multiple orderBy calls.");}g=Y.prototype;g.Ib=function(){x("Query.ref",0,0,arguments.length);return new U(this.k,this.path)};
+	g.Eb=function(a,b,c,d){x("Query.on",2,4,arguments.length);gg("Query.on",a,!1);A("Query.on",2,b,!1);var e=vi("Query.on",c,d);if("value"===a)ii(this.k,this,new id(b,e.cancel||null,e.Ma||null));else{var f={};f[a]=b;ii(this.k,this,new jd(f,e.cancel,e.Ma))}return b};
+	g.ic=function(a,b,c){x("Query.off",0,3,arguments.length);gg("Query.off",a,!0);A("Query.off",2,b,!0);mb("Query.off",3,c);var d=null,e=null;"value"===a?d=new id(b||null,null,c||null):a&&(b&&(e={},e[a]=b),d=new jd(e,null,c||null));e=this.k;d=".info"===E(this.path)?e.Cd.jb(this,d):e.L.jb(this,d);yb(e.da,this.path,d)};
+	g.Dg=function(a,b){function c(h){f&&(f=!1,e.ic(a,c),b.call(d.Ma,h))}x("Query.once",2,4,arguments.length);gg("Query.once",a,!1);A("Query.once",2,b,!1);var d=vi("Query.once",arguments[2],arguments[3]),e=this,f=!0;this.Eb(a,c,function(b){e.ic(a,c);d.cancel&&d.cancel.call(d.Ma,b)})};
+	g.He=function(a){O("Query.limit() being deprecated. Please use Query.limitToFirst() or Query.limitToLast() instead.");x("Query.limit",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limit: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limit: Limit was already set (by another call to limit, limitToFirst, orlimitToLast.");var b=this.n.He(a);ti(b);return new Y(this.k,this.path,b,this.lc)};
+	g.Ie=function(a){x("Query.limitToFirst",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limitToFirst: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limitToFirst: Limit was already set (by another call to limit, limitToFirst, or limitToLast).");return new Y(this.k,this.path,this.n.Ie(a),this.lc)};
+	g.Je=function(a){x("Query.limitToLast",1,1,arguments.length);if(!ga(a)||Math.floor(a)!==a||0>=a)throw Error("Query.limitToLast: First argument must be a positive integer.");if(this.n.ja)throw Error("Query.limitToLast: Limit was already set (by another call to limit, limitToFirst, or limitToLast).");return new Y(this.k,this.path,this.n.Je(a),this.lc)};
+	g.Eg=function(a){x("Query.orderByChild",1,1,arguments.length);if("$key"===a)throw Error('Query.orderByChild: "$key" is invalid.  Use Query.orderByKey() instead.');if("$priority"===a)throw Error('Query.orderByChild: "$priority" is invalid.  Use Query.orderByPriority() instead.');if("$value"===a)throw Error('Query.orderByChild: "$value" is invalid.  Use Query.orderByValue() instead.');ig("Query.orderByChild",a);ui(this,"Query.orderByChild");var b=new L(a);if(b.e())throw Error("Query.orderByChild: cannot pass in empty path.  Use Query.orderByValue() instead.");
+	b=new Ud(b);b=de(this.n,b);si(b);return new Y(this.k,this.path,b,!0)};g.Fg=function(){x("Query.orderByKey",0,0,arguments.length);ui(this,"Query.orderByKey");var a=de(this.n,Qd);si(a);return new Y(this.k,this.path,a,!0)};g.Gg=function(){x("Query.orderByPriority",0,0,arguments.length);ui(this,"Query.orderByPriority");var a=de(this.n,N);si(a);return new Y(this.k,this.path,a,!0)};
+	g.Hg=function(){x("Query.orderByValue",0,0,arguments.length);ui(this,"Query.orderByValue");var a=de(this.n,$d);si(a);return new Y(this.k,this.path,a,!0)};g.$d=function(a,b){x("Query.startAt",0,2,arguments.length);bg("Query.startAt",a,this.path,!0);hg("Query.startAt",b);var c=this.n.$d(a,b);ti(c);si(c);if(this.n.ma)throw Error("Query.startAt: Starting point was already set (by another call to startAt or equalTo).");n(a)||(b=a=null);return new Y(this.k,this.path,c,this.lc)};
+	g.td=function(a,b){x("Query.endAt",0,2,arguments.length);bg("Query.endAt",a,this.path,!0);hg("Query.endAt",b);var c=this.n.td(a,b);ti(c);si(c);if(this.n.pa)throw Error("Query.endAt: Ending point was already set (by another call to endAt or equalTo).");return new Y(this.k,this.path,c,this.lc)};
+	g.kg=function(a,b){x("Query.equalTo",1,2,arguments.length);bg("Query.equalTo",a,this.path,!1);hg("Query.equalTo",b);if(this.n.ma)throw Error("Query.equalTo: Starting point was already set (by another call to endAt or equalTo).");if(this.n.pa)throw Error("Query.equalTo: Ending point was already set (by another call to endAt or equalTo).");return this.$d(a,b).td(a,b)};
+	g.toString=function(){x("Query.toString",0,0,arguments.length);for(var a=this.path,b="",c=a.Z;c<a.o.length;c++)""!==a.o[c]&&(b+="/"+encodeURIComponent(String(a.o[c])));return this.k.toString()+(b||"/")};g.va=function(){var a=Uc(ee(this.n));return"{}"===a?"default":a};
+	function vi(a,b,c){var d={cancel:null,Ma:null};if(b&&c)d.cancel=b,A(a,3,d.cancel,!0),d.Ma=c,mb(a,4,d.Ma);else if(b)if("object"===typeof b&&null!==b)d.Ma=b;else if("function"===typeof b)d.cancel=b;else throw Error(y(a,3,!0)+" must either be a cancel callback or a context object.");return d}Y.prototype.ref=Y.prototype.Ib;Y.prototype.on=Y.prototype.Eb;Y.prototype.off=Y.prototype.ic;Y.prototype.once=Y.prototype.Dg;Y.prototype.limit=Y.prototype.He;Y.prototype.limitToFirst=Y.prototype.Ie;
+	Y.prototype.limitToLast=Y.prototype.Je;Y.prototype.orderByChild=Y.prototype.Eg;Y.prototype.orderByKey=Y.prototype.Fg;Y.prototype.orderByPriority=Y.prototype.Gg;Y.prototype.orderByValue=Y.prototype.Hg;Y.prototype.startAt=Y.prototype.$d;Y.prototype.endAt=Y.prototype.td;Y.prototype.equalTo=Y.prototype.kg;Y.prototype.toString=Y.prototype.toString;var Z={};Z.vc=Kh;Z.DataConnection=Z.vc;Kh.prototype.Rg=function(a,b){this.Fa("q",{p:a},b)};Z.vc.prototype.simpleListen=Z.vc.prototype.Rg;Kh.prototype.jg=function(a,b){this.Fa("echo",{d:a},b)};Z.vc.prototype.echo=Z.vc.prototype.jg;Kh.prototype.interrupt=Kh.prototype.yb;Z.Vf=yh;Z.RealTimeConnection=Z.Vf;yh.prototype.sendRequest=yh.prototype.Fa;yh.prototype.close=yh.prototype.close;
+	Z.rg=function(a){var b=Kh.prototype.put;Kh.prototype.put=function(c,d,e,f){n(f)&&(f=a());b.call(this,c,d,e,f)};return function(){Kh.prototype.put=b}};Z.hijackHash=Z.rg;Z.Uf=zc;Z.ConnectionTarget=Z.Uf;Z.va=function(a){return a.va()};Z.queryIdentifier=Z.va;Z.tg=function(a){return a.k.Ra.$};Z.listens=Z.tg;Z.ve=function(a){a.ve()};Z.forceRestClient=Z.ve;function U(a,b){var c,d,e;if(a instanceof Yh)c=a,d=b;else{x("new Firebase",1,2,arguments.length);d=Pc(arguments[0]);c=d.Tg;"firebase"===d.domain&&Oc(d.host+" is no longer supported. Please use <YOUR FIREBASE>.firebaseio.com instead");c&&"undefined"!=c||Oc("Cannot parse Firebase url. Please use https://<YOUR FIREBASE>.firebaseio.com");d.kb||"undefined"!==typeof window&&window.location&&window.location.protocol&&-1!==window.location.protocol.indexOf("https:")&&O("Insecure Firebase access from a secure page. Please use https in calls to new Firebase().");
+	c=new zc(d.host,d.kb,c,"ws"===d.scheme||"wss"===d.scheme);d=new L(d.$c);e=d.toString();var f;!(f=!p(c.host)||0===c.host.length||!$f(c.hc))&&(f=0!==e.length)&&(e&&(e=e.replace(/^\/*\.info(\/|$)/,"/")),f=!(p(e)&&0!==e.length&&!Yf.test(e)));if(f)throw Error(y("new Firebase",1,!1)+'must be a valid firebase URL and the path can\'t contain ".", "#", "$", "[", or "]".');if(b)if(b instanceof W)e=b;else if(p(b))e=W.ub(),c.Od=b;else throw Error("Expected a valid Firebase.Context for second argument to new Firebase()");
+	else e=W.ub();f=c.toString();var h=w(e.oc,f);h||(h=new Yh(c,e.Sf),e.oc[f]=h);c=h}Y.call(this,c,d,be,!1)}ma(U,Y);var wi=U,xi=["Firebase"],yi=aa;xi[0]in yi||!yi.execScript||yi.execScript("var "+xi[0]);for(var zi;xi.length&&(zi=xi.shift());)!xi.length&&n(wi)?yi[zi]=wi:yi=yi[zi]?yi[zi]:yi[zi]={};U.goOffline=function(){x("Firebase.goOffline",0,0,arguments.length);W.ub().yb()};U.goOnline=function(){x("Firebase.goOnline",0,0,arguments.length);W.ub().rc()};
+	function Lc(a,b){K(!b||!0===a||!1===a,"Can't turn on custom loggers persistently.");!0===a?("undefined"!==typeof console&&("function"===typeof console.log?Bb=q(console.log,console):"object"===typeof console.log&&(Bb=function(a){console.log(a)})),b&&yc.set("logging_enabled",!0)):a?Bb=a:(Bb=null,yc.remove("logging_enabled"))}U.enableLogging=Lc;U.ServerValue={TIMESTAMP:{".sv":"timestamp"}};U.SDK_VERSION=hb;U.INTERNAL=V;U.Context=W;U.TEST_ACCESS=Z;
+	U.prototype.name=function(){O("Firebase.name() being deprecated. Please use Firebase.key() instead.");x("Firebase.name",0,0,arguments.length);return this.key()};U.prototype.name=U.prototype.name;U.prototype.key=function(){x("Firebase.key",0,0,arguments.length);return this.path.e()?null:Ld(this.path)};U.prototype.key=U.prototype.key;
+	U.prototype.u=function(a){x("Firebase.child",1,1,arguments.length);if(ga(a))a=String(a);else if(!(a instanceof L))if(null===E(this.path)){var b=a;b&&(b=b.replace(/^\/*\.info(\/|$)/,"/"));ig("Firebase.child",b)}else ig("Firebase.child",a);return new U(this.k,this.path.u(a))};U.prototype.child=U.prototype.u;U.prototype.parent=function(){x("Firebase.parent",0,0,arguments.length);var a=this.path.parent();return null===a?null:new U(this.k,a)};U.prototype.parent=U.prototype.parent;
+	U.prototype.root=function(){x("Firebase.ref",0,0,arguments.length);for(var a=this;null!==a.parent();)a=a.parent();return a};U.prototype.root=U.prototype.root;U.prototype.set=function(a,b){x("Firebase.set",1,2,arguments.length);jg("Firebase.set",this.path);bg("Firebase.set",a,this.path,!1);A("Firebase.set",2,b,!0);this.k.Kb(this.path,a,null,b||null)};U.prototype.set=U.prototype.set;
+	U.prototype.update=function(a,b){x("Firebase.update",1,2,arguments.length);jg("Firebase.update",this.path);if(ea(a)){for(var c={},d=0;d<a.length;++d)c[""+d]=a[d];a=c;O("Passing an Array to Firebase.update() is deprecated. Use set() if you want to overwrite the existing data, or an Object with integer keys if you really do want to only update some of the children.")}eg("Firebase.update",a,this.path);A("Firebase.update",2,b,!0);this.k.update(this.path,a,b||null)};U.prototype.update=U.prototype.update;
+	U.prototype.Kb=function(a,b,c){x("Firebase.setWithPriority",2,3,arguments.length);jg("Firebase.setWithPriority",this.path);bg("Firebase.setWithPriority",a,this.path,!1);fg("Firebase.setWithPriority",2,b);A("Firebase.setWithPriority",3,c,!0);if(".length"===this.key()||".keys"===this.key())throw"Firebase.setWithPriority failed: "+this.key()+" is a read-only object.";this.k.Kb(this.path,a,b,c||null)};U.prototype.setWithPriority=U.prototype.Kb;
+	U.prototype.remove=function(a){x("Firebase.remove",0,1,arguments.length);jg("Firebase.remove",this.path);A("Firebase.remove",1,a,!0);this.set(null,a)};U.prototype.remove=U.prototype.remove;
+	U.prototype.transaction=function(a,b,c){x("Firebase.transaction",1,3,arguments.length);jg("Firebase.transaction",this.path);A("Firebase.transaction",1,a,!1);A("Firebase.transaction",2,b,!0);if(n(c)&&"boolean"!=typeof c)throw Error(y("Firebase.transaction",3,!0)+"must be a boolean.");if(".length"===this.key()||".keys"===this.key())throw"Firebase.transaction failed: "+this.key()+" is a read-only object.";"undefined"===typeof c&&(c=!0);ji(this.k,this.path,a,b||null,c)};U.prototype.transaction=U.prototype.transaction;
+	U.prototype.Og=function(a,b){x("Firebase.setPriority",1,2,arguments.length);jg("Firebase.setPriority",this.path);fg("Firebase.setPriority",1,a);A("Firebase.setPriority",2,b,!0);this.k.Kb(this.path.u(".priority"),a,null,b)};U.prototype.setPriority=U.prototype.Og;
+	U.prototype.push=function(a,b){x("Firebase.push",0,2,arguments.length);jg("Firebase.push",this.path);bg("Firebase.push",a,this.path,!0);A("Firebase.push",2,b,!0);var c=$h(this.k),c=Fe(c),c=this.u(c);"undefined"!==typeof a&&null!==a&&c.set(a,b);return c};U.prototype.push=U.prototype.push;U.prototype.hb=function(){jg("Firebase.onDisconnect",this.path);return new X(this.k,this.path)};U.prototype.onDisconnect=U.prototype.hb;
+	U.prototype.M=function(a,b,c){O("FirebaseRef.auth() being deprecated. Please use FirebaseRef.authWithCustomToken() instead.");x("Firebase.auth",1,3,arguments.length);kg("Firebase.auth",a);A("Firebase.auth",2,b,!0);A("Firebase.auth",3,b,!0);Yg(this.k.M,a,{},{remember:"none"},b,c)};U.prototype.auth=U.prototype.M;U.prototype.ge=function(a){x("Firebase.unauth",0,1,arguments.length);A("Firebase.unauth",1,a,!0);Zg(this.k.M,a)};U.prototype.unauth=U.prototype.ge;
+	U.prototype.xe=function(){x("Firebase.getAuth",0,0,arguments.length);return this.k.M.xe()};U.prototype.getAuth=U.prototype.xe;U.prototype.xg=function(a,b){x("Firebase.onAuth",1,2,arguments.length);A("Firebase.onAuth",1,a,!1);mb("Firebase.onAuth",2,b);this.k.M.Eb("auth_status",a,b)};U.prototype.onAuth=U.prototype.xg;U.prototype.wg=function(a,b){x("Firebase.offAuth",1,2,arguments.length);A("Firebase.offAuth",1,a,!1);mb("Firebase.offAuth",2,b);this.k.M.ic("auth_status",a,b)};U.prototype.offAuth=U.prototype.wg;
+	U.prototype.Zf=function(a,b,c){x("Firebase.authWithCustomToken",2,3,arguments.length);kg("Firebase.authWithCustomToken",a);A("Firebase.authWithCustomToken",2,b,!1);ng("Firebase.authWithCustomToken",3,c,!0);Yg(this.k.M,a,{},c||{},b)};U.prototype.authWithCustomToken=U.prototype.Zf;U.prototype.$f=function(a,b,c){x("Firebase.authWithOAuthPopup",2,3,arguments.length);mg("Firebase.authWithOAuthPopup",a);A("Firebase.authWithOAuthPopup",2,b,!1);ng("Firebase.authWithOAuthPopup",3,c,!0);ch(this.k.M,a,c,b)};
+	U.prototype.authWithOAuthPopup=U.prototype.$f;U.prototype.ag=function(a,b,c){x("Firebase.authWithOAuthRedirect",2,3,arguments.length);mg("Firebase.authWithOAuthRedirect",a);A("Firebase.authWithOAuthRedirect",2,b,!1);ng("Firebase.authWithOAuthRedirect",3,c,!0);var d=this.k.M;ah(d);var e=[Kg],f=vg(c);"anonymous"===a||"firebase"===a?P(b,Mg("TRANSPORT_UNAVAILABLE")):(yc.set("redirect_client_options",f.od),bh(d,e,"/auth/"+a,f,b))};U.prototype.authWithOAuthRedirect=U.prototype.ag;
+	U.prototype.bg=function(a,b,c,d){x("Firebase.authWithOAuthToken",3,4,arguments.length);mg("Firebase.authWithOAuthToken",a);A("Firebase.authWithOAuthToken",3,c,!1);ng("Firebase.authWithOAuthToken",4,d,!0);p(b)?(lg("Firebase.authWithOAuthToken",2,b),$g(this.k.M,a+"/token",{access_token:b},d,c)):(ng("Firebase.authWithOAuthToken",2,b,!1),$g(this.k.M,a+"/token",b,d,c))};U.prototype.authWithOAuthToken=U.prototype.bg;
+	U.prototype.Yf=function(a,b){x("Firebase.authAnonymously",1,2,arguments.length);A("Firebase.authAnonymously",1,a,!1);ng("Firebase.authAnonymously",2,b,!0);$g(this.k.M,"anonymous",{},b,a)};U.prototype.authAnonymously=U.prototype.Yf;
+	U.prototype.cg=function(a,b,c){x("Firebase.authWithPassword",2,3,arguments.length);ng("Firebase.authWithPassword",1,a,!1);og("Firebase.authWithPassword",a,"email");og("Firebase.authWithPassword",a,"password");A("Firebase.authWithPassword",2,b,!1);ng("Firebase.authWithPassword",3,c,!0);$g(this.k.M,"password",a,c,b)};U.prototype.authWithPassword=U.prototype.cg;
+	U.prototype.se=function(a,b){x("Firebase.createUser",2,2,arguments.length);ng("Firebase.createUser",1,a,!1);og("Firebase.createUser",a,"email");og("Firebase.createUser",a,"password");A("Firebase.createUser",2,b,!1);this.k.M.se(a,b)};U.prototype.createUser=U.prototype.se;U.prototype.Te=function(a,b){x("Firebase.removeUser",2,2,arguments.length);ng("Firebase.removeUser",1,a,!1);og("Firebase.removeUser",a,"email");og("Firebase.removeUser",a,"password");A("Firebase.removeUser",2,b,!1);this.k.M.Te(a,b)};
+	U.prototype.removeUser=U.prototype.Te;U.prototype.pe=function(a,b){x("Firebase.changePassword",2,2,arguments.length);ng("Firebase.changePassword",1,a,!1);og("Firebase.changePassword",a,"email");og("Firebase.changePassword",a,"oldPassword");og("Firebase.changePassword",a,"newPassword");A("Firebase.changePassword",2,b,!1);this.k.M.pe(a,b)};U.prototype.changePassword=U.prototype.pe;
+	U.prototype.oe=function(a,b){x("Firebase.changeEmail",2,2,arguments.length);ng("Firebase.changeEmail",1,a,!1);og("Firebase.changeEmail",a,"oldEmail");og("Firebase.changeEmail",a,"newEmail");og("Firebase.changeEmail",a,"password");A("Firebase.changeEmail",2,b,!1);this.k.M.oe(a,b)};U.prototype.changeEmail=U.prototype.oe;
+	U.prototype.Ve=function(a,b){x("Firebase.resetPassword",2,2,arguments.length);ng("Firebase.resetPassword",1,a,!1);og("Firebase.resetPassword",a,"email");A("Firebase.resetPassword",2,b,!1);this.k.M.Ve(a,b)};U.prototype.resetPassword=U.prototype.Ve;})();
 	
+	module.exports = Firebase;
+
+
+/***/ },
+/* 263 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _warning = __webpack_require__(265);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _invariant = __webpack_require__(266);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _Actions = __webpack_require__(267);
+	
+	var _createHistory = __webpack_require__(268);
+	
+	var _createHistory2 = _interopRequireDefault(_createHistory);
+	
+	var _parsePath = __webpack_require__(274);
+	
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+	
+	function createStateStorage(entries) {
+	  return entries.filter(function (entry) {
+	    return entry.state;
+	  }).reduce(function (memo, entry) {
+	    memo[entry.key] = entry.state;
+	    return memo;
+	  }, {});
+	}
+	
+	function createMemoryHistory() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
+	  if (Array.isArray(options)) {
+	    options = { entries: options };
+	  } else if (typeof options === 'string') {
+	    options = { entries: [options] };
+	  }
+	
+	  var history = _createHistory2['default'](_extends({}, options, {
+	    getCurrentLocation: getCurrentLocation,
+	    finishTransition: finishTransition,
+	    saveState: saveState,
+	    go: go
+	  }));
+	
+	  var _options = options;
+	  var entries = _options.entries;
+	  var current = _options.current;
+	
+	  if (typeof entries === 'string') {
+	    entries = [entries];
+	  } else if (!Array.isArray(entries)) {
+	    entries = ['/'];
+	  }
+	
+	  entries = entries.map(function (entry) {
+	    var key = history.createKey();
+	
+	    if (typeof entry === 'string') return { pathname: entry, key: key };
+	
+	    if (typeof entry === 'object' && entry) return _extends({}, entry, { key: key });
+	
+	     true ?  false ? _invariant2['default'](false, 'Unable to create history entry from %s', entry) : _invariant2['default'](false) : undefined;
+	  });
+	
+	  if (current == null) {
+	    current = entries.length - 1;
+	  } else {
+	    !(current >= 0 && current < entries.length) ?  false ? _invariant2['default'](false, 'Current index must be >= 0 and < %s, was %s', entries.length, current) : _invariant2['default'](false) : undefined;
+	  }
+	
+	  var storage = createStateStorage(entries);
+	
+	  function saveState(key, state) {
+	    storage[key] = state;
+	  }
+	
+	  function readState(key) {
+	    return storage[key];
+	  }
+	
+	  function getCurrentLocation() {
+	    var entry = entries[current];
+	    var key = entry.key;
+	    var basename = entry.basename;
+	    var pathname = entry.pathname;
+	    var search = entry.search;
+	
+	    var path = (basename || '') + pathname + (search || '');
+	
+	    var state = undefined;
+	    if (key) {
+	      state = readState(key);
+	    } else {
+	      state = null;
+	      key = history.createKey();
+	      entry.key = key;
+	    }
+	
+	    var location = _parsePath2['default'](path);
+	
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
+	  }
+	
+	  function canGo(n) {
+	    var index = current + n;
+	    return index >= 0 && index < entries.length;
+	  }
+	
+	  function go(n) {
+	    if (n) {
+	      if (!canGo(n)) {
+	         false ? _warning2['default'](false, 'Cannot go(%s) there is not enough history', n) : undefined;
+	        return;
+	      }
+	
+	      current += n;
+	
+	      var currentLocation = getCurrentLocation();
+	
+	      // change action to POP
+	      history.transitionTo(_extends({}, currentLocation, { action: _Actions.POP }));
+	    }
+	  }
+	
+	  function finishTransition(location) {
+	    switch (location.action) {
+	      case _Actions.PUSH:
+	        current += 1;
+	
+	        // if we are not on the top of stack
+	        // remove rest and push new
+	        if (current < entries.length) entries.splice(current);
+	
+	        entries.push(location);
+	        saveState(location.key, location.state);
+	        break;
+	      case _Actions.REPLACE:
+	        entries[current] = location;
+	        saveState(location.key, location.state);
+	        break;
+	    }
+	  }
+	
+	  return history;
+	}
+	
+	exports['default'] = createMemoryHistory;
+	module.exports = exports['default'];
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Similar to invariant but only logs a warning if the condition is not met.
+	 * This can be used to log issues in development environments in critical
+	 * paths. Removing the logging code for production environments will keep the
+	 * same logic and follow the same code paths.
+	 */
+	
+	var __DEV__ = ("production") !== 'production';
+	
+	var warning = function() {};
+	
+	if (__DEV__) {
+	  warning = function(condition, format, args) {
+	    var len = arguments.length;
+	    args = new Array(len > 2 ? len - 2 : 0);
+	    for (var key = 2; key < len; key++) {
+	      args[key - 2] = arguments[key];
+	    }
+	    if (format === undefined) {
+	      throw new Error(
+	        '`warning(condition, format, ...args)` requires a warning ' +
+	        'message argument'
+	      );
+	    }
+	
+	    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+	      throw new Error(
+	        'The warning format should be able to uniquely identify this ' +
+	        'warning. Please, use a more descriptive format than: ' + format
+	      );
+	    }
+	
+	    if (!condition) {
+	      var argIndex = 0;
+	      var message = 'Warning: ' +
+	        format.replace(/%s/g, function() {
+	          return args[argIndex++];
+	        });
+	      if (typeof console !== 'undefined') {
+	        console.error(message);
+	      }
+	      try {
+	        // This error was thrown as a convenience so that you can use this stack
+	        // to find the callsite that caused this warning to fire.
+	        throw new Error(message);
+	      } catch(x) {}
+	    }
+	  };
+	}
+	
+	module.exports = warning;
+
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var __DEV__ = ("production") !== 'production';
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (__DEV__) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+
+
+/***/ },
+/* 267 */
+/***/ function(module, exports) {
+
+	/**
+	 * Indicates that navigation was caused by a call to history.push.
+	 */
+	'use strict';
+	
+	exports.__esModule = true;
+	var PUSH = 'PUSH';
+	
+	exports.PUSH = PUSH;
+	/**
+	 * Indicates that navigation was caused by a call to history.replace.
+	 */
+	var REPLACE = 'REPLACE';
+	
+	exports.REPLACE = REPLACE;
+	/**
+	 * Indicates that navigation was caused by some other action such
+	 * as using a browser's back/forward buttons and/or manually manipulating
+	 * the URL in a browser's location bar. This is the default.
+	 *
+	 * See https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onpopstate
+	 * for more information.
+	 */
+	var POP = 'POP';
+	
+	exports.POP = POP;
+	exports['default'] = {
+	  PUSH: PUSH,
+	  REPLACE: REPLACE,
+	  POP: POP
+	};
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	//import warning from 'warning'
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _deepEqual = __webpack_require__(269);
+	
+	var _deepEqual2 = _interopRequireDefault(_deepEqual);
+	
+	var _AsyncUtils = __webpack_require__(272);
+	
+	var _Actions = __webpack_require__(267);
+	
+	var _createLocation2 = __webpack_require__(273);
+	
+	var _createLocation3 = _interopRequireDefault(_createLocation2);
+	
+	var _runTransitionHook = __webpack_require__(276);
+	
+	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
+	
+	var _parsePath = __webpack_require__(274);
+	
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+	
+	var _deprecate = __webpack_require__(277);
+	
+	var _deprecate2 = _interopRequireDefault(_deprecate);
+	
+	function createRandomKey(length) {
+	  return Math.random().toString(36).substr(2, length);
+	}
+	
+	function locationsAreEqual(a, b) {
+	  return a.pathname === b.pathname && a.search === b.search &&
+	  //a.action === b.action && // Different action !== location change.
+	  a.key === b.key && _deepEqual2['default'](a.state, b.state);
+	}
+	
+	var DefaultKeyLength = 6;
+	
+	function createHistory() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var getCurrentLocation = options.getCurrentLocation;
+	  var finishTransition = options.finishTransition;
+	  var saveState = options.saveState;
+	  var go = options.go;
+	  var keyLength = options.keyLength;
+	  var getUserConfirmation = options.getUserConfirmation;
+	
+	  if (typeof keyLength !== 'number') keyLength = DefaultKeyLength;
+	
+	  var transitionHooks = [];
+	
+	  function listenBefore(hook) {
+	    transitionHooks.push(hook);
+	
+	    return function () {
+	      transitionHooks = transitionHooks.filter(function (item) {
+	        return item !== hook;
+	      });
+	    };
+	  }
+	
+	  var allKeys = [];
+	  var changeListeners = [];
+	  var location = undefined;
+	
+	  function getCurrent() {
+	    if (pendingLocation && pendingLocation.action === _Actions.POP) {
+	      return allKeys.indexOf(pendingLocation.key);
+	    } else if (location) {
+	      return allKeys.indexOf(location.key);
+	    } else {
+	      return -1;
+	    }
+	  }
+	
+	  function updateLocation(newLocation) {
+	    var current = getCurrent();
+	
+	    location = newLocation;
+	
+	    if (location.action === _Actions.PUSH) {
+	      allKeys = [].concat(allKeys.slice(0, current + 1), [location.key]);
+	    } else if (location.action === _Actions.REPLACE) {
+	      allKeys[current] = location.key;
+	    }
+	
+	    changeListeners.forEach(function (listener) {
+	      listener(location);
+	    });
+	  }
+	
+	  function listen(listener) {
+	    changeListeners.push(listener);
+	
+	    if (location) {
+	      listener(location);
+	    } else {
+	      var _location = getCurrentLocation();
+	      allKeys = [_location.key];
+	      updateLocation(_location);
+	    }
+	
+	    return function () {
+	      changeListeners = changeListeners.filter(function (item) {
+	        return item !== listener;
+	      });
+	    };
+	  }
+	
+	  function confirmTransitionTo(location, callback) {
+	    _AsyncUtils.loopAsync(transitionHooks.length, function (index, next, done) {
+	      _runTransitionHook2['default'](transitionHooks[index], location, function (result) {
+	        if (result != null) {
+	          done(result);
+	        } else {
+	          next();
+	        }
+	      });
+	    }, function (message) {
+	      if (getUserConfirmation && typeof message === 'string') {
+	        getUserConfirmation(message, function (ok) {
+	          callback(ok !== false);
+	        });
+	      } else {
+	        callback(message !== false);
+	      }
+	    });
+	  }
+	
+	  var pendingLocation = undefined;
+	
+	  function transitionTo(nextLocation) {
+	    if (location && locationsAreEqual(location, nextLocation)) return; // Nothing to do.
+	
+	    pendingLocation = nextLocation;
+	
+	    confirmTransitionTo(nextLocation, function (ok) {
+	      if (pendingLocation !== nextLocation) return; // Transition was interrupted.
+	
+	      if (ok) {
+	        // treat PUSH to current path like REPLACE to be consistent with browsers
+	        if (nextLocation.action === _Actions.PUSH) {
+	          var prevPath = createPath(location);
+	          var nextPath = createPath(nextLocation);
+	
+	          if (nextPath === prevPath) nextLocation.action = _Actions.REPLACE;
+	        }
+	
+	        if (finishTransition(nextLocation) !== false) updateLocation(nextLocation);
+	      } else if (location && nextLocation.action === _Actions.POP) {
+	        var prevIndex = allKeys.indexOf(location.key);
+	        var nextIndex = allKeys.indexOf(nextLocation.key);
+	
+	        if (prevIndex !== -1 && nextIndex !== -1) go(prevIndex - nextIndex); // Restore the URL.
+	      }
+	    });
+	  }
+	
+	  function push(location) {
+	    transitionTo(createLocation(location, _Actions.PUSH, createKey()));
+	  }
+	
+	  function replace(location) {
+	    transitionTo(createLocation(location, _Actions.REPLACE, createKey()));
+	  }
+	
+	  function goBack() {
+	    go(-1);
+	  }
+	
+	  function goForward() {
+	    go(1);
+	  }
+	
+	  function createKey() {
+	    return createRandomKey(keyLength);
+	  }
+	
+	  function createPath(location) {
+	    if (location == null || typeof location === 'string') return location;
+	
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
+	
+	    var result = pathname;
+	
+	    if (search) result += search;
+	
+	    if (hash) result += hash;
+	
+	    return result;
+	  }
+	
+	  function createHref(location) {
+	    return createPath(location);
+	  }
+	
+	  function createLocation(location, action) {
+	    var key = arguments.length <= 2 || arguments[2] === undefined ? createKey() : arguments[2];
+	
+	    if (typeof action === 'object') {
+	      //warning(
+	      //  false,
+	      //  'The state (2nd) argument to history.createLocation is deprecated; use a ' +
+	      //  'location descriptor instead'
+	      //)
+	
+	      if (typeof location === 'string') location = _parsePath2['default'](location);
+	
+	      location = _extends({}, location, { state: action });
+	
+	      action = key;
+	      key = arguments[3] || createKey();
+	    }
+	
+	    return _createLocation3['default'](location, action, key);
+	  }
+	
+	  // deprecated
+	  function setState(state) {
+	    if (location) {
+	      updateLocationState(location, state);
+	      updateLocation(location);
+	    } else {
+	      updateLocationState(getCurrentLocation(), state);
+	    }
+	  }
+	
+	  function updateLocationState(location, state) {
+	    location.state = _extends({}, location.state, state);
+	    saveState(location.key, location.state);
+	  }
+	
+	  // deprecated
+	  function registerTransitionHook(hook) {
+	    if (transitionHooks.indexOf(hook) === -1) transitionHooks.push(hook);
+	  }
+	
+	  // deprecated
+	  function unregisterTransitionHook(hook) {
+	    transitionHooks = transitionHooks.filter(function (item) {
+	      return item !== hook;
+	    });
+	  }
+	
+	  // deprecated
+	  function pushState(state, path) {
+	    if (typeof path === 'string') path = _parsePath2['default'](path);
+	
+	    push(_extends({ state: state }, path));
+	  }
+	
+	  // deprecated
+	  function replaceState(state, path) {
+	    if (typeof path === 'string') path = _parsePath2['default'](path);
+	
+	    replace(_extends({ state: state }, path));
+	  }
+	
+	  return {
+	    listenBefore: listenBefore,
+	    listen: listen,
+	    transitionTo: transitionTo,
+	    push: push,
+	    replace: replace,
+	    go: go,
+	    goBack: goBack,
+	    goForward: goForward,
+	    createKey: createKey,
+	    createPath: createPath,
+	    createHref: createHref,
+	    createLocation: createLocation,
+	
+	    setState: _deprecate2['default'](setState, 'setState is deprecated; use location.key to save state instead'),
+	    registerTransitionHook: _deprecate2['default'](registerTransitionHook, 'registerTransitionHook is deprecated; use listenBefore instead'),
+	    unregisterTransitionHook: _deprecate2['default'](unregisterTransitionHook, 'unregisterTransitionHook is deprecated; use the callback returned from listenBefore instead'),
+	    pushState: _deprecate2['default'](pushState, 'pushState is deprecated; use push instead'),
+	    replaceState: _deprecate2['default'](replaceState, 'replaceState is deprecated; use replace instead')
+	  };
+	}
+	
+	exports['default'] = createHistory;
+	module.exports = exports['default'];
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var pSlice = Array.prototype.slice;
+	var objectKeys = __webpack_require__(270);
+	var isArguments = __webpack_require__(271);
+	
+	var deepEqual = module.exports = function (actual, expected, opts) {
+	  if (!opts) opts = {};
+	  // 7.1. All identical values are equivalent, as determined by ===.
+	  if (actual === expected) {
+	    return true;
+	
+	  } else if (actual instanceof Date && expected instanceof Date) {
+	    return actual.getTime() === expected.getTime();
+	
+	  // 7.3. Other pairs that do not both pass typeof value == 'object',
+	  // equivalence is determined by ==.
+	  } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
+	    return opts.strict ? actual === expected : actual == expected;
+	
+	  // 7.4. For all other Object pairs, including Array objects, equivalence is
+	  // determined by having the same number of owned properties (as verified
+	  // with Object.prototype.hasOwnProperty.call), the same set of keys
+	  // (although not necessarily the same order), equivalent values for every
+	  // corresponding key, and an identical 'prototype' property. Note: this
+	  // accounts for both named and indexed properties on Arrays.
+	  } else {
+	    return objEquiv(actual, expected, opts);
+	  }
+	}
+	
+	function isUndefinedOrNull(value) {
+	  return value === null || value === undefined;
+	}
+	
+	function isBuffer (x) {
+	  if (!x || typeof x !== 'object' || typeof x.length !== 'number') return false;
+	  if (typeof x.copy !== 'function' || typeof x.slice !== 'function') {
+	    return false;
+	  }
+	  if (x.length > 0 && typeof x[0] !== 'number') return false;
+	  return true;
+	}
+	
+	function objEquiv(a, b, opts) {
+	  var i, key;
+	  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
+	    return false;
+	  // an identical 'prototype' property.
+	  if (a.prototype !== b.prototype) return false;
+	  //~~~I've managed to break Object.keys through screwy arguments passing.
+	  //   Converting to array solves the problem.
+	  if (isArguments(a)) {
+	    if (!isArguments(b)) {
+	      return false;
+	    }
+	    a = pSlice.call(a);
+	    b = pSlice.call(b);
+	    return deepEqual(a, b, opts);
+	  }
+	  if (isBuffer(a)) {
+	    if (!isBuffer(b)) {
+	      return false;
+	    }
+	    if (a.length !== b.length) return false;
+	    for (i = 0; i < a.length; i++) {
+	      if (a[i] !== b[i]) return false;
+	    }
+	    return true;
+	  }
+	  try {
+	    var ka = objectKeys(a),
+	        kb = objectKeys(b);
+	  } catch (e) {//happens when one is a string literal and the other isn't
+	    return false;
+	  }
+	  // having the same number of owned properties (keys incorporates
+	  // hasOwnProperty)
+	  if (ka.length != kb.length)
+	    return false;
+	  //the same set of keys (although not necessarily the same order),
+	  ka.sort();
+	  kb.sort();
+	  //~~~cheap key test
+	  for (i = ka.length - 1; i >= 0; i--) {
+	    if (ka[i] != kb[i])
+	      return false;
+	  }
+	  //equivalent values for every corresponding key, and
+	  //~~~possibly expensive deep test
+	  for (i = ka.length - 1; i >= 0; i--) {
+	    key = ka[i];
+	    if (!deepEqual(a[key], b[key], opts)) return false;
+	  }
+	  return typeof a === typeof b;
+	}
+
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+	exports = module.exports = typeof Object.keys === 'function'
+	  ? Object.keys : shim;
+	
+	exports.shim = shim;
+	function shim (obj) {
+	  var keys = [];
+	  for (var key in obj) keys.push(key);
+	  return keys;
+	}
 
 
 /***/ },
 /* 271 */
 /***/ function(module, exports) {
 
-	module.exports = require("_stream_writable");
+	var supportsArgumentsClass = (function(){
+	  return Object.prototype.toString.call(arguments)
+	})() == '[object Arguments]';
+	
+	exports = module.exports = supportsArgumentsClass ? supported : unsupported;
+	
+	exports.supported = supported;
+	function supported(object) {
+	  return Object.prototype.toString.call(object) == '[object Arguments]';
+	};
+	
+	exports.unsupported = unsupported;
+	function unsupported(object){
+	  return object &&
+	    typeof object == 'object' &&
+	    typeof object.length == 'number' &&
+	    Object.prototype.hasOwnProperty.call(object, 'callee') &&
+	    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
+	    false;
+	};
+
 
 /***/ },
 /* 272 */
 /***/ function(module, exports) {
 
-	module.exports = require("_stream_duplex");
+	"use strict";
+	
+	exports.__esModule = true;
+	exports.loopAsync = loopAsync;
+	
+	function loopAsync(turns, work, callback) {
+	  var currentTurn = 0;
+	  var isDone = false;
+	
+	  function done() {
+	    isDone = true;
+	    callback.apply(this, arguments);
+	  }
+	
+	  function next() {
+	    if (isDone) return;
+	
+	    if (currentTurn < turns) {
+	      work.call(this, currentTurn++, next, done);
+	    } else {
+	      done.apply(this, arguments);
+	    }
+	  }
+	
+	  next();
+	}
 
 /***/ },
 /* 273 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = require("http");
+	//import warning from 'warning'
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _Actions = __webpack_require__(267);
+	
+	var _parsePath = __webpack_require__(274);
+	
+	var _parsePath2 = _interopRequireDefault(_parsePath);
+	
+	function createLocation() {
+	  var location = arguments.length <= 0 || arguments[0] === undefined ? '/' : arguments[0];
+	  var action = arguments.length <= 1 || arguments[1] === undefined ? _Actions.POP : arguments[1];
+	  var key = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+	
+	  var _fourthArg = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
+	
+	  if (typeof location === 'string') location = _parsePath2['default'](location);
+	
+	  if (typeof action === 'object') {
+	    //warning(
+	    //  false,
+	    //  'The state (2nd) argument to createLocation is deprecated; use a ' +
+	    //  'location descriptor instead'
+	    //)
+	
+	    location = _extends({}, location, { state: action });
+	
+	    action = key || _Actions.POP;
+	    key = _fourthArg;
+	  }
+	
+	  var pathname = location.pathname || '/';
+	  var search = location.search || '';
+	  var hash = location.hash || '';
+	  var state = location.state || null;
+	
+	  return {
+	    pathname: pathname,
+	    search: search,
+	    hash: hash,
+	    state: state,
+	    action: action,
+	    key: key
+	  };
+	}
+	
+	exports['default'] = createLocation;
+	module.exports = exports['default'];
 
 /***/ },
 /* 274 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = require("https");
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _warning = __webpack_require__(265);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var _extractPath = __webpack_require__(275);
+	
+	var _extractPath2 = _interopRequireDefault(_extractPath);
+	
+	function parsePath(path) {
+	  var pathname = _extractPath2['default'](path);
+	  var search = '';
+	  var hash = '';
+	
+	   false ? _warning2['default'](path === pathname, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', path) : undefined;
+	
+	  var hashIndex = pathname.indexOf('#');
+	  if (hashIndex !== -1) {
+	    hash = pathname.substring(hashIndex);
+	    pathname = pathname.substring(0, hashIndex);
+	  }
+	
+	  var searchIndex = pathname.indexOf('?');
+	  if (searchIndex !== -1) {
+	    search = pathname.substring(searchIndex);
+	    pathname = pathname.substring(0, searchIndex);
+	  }
+	
+	  if (pathname === '') pathname = '/';
+	
+	  return {
+	    pathname: pathname,
+	    search: search,
+	    hash: hash
+	  };
+	}
+	
+	exports['default'] = parsePath;
+	module.exports = exports['default'];
 
 /***/ },
 /* 275 */
 /***/ function(module, exports) {
 
-	// Copyright 2010-2012 Mikeal Rogers
-	//
-	//    Licensed under the Apache License, Version 2.0 (the "License");
-	//    you may not use this file except in compliance with the License.
-	//    You may obtain a copy of the License at
-	//
-	//        http://www.apache.org/licenses/LICENSE-2.0
-	//
-	//    Unless required by applicable law or agreed to in writing, software
-	//    distributed under the License is distributed on an "AS IS" BASIS,
-	//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	//    See the License for the specific language governing permissions and
-	//    limitations under the License.
+	"use strict";
 	
-	'use strict'
+	exports.__esModule = true;
+	function extractPath(string) {
+	  var match = string.match(/^https?:\/\/[^\/]*/);
 	
-	var extend                = require('extend')
-	  , cookies               = require('./lib/cookies')
-	  , helpers               = require('./lib/helpers')
+	  if (match == null) return string;
 	
-	var isFunction            = helpers.isFunction
-	  , paramsHaveRequestBody = helpers.paramsHaveRequestBody
-	
-	
-	// organize params for patch, post, put, head, del
-	function initParams(uri, options, callback) {
-	  if (typeof options === 'function') {
-	    callback = options
-	  }
-	
-	  var params = {}
-	  if (typeof options === 'object') {
-	    extend(params, options, {uri: uri})
-	  } else if (typeof uri === 'string') {
-	    extend(params, {uri: uri})
-	  } else {
-	    extend(params, uri)
-	  }
-	
-	  params.callback = callback
-	  return params
+	  return string.substring(match[0].length);
 	}
 	
-	function request (uri, options, callback) {
-	  if (typeof uri === 'undefined') {
-	    throw new Error('undefined is not a valid uri or options object.')
-	  }
-	
-	  var params = initParams(uri, options, callback)
-	
-	  if (params.method === 'HEAD' && paramsHaveRequestBody(params)) {
-	    throw new Error('HTTP HEAD requests MUST NOT include a request body.')
-	  }
-	
-	  return new request.Request(params)
-	}
-	
-	function verbFunc (verb) {
-	  var method = verb === 'del' ? 'DELETE' : verb.toUpperCase()
-	  return function (uri, options, callback) {
-	    var params = initParams(uri, options, callback)
-	    params.method = method
-	    return request(params, params.callback)
-	  }
-	}
-	
-	// define like this to please codeintel/intellisense IDEs
-	request.get = verbFunc('get')
-	request.head = verbFunc('head')
-	request.post = verbFunc('post')
-	request.put = verbFunc('put')
-	request.patch = verbFunc('patch')
-	request.del = verbFunc('del')
-	
-	request.jar = function (store) {
-	  return cookies.jar(store)
-	}
-	
-	request.cookie = function (str) {
-	  return cookies.parse(str)
-	}
-	
-	function wrapRequestMethod (method, options, requester, verb) {
-	
-	  return function (uri, opts, callback) {
-	    var params = initParams(uri, opts, callback)
-	
-	    var target = {}
-	    extend(true, target, options, params)
-	
-	    target.pool = params.pool || options.pool
-	
-	    if (verb) {
-	      target.method = (verb === 'del' ? 'DELETE' : verb.toUpperCase())
-	    }
-	
-	    if (isFunction(requester)) {
-	      method = requester
-	    }
-	
-	    return method(target, target.callback)
-	  }
-	}
-	
-	request.defaults = function (options, requester) {
-	  var self = this
-	
-	  options = options || {}
-	
-	  if (typeof options === 'function') {
-	    requester = options
-	    options = {}
-	  }
-	
-	  var defaults      = wrapRequestMethod(self, options, requester)
-	
-	  var verbs = ['get', 'head', 'post', 'put', 'patch', 'del']
-	  verbs.forEach(function(verb) {
-	    defaults[verb]  = wrapRequestMethod(self[verb], options, requester, verb)
-	  })
-	
-	  defaults.cookie   = wrapRequestMethod(self.cookie, options, requester)
-	  defaults.jar      = self.jar
-	  defaults.defaults = self.defaults
-	  return defaults
-	}
-	
-	request.forever = function (agentOptions, optionsArg) {
-	  var options = {}
-	  if (optionsArg) {
-	    extend(options, optionsArg)
-	  }
-	  if (agentOptions) {
-	    options.agentOptions = agentOptions
-	  }
-	
-	  options.forever = true
-	  return request.defaults(options)
-	}
-	
-	// Exports
-	
-	module.exports = request
-	request.Request = require('./request')
-	request.initParams = initParams
-	
-	// Backwards compatibility for request.debug
-	Object.defineProperty(request, 'debug', {
-	  enumerable : true,
-	  get : function() {
-	    return request.Request.debug
-	  },
-	  set : function(debug) {
-	    request.Request.debug = debug
-	  }
-	})
-
+	exports["default"] = extractPath;
+	module.exports = exports["default"];
 
 /***/ },
 /* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// API references:
-	//
-	// * http://dev.w3.org/html5/websockets/
-	// * http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#interface-eventtarget
-	// * http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#interface-event
+	'use strict';
 	
-	var util   = __webpack_require__(277),
-	    driver = __webpack_require__(278),
-	    API    = __webpack_require__(303);
+	exports.__esModule = true;
 	
-	var WebSocket = function(request, socket, body, protocols, options) {
-	  options = options || {};
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	  this._stream = socket;
-	  this._driver = driver.http(request, {maxLength: options.maxLength, protocols: protocols});
+	var _warning = __webpack_require__(265);
 	
-	  var self = this;
-	  if (!this._stream || !this._stream.writable) return;
-	  if (!this._stream.readable) return this._stream.end();
+	var _warning2 = _interopRequireDefault(_warning);
 	
-	  var catchup = function() { self._stream.removeListener('data', catchup) };
-	  this._stream.on('data', catchup);
+	function runTransitionHook(hook, location, callback) {
+	  var result = hook(location, callback);
 	
-	  this._driver.io.write(body);
-	  API.call(this, options);
+	  if (hook.length < 2) {
+	    // Assume the hook runs synchronously and automatically
+	    // call the callback with the return value.
+	    callback(result);
+	  } else {
+	     false ? _warning2['default'](result === undefined, 'You should not "return" in a transition hook with a callback argument; call the callback instead') : undefined;
+	  }
+	}
 	
-	  process.nextTick(function() {
-	    self._driver.start();
-	  });
-	};
-	util.inherits(WebSocket, API);
-	
-	WebSocket.isWebSocket = function(request) {
-	  return driver.isWebSocket(request);
-	};
-	
-	WebSocket.validateOptions = function(options, validKeys) {
-	  driver.validateOptions(options, validKeys);
-	};
-	
-	WebSocket.WebSocket   = WebSocket;
-	WebSocket.Client      = __webpack_require__(306);
-	WebSocket.EventSource = __webpack_require__(309);
-	
-	module.exports        = WebSocket;
-
+	exports['default'] = runTransitionHook;
+	module.exports = exports['default'];
 
 /***/ },
 /* 277 */
 /***/ function(module, exports) {
 
-	module.exports = require("util");
+	//import warning from 'warning'
+	
+	"use strict";
+	
+	exports.__esModule = true;
+	function deprecate(fn) {
+	  return fn;
+	  //return function () {
+	  //  warning(false, '[history] ' + message)
+	  //  return fn.apply(this, arguments)
+	  //}
+	}
+	
+	exports["default"] = deprecate;
+	module.exports = exports["default"];
 
 /***/ },
 /* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	// Protocol references:
-	// 
-	// * http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-75
-	// * http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76
-	// * http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17
-	
-	var Base   = __webpack_require__(279),
-	    Client = __webpack_require__(284),
-	    Server = __webpack_require__(300);
-	
-	var Driver = {
-	  client: function(url, options) {
-	    options = options || {};
-	    if (options.masking === undefined) options.masking = true;
-	    return new Client(url, options);
-	  },
-	
-	  server: function(options) {
-	    options = options || {};
-	    if (options.requireMasking === undefined) options.requireMasking = true;
-	    return new Server(options);
-	  },
-	
-	  http: function() {
-	    return Server.http.apply(Server, arguments);
-	  },
-	
-	  isSecureRequest: function(request) {
-	    return Server.isSecureRequest(request);
-	  },
-	
-	  isWebSocket: function(request) {
-	    if (request.method !== 'GET') return false;
-	
-	    var connection = request.headers.connection || '',
-	        upgrade    = request.headers.upgrade || '';
-	
-	    return request.method === 'GET' &&
-	           connection.toLowerCase().split(/ *, */).indexOf('upgrade') >= 0 &&
-	           upgrade.toLowerCase() === 'websocket';
-	  },
-	
-	  validateOptions: function(options, validKeys) {
-	    Base.validateOptions(options, validKeys);
-	  }
-	};
-	
-	module.exports = Driver;
-
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Emitter = __webpack_require__(280).EventEmitter,
-	    util    = __webpack_require__(277),
-	    streams = __webpack_require__(281),
-	    Headers = __webpack_require__(283);
-	
-	var Base = function(request, url, options) {
-	  Emitter.call(this);
-	  Base.validateOptions(options || {}, ['maxLength', 'masking', 'requireMasking', 'protocols']);
-	
-	  this._request   = request;
-	  this._options   = options || {};
-	  this._maxLength = this._options.maxLength || this.MAX_LENGTH;
-	  this._headers   = new Headers();
-	  this.__queue    = [];
-	  this.readyState = 0;
-	  this.url        = url;
-	
-	  this.io = new streams.IO(this);
-	  this.messages = new streams.Messages(this);
-	  this._bindEventListeners();
-	};
-	util.inherits(Base, Emitter);
-	
-	Base.validateOptions = function(options, validKeys) {
-	  for (var key in options) {
-	    if (validKeys.indexOf(key) < 0)
-	      throw new Error('Unrecognized option: ' + key);
-	  }
-	};
-	
-	var instance = {
-	  // This is 64MB, small enough for an average VPS to handle without
-	  // crashing from process out of memory
-	  MAX_LENGTH: 0x3ffffff,
-	
-	  STATES: ['connecting', 'open', 'closing', 'closed'],
-	
-	  _bindEventListeners: function() {
-	    var self = this;
-	
-	    // Protocol errors are informational and do not have to be handled
-	    this.messages.on('error', function() {});
-	
-	    this.on('message', function(event) {
-	      var messages = self.messages;
-	      if (messages.readable) messages.emit('data', event.data);
-	    });
-	
-	    this.on('error', function(error) {
-	      var messages = self.messages;
-	      if (messages.readable) messages.emit('error', error);
-	    });
-	
-	    this.on('close', function() {
-	      var messages = self.messages;
-	      if (!messages.readable) return;
-	      messages.readable = messages.writable = false;
-	      messages.emit('end');
-	    });
-	  },
-	
-	  getState: function() {
-	    return this.STATES[this.readyState] || null;
-	  },
-	
-	  addExtension: function(extension) {
-	    return false;
-	  },
-	
-	  setHeader: function(name, value) {
-	    if (this.readyState > 0) return false;
-	    this._headers.set(name, value);
-	    return true;
-	  },
-	
-	  start: function() {
-	    if (this.readyState !== 0) return false;
-	    this._write(this._handshakeResponse());
-	    if (this._stage !== -1) this._open();
-	    return true;
-	  },
-	
-	  text: function(message) {
-	    return this.frame(message);
-	  },
-	
-	  binary: function(message) {
-	    return false;
-	  },
-	
-	  ping: function() {
-	    return false;
-	  },
-	
-	  close: function(reason, code) {
-	    if (this.readyState !== 1) return false;
-	    this.readyState = 3;
-	    this.emit('close', new Base.CloseEvent(null, null));
-	    return true;
-	  },
-	
-	  _open: function() {
-	    this.readyState = 1;
-	    this.__queue.forEach(function(args) { this.frame.apply(this, args) }, this);
-	    this.__queue = [];
-	    this.emit('open', new Base.OpenEvent());
-	  },
-	
-	  _queue: function(message) {
-	    this.__queue.push(message);
-	    return true;
-	  },
-	
-	  _write: function(chunk) {
-	    var io = this.io;
-	    if (io.readable) io.emit('data', chunk);
-	  }
-	};
-	
-	for (var key in instance)
-	  Base.prototype[key] = instance[key];
-	
-	
-	Base.ConnectEvent = function() {};
-	
-	Base.OpenEvent = function() {};
-	
-	Base.CloseEvent = function(code, reason) {
-	  this.code   = code;
-	  this.reason = reason;
-	};
-	
-	Base.MessageEvent = function(data) {
-	  this.data = data;
-	};
-	
-	module.exports = Base;
-
-
-/***/ },
-/* 280 */
-/***/ function(module, exports) {
-
-	module.exports = require("events");
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	/**
-	
-	Streams in a WebSocket connection
-	---------------------------------
-	
-	We model a WebSocket as two duplex streams: one stream is for the wire protocol
-	over an I/O socket, and the other is for incoming/outgoing messages.
-	
-	
-	                        +----------+      +---------+      +----------+
-	    [1] write(chunk) -->| ~~~~~~~~ +----->| parse() +----->| ~~~~~~~~ +--> emit('data') [2]
-	                        |          |      +----+----+      |          |
-	                        |          |           |           |          |
-	                        |    IO    |           | [5]       | Messages |
-	                        |          |           V           |          |
-	                        |          |      +---------+      |          |
-	    [4] emit('data') <--+ ~~~~~~~~ |<-----+ frame() |<-----+ ~~~~~~~~ |<-- write(chunk) [3]
-	                        +----------+      +---------+      +----------+
-	
-	
-	Message transfer in each direction is simple: IO receives a byte stream [1] and
-	sends this stream for parsing. The parser will periodically emit a complete
-	message text on the Messages stream [2]. Similarly, when messages are written
-	to the Messages stream [3], they are framed using the WebSocket wire format and
-	emitted via IO [4].
-	
-	There is a feedback loop via [5] since some input from [1] will be things like
-	ping, pong and close frames. In these cases the protocol responds by emitting
-	responses directly back to [4] rather than emitting messages via [2].
-	
-	For the purposes of flow control, we consider the sources of each Readable
-	stream to be as follows:
-	
-	* [2] receives input from [1]
-	* [4] receives input from [1] and [3]
-	
-	The classes below express the relationships described above without prescribing
-	anything about how parse() and frame() work, other than assuming they emit
-	'data' events to the IO and Messages streams. They will work with any protocol
-	driver having these two methods.
-	**/
-	
-	
-	var Stream = __webpack_require__(282).Stream,
-	    util   = __webpack_require__(277);
-	
-	
-	var IO = function(driver) {
-	  this.readable = this.writable = true;
-	  this._paused  = false;
-	  this._driver  = driver;
-	};
-	util.inherits(IO, Stream);
-	
-	// The IO pause() and resume() methods will be called when the socket we are
-	// piping to gets backed up and drains. Since IO output [4] comes from IO input
-	// [1] and Messages input [3], we need to tell both of those to return false
-	// from write() when this stream is paused.
-	
-	IO.prototype.pause = function() {
-	  this._paused = true;
-	  this._driver.messages._paused = true;
-	};
-	
-	IO.prototype.resume = function() {
-	  this._paused = false;
-	  this.emit('drain');
-	
-	  var messages = this._driver.messages;
-	  messages._paused = false;
-	  messages.emit('drain');
-	};
-	
-	// When we receive input from a socket, send it to the parser and tell the
-	// source whether to back off.
-	IO.prototype.write = function(chunk) {
-	  if (!this.writable) return false;
-	  this._driver.parse(chunk);
-	  return !this._paused;
-	};
-	
-	// The IO end() method will be called when the socket piping into it emits
-	// 'close' or 'end', i.e. the socket is closed. In this situation the Messages
-	// stream will not emit any more data so we emit 'end'.
-	IO.prototype.end = function(chunk) {
-	  if (!this.writable) return;
-	  if (chunk !== undefined) this.write(chunk);
-	  this.writable = false;
-	
-	  var messages = this._driver.messages;
-	  if (messages.readable) {
-	    messages.readable = messages.writable = false;
-	    messages.emit('end');
-	  }
-	};
-	
-	IO.prototype.destroy = function() {
-	  this.end();
-	};
-	
-	
-	var Messages = function(driver) {
-	  this.readable = this.writable = true;
-	  this._paused  = false;
-	  this._driver  = driver;
-	};
-	util.inherits(Messages, Stream);
-	
-	// The Messages pause() and resume() methods will be called when the app that's
-	// processing the messages gets backed up and drains. If we're emitting
-	// messages too fast we should tell the source to slow down. Message output [2]
-	// comes from IO input [1].
-	
-	Messages.prototype.pause = function() {
-	  this._driver.io._paused = true;
-	};
-	
-	Messages.prototype.resume = function() {
-	  this._driver.io._paused = false;
-	  this._driver.io.emit('drain');
-	};
-	
-	// When we receive messages from the user, send them to the formatter and tell
-	// the source whether to back off.
-	Messages.prototype.write = function(message) {
-	  if (!this.writable) return false;
-	  if (typeof message === 'string') this._driver.text(message);
-	  else this._driver.binary(message);
-	  return !this._paused;
-	};
-	
-	// The Messages end() method will be called when a stream piping into it emits
-	// 'end'. Many streams may be piped into the WebSocket and one of them ending
-	// does not mean the whole socket is done, so just process the input and move
-	// on leaving the socket open.
-	Messages.prototype.end = function(message) {
-	  if (message !== undefined) this.write(message);
-	};
-	
-	Messages.prototype.destroy = function() {};
-	
-	
-	exports.IO = IO;
-	exports.Messages = Messages;
-
-
-/***/ },
-/* 282 */
-/***/ function(module, exports) {
-
-	module.exports = require("stream");
-
-/***/ },
-/* 283 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var Headers = function() {
-	  this.clear();
-	};
-	
-	Headers.prototype.ALLOWED_DUPLICATES = ['set-cookie', 'set-cookie2', 'warning', 'www-authenticate'];
-	
-	Headers.prototype.clear = function() {
-	  this._sent  = {};
-	  this._lines = [];
-	};
-	
-	Headers.prototype.set = function(name, value) {
-	  if (value === undefined) return;
-	
-	  name = this._strip(name);
-	  value = this._strip(value);
-	
-	  var key = name.toLowerCase();
-	  if (!this._sent.hasOwnProperty(key) || this.ALLOWED_DUPLICATES.indexOf(key) >= 0) {
-	    this._sent[key] = true;
-	    this._lines.push(name + ': ' + value + '\r\n');
-	  }
-	};
-	
-	Headers.prototype.toString = function() {
-	  return this._lines.join('');
-	};
-	
-	Headers.prototype._strip = function(string) {
-	  return string.toString().replace(/^ */, '').replace(/ *$/, '');
-	};
-	
-	module.exports = Headers;
-
-
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var crypto     = __webpack_require__(285),
-	    url        = __webpack_require__(286),
-	    util       = __webpack_require__(277),
-	    HttpParser = __webpack_require__(287),
-	    Base       = __webpack_require__(279),
-	    Hybi       = __webpack_require__(288),
-	    Proxy      = __webpack_require__(299);
-	
-	var Client = function(_url, options) {
-	  this.version = 'hybi-13';
-	  Hybi.call(this, null, _url, options);
-	
-	  this.readyState = -1;
-	  this._key       = Client.generateKey();
-	  this._accept    = Hybi.generateAccept(this._key);
-	  this._http      = new HttpParser('response');
-	
-	  var uri  = url.parse(this.url),
-	      auth = uri.auth && new Buffer(uri.auth, 'utf8').toString('base64');
-	
-	  this._pathname = (uri.pathname || '/') + (uri.search || '');
-	
-	  this._headers.set('Host', uri.host);
-	  this._headers.set('Upgrade', 'websocket');
-	  this._headers.set('Connection', 'Upgrade');
-	  this._headers.set('Sec-WebSocket-Key', this._key);
-	  this._headers.set('Sec-WebSocket-Version', '13');
-	
-	  if (this._protocols.length > 0)
-	    this._headers.set('Sec-WebSocket-Protocol', this._protocols.join(', '));
-	
-	  if (auth)
-	    this._headers.set('Authorization', 'Basic ' + auth);
-	};
-	util.inherits(Client, Hybi);
-	
-	Client.generateKey = function() {
-	  return crypto.randomBytes(16).toString('base64');
-	};
-	
-	var instance = {
-	  proxy: function(origin, options) {
-	    return new Proxy(this, origin, options);
-	  },
-	
-	  start: function() {
-	    if (this.readyState !== -1) return false;
-	    this._write(this._handshakeRequest());
-	    this.readyState = 0;
-	    return true;
-	  },
-	
-	  parse: function(data) {
-	    if (this.readyState > 0) return Hybi.prototype.parse.call(this, data);
-	
-	    this._http.parse(data);
-	    if (!this._http.isComplete()) return;
-	
-	    this._validateHandshake();
-	    if (this.readyState === 3) return;
-	
-	    this._open();
-	    this.parse(this._http.body);
-	  },
-	
-	  _handshakeRequest: function() {
-	    var extensions = this._extensions.generateOffer();
-	    if (extensions)
-	      this._headers.set('Sec-WebSocket-Extensions', extensions);
-	
-	    var start   = 'GET ' + this._pathname + ' HTTP/1.1',
-	        headers = [start, this._headers.toString(), ''];
-	
-	    return new Buffer(headers.join('\r\n'), 'utf8');
-	  },
-	
-	  _failHandshake: function(message) {
-	    message = 'Error during WebSocket handshake: ' + message;
-	    this.emit('error', new Error(message));
-	    this.readyState = 3;
-	    this.emit('close', new Base.CloseEvent(this.ERRORS.protocol_error, message));
-	  },
-	
-	  _validateHandshake: function() {
-	    this.statusCode = this._http.statusCode;
-	    this.headers    = this._http.headers;
-	
-	    if (this._http.statusCode !== 101)
-	      return this._failHandshake('Unexpected response code: ' + this._http.statusCode);
-	
-	    var headers    = this._http.headers,
-	        upgrade    = headers['upgrade'] || '',
-	        connection = headers['connection'] || '',
-	        accept     = headers['sec-websocket-accept'] || '',
-	        protocol   = headers['sec-websocket-protocol'] || '';
-	
-	    if (upgrade === '')
-	      return this._failHandshake("'Upgrade' header is missing");
-	    if (upgrade.toLowerCase() !== 'websocket')
-	      return this._failHandshake("'Upgrade' header value is not 'WebSocket'");
-	
-	    if (connection === '')
-	      return this._failHandshake("'Connection' header is missing");
-	    if (connection.toLowerCase() !== 'upgrade')
-	      return this._failHandshake("'Connection' header value is not 'Upgrade'");
-	
-	    if (accept !== this._accept)
-	      return this._failHandshake('Sec-WebSocket-Accept mismatch');
-	
-	    this.protocol = null;
-	
-	    if (protocol !== '') {
-	      if (this._protocols.indexOf(protocol) < 0)
-	        return this._failHandshake('Sec-WebSocket-Protocol mismatch');
-	      else
-	        this.protocol = protocol;
-	    }
-	
-	    try {
-	      this._extensions.activate(this.headers['sec-websocket-extensions']);
-	    } catch (e) {
-	      return this._failHandshake(e.message);
-	    }
-	  }
-	};
-	
-	for (var key in instance)
-	  Client.prototype[key] = instance[key];
-	
-	module.exports = Client;
-
-
-/***/ },
-/* 285 */
-/***/ function(module, exports) {
-
-	module.exports = require("crypto");
-
-/***/ },
-/* 286 */
-/***/ function(module, exports) {
-
-	module.exports = require("url");
-
-/***/ },
-/* 287 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var NodeHTTPParser = process.binding('http_parser').HTTPParser,
-	    version        = NodeHTTPParser.RESPONSE ? 6 : 4;
-	
-	var HttpParser = function(type) {
-	  if (type === 'request')
-	    this._parser = new NodeHTTPParser(NodeHTTPParser.REQUEST || 'request');
-	  else
-	    this._parser = new NodeHTTPParser(NodeHTTPParser.RESPONSE || 'response');
-	
-	  this._type     = type;
-	  this._complete = false;
-	  this.headers   = {};
-	
-	  var current = null,
-	      self    = this;
-	
-	  this._parser.onHeaderField = function(b, start, length) {
-	    current = b.toString('utf8', start, start + length).toLowerCase();
-	  };
-	
-	  this._parser.onHeaderValue = function(b, start, length) {
-	    var value = b.toString('utf8', start, start + length);
-	
-	    if (self.headers.hasOwnProperty(current))
-	      self.headers[current] += ', ' + value;
-	    else
-	      self.headers[current] = value;
-	  };
-	
-	  this._parser.onHeadersComplete = this._parser[NodeHTTPParser.kOnHeadersComplete] =
-	  function(majorVersion, minorVersion, headers, method, pathname, statusCode) {
-	    var info = arguments[0];
-	
-	    if (typeof info === 'object') {
-	      method     = info.method;
-	      pathname   = info.url;
-	      statusCode = info.statusCode;
-	      headers    = info.headers;
-	    }
-	
-	    self.method     = (typeof method === 'number') ? HttpParser.METHODS[method] : method;
-	    self.statusCode = statusCode;
-	    self.url        = pathname;
-	
-	    if (!headers) return;
-	
-	    for (var i = 0, n = headers.length, key, value; i < n; i += 2) {
-	      key   = headers[i].toLowerCase();
-	      value = headers[i+1];
-	      if (self.headers.hasOwnProperty(key))
-	        self.headers[key] += ', ' + value;
-	      else
-	        self.headers[key] = value;
-	    }
-	
-	    self._complete = true;
-	  };
-	};
-	
-	HttpParser.METHODS = {
-	  0:  'DELETE',
-	  1:  'GET',
-	  2:  'HEAD',
-	  3:  'POST',
-	  4:  'PUT',
-	  5:  'CONNECT',
-	  6:  'OPTIONS',
-	  7:  'TRACE',
-	  8:  'COPY',
-	  9:  'LOCK',
-	  10: 'MKCOL',
-	  11: 'MOVE',
-	  12: 'PROPFIND',
-	  13: 'PROPPATCH',
-	  14: 'SEARCH',
-	  15: 'UNLOCK',
-	  16: 'REPORT',
-	  17: 'MKACTIVITY',
-	  18: 'CHECKOUT',
-	  19: 'MERGE',
-	  24: 'PATCH'
-	};
-	
-	HttpParser.prototype.isComplete = function() {
-	  return this._complete;
-	};
-	
-	HttpParser.prototype.parse = function(data) {
-	  var offset   = (version < 6) ? 1 : 0,
-	      consumed = this._parser.execute(data, 0, data.length) + offset;
-	
-	  if (this._complete)
-	    this.body = (consumed < data.length)
-	              ? data.slice(consumed)
-	              : new Buffer(0);
-	};
-	
-	module.exports = HttpParser;
-
-
-/***/ },
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var crypto     = __webpack_require__(285),
-	    util       = __webpack_require__(277),
-	    Extensions = __webpack_require__(289),
-	    Base       = __webpack_require__(279),
-	    Frame      = __webpack_require__(296),
-	    Message    = __webpack_require__(297),
-	    Reader     = __webpack_require__(298);
-	
-	var Hybi = function(request, url, options) {
-	  Base.apply(this, arguments);
-	
-	  this._extensions     = new Extensions();
-	  this._reader         = new Reader();
-	  this._stage          = 0;
-	  this._masking        = this._options.masking;
-	  this._protocols      = this._options.protocols || [];
-	  this._requireMasking = this._options.requireMasking;
-	  this._pingCallbacks  = {};
-	
-	  if (typeof this._protocols === 'string')
-	    this._protocols = this._protocols.split(/ *, */);
-	
-	  if (!this._request) return;
-	
-	  var secKey    = this._request.headers['sec-websocket-key'],
-	      protos    = this._request.headers['sec-websocket-protocol'],
-	      version   = this._request.headers['sec-websocket-version'],
-	      supported = this._protocols;
-	
-	  this._headers.set('Upgrade', 'websocket');
-	  this._headers.set('Connection', 'Upgrade');
-	  this._headers.set('Sec-WebSocket-Accept', Hybi.generateAccept(secKey));
-	
-	  if (protos !== undefined) {
-	    if (typeof protos === 'string') protos = protos.split(/ *, */);
-	    this.protocol = protos.filter(function(p) { return supported.indexOf(p) >= 0 })[0];
-	    if (this.protocol) this._headers.set('Sec-WebSocket-Protocol', this.protocol);
-	  }
-	
-	  this.version = 'hybi-' + version;
-	};
-	util.inherits(Hybi, Base);
-	
-	Hybi.mask = function(payload, mask, offset) {
-	  if (!mask || mask.length === 0) return payload;
-	  offset = offset || 0;
-	
-	  for (var i = 0, n = payload.length - offset; i < n; i++) {
-	    payload[offset + i] = payload[offset + i] ^ mask[i % 4];
-	  }
-	  return payload;
-	};
-	
-	Hybi.generateAccept = function(key) {
-	  var sha1 = crypto.createHash('sha1');
-	  sha1.update(key + Hybi.GUID);
-	  return sha1.digest('base64');
-	};
-	
-	Hybi.GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
-	
-	var instance = {
-	  BYTE:   255,
-	  FIN:    128,
-	  MASK:   128,
-	  RSV1:   64,
-	  RSV2:   32,
-	  RSV3:   16,
-	  OPCODE: 15,
-	  LENGTH: 127,
-	
-	  OPCODES: {
-	    continuation: 0,
-	    text:         1,
-	    binary:       2,
-	    close:        8,
-	    ping:         9,
-	    pong:         10
-	  },
-	
-	  OPCODE_CODES:    [0, 1, 2, 8, 9, 10],
-	  MESSAGE_OPCODES: [0, 1, 2],
-	  OPENING_OPCODES: [1, 2],
-	
-	  TWO_POWERS: [0, 1, 2, 3, 4, 5, 6, 7].map(function(n) { return Math.pow(2, 8 * n) }),
-	
-	  ERRORS: {
-	    normal_closure:       1000,
-	    going_away:           1001,
-	    protocol_error:       1002,
-	    unacceptable:         1003,
-	    encoding_error:       1007,
-	    policy_violation:     1008,
-	    too_large:            1009,
-	    extension_error:      1010,
-	    unexpected_condition: 1011
-	  },
-	
-	  ERROR_CODES:        [1000, 1001, 1002, 1003, 1007, 1008, 1009, 1010, 1011],
-	  MIN_RESERVED_ERROR: 3000,
-	  MAX_RESERVED_ERROR: 4999,
-	
-	  // http://www.w3.org/International/questions/qa-forms-utf-8.en.php
-	  UTF8_MATCH: /^([\x00-\x7F]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}|\xED[\x80-\x9F][\x80-\xBF]|\xF0[\x90-\xBF][\x80-\xBF]{2}|[\xF1-\xF3][\x80-\xBF]{3}|\xF4[\x80-\x8F][\x80-\xBF]{2})*$/,
-	
-	  addExtension: function(extension) {
-	    this._extensions.add(extension);
-	    return true;
-	  },
-	
-	  parse: function(data) {
-	    this._reader.put(data);
-	    var buffer = true;
-	    while (buffer) {
-	      switch (this._stage) {
-	        case 0:
-	          buffer = this._reader.read(1);
-	          if (buffer) this._parseOpcode(buffer[0]);
-	          break;
-	
-	        case 1:
-	          buffer = this._reader.read(1);
-	          if (buffer) this._parseLength(buffer[0]);
-	          break;
-	
-	        case 2:
-	          buffer = this._reader.read(this._frame.lengthBytes);
-	          if (buffer) this._parseExtendedLength(buffer);
-	          break;
-	
-	        case 3:
-	          buffer = this._reader.read(4);
-	          if (buffer) {
-	            this._frame.maskingKey = buffer;
-	            this._stage = 4;
-	          }
-	          break;
-	
-	        case 4:
-	          buffer = this._reader.read(this._frame.length);
-	          if (buffer) {
-	            this._emitFrame(buffer);
-	            this._stage = 0;
-	          }
-	          break;
-	
-	        default:
-	          buffer = null;
-	      }
-	    }
-	  },
-	
-	  text: function(message) {
-	    if (this.readyState > 1) return false;
-	    return this.frame(message, 'text');
-	  },
-	
-	  binary: function(message) {
-	    if (this.readyState > 1) return false;
-	    return this.frame(message, 'binary');
-	  },
-	
-	  ping: function(message, callback) {
-	    if (this.readyState > 1) return false;
-	    message = message || '';
-	    if (callback) this._pingCallbacks[message] = callback;
-	    return this.frame(message, 'ping');
-	  },
-	
-	  close: function(reason, code) {
-	    reason = reason || '';
-	    code   = code   || this.ERRORS.normal_closure;
-	
-	    if (this.readyState <= 0) {
-	      this.readyState = 3;
-	      this.emit('close', new Base.CloseEvent(code, reason));
-	      return true;
-	    } else if (this.readyState === 1) {
-	      this.readyState = 2;
-	      this._extensions.close(function() { this.frame(reason, 'close', code) }, this);
-	      return true;
-	    } else {
-	      return false;
-	    }
-	  },
-	
-	  frame: function(data, type, code) {
-	    if (this.readyState <= 0) return this._queue([data, type, code]);
-	    if (this.readyState > 2) return false;
-	
-	    if (data instanceof Array) data = new Buffer(data);
-	
-	    var message = new Message(),
-	        isText  = (typeof data === 'string'),
-	        payload, buffer;
-	
-	    message.rsv1   = message.rsv2 = message.rsv3 = false;
-	    message.opcode = this.OPCODES[type || (isText ? 'text' : 'binary')];
-	
-	    payload = isText ? new Buffer(data, 'utf8') : data;
-	
-	    if (code) {
-	      buffer = payload;
-	      payload = new Buffer(2 + buffer.length);
-	      payload[0] = ~~(code / 256) & this.BYTE;
-	      payload[1] = code & this.BYTE;
-	      buffer.copy(payload, 2);
-	    }
-	    message.data = payload;
-	
-	    var onMessageReady = function(message) {
-	      var frame = new Frame();
-	
-	      frame.final   = true;
-	      frame.rsv1    = message.rsv1;
-	      frame.rsv2    = message.rsv2;
-	      frame.rsv3    = message.rsv3;
-	      frame.opcode  = message.opcode;
-	      frame.masked  = !!this._masking;
-	      frame.length  = message.data.length;
-	      frame.payload = message.data;
-	
-	      if (frame.masked) frame.maskingKey = crypto.randomBytes(4);
-	
-	      this._sendFrame(frame);
-	    };
-	
-	    if (this.MESSAGE_OPCODES.indexOf(message.opcode) >= 0)
-	      this._extensions.processOutgoingMessage(message, function(error, message) {
-	        if (error) return this._fail('extension_error', error.message);
-	        onMessageReady.call(this, message);
-	      }, this);
-	    else
-	      onMessageReady.call(this, message);
-	
-	    return true;
-	  },
-	
-	  _sendFrame: function(frame) {
-	    var length = frame.length,
-	        header = (length <= 125) ? 2 : (length <= 65535 ? 4 : 10),
-	        offset = header + (frame.masked ? 4 : 0),
-	        buffer = new Buffer(offset + length),
-	        BYTE   = this.BYTE,
-	        masked = frame.masked ? this.MASK : 0;
-	
-	    buffer[0] = (frame.final ? this.FIN : 0) |
-	                (frame.rsv1 ? this.RSV1 : 0) |
-	                (frame.rsv2 ? this.RSV2 : 0) |
-	                (frame.rsv3 ? this.RSV3 : 0) |
-	                frame.opcode;
-	
-	    if (length <= 125) {
-	      buffer[1] = masked | length;
-	    } else if (length <= 65535) {
-	      buffer[1] = masked | 126;
-	      buffer[2] = ~~(length / 256);
-	      buffer[3] = length & BYTE;
-	    } else {
-	      buffer[1] = masked | 127;
-	      buffer[2] = ~~(length / Math.pow(2, 56)) & BYTE;
-	      buffer[3] = ~~(length / Math.pow(2, 48)) & BYTE;
-	      buffer[4] = ~~(length / Math.pow(2, 40)) & BYTE;
-	      buffer[5] = ~~(length / Math.pow(2, 32)) & BYTE;
-	      buffer[6] = ~~(length / Math.pow(2, 24)) & BYTE;
-	      buffer[7] = ~~(length / Math.pow(2, 16)) & BYTE;
-	      buffer[8] = ~~(length / Math.pow(2, 8))  & BYTE;
-	      buffer[9] = length & BYTE;
-	    }
-	
-	    if (frame.masked) {
-	      frame.maskingKey.copy(buffer, header);
-	      Hybi.mask(frame.payload, frame.maskingKey).copy(buffer, offset);
-	    } else {
-	      frame.payload.copy(buffer, offset);
-	    }
-	
-	    this._write(buffer);
-	  },
-	
-	  _handshakeResponse: function() {
-	    var extensions = this._extensions.generateResponse(this._request.headers['sec-websocket-extensions']);
-	    if (extensions) this._headers.set('Sec-WebSocket-Extensions', extensions);
-	
-	    var start   = 'HTTP/1.1 101 Switching Protocols',
-	        headers = [start, this._headers.toString(), ''];
-	
-	    return new Buffer(headers.join('\r\n'), 'utf8');
-	  },
-	
-	  _shutdown: function(code, reason) {
-	    delete this._frame;
-	    delete this._message;
-	    this.readyState = 2;
-	    this._stage = 5;
-	
-	    this._extensions.close(function() {
-	      this.frame(reason, 'close', code);
-	      this.readyState = 3;
-	      this.emit('close', new Base.CloseEvent(code, reason));
-	    }, this);
-	  },
-	
-	  _fail: function(type, message) {
-	    if (this.readyState > 1) return;
-	    this.emit('error', new Error(message));
-	    this._shutdown(this.ERRORS[type], message);
-	  },
-	
-	  _parseOpcode: function(data) {
-	    var rsvs = [this.RSV1, this.RSV2, this.RSV3].map(function(rsv) {
-	      return (data & rsv) === rsv;
-	    });
-	
-	    var frame = this._frame = new Frame();
-	
-	    frame.final  = (data & this.FIN) === this.FIN;
-	    frame.rsv1   = rsvs[0];
-	    frame.rsv2   = rsvs[1];
-	    frame.rsv3   = rsvs[2];
-	    frame.opcode = (data & this.OPCODE);
-	
-	    if (!this._extensions.validFrameRsv(frame))
-	      return this._fail('protocol_error',
-	          'One or more reserved bits are on: reserved1 = ' + (frame.rsv1 ? 1 : 0) +
-	          ', reserved2 = ' + (frame.rsv2 ? 1 : 0) +
-	          ', reserved3 = ' + (frame.rsv3 ? 1 : 0));
-	
-	    if (this.OPCODE_CODES.indexOf(frame.opcode) < 0)
-	      return this._fail('protocol_error', 'Unrecognized frame opcode: ' + frame.opcode);
-	
-	    if (this.MESSAGE_OPCODES.indexOf(frame.opcode) < 0 && !frame.final)
-	      return this._fail('protocol_error', 'Received fragmented control frame: opcode = ' + frame.opcode);
-	
-	    if (this._message && this.OPENING_OPCODES.indexOf(frame.opcode) >= 0)
-	      return this._fail('protocol_error', 'Received new data frame but previous continuous frame is unfinished');
-	
-	    this._stage = 1;
-	  },
-	
-	  _parseLength: function(data) {
-	    var frame = this._frame;
-	
-	    frame.masked = (data & this.MASK) === this.MASK;
-	    if (this._requireMasking && !frame.masked)
-	      return this._fail('unacceptable', 'Received unmasked frame but masking is required');
-	
-	    frame.length = (data & this.LENGTH);
-	
-	    if (frame.length >= 0 && frame.length <= 125) {
-	      if (!this._checkFrameLength()) return;
-	      this._stage = frame.masked ? 3 : 4;
-	    } else {
-	      frame.lengthBytes = (frame.length === 126 ? 2 : 8);
-	      this._stage = 2;
-	    }
-	  },
-	
-	  _parseExtendedLength: function(buffer) {
-	    var frame = this._frame;
-	    frame.length = this._getInteger(buffer);
-	
-	    if (this.MESSAGE_OPCODES.indexOf(frame.opcode) < 0 && frame.length > 125)
-	      return this._fail('protocol_error', 'Received control frame having too long payload: ' + frame.length);
-	
-	    if (!this._checkFrameLength()) return;
-	
-	    this._stage  = frame.masked ? 3 : 4;
-	  },
-	
-	  _checkFrameLength: function() {
-	    var length = this._message ? this._message.length : 0;
-	
-	    if (length + this._frame.length > this._maxLength) {
-	      this._fail('too_large', 'WebSocket frame length too large');
-	      return false;
-	    } else {
-	      return true;
-	    }
-	  },
-	
-	  _emitFrame: function(buffer) {
-	    var frame   = this._frame,
-	        payload = frame.payload = Hybi.mask(buffer, frame.maskingKey),
-	        opcode  = frame.opcode,
-	        message,
-	        code, reason,
-	        callbacks, callback;
-	
-	    delete this._frame;
-	
-	    if (opcode === this.OPCODES.continuation) {
-	      if (!this._message) return this._fail('protocol_error', 'Received unexpected continuation frame');
-	      this._message.pushFrame(frame);
-	    }
-	
-	    if (opcode === this.OPCODES.text || opcode === this.OPCODES.binary) {
-	      this._message = new Message();
-	      this._message.pushFrame(frame);
-	    }
-	
-	    if (frame.final && this.MESSAGE_OPCODES.indexOf(opcode) >= 0)
-	      return this._emitMessage(this._message);
-	
-	    if (opcode === this.OPCODES.close) {
-	      code   = (payload.length >= 2) ? 256 * payload[0] + payload[1] : null;
-	      reason = (payload.length > 2) ? this._encode(payload.slice(2)) : null;
-	
-	      if (!(payload.length === 0) &&
-	          !(code !== null && code >= this.MIN_RESERVED_ERROR && code <= this.MAX_RESERVED_ERROR) &&
-	          this.ERROR_CODES.indexOf(code) < 0)
-	        code = this.ERRORS.protocol_error;
-	
-	      if (payload.length > 125 || (payload.length > 2 && !reason))
-	        code = this.ERRORS.protocol_error;
-	
-	      this._shutdown(code, reason || '');
-	    }
-	
-	    if (opcode === this.OPCODES.ping) {
-	      this.frame(payload, 'pong');
-	    }
-	
-	    if (opcode === this.OPCODES.pong) {
-	      callbacks = this._pingCallbacks;
-	      message   = this._encode(payload);
-	      callback  = callbacks[message];
-	
-	      delete callbacks[message];
-	      if (callback) callback()
-	    }
-	  },
-	
-	  _emitMessage: function(message) {
-	    var message = this._message;
-	    message.read();
-	
-	    delete this._message;
-	
-	    this._extensions.processIncomingMessage(message, function(error, message) {
-	      if (error) return this._fail('extension_error', error.message);
-	
-	      var payload = message.data;
-	      if (message.opcode === this.OPCODES.text) payload = this._encode(payload);
-	
-	      if (payload === null)
-	        return this._fail('encoding_error', 'Could not decode a text frame as UTF-8');
-	      else
-	        this.emit('message', new Base.MessageEvent(payload));
-	    }, this);
-	  },
-	
-	  _encode: function(buffer) {
-	    try {
-	      var string = buffer.toString('binary', 0, buffer.length);
-	      if (!this.UTF8_MATCH.test(string)) return null;
-	    } catch (e) {}
-	    return buffer.toString('utf8', 0, buffer.length);
-	  },
-	
-	  _getInteger: function(bytes) {
-	    var number = 0;
-	    for (var i = 0, n = bytes.length; i < n; i++)
-	      number += bytes[i] * this.TWO_POWERS[n - 1 - i];
-	    return number;
-	  }
-	};
-	
-	for (var key in instance)
-	  Hybi.prototype[key] = instance[key];
-	
-	module.exports = Hybi;
-
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Parser   = __webpack_require__(290),
-	    Pipeline = __webpack_require__(291);
-	
-	var Extensions = function() {
-	  this._rsv1 = this._rsv2 = this._rsv3 = null;
-	
-	  this._byName   = {};
-	  this._inOrder  = [];
-	  this._sessions = [];
-	  this._index    = {}
-	};
-	
-	Extensions.MESSAGE_OPCODES = [1, 2];
-	
-	var instance = {
-	  add: function(ext) {
-	    if (typeof ext.name !== 'string') throw new TypeError('extension.name must be a string');
-	    if (ext.type !== 'permessage') throw new TypeError('extension.type must be "permessage"');
-	
-	    if (typeof ext.rsv1 !== 'boolean') throw new TypeError('extension.rsv1 must be true or false');
-	    if (typeof ext.rsv2 !== 'boolean') throw new TypeError('extension.rsv2 must be true or false');
-	    if (typeof ext.rsv3 !== 'boolean') throw new TypeError('extension.rsv3 must be true or false');
-	
-	    if (this._byName.hasOwnProperty(ext.name))
-	      throw new TypeError('An extension with name "' + ext.name + '" is already registered');
-	
-	    this._byName[ext.name] = ext;
-	    this._inOrder.push(ext);
-	  },
-	
-	  generateOffer: function() {
-	    var sessions = [],
-	        offer    = [],
-	        index    = {};
-	
-	    this._inOrder.forEach(function(ext) {
-	      var session = ext.createClientSession();
-	      if (!session) return;
-	
-	      var record = [ext, session];
-	      sessions.push(record);
-	      index[ext.name] = record;
-	
-	      var offers = session.generateOffer();
-	      offers = offers ? [].concat(offers) : [];
-	
-	      offers.forEach(function(off) {
-	        offer.push(Parser.serializeParams(ext.name, off));
-	      }, this);
-	    }, this);
-	
-	    this._sessions = sessions;
-	    this._index    = index;
-	
-	    return offer.length > 0 ? offer.join(', ') : null;
-	  },
-	
-	  activate: function(header) {
-	    var responses = Parser.parseHeader(header),
-	        sessions  = [];
-	
-	    responses.eachOffer(function(name, params) {
-	      var record = this._index[name];
-	
-	      if (!record)
-	        throw new Error('Server sent an extension response for unknown extension "' + name + '"');
-	
-	      var ext      = record[0],
-	          session  = record[1],
-	          reserved = this._reserved(ext);
-	
-	      if (reserved)
-	        throw new Error('Server sent two extension responses that use the RSV' +
-	                        reserved[0] + ' bit: "' +
-	                        reserved[1] + '" and "' + ext.name + '"');
-	
-	      if (session.activate(params) !== true)
-	        throw new Error('Server sent unacceptable extension parameters: ' +
-	                        Parser.serializeParams(name, params));
-	
-	      this._reserve(ext);
-	      sessions.push(record);
-	    }, this);
-	
-	    this._sessions = sessions;
-	    this._pipeline = new Pipeline(sessions);
-	  },
-	
-	  generateResponse: function(header) {
-	    var offers   = Parser.parseHeader(header),
-	        sessions = [],
-	        response = [];
-	
-	    this._inOrder.forEach(function(ext) {
-	      var offer = offers.byName(ext.name);
-	      if (offer.length === 0 || this._reserved(ext)) return;
-	
-	      var session = ext.createServerSession(offer);
-	      if (!session) return;
-	
-	      this._reserve(ext);
-	      sessions.push([ext, session]);
-	      response.push(Parser.serializeParams(ext.name, session.generateResponse()));
-	    }, this);
-	
-	    this._sessions = sessions;
-	    this._pipeline = new Pipeline(sessions);
-	
-	    return response.length > 0 ? response.join(', ') : null;
-	  },
-	
-	  validFrameRsv: function(frame) {
-	    var allowed = {rsv1: false, rsv2: false, rsv3: false},
-	        ext;
-	
-	    if (Extensions.MESSAGE_OPCODES.indexOf(frame.opcode) >= 0) {
-	      for (var i = 0, n = this._sessions.length; i < n; i++) {
-	        ext = this._sessions[i][0];
-	        allowed.rsv1 = allowed.rsv1 || ext.rsv1;
-	        allowed.rsv2 = allowed.rsv2 || ext.rsv2;
-	        allowed.rsv3 = allowed.rsv3 || ext.rsv3;
-	      }
-	    }
-	
-	    return (allowed.rsv1 || !frame.rsv1) &&
-	           (allowed.rsv2 || !frame.rsv2) &&
-	           (allowed.rsv3 || !frame.rsv3);
-	  },
-	
-	  processIncomingMessage: function(message, callback, context) {
-	    this._pipeline.processIncomingMessage(message, callback, context);
-	  },
-	
-	  processOutgoingMessage: function(message, callback, context) {
-	    this._pipeline.processOutgoingMessage(message, callback, context);
-	  },
-	
-	  close: function(callback, context) {
-	    if (!this._pipeline) return callback.call(context);
-	    this._pipeline.close(callback, context);
-	  },
-	
-	  _reserve: function(ext) {
-	    this._rsv1 = this._rsv1 || (ext.rsv1 && ext.name);
-	    this._rsv2 = this._rsv2 || (ext.rsv2 && ext.name);
-	    this._rsv3 = this._rsv3 || (ext.rsv3 && ext.name);
-	  },
-	
-	  _reserved: function(ext) {
-	    if (this._rsv1 && ext.rsv1) return [1, this._rsv1];
-	    if (this._rsv2 && ext.rsv2) return [2, this._rsv2];
-	    if (this._rsv3 && ext.rsv3) return [3, this._rsv3];
-	    return false;
-	  }
-	};
-	
-	for (var key in instance)
-	  Extensions.prototype[key] = instance[key];
-	
-	module.exports = Extensions;
-
-
-/***/ },
-/* 290 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var TOKEN    = /([!#\$%&'\*\+\-\.\^_`\|~0-9a-z]+)/,
-	    NOTOKEN  = /([^!#\$%&'\*\+\-\.\^_`\|~0-9a-z])/g,
-	    QUOTED   = /"((?:\\[\x00-\x7f]|[^\x00-\x08\x0a-\x1f\x7f"])*)"/,
-	    PARAM    = new RegExp(TOKEN.source + '(?:=(?:' + TOKEN.source + '|' + QUOTED.source + '))?'),
-	    EXT      = new RegExp(TOKEN.source + '(?: *; *' + PARAM.source + ')*', 'g'),
-	    EXT_LIST = new RegExp('^' + EXT.source + '(?: *, *' + EXT.source + ')*$'),
-	    NUMBER   = /^-?(0|[1-9][0-9]*)(\.[0-9]+)?$/;
-	
-	var Parser = {
-	  parseHeader: function(header) {
-	    var offers = new Offers();
-	    if (header === '' || header === undefined) return offers;
-	
-	    if (!EXT_LIST.test(header))
-	      throw new SyntaxError('Invalid Sec-WebSocket-Extensions header: ' + header);
-	
-	    var values = header.match(EXT);
-	
-	    values.forEach(function(value) {
-	      var params = value.match(new RegExp(PARAM.source, 'g')),
-	          name   = params.shift(),
-	          offer  = {};
-	
-	      params.forEach(function(param) {
-	        var args = param.match(PARAM), key = args[1], data;
-	
-	        if (args[2] !== undefined) {
-	          data = args[2];
-	        } else if (args[3] !== undefined) {
-	          data = args[3].replace(/\\/g, '');
-	        } else {
-	          data = true;
-	        }
-	        if (NUMBER.test(data)) data = parseFloat(data);
-	
-	        if (offer.hasOwnProperty(key)) {
-	          offer[key] = [].concat(offer[key]);
-	          offer[key].push(data);
-	        } else {
-	          offer[key] = data;
-	        }
-	      }, this);
-	      offers.push(name, offer);
-	    }, this);
-	
-	    return offers;
-	  },
-	
-	  serializeParams: function(name, params) {
-	    var values = [];
-	
-	    var print = function(key, value) {
-	      if (value instanceof Array) {
-	        value.forEach(function(v) { print(key, v) });
-	      } else if (value === true) {
-	        values.push(key);
-	      } else if (typeof value === 'number') {
-	        values.push(key + '=' + value);
-	      } else if (NOTOKEN.test(value)) {
-	        values.push(key + '="' + value.replace(/"/g, '\\"') + '"');
-	      } else {
-	        values.push(key + '=' + value);
-	      }
-	    };
-	
-	    for (var key in params) print(key, params[key]);
-	
-	    return [name].concat(values).join('; ');
-	  }
-	};
-	
-	var Offers = function() {
-	  this._byName  = {};
-	  this._inOrder = [];
-	};
-	
-	Offers.prototype.push = function(name, params) {
-	  this._byName[name] = this._byName[name] || [];
-	  this._byName[name].push(params);
-	  this._inOrder.push({name: name, params: params});
-	};
-	
-	Offers.prototype.eachOffer = function(callback, context) {
-	  var list = this._inOrder;
-	  for (var i = 0, n = list.length; i < n; i++)
-	    callback.call(context, list[i].name, list[i].params);
-	};
-	
-	Offers.prototype.byName = function(name) {
-	  return this._byName[name] || [];
-	};
-	
-	Offers.prototype.toArray = function() {
-	  return this._inOrder.slice();
-	};
-	
-	module.exports = Parser;
-
-
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Cell   = __webpack_require__(292),
-	    Pledge = __webpack_require__(295);
-	
-	var Pipeline = function(sessions) {
-	  this._cells   = sessions.map(function(session) { return new Cell(session) });
-	  this._stopped = {incoming: false, outgoing: false};
-	};
-	
-	Pipeline.prototype.processIncomingMessage = function(message, callback, context) {
-	  if (this._stopped.incoming) return;
-	  this._loop('incoming', this._cells.length - 1, -1, -1, message, callback, context);
-	};
-	
-	Pipeline.prototype.processOutgoingMessage = function(message, callback, context) {
-	  if (this._stopped.outgoing) return;
-	  this._loop('outgoing', 0, this._cells.length, 1, message, callback, context);
-	};
-	
-	Pipeline.prototype.close = function(callback, context) {
-	  this._stopped = {incoming: true, outgoing: true};
-	
-	  var closed = this._cells.map(function(a) { return a.close() });
-	  if (callback)
-	    Pledge.all(closed).then(function() { callback.call(context) });
-	};
-	
-	Pipeline.prototype._loop = function(direction, start, end, step, message, callback, context) {
-	  var cells = this._cells,
-	      n     = cells.length,
-	      self  = this;
-	
-	  while (n--) cells[n].pending(direction);
-	
-	  var pipe = function(index, error, msg) {
-	    if (index === end) return callback.call(context, error, msg);
-	
-	    cells[index][direction](error, msg, function(err, m) {
-	      if (err) self._stopped[direction] = true;
-	      pipe(index + step, err, m);
-	    });
-	  };
-	  pipe(start, null, message);
-	};
-	
-	module.exports = Pipeline;
-
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Functor = __webpack_require__(293),
-	    Pledge  = __webpack_require__(295);
-	
-	var Cell = function(tuple) {
-	  this._ext     = tuple[0];
-	  this._session = tuple[1];
-	
-	  this._functors = {
-	    incoming: new Functor(this._session, 'processIncomingMessage'),
-	    outgoing: new Functor(this._session, 'processOutgoingMessage')
-	  };
-	};
-	
-	Cell.prototype.pending = function(direction) {
-	  this._functors[direction].pending += 1;
-	};
-	
-	Cell.prototype.incoming = function(error, message, callback, context) {
-	  this._exec('incoming', error, message, callback, context);
-	};
-	
-	Cell.prototype.outgoing = function(error, message, callback, context) {
-	  this._exec('outgoing', error, message, callback, context);
-	};
-	
-	Cell.prototype.close = function() {
-	  this._closed = this._closed || new Pledge();
-	  this._doClose();
-	  return this._closed;
-	};
-	
-	Cell.prototype._exec = function(direction, error, message, callback, context) {
-	  this._functors[direction].call(error, message, function(err, msg) {
-	    if (err) err.message = this._ext.name + ': ' + err.message;
-	    callback.call(context, err, msg);
-	    this._doClose();
-	  }, this);
-	};
-	
-	Cell.prototype._doClose = function() {
-	  var fin  = this._functors.incoming,
-	      fout = this._functors.outgoing;
-	
-	  if (!this._closed || fin.pending + fout.pending !== 0) return;
-	  if (this._session) this._session.close();
-	  this._session = null;
-	  this._closed.done();
-	};
-	
-	module.exports = Cell;
-
-
-/***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var RingBuffer = __webpack_require__(294);
-	
-	var Functor = function(session, method) {
-	  this._session = session;
-	  this._method  = method;
-	  this._queue   = new RingBuffer(Functor.QUEUE_SIZE);
-	  this._stopped = false;
-	  this.pending  = 0;
-	};
-	
-	Functor.QUEUE_SIZE = 8;
-	
-	Functor.prototype.call = function(error, message, callback, context) {
-	  if (this._stopped) return;
-	
-	  var record = {error: error, message: message, callback: callback, context: context, done: false},
-	      called = false,
-	      self   = this;
-	
-	  this._queue.push(record);
-	
-	  if (record.error) {
-	    record.done = true;
-	    this._stop();
-	    return this._flushQueue();
-	  }
-	
-	  this._session[this._method](message, function(err, msg) {
-	    if (!(called ^ (called = true))) return;
-	
-	    if (err) {
-	      self._stop();
-	      record.error   = err;
-	      record.message = null;
-	    } else {
-	      record.message = msg;
-	    }
-	
-	    record.done = true;
-	    self._flushQueue();
-	  });
-	};
-	
-	Functor.prototype._stop = function() {
-	  this.pending  = this._queue.length;
-	  this._stopped = true;
-	};
-	
-	Functor.prototype._flushQueue = function() {
-	  var queue = this._queue, record;
-	
-	  while (queue.length > 0 && queue.peek().done) {
-	    this.pending -= 1;
-	    record = queue.shift();
-	    record.callback.call(record.context, record.error, record.message);
-	  }
-	};
-	
-	module.exports = Functor;
-
-
-/***/ },
-/* 294 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var RingBuffer = function(bufferSize) {
-	  this._buffer     = new Array(bufferSize);
-	  this._bufferSize = bufferSize;
-	  this._ringOffset = 0;
-	  this._ringSize   = bufferSize;
-	  this._head       = 0;
-	  this._tail       = 0;
-	  this.length      = 0;
-	};
-	
-	RingBuffer.prototype.push = function(value) {
-	  var expandBuffer = false,
-	      expandRing   = false;
-	
-	  if (this._ringSize < this._bufferSize) {
-	    expandBuffer = (this._tail === 0);
-	  } else if (this._ringOffset === this._ringSize) {
-	    expandBuffer = true;
-	    expandRing   = (this._tail === 0);
-	  }
-	
-	  if (expandBuffer) {
-	    this._tail       = this._bufferSize;
-	    this._buffer     = this._buffer.concat(new Array(this._bufferSize));
-	    this._bufferSize = this._buffer.length;
-	
-	    if (expandRing)
-	      this._ringSize = this._bufferSize;
-	  }
-	
-	  this._buffer[this._tail] = value;
-	  this.length += 1;
-	  if (this._tail < this._ringSize) this._ringOffset += 1;
-	  this._tail = (this._tail + 1) % this._bufferSize;
-	};
-	
-	RingBuffer.prototype.peek = function() {
-	  if (this.length === 0) return void 0;
-	  return this._buffer[this._head];
-	};
-	
-	RingBuffer.prototype.shift = function() {
-	  if (this.length === 0) return void 0;
-	
-	  var value = this._buffer[this._head];
-	  this._buffer[this._head] = void 0;
-	  this.length -= 1;
-	  this._ringOffset -= 1;
-	
-	  if (this._ringOffset === 0 && this.length > 0) {
-	    this._head       = this._ringSize;
-	    this._ringOffset = this.length;
-	    this._ringSize   = this._bufferSize;
-	  } else {
-	    this._head = (this._head + 1) % this._ringSize;
-	  }
-	  return value;
-	};
-	
-	module.exports = RingBuffer;
-
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var RingBuffer = __webpack_require__(294);
-	
-	var Pledge = function() {
-	  this._complete  = false;
-	  this._callbacks = new RingBuffer(Pledge.QUEUE_SIZE);
-	};
-	
-	Pledge.QUEUE_SIZE = 4;
-	
-	Pledge.all = function(list) {
-	  var pledge  = new Pledge(),
-	      pending = list.length,
-	      n       = pending;
-	
-	  if (pending === 0) pledge.done();
-	
-	  while (n--) list[n].then(function() {
-	    pending -= 1;
-	    if (pending === 0) pledge.done();
-	  });
-	  return pledge;
-	};
-	
-	Pledge.prototype.then = function(callback) {
-	  if (this._complete) callback();
-	  else this._callbacks.push(callback);
-	};
-	
-	Pledge.prototype.done = function() {
-	  this._complete = true;
-	  var callbacks = this._callbacks, callback;
-	  while (callback = callbacks.shift()) callback();
-	};
-	
-	module.exports = Pledge;
-
-
-/***/ },
-/* 296 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var Frame = function() {};
-	
-	var instance = {
-	  final:        false,
-	  rsv1:         false,
-	  rsv2:         false,
-	  rsv3:         false,
-	  opcode:       null,
-	  masked:       false,
-	  maskingKey:   null,
-	  lengthBytes:  1,
-	  length:       0,
-	  payload:      null
-	};
-	
-	for (var key in instance)
-	  Frame.prototype[key] = instance[key];
-	
-	module.exports = Frame;
-
-
-/***/ },
-/* 297 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var Message = function() {
-	  this.rsv1    = false;
-	  this.rsv2    = false;
-	  this.rsv3    = false;
-	  this.opcode  = null
-	  this.length  = 0;
-	  this._chunks = [];
-	};
-	
-	var instance = {
-	  read: function() {
-	    if (this.data) return this.data;
-	
-	    this.data  = new Buffer(this.length);
-	    var offset = 0;
-	
-	    for (var i = 0, n = this._chunks.length; i < n; i++) {
-	      this._chunks[i].copy(this.data, offset);
-	      offset += this._chunks[i].length;
-	    }
-	    return this.data;
-	  },
-	
-	  pushFrame: function(frame) {
-	    this.rsv1 = this.rsv1 || frame.rsv1;
-	    this.rsv2 = this.rsv2 || frame.rsv2;
-	    this.rsv3 = this.rsv3 || frame.rsv3;
-	
-	    if (this.opcode === null) this.opcode = frame.opcode;
-	
-	    this._chunks.push(frame.payload);
-	    this.length += frame.length;
-	  }
-	};
-	
-	for (var key in instance)
-	  Message.prototype[key] = instance[key];
-	
-	module.exports = Message;
-
-
-/***/ },
-/* 298 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	var StreamReader = function() {
-	  this._queue     = [];
-	  this._queueSize = 0;
-	};
-	
-	StreamReader.prototype.put = function(buffer) {
-	  if (!buffer || buffer.length === 0) return;
-	  if (!buffer.copy) buffer = new Buffer(buffer);
-	  this._queue.push(buffer);
-	  this._queueSize += buffer.length;
-	};
-	
-	StreamReader.prototype.read = function(length) {
-	  if (length > this._queueSize) return null;
-	  if (length === 0) return new Buffer(0);
-	  
-	  var queue = this._queue,
-	      first = queue[0],
-	      buffer;
-	  
-	  if (first.length >= length) {
-	    this._queueSize -= length;
-	    if (first.length === length) {
-	      return queue.shift();
-	    } else {
-	      buffer = first.slice(0, length);
-	      queue[0] = first.slice(length);
-	      return buffer;
-	    }
-	  }
-	  
-	  var remain = length, buffers;
-	
-	  for (var i=0, n = queue.length; i < n; i++) {
-	    if (remain < queue[i].length) break;
-	    remain -= queue[i].length;
-	  }
-	  buffers = queue.splice(0, i);
-	
-	  if (remain > 0 && queue.length > 0) {
-	    buffers.push(queue[0].slice(0, remain));
-	    queue[0] = queue[0].slice(remain);
-	  }
-	  this._queueSize -= length;
-	  return this._concat(buffers, length);
-	};
-	
-	StreamReader.prototype._concat = function(buffers, length) {
-	  if (Buffer.concat) return Buffer.concat(buffers, length);
-	
-	  var buffer = new Buffer(length),
-	      offset = 0;
-	
-	  for (var i = 0, n = buffers.length; i < n; i++) {
-	    buffers[i].copy(buffer, offset);
-	    offset += buffers[i].length;
-	  }
-	  return buffer;
-	};
-	
-	module.exports = StreamReader;
-
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Stream     = __webpack_require__(282).Stream,
-	    url        = __webpack_require__(286),
-	    util       = __webpack_require__(277),
-	    Headers    = __webpack_require__(283),
-	    HttpParser = __webpack_require__(287);
-	
-	var PORTS = {'ws:': 80, 'wss:': 443};
-	
-	var Proxy = function(client, origin, options) {
-	  this._client  = client;
-	  this._http    = new HttpParser('response');
-	  this._origin  = (typeof client.url === 'object') ? client.url : url.parse(client.url);
-	  this._url     = (typeof origin === 'object') ? origin : url.parse(origin);
-	  this._options = options || {};
-	  this._state   = 0;
-	
-	  this.readable = this.writable = true;
-	  this._paused  = false;
-	
-	  this._headers = new Headers();
-	  this._headers.set('Host', this._origin.host);
-	  this._headers.set('Connection', 'keep-alive');
-	  this._headers.set('Proxy-Connection', 'keep-alive');
-	
-	  var auth = this._url.auth && new Buffer(this._url.auth, 'utf8').toString('base64');
-	  if (auth) this._headers.set('Proxy-Authorization', 'Basic ' + auth);
-	};
-	util.inherits(Proxy, Stream);
-	
-	var instance = {
-	  setHeader: function(name, value) {
-	    if (this._state !== 0) return false;
-	    this._headers.set(name, value);
-	    return true;
-	  },
-	
-	  start: function() {
-	    if (this._state !== 0) return false;
-	    this._state = 1;
-	
-	    var origin = this._origin,
-	        port   = origin.port || PORTS[origin.protocol],
-	        start  = 'CONNECT ' + origin.hostname + ':' + port + ' HTTP/1.1';
-	
-	    var headers = [start, this._headers.toString(), ''];
-	
-	    this.emit('data', new Buffer(headers.join('\r\n'), 'utf8'));
-	    return true;
-	  },
-	
-	  pause: function() {
-	    this._paused = true;
-	  },
-	
-	  resume: function() {
-	    this._paused = false;
-	    this.emit('drain');
-	  },
-	
-	  write: function(chunk) {
-	    if (!this.writable) return false;
-	
-	    this._http.parse(chunk);
-	    if (!this._http.isComplete()) return !this._paused;
-	
-	    this.statusCode = this._http.statusCode;
-	    this.headers    = this._http.headers;
-	
-	    if (this.statusCode === 200) {
-	      this.emit('connect');
-	    } else {
-	      var message = "Can't establish a connection to the server at " + this._origin.href;
-	      this.emit('error', new Error(message));
-	    }
-	    this.end();
-	    return !this._paused;
-	  },
-	
-	  end: function(chunk) {
-	    if (!this.writable) return;
-	    if (chunk !== undefined) this.write(chunk);
-	    this.readable = this.writable = false;
-	    this.emit('close');
-	    this.emit('end');
-	  },
-	
-	  destroy: function() {
-	    this.end();
-	  }
-	};
-	
-	for (var key in instance)
-	  Proxy.prototype[key] = instance[key];
-	
-	module.exports = Proxy;
-
-
-/***/ },
-/* 300 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var util       = __webpack_require__(277),
-	    HttpParser = __webpack_require__(287),
-	    Base       = __webpack_require__(279),
-	    Draft75    = __webpack_require__(301),
-	    Draft76    = __webpack_require__(302),
-	    Hybi       = __webpack_require__(288);
-	
-	var Server = function(options) {
-	  Base.call(this, null, null, options);
-	  this._http = new HttpParser('request');
-	};
-	util.inherits(Server, Base);
-	
-	var instance = {
-	  EVENTS: ['open', 'message', 'error', 'close'],
-	
-	  _bindEventListeners: function() {
-	    this.messages.on('error', function() {});
-	    this.on('error', function() {});
-	  },
-	
-	  parse: function(data) {
-	    if (this._delegate) return this._delegate.parse(data);
-	
-	    this._http.parse(data);
-	    if (!this._http.isComplete()) return;
-	
-	    this.method  = this._http.method;
-	    this.url     = this._http.url;
-	    this.headers = this._http.headers;
-	    this.body    = this._http.body;
-	
-	    var self = this;
-	    this._delegate = Server.http(this, this._options);
-	    this._delegate.messages = this.messages;
-	    this._delegate.io = this.io;
-	    this._open();
-	
-	    this.EVENTS.forEach(function(event) {
-	      this._delegate.on(event, function(e) { self.emit(event, e) });
-	    }, this);
-	
-	    this.protocol = this._delegate.protocol;
-	    this.version  = this._delegate.version;
-	
-	    this.parse(this._http.body);
-	    this.emit('connect', new Base.ConnectEvent());
-	  },
-	
-	  _open: function() {
-	    this.__queue.forEach(function(msg) {
-	      this._delegate[msg[0]].apply(this._delegate, msg[1]);
-	    }, this);
-	    this.__queue = [];
-	  }
-	};
-	
-	['addExtension', 'setHeader', 'start', 'frame', 'text', 'binary', 'ping', 'close'].forEach(function(method) {
-	  instance[method] = function() {
-	    if (this._delegate) {
-	      return this._delegate[method].apply(this._delegate, arguments);
-	    } else {
-	      this.__queue.push([method, arguments]);
-	      return true;
-	    }
-	  };
-	});
-	
-	for (var key in instance)
-	  Server.prototype[key] = instance[key];
-	
-	Server.isSecureRequest = function(request) {
-	  if (request.connection && request.connection.authorized !== undefined) return true;
-	  if (request.socket && request.socket.secure) return true;
-	
-	  var headers = request.headers;
-	  if (!headers) return false;
-	  if (headers['https'] === 'on') return true;
-	  if (headers['x-forwarded-ssl'] === 'on') return true;
-	  if (headers['x-forwarded-scheme'] === 'https') return true;
-	  if (headers['x-forwarded-proto'] === 'https') return true;
-	
-	  return false;
-	};
-	
-	Server.determineUrl = function(request) {
-	  var scheme = this.isSecureRequest(request) ? 'wss:' : 'ws:';
-	  return scheme + '//' + request.headers.host + request.url;
-	};
-	
-	Server.http = function(request, options) {
-	  options = options || {};
-	  if (options.requireMasking === undefined) options.requireMasking = true;
-	
-	  var headers = request.headers,
-	      url     = this.determineUrl(request);
-	
-	  if (headers['sec-websocket-version'])
-	    return new Hybi(request, url, options);
-	  else if (headers['sec-websocket-key1'])
-	    return new Draft76(request, url, options);
-	  else
-	    return new Draft75(request, url, options);
-	};
-	
-	module.exports = Server;
-
-
-/***/ },
-/* 301 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Base = __webpack_require__(279),
-	    util = __webpack_require__(277);
-	
-	var Draft75 = function(request, url, options) {
-	  Base.apply(this, arguments);
-	  this._stage = 0;
-	  this.version = 'hixie-75';
-	
-	  this._headers.set('Upgrade', 'WebSocket');
-	  this._headers.set('Connection', 'Upgrade');
-	  this._headers.set('WebSocket-Origin', this._request.headers.origin);
-	  this._headers.set('WebSocket-Location', this.url);
-	};
-	util.inherits(Draft75, Base);
-	
-	var instance = {
-	  close: function() {
-	    if (this.readyState === 3) return false;
-	    this.readyState = 3;
-	    this.emit('close', new Base.CloseEvent(null, null));
-	    return true;
-	  },
-	
-	  parse: function(buffer) {
-	    if (this.readyState > 1) return;
-	
-	    var data, message, value;
-	    for (var i = 0, n = buffer.length; i < n; i++) {
-	      data = buffer[i];
-	
-	      switch (this._stage) {
-	        case -1:
-	          this._body.push(data);
-	          this._sendHandshakeBody();
-	          break;
-	
-	        case 0:
-	          this._parseLeadingByte(data);
-	          break;
-	
-	        case 1:
-	          value = (data & 0x7F);
-	          this._length = value + 128 * this._length;
-	
-	          if (this._closing && this._length === 0) {
-	            return this.close();
-	          }
-	          else if ((0x80 & data) !== 0x80) {
-	            if (this._length === 0) {
-	              this._stage = 0;
-	            }
-	            else {
-	              this._skipped = 0;
-	              this._stage = 2;
-	            }
-	          }
-	          break;
-	
-	        case 2:
-	          if (data === 0xFF) {
-	            message = new Buffer(this._buffer).toString('utf8', 0, this._buffer.length);
-	            this.emit('message', new Base.MessageEvent(message));
-	            this._stage = 0;
-	          }
-	          else {
-	            if (this._length) {
-	              this._skipped += 1;
-	              if (this._skipped === this._length)
-	                this._stage = 0;
-	            } else {
-	              this._buffer.push(data);
-	              if (this._buffer.length > this._maxLength) return this.close();
-	            }
-	          }
-	          break;
-	      }
-	    }
-	  },
-	
-	  frame: function(data) {
-	    if (this.readyState === 0) return this._queue([data]);
-	    if (this.readyState > 1) return false;
-	
-	    var buffer = new Buffer(data, 'utf8'),
-	        frame  = new Buffer(buffer.length + 2);
-	
-	    frame[0] = 0x00;
-	    frame[buffer.length + 1] = 0xFF;
-	    buffer.copy(frame, 1);
-	
-	    this._write(frame);
-	    return true;
-	  },
-	
-	  _handshakeResponse: function() {
-	    var start   = 'HTTP/1.1 101 Web Socket Protocol Handshake',
-	        headers = [start, this._headers.toString(), ''];
-	
-	    return new Buffer(headers.join('\r\n'), 'utf8');
-	  },
-	
-	  _parseLeadingByte: function(data) {
-	    if ((0x80 & data) === 0x80) {
-	      this._length = 0;
-	      this._stage = 1;
-	    } else {
-	      delete this._length;
-	      delete this._skipped;
-	      this._buffer = [];
-	      this._stage = 2;
-	    }
-	  }
-	};
-	
-	for (var key in instance)
-	  Draft75.prototype[key] = instance[key];
-	
-	module.exports = Draft75;
-
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Base    = __webpack_require__(279),
-	    Draft75 = __webpack_require__(301),
-	    crypto  = __webpack_require__(285),
-	    util    = __webpack_require__(277);
-	
-	
-	var numberFromKey = function(key) {
-	  return parseInt(key.match(/[0-9]/g).join(''), 10);
-	};
-	
-	var spacesInKey = function(key) {
-	  return key.match(/ /g).length;
-	};
-	
-	var bigEndian = function(number) {
-	  var string = '';
-	  [24, 16, 8, 0].forEach(function(offset) {
-	    string += String.fromCharCode(number >> offset & 0xFF);
-	  });
-	  return string;
-	};
-	
-	
-	var Draft76 = function(request, url, options) {
-	  Draft75.apply(this, arguments);
-	  this._stage  = -1;
-	  this._body   = [];
-	  this.version = 'hixie-76';
-	
-	  this._headers.clear();
-	
-	  this._headers.set('Upgrade', 'WebSocket');
-	  this._headers.set('Connection', 'Upgrade');
-	  this._headers.set('Sec-WebSocket-Origin', this._request.headers.origin);
-	  this._headers.set('Sec-WebSocket-Location', this.url);
-	};
-	util.inherits(Draft76, Draft75);
-	
-	var instance = {
-	  BODY_SIZE: 8,
-	
-	  start: function() {
-	    if (!Draft75.prototype.start.call(this)) return false;
-	    this._started = true;
-	    this._sendHandshakeBody();
-	    return true;
-	  },
-	
-	  close: function() {
-	    if (this.readyState === 3) return false;
-	    this._write(new Buffer([0xFF, 0x00]));
-	    this.readyState = 3;
-	    this.emit('close', new Base.CloseEvent(null, null));
-	    return true;
-	  },
-	
-	  _handshakeResponse: function() {
-	    var start   = 'HTTP/1.1 101 WebSocket Protocol Handshake',
-	        headers = [start, this._headers.toString(), ''];
-	
-	    return new Buffer(headers.join('\r\n'), 'binary');
-	  },
-	
-	  _handshakeSignature: function() {
-	    if (this._body.length < this.BODY_SIZE) return null;
-	    var body = new Buffer(this._body.slice(0, this.BODY_SIZE));
-	
-	    var headers = this._request.headers,
-	        key1    = headers['sec-websocket-key1'],
-	        value1  = numberFromKey(key1) / spacesInKey(key1),
-	        key2    = headers['sec-websocket-key2'],
-	        value2  = numberFromKey(key2) / spacesInKey(key2),
-	        md5     = crypto.createHash('md5');
-	
-	    md5.update(bigEndian(value1));
-	    md5.update(bigEndian(value2));
-	    md5.update(body.toString('binary'));
-	
-	    return new Buffer(md5.digest('binary'), 'binary');
-	  },
-	
-	  _sendHandshakeBody: function() {
-	    if (!this._started) return;
-	    var signature = this._handshakeSignature();
-	    if (!signature) return;
-	
-	    this._write(signature);
-	    this._stage = 0;
-	    this._open();
-	
-	    if (this._body.length > this.BODY_SIZE)
-	      this.parse(this._body.slice(this.BODY_SIZE));
-	  },
-	
-	  _parseLeadingByte: function(data) {
-	    if (data !== 0xFF)
-	      return Draft75.prototype._parseLeadingByte.call(this, data);
-	
-	    this._closing = true;
-	    this._length  = 0;
-	    this._stage   = 1;
-	  }
-	};
-	
-	for (var key in instance)
-	  Draft76.prototype[key] = instance[key];
-	
-	module.exports = Draft76;
-
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Stream      = __webpack_require__(282).Stream,
-	    util        = __webpack_require__(277),
-	    driver      = __webpack_require__(278),
-	    EventTarget = __webpack_require__(304),
-	    Event       = __webpack_require__(305);
-	
-	var API = function(options) {
-	  options = options || {};
-	  driver.validateOptions(options, ['headers', 'extensions', 'maxLength', 'ping', 'proxy', 'tls', 'ca']);
-	
-	  this.readable = this.writable = true;
-	
-	  var headers = options.headers;
-	  if (headers) {
-	    for (var name in headers) this._driver.setHeader(name, headers[name]);
-	  }
-	
-	  var extensions = options.extensions;
-	  if (extensions) {
-	    [].concat(extensions).forEach(this._driver.addExtension, this._driver);
-	  }
-	
-	  this._ping          = options.ping;
-	  this._pingId        = 0;
-	  this.readyState     = API.CONNECTING;
-	  this.bufferedAmount = 0;
-	  this.protocol       = '';
-	  this.url            = this._driver.url;
-	  this.version        = this._driver.version;
-	
-	  var self = this;
-	
-	  this._driver.on('open',    function(e) { self._open() });
-	  this._driver.on('message', function(e) { self._receiveMessage(e.data) });
-	  this._driver.on('close',   function(e) { self._beginClose(e.reason, e.code) });
-	
-	  this._driver.on('error', function(error) {
-	    self._emitError(error.message);
-	  });
-	  this.on('error', function() {});
-	
-	  this._driver.messages.on('drain', function() {
-	    self.emit('drain');
-	  });
-	
-	  if (this._ping)
-	    this._pingTimer = setInterval(function() {
-	      self._pingId += 1;
-	      self.ping(self._pingId.toString());
-	    }, this._ping * 1000);
-	
-	  this._configureStream();
-	
-	  if (!this._proxy) {
-	    this._stream.pipe(this._driver.io);
-	    this._driver.io.pipe(this._stream);
-	  }
-	};
-	util.inherits(API, Stream);
-	
-	API.CONNECTING = 0;
-	API.OPEN       = 1;
-	API.CLOSING    = 2;
-	API.CLOSED     = 3;
-	
-	var instance = {
-	  write: function(data) {
-	    return this.send(data);
-	  },
-	
-	  end: function(data) {
-	    if (data !== undefined) this.send(data);
-	    this.close();
-	  },
-	
-	  pause: function() {
-	    return this._driver.messages.pause();
-	  },
-	
-	  resume: function() {
-	    return this._driver.messages.resume();
-	  },
-	
-	  send: function(data) {
-	    if (this.readyState > API.OPEN) return false;
-	    if (!(data instanceof Buffer)) data = String(data);
-	    return this._driver.messages.write(data);
-	  },
-	
-	  ping: function(message, callback) {
-	    if (this.readyState > API.OPEN) return false;
-	    return this._driver.ping(message, callback);
-	  },
-	
-	  close: function() {
-	    if (this.readyState !== API.CLOSED) this.readyState = API.CLOSING;
-	    this._driver.close();
-	  },
-	
-	  _configureStream: function() {
-	    var self = this;
-	
-	    this._stream.setTimeout(0);
-	    this._stream.setNoDelay(true);
-	
-	    ['close', 'end'].forEach(function(event) {
-	      this._stream.on(event, function() { self._finalizeClose() });
-	    }, this);
-	
-	    this._stream.on('error', function(error) {
-	      self._emitError('Network error: ' + self.url + ': ' + error.message);
-	      self._finalizeClose();
-	    });
-	  },
-	
-	 _open: function() {
-	    if (this.readyState !== API.CONNECTING) return;
-	
-	    this.readyState = API.OPEN;
-	    this.protocol = this._driver.protocol || '';
-	
-	    var event = new Event('open');
-	    event.initEvent('open', false, false);
-	    this.dispatchEvent(event);
-	  },
-	
-	  _receiveMessage: function(data) {
-	    if (this.readyState > API.OPEN) return false;
-	
-	    if (this.readable) this.emit('data', data);
-	
-	    var event = new Event('message', {data: data});
-	    event.initEvent('message', false, false);
-	    this.dispatchEvent(event);
-	  },
-	
-	  _emitError: function(message) {
-	    if (this.readyState >= API.CLOSING) return;
-	
-	    var event = new Event('error', {message: message});
-	    event.initEvent('error', false, false);
-	    this.dispatchEvent(event);
-	  },
-	
-	  _beginClose: function(reason, code) {
-	    if (this.readyState === API.CLOSED) return;
-	    this.readyState = API.CLOSING;
-	
-	    if (this._stream) {
-	      this._stream.end();
-	      if (!this._stream.readable) this._finalizeClose();
-	    }
-	    this._closeParams = [reason, code];
-	  },
-	
-	  _finalizeClose: function() {
-	    if (this.readyState === API.CLOSED) return;
-	    this.readyState = API.CLOSED;
-	
-	    if (this._pingTimer) clearInterval(this._pingTimer);
-	    if (this._stream) this._stream.end();
-	
-	    if (this.readable) this.emit('end');
-	    this.readable = this.writable = false;
-	
-	    var reason = this._closeParams ? this._closeParams[0] : '',
-	        code   = this._closeParams ? this._closeParams[1] : 1006;
-	
-	    var event = new Event('close', {code: code, reason: reason});
-	    event.initEvent('close', false, false);
-	    this.dispatchEvent(event);
-	  }
-	};
-	
-	for (var method in instance) API.prototype[method] = instance[method];
-	for (var key in EventTarget) API.prototype[key] = EventTarget[key];
-	
-	module.exports = API;
-
-
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Event = __webpack_require__(305);
-	
-	var EventTarget = {
-	  onopen:     null,
-	  onmessage:  null,
-	  onerror:    null,
-	  onclose:    null,
-	
-	  addEventListener: function(eventType, listener, useCapture) {
-	    this.on(eventType, listener);
-	  },
-	
-	  removeEventListener: function(eventType, listener, useCapture) {
-	    this.removeListener(eventType, listener);
-	  },
-	
-	  dispatchEvent: function(event) {
-	    event.target = event.currentTarget = this;
-	    event.eventPhase = Event.AT_TARGET;
-	
-	    if (this['on' + event.type])
-	      this['on' + event.type](event);
-	
-	    this.emit(event.type, event);
-	  }
-	};
-	
-	module.exports = EventTarget;
-
-
-/***/ },
-/* 305 */
-/***/ function(module, exports) {
-
-	var Event = function(eventType, options) {
-	  this.type = eventType;
-	  for (var key in options)
-	    this[key] = options[key];
-	};
-	
-	Event.prototype.initEvent = function(eventType, canBubble, cancelable) {
-	  this.type       = eventType;
-	  this.bubbles    = canBubble;
-	  this.cancelable = cancelable;
-	};
-	
-	Event.prototype.stopPropagation = function() {};
-	Event.prototype.preventDefault  = function() {};
-	
-	Event.CAPTURING_PHASE = 1;
-	Event.AT_TARGET       = 2;
-	Event.BUBBLING_PHASE  = 3;
-	
-	module.exports = Event;
-
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var util   = __webpack_require__(277),
-	    net    = __webpack_require__(307),
-	    tls    = __webpack_require__(308),
-	    crypto = __webpack_require__(285),
-	    url    = __webpack_require__(286),
-	    driver = __webpack_require__(278),
-	    API    = __webpack_require__(303),
-	    Event  = __webpack_require__(305);
-	
-	var DEFAULT_PORTS    = {'http:': 80, 'https:': 443, 'ws:':80, 'wss:': 443},
-	    SECURE_PROTOCOLS = ['https:', 'wss:'];
-	
-	var Client = function(_url, protocols, options) {
-	  options = options || {};
-	
-	  this.url     = _url;
-	  this._driver = driver.client(this.url, {maxLength: options.maxLength, protocols: protocols});
-	
-	  ['open', 'error'].forEach(function(event) {
-	    this._driver.on(event, function() {
-	      self.headers    = self._driver.headers;
-	      self.statusCode = self._driver.statusCode;
-	    });
-	  }, this);
-	
-	  var proxy     = options.proxy || {},
-	      endpoint  = url.parse(proxy.origin || this.url),
-	      port      = endpoint.port || DEFAULT_PORTS[endpoint.protocol],
-	      secure    = SECURE_PROTOCOLS.indexOf(endpoint.protocol) >= 0,
-	      onConnect = function() { self._onConnect() },
-	      originTLS = options.tls || {},
-	      socketTLS = proxy.origin ? (proxy.tls || {}) : originTLS,
-	      self      = this;
-	
-	  originTLS.ca = originTLS.ca || options.ca;
-	
-	  this._stream = secure
-	               ? tls.connect(port, endpoint.hostname, socketTLS, onConnect)
-	               : net.connect(port, endpoint.hostname, onConnect);
-	
-	  if (proxy.origin) this._configureProxy(proxy, originTLS);
-	
-	  API.call(this, options);
-	};
-	util.inherits(Client, API);
-	
-	Client.prototype._onConnect = function() {
-	  var worker = this._proxy || this._driver;
-	  worker.start();
-	};
-	
-	Client.prototype._configureProxy = function(proxy, originTLS) {
-	  var uri    = url.parse(this.url),
-	      secure = SECURE_PROTOCOLS.indexOf(uri.protocol) >= 0,
-	      self   = this,
-	      name;
-	
-	  this._proxy = this._driver.proxy(proxy.origin);
-	
-	  if (proxy.headers) {
-	    for (name in proxy.headers) this._proxy.setHeader(name, proxy.headers[name]);
-	  }
-	
-	  this._proxy.pipe(this._stream, {end: false});
-	  this._stream.pipe(this._proxy);
-	
-	  this._proxy.on('connect', function() {
-	    if (secure) {
-	      var options = {socket: self._stream, servername: uri.hostname};
-	      for (name in originTLS) options[name] = originTLS[name];
-	      self._stream = tls.connect(options);
-	      self._configureStream();
-	    }
-	    self._driver.io.pipe(self._stream);
-	    self._stream.pipe(self._driver.io);
-	    self._driver.start();
-	  });
-	
-	  this._proxy.on('error', function(error) {
-	    self._driver.emit('error', error);
-	  });
-	};
-	
-	module.exports = Client;
-
-
-/***/ },
-/* 307 */
-/***/ function(module, exports) {
-
-	module.exports = require("net");
-
-/***/ },
-/* 308 */
-/***/ function(module, exports) {
-
-	module.exports = require("tls");
-
-/***/ },
-/* 309 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Stream      = __webpack_require__(282).Stream,
-	    util        = __webpack_require__(277),
-	    driver      = __webpack_require__(278),
-	    Headers     = __webpack_require__(283),
-	    API         = __webpack_require__(303),
-	    EventTarget = __webpack_require__(304),
-	    Event       = __webpack_require__(305);
-	
-	var EventSource = function(request, response, options) {
-	  this.writable = true;
-	  options = options || {};
-	
-	  this._stream = response.socket;
-	  this._ping   = options.ping  || this.DEFAULT_PING;
-	  this._retry  = options.retry || this.DEFAULT_RETRY;
-	
-	  var scheme       = driver.isSecureRequest(request) ? 'https:' : 'http:';
-	  this.url         = scheme + '//' + request.headers.host + request.url;
-	  this.lastEventId = request.headers['last-event-id'] || '';
-	  this.readyState  = API.CONNECTING;
-	
-	  var headers = new Headers(),
-	      self    = this;
-	
-	  if (options.headers) {
-	    for (var key in options.headers) headers.set(key, options.headers[key]);
-	  }
-	
-	  if (!this._stream || !this._stream.writable) return;
-	  process.nextTick(function() { self._open() });
-	
-	  this._stream.setTimeout(0);
-	  this._stream.setNoDelay(true);
-	
-	  var handshake = 'HTTP/1.1 200 OK\r\n' +
-	                  'Content-Type: text/event-stream\r\n' +
-	                  'Cache-Control: no-cache, no-store\r\n' +
-	                  'Connection: close\r\n' +
-	                  headers.toString() +
-	                  '\r\n' +
-	                  'retry: ' + Math.floor(this._retry * 1000) + '\r\n\r\n';
-	
-	  this._write(handshake);
-	
-	  this._stream.on('drain', function() { self.emit('drain') });
-	
-	  if (this._ping)
-	    this._pingTimer = setInterval(function() { self.ping() }, this._ping * 1000);
-	
-	  ['error', 'end'].forEach(function(event) {
-	    self._stream.on(event, function() { self.close() });
-	  });
-	};
-	util.inherits(EventSource, Stream);
-	
-	EventSource.isEventSource = function(request) {
-	  if (request.method !== 'GET') return false;
-	  var accept = (request.headers.accept || '').split(/\s*,\s*/);
-	  return accept.indexOf('text/event-stream') >= 0;
-	};
-	
-	var instance = {
-	  DEFAULT_PING:   10,
-	  DEFAULT_RETRY:  5,
-	
-	  _write: function(chunk) {
-	    if (!this.writable) return false;
-	    try {
-	      return this._stream.write(chunk, 'utf8');
-	    } catch (e) {
-	      return false;
-	    }
-	  },
-	
-	  _open: function() {
-	    if (this.readyState !== API.CONNECTING) return;
-	
-	    this.readyState = API.OPEN;
-	
-	    var event = new Event('open');
-	    event.initEvent('open', false, false);
-	    this.dispatchEvent(event);
-	  },
-	
-	  write: function(message) {
-	    return this.send(message);
-	  },
-	
-	  end: function(message) {
-	    if (message !== undefined) this.write(message);
-	    this.close();
-	  },
-	
-	  send: function(message, options) {
-	    if (this.readyState > API.OPEN) return false;
-	
-	    message = String(message).replace(/(\r\n|\r|\n)/g, '$1data: ');
-	    options = options || {};
-	
-	    var frame = '';
-	    if (options.event) frame += 'event: ' + options.event + '\r\n';
-	    if (options.id)    frame += 'id: '    + options.id    + '\r\n';
-	    frame += 'data: ' + message + '\r\n\r\n';
-	
-	    return this._write(frame);
-	  },
-	
-	  ping: function() {
-	    return this._write(':\r\n\r\n');
-	  },
-	
-	  close: function() {
-	    if (this.readyState > API.OPEN) return false;
-	
-	    this.readyState = API.CLOSED;
-	    this.writable = false;
-	    if (this._pingTimer) clearInterval(this._pingTimer);
-	    if (this._stream) this._stream.end();
-	
-	    var event = new Event('close');
-	    event.initEvent('close', false, false);
-	    this.dispatchEvent(event);
-	
-	    return true;
-	  }
-	};
-	
-	for (var method in instance) EventSource.prototype[method] = instance[method];
-	for (var key in EventTarget) EventSource.prototype[key] = EventTarget[key];
-	
-	module.exports = EventSource;
-
-
-/***/ },
-/* 310 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// This file is copied to the root of the project to allow
@@ -59005,13 +56261,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.__esModule = true;
 	
-	var _libServer = __webpack_require__(312);
+	var _libServer = __webpack_require__(279);
 	
 	exports.reduxReactRouter = _libServer.reduxReactRouter;
 	exports.match = _libServer.match;
 
 /***/ },
-/* 312 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59026,23 +56282,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _redux = __webpack_require__(163);
 	
-	var _historyLibCreateMemoryHistory = __webpack_require__(313);
+	var _historyLibCreateMemoryHistory = __webpack_require__(280);
 	
 	var _historyLibCreateMemoryHistory2 = _interopRequireDefault(_historyLibCreateMemoryHistory);
 	
-	var _reduxReactRouter = __webpack_require__(234);
+	var _reduxReactRouter = __webpack_require__(226);
 	
 	var _reduxReactRouter2 = _interopRequireDefault(_reduxReactRouter);
 	
-	var _useDefaults = __webpack_require__(236);
+	var _useDefaults = __webpack_require__(228);
 	
 	var _useDefaults2 = _interopRequireDefault(_useDefaults);
 	
-	var _routeReplacement = __webpack_require__(237);
+	var _routeReplacement = __webpack_require__(229);
 	
 	var _routeReplacement2 = _interopRequireDefault(_routeReplacement);
 	
-	var _matchMiddleware = __webpack_require__(320);
+	var _matchMiddleware = __webpack_require__(287);
 	
 	var _matchMiddleware2 = _interopRequireDefault(_matchMiddleware);
 	
@@ -59064,10 +56320,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return function (options) {
 	    return function (createStore) {
 	      return function (reducer, initialState) {
-	        var store = _redux.compose(_redux.applyMiddleware(_matchMiddleware2['default'](function (url, callback) {
-	          var location = store.history.createLocation(url);
+	        var store = _redux.compose(_redux.applyMiddleware(_matchMiddleware2['default'](function () {
+	          var _store$history;
 	
-	          store.history.match(location, callback);
+	          return (_store$history = store.history).match.apply(_store$history, arguments);
 	        })), next(_extends({}, options, {
 	          createHistory: options.createHistory || _historyLibCreateMemoryHistory2['default']
 	        })))(createStore)(reducer, initialState);
@@ -59091,7 +56347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.reduxReactRouter = reduxReactRouter;
 
 /***/ },
-/* 313 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59102,17 +56358,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(314);
+	var _invariant = __webpack_require__(281);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _Actions = __webpack_require__(315);
+	var _Actions = __webpack_require__(282);
 	
-	var _createLocation = __webpack_require__(316);
+	var _createLocation = __webpack_require__(283);
 	
 	var _createLocation2 = _interopRequireDefault(_createLocation);
 	
-	var _createHistory = __webpack_require__(318);
+	var _createHistory = __webpack_require__(285);
 	
 	var _createHistory2 = _interopRequireDefault(_createHistory);
 	
@@ -59243,7 +56499,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 314 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -59304,7 +56560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 315 */
+/* 282 */
 /***/ function(module, exports) {
 
 	/**
@@ -59340,7 +56596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 316 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59349,11 +56605,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _warning = __webpack_require__(317);
+	var _warning = __webpack_require__(284);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _Actions = __webpack_require__(315);
+	var _Actions = __webpack_require__(282);
 	
 	function extractPath(string) {
 	  var match = string.match(/https?:\/\/[^\/]*/);
@@ -59405,7 +56661,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -59473,7 +56729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 318 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59484,23 +56740,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _warning = __webpack_require__(317);
+	var _warning = __webpack_require__(284);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _invariant = __webpack_require__(314);
+	var _invariant = __webpack_require__(281);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _deepEqual = __webpack_require__(229);
+	var _deepEqual = __webpack_require__(221);
 	
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 	
-	var _AsyncUtils = __webpack_require__(319);
+	var _AsyncUtils = __webpack_require__(286);
 	
-	var _Actions = __webpack_require__(315);
+	var _Actions = __webpack_require__(282);
 	
-	var _createLocation = __webpack_require__(316);
+	var _createLocation = __webpack_require__(283);
 	
 	var _createLocation2 = _interopRequireDefault(_createLocation);
 	
@@ -59714,7 +56970,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 319 */
+/* 286 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -59745,7 +57001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 320 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59753,7 +57009,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports['default'] = matchMiddleware;
 	
-	var _actionCreators = __webpack_require__(232);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _historyLibCreateLocation = __webpack_require__(283);
+	
+	var _historyLibCreateLocation2 = _interopRequireDefault(_historyLibCreateLocation);
+	
+	var _actionCreators = __webpack_require__(224);
 	
 	var _constants = __webpack_require__(176);
 	
@@ -59768,8 +57030,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var url = _action$payload.url;
 	            var callback = _action$payload.callback;
 	
-	            match(url, function (error, redirectLocation, routerState) {
-	              if (!error && !redirectLocation && routerState) {
+	            var location = _historyLibCreateLocation2['default'](url);
+	            match(location, function (error, redirectLocation, routerState) {
+	              if (!error && !redirectLocation) {
 	                dispatch(_actionCreators.routerDidChange(routerState));
 	              }
 	              callback(error, redirectLocation, routerState);
@@ -59785,7 +57048,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 321 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59799,23 +57062,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _redux = __webpack_require__(163);
 	
-	var _reducers = __webpack_require__(322);
+	var _reducers = __webpack_require__(289);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
 	var _reduxRouter = __webpack_require__(174);
 	
-	var _reduxDevtools = __webpack_require__(358);
+	var _reduxDevtools = __webpack_require__(325);
 	
-	var _reduxThunk = __webpack_require__(361);
+	var _reduxThunk = __webpack_require__(328);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _historyLibCreateBrowserHistory = __webpack_require__(362);
+	var _historyLibCreateBrowserHistory = __webpack_require__(329);
 	
 	var _historyLibCreateBrowserHistory2 = _interopRequireDefault(_historyLibCreateBrowserHistory);
 	
-	var _routes = __webpack_require__(240);
+	var _routes = __webpack_require__(232);
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
@@ -59842,7 +57105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 322 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59857,11 +57120,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _reduxRouter = __webpack_require__(174);
 	
-	var _auth = __webpack_require__(323);
+	var _auth = __webpack_require__(290);
 	
 	var _auth2 = _interopRequireDefault(_auth);
 	
-	var _messages = __webpack_require__(357);
+	var _messages = __webpack_require__(324);
 	
 	var _messages2 = _interopRequireDefault(_messages);
 	
@@ -59875,7 +57138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59887,13 +57150,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _actionsAuth = __webpack_require__(246);
+	var _actionsAuth = __webpack_require__(238);
 	
-	var _lodashObjectMerge = __webpack_require__(324);
+	var _lodashObjectMerge = __webpack_require__(291);
 	
 	var _lodashObjectMerge2 = _interopRequireDefault(_lodashObjectMerge);
 	
-	var _kyperMatter = __webpack_require__(247);
+	var _kyperMatter = __webpack_require__(239);
 	
 	var _kyperMatter2 = _interopRequireDefault(_kyperMatter);
 	
@@ -59934,11 +57197,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 324 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseMerge = __webpack_require__(325),
-	    createAssigner = __webpack_require__(352);
+	var baseMerge = __webpack_require__(292),
+	    createAssigner = __webpack_require__(319);
 	
 	/**
 	 * Recursively merges own enumerable properties of the source object(s), that
@@ -59994,17 +57257,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 325 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayEach = __webpack_require__(326),
-	    baseMergeDeep = __webpack_require__(327),
-	    isArray = __webpack_require__(335),
-	    isArrayLike = __webpack_require__(330),
-	    isObject = __webpack_require__(339),
-	    isObjectLike = __webpack_require__(334),
-	    isTypedArray = __webpack_require__(347),
-	    keys = __webpack_require__(350);
+	var arrayEach = __webpack_require__(293),
+	    baseMergeDeep = __webpack_require__(294),
+	    isArray = __webpack_require__(302),
+	    isArrayLike = __webpack_require__(297),
+	    isObject = __webpack_require__(306),
+	    isObjectLike = __webpack_require__(301),
+	    isTypedArray = __webpack_require__(314),
+	    keys = __webpack_require__(317);
 	
 	/**
 	 * The base implementation of `_.merge` without support for argument juggling,
@@ -60056,7 +57319,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 326 */
+/* 293 */
 /***/ function(module, exports) {
 
 	/**
@@ -60084,16 +57347,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 327 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayCopy = __webpack_require__(328),
-	    isArguments = __webpack_require__(329),
-	    isArray = __webpack_require__(335),
-	    isArrayLike = __webpack_require__(330),
-	    isPlainObject = __webpack_require__(340),
-	    isTypedArray = __webpack_require__(347),
-	    toPlainObject = __webpack_require__(348);
+	var arrayCopy = __webpack_require__(295),
+	    isArguments = __webpack_require__(296),
+	    isArray = __webpack_require__(302),
+	    isArrayLike = __webpack_require__(297),
+	    isPlainObject = __webpack_require__(307),
+	    isTypedArray = __webpack_require__(314),
+	    toPlainObject = __webpack_require__(315);
 	
 	/**
 	 * A specialized version of `baseMerge` for arrays and objects which performs
@@ -60157,7 +57420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 328 */
+/* 295 */
 /***/ function(module, exports) {
 
 	/**
@@ -60183,11 +57446,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 329 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(330),
-	    isObjectLike = __webpack_require__(334);
+	var isArrayLike = __webpack_require__(297),
+	    isObjectLike = __webpack_require__(301);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -60223,11 +57486,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 330 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getLength = __webpack_require__(331),
-	    isLength = __webpack_require__(333);
+	var getLength = __webpack_require__(298),
+	    isLength = __webpack_require__(300);
 	
 	/**
 	 * Checks if `value` is array-like.
@@ -60244,10 +57507,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 331 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseProperty = __webpack_require__(332);
+	var baseProperty = __webpack_require__(299);
 	
 	/**
 	 * Gets the "length" property value of `object`.
@@ -60265,7 +57528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 332 */
+/* 299 */
 /***/ function(module, exports) {
 
 	/**
@@ -60285,7 +57548,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 333 */
+/* 300 */
 /***/ function(module, exports) {
 
 	/**
@@ -60311,7 +57574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 334 */
+/* 301 */
 /***/ function(module, exports) {
 
 	/**
@@ -60329,12 +57592,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 335 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(336),
-	    isLength = __webpack_require__(333),
-	    isObjectLike = __webpack_require__(334);
+	var getNative = __webpack_require__(303),
+	    isLength = __webpack_require__(300),
+	    isObjectLike = __webpack_require__(301);
 	
 	/** `Object#toString` result references. */
 	var arrayTag = '[object Array]';
@@ -60375,10 +57638,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 336 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isNative = __webpack_require__(337);
+	var isNative = __webpack_require__(304);
 	
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -60397,11 +57660,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 337 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(338),
-	    isObjectLike = __webpack_require__(334);
+	var isFunction = __webpack_require__(305),
+	    isObjectLike = __webpack_require__(301);
 	
 	/** Used to detect host constructors (Safari > 5). */
 	var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -60451,10 +57714,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 338 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(339);
+	var isObject = __webpack_require__(306);
 	
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]';
@@ -60495,7 +57758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 339 */
+/* 306 */
 /***/ function(module, exports) {
 
 	/**
@@ -60529,12 +57792,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 340 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseForIn = __webpack_require__(341),
-	    isArguments = __webpack_require__(329),
-	    isObjectLike = __webpack_require__(334);
+	var baseForIn = __webpack_require__(308),
+	    isArguments = __webpack_require__(296),
+	    isObjectLike = __webpack_require__(301);
 	
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -60606,11 +57869,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 341 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFor = __webpack_require__(342),
-	    keysIn = __webpack_require__(345);
+	var baseFor = __webpack_require__(309),
+	    keysIn = __webpack_require__(312);
 	
 	/**
 	 * The base implementation of `_.forIn` without support for callback
@@ -60629,10 +57892,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 342 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var createBaseFor = __webpack_require__(343);
+	var createBaseFor = __webpack_require__(310);
 	
 	/**
 	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
@@ -60652,10 +57915,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 343 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var toObject = __webpack_require__(344);
+	var toObject = __webpack_require__(311);
 	
 	/**
 	 * Creates a base function for `_.forIn` or `_.forInRight`.
@@ -60685,10 +57948,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 344 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(339);
+	var isObject = __webpack_require__(306);
 	
 	/**
 	 * Converts `value` to an object if it's not one.
@@ -60705,14 +57968,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 345 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(329),
-	    isArray = __webpack_require__(335),
-	    isIndex = __webpack_require__(346),
-	    isLength = __webpack_require__(333),
-	    isObject = __webpack_require__(339);
+	var isArguments = __webpack_require__(296),
+	    isArray = __webpack_require__(302),
+	    isIndex = __webpack_require__(313),
+	    isLength = __webpack_require__(300),
+	    isObject = __webpack_require__(306);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -60775,7 +58038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 346 */
+/* 313 */
 /***/ function(module, exports) {
 
 	/** Used to detect unsigned integer values. */
@@ -60805,11 +58068,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 347 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isLength = __webpack_require__(333),
-	    isObjectLike = __webpack_require__(334);
+	var isLength = __webpack_require__(300),
+	    isObjectLike = __webpack_require__(301);
 	
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -60885,11 +58148,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 348 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCopy = __webpack_require__(349),
-	    keysIn = __webpack_require__(345);
+	var baseCopy = __webpack_require__(316),
+	    keysIn = __webpack_require__(312);
 	
 	/**
 	 * Converts `value` to a plain object flattening inherited enumerable
@@ -60922,7 +58185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 349 */
+/* 316 */
 /***/ function(module, exports) {
 
 	/**
@@ -60951,13 +58214,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 350 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(336),
-	    isArrayLike = __webpack_require__(330),
-	    isObject = __webpack_require__(339),
-	    shimKeys = __webpack_require__(351);
+	var getNative = __webpack_require__(303),
+	    isArrayLike = __webpack_require__(297),
+	    isObject = __webpack_require__(306),
+	    shimKeys = __webpack_require__(318);
 	
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = getNative(Object, 'keys');
@@ -61002,14 +58265,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 351 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(329),
-	    isArray = __webpack_require__(335),
-	    isIndex = __webpack_require__(346),
-	    isLength = __webpack_require__(333),
-	    keysIn = __webpack_require__(345);
+	var isArguments = __webpack_require__(296),
+	    isArray = __webpack_require__(302),
+	    isIndex = __webpack_require__(313),
+	    isLength = __webpack_require__(300),
+	    keysIn = __webpack_require__(312);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -61049,12 +58312,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 352 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var bindCallback = __webpack_require__(353),
-	    isIterateeCall = __webpack_require__(355),
-	    restParam = __webpack_require__(356);
+	var bindCallback = __webpack_require__(320),
+	    isIterateeCall = __webpack_require__(322),
+	    restParam = __webpack_require__(323);
 	
 	/**
 	 * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
@@ -61096,10 +58359,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 353 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(354);
+	var identity = __webpack_require__(321);
 	
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -61141,7 +58404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 354 */
+/* 321 */
 /***/ function(module, exports) {
 
 	/**
@@ -61167,12 +58430,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 355 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(330),
-	    isIndex = __webpack_require__(346),
-	    isObject = __webpack_require__(339);
+	var isArrayLike = __webpack_require__(297),
+	    isIndex = __webpack_require__(313),
+	    isObject = __webpack_require__(306);
 	
 	/**
 	 * Checks if the provided arguments are from an iteratee call.
@@ -61201,7 +58464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 356 */
+/* 323 */
 /***/ function(module, exports) {
 
 	/** Used as the `TypeError` message for "Functions" methods. */
@@ -61265,7 +58528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 357 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61277,9 +58540,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 	
-	var _actionsMessages = __webpack_require__(267);
+	var _actionsMessages = __webpack_require__(259);
 	
-	var _lodash = __webpack_require__(268);
+	var _lodash = __webpack_require__(260);
 	
 	function messages(state, action) {
 	  if (state === undefined) state = [];
@@ -61335,7 +58598,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 358 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61344,16 +58607,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequire(obj) { return obj && obj.__esModule ? obj['default'] : obj; }
 	
-	var _devTools = __webpack_require__(359);
+	var _devTools = __webpack_require__(326);
 	
 	exports.devTools = _interopRequire(_devTools);
 	
-	var _persistState = __webpack_require__(360);
+	var _persistState = __webpack_require__(327);
 	
 	exports.persistState = _interopRequire(_persistState);
 
 /***/ },
-/* 359 */
+/* 326 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -61654,7 +58917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 360 */
+/* 327 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -61749,13 +59012,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 361 */
+/* 328 */
 /***/ function(module, exports) {
 
 	'use strict';
-	
-	exports.__esModule = true;
-	exports['default'] = thunkMiddleware;
 	
 	function thunkMiddleware(_ref) {
 	  var dispatch = _ref.dispatch;
@@ -61768,10 +59028,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	}
 	
-	module.exports = exports['default'];
+	module.exports = thunkMiddleware;
 
 /***/ },
-/* 362 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61782,21 +59042,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _invariant = __webpack_require__(183);
+	var _invariant = __webpack_require__(266);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
-	var _Actions = __webpack_require__(184);
+	var _Actions = __webpack_require__(267);
 	
-	var _ExecutionEnvironment = __webpack_require__(185);
+	var _ExecutionEnvironment = __webpack_require__(330);
 	
-	var _DOMUtils = __webpack_require__(186);
+	var _DOMUtils = __webpack_require__(331);
 	
-	var _DOMStateStorage = __webpack_require__(187);
+	var _DOMStateStorage = __webpack_require__(332);
 	
-	var _createDOMHistory = __webpack_require__(188);
+	var _createDOMHistory = __webpack_require__(333);
 	
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+	
+	var _parsePath = __webpack_require__(274);
+	
+	var _parsePath2 = _interopRequireDefault(_parsePath);
 	
 	/**
 	 * Creates and returns a history object that uses HTML5's history API
@@ -61810,7 +59074,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function createBrowserHistory() {
 	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
-	  _invariant2['default'](_ExecutionEnvironment.canUseDOM, 'Browser history needs a DOM');
+	  !_ExecutionEnvironment.canUseDOM ?  false ? _invariant2['default'](false, 'Browser history needs a DOM') : _invariant2['default'](false) : undefined;
 	
 	  var forceRefresh = options.forceRefresh;
 	
@@ -61834,7 +59098,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (isSupported) window.history.replaceState(_extends({}, historyState, { key: key }), null, path);
 	    }
 	
-	    return history.createLocation(path, state, undefined, key);
+	    var location = _parsePath2['default'](path);
+	
+	    return history.createLocation(_extends({}, location, { state: state }), undefined, key);
 	  }
 	
 	  function startPopStateListener(_ref) {
@@ -61945,6 +59211,219 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	
 	exports['default'] = createBrowserHistory;
+	module.exports = exports['default'];
+
+/***/ },
+/* 330 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+	exports.canUseDOM = canUseDOM;
+
+/***/ },
+/* 331 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.addEventListener = addEventListener;
+	exports.removeEventListener = removeEventListener;
+	exports.getHashPath = getHashPath;
+	exports.replaceHashPath = replaceHashPath;
+	exports.getWindowPath = getWindowPath;
+	exports.go = go;
+	exports.getUserConfirmation = getUserConfirmation;
+	exports.supportsHistory = supportsHistory;
+	exports.supportsGoWithoutReloadUsingHash = supportsGoWithoutReloadUsingHash;
+	
+	function addEventListener(node, event, listener) {
+	  if (node.addEventListener) {
+	    node.addEventListener(event, listener, false);
+	  } else {
+	    node.attachEvent('on' + event, listener);
+	  }
+	}
+	
+	function removeEventListener(node, event, listener) {
+	  if (node.removeEventListener) {
+	    node.removeEventListener(event, listener, false);
+	  } else {
+	    node.detachEvent('on' + event, listener);
+	  }
+	}
+	
+	function getHashPath() {
+	  // We can't use window.location.hash here because it's not
+	  // consistent across browsers - Firefox will pre-decode it!
+	  return window.location.href.split('#')[1] || '';
+	}
+	
+	function replaceHashPath(path) {
+	  window.location.replace(window.location.pathname + window.location.search + '#' + path);
+	}
+	
+	function getWindowPath() {
+	  return window.location.pathname + window.location.search + window.location.hash;
+	}
+	
+	function go(n) {
+	  if (n) window.history.go(n);
+	}
+	
+	function getUserConfirmation(message, callback) {
+	  callback(window.confirm(message));
+	}
+	
+	/**
+	 * Returns true if the HTML5 history API is supported. Taken from Modernizr.
+	 *
+	 * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
+	 * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
+	 * changed to avoid false negatives for Windows Phones: https://github.com/rackt/react-router/issues/586
+	 */
+	
+	function supportsHistory() {
+	  var ua = navigator.userAgent;
+	  if ((ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) && ua.indexOf('Mobile Safari') !== -1 && ua.indexOf('Chrome') === -1 && ua.indexOf('Windows Phone') === -1) {
+	    return false;
+	  }
+	  // FIXME: Work around our browser history not working correctly on Chrome
+	  // iOS: https://github.com/rackt/react-router/issues/2565
+	  if (ua.indexOf('CriOS') !== -1) {
+	    return false;
+	  }
+	  return window.history && 'pushState' in window.history;
+	}
+	
+	/**
+	 * Returns false if using go(n) with hash history causes a full page reload.
+	 */
+	
+	function supportsGoWithoutReloadUsingHash() {
+	  var ua = navigator.userAgent;
+	  return ua.indexOf('Firefox') === -1;
+	}
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*eslint-disable no-empty */
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.saveState = saveState;
+	exports.readState = readState;
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _warning = __webpack_require__(265);
+	
+	var _warning2 = _interopRequireDefault(_warning);
+	
+	var KeyPrefix = '@@History/';
+	var QuotaExceededError = 'QuotaExceededError';
+	var SecurityError = 'SecurityError';
+	
+	function createKey(key) {
+	  return KeyPrefix + key;
+	}
+	
+	function saveState(key, state) {
+	  try {
+	    window.sessionStorage.setItem(createKey(key), JSON.stringify(state));
+	  } catch (error) {
+	    if (error.name === SecurityError) {
+	      // Blocking cookies in Chrome/Firefox/Safari throws SecurityError on any
+	      // attempt to access window.sessionStorage.
+	       false ? _warning2['default'](false, '[history] Unable to save state; sessionStorage is not available due to security settings') : undefined;
+	
+	      return;
+	    }
+	
+	    if (error.name === QuotaExceededError && window.sessionStorage.length === 0) {
+	      // Safari "private mode" throws QuotaExceededError.
+	       false ? _warning2['default'](false, '[history] Unable to save state; sessionStorage is not available in Safari private mode') : undefined;
+	
+	      return;
+	    }
+	
+	    throw error;
+	  }
+	}
+	
+	function readState(key) {
+	  var json = undefined;
+	  try {
+	    json = window.sessionStorage.getItem(createKey(key));
+	  } catch (error) {
+	    if (error.name === SecurityError) {
+	      // Blocking cookies in Chrome/Firefox/Safari throws SecurityError on any
+	      // attempt to access window.sessionStorage.
+	       false ? _warning2['default'](false, '[history] Unable to read state; sessionStorage is not available due to security settings') : undefined;
+	
+	      return null;
+	    }
+	  }
+	
+	  if (json) {
+	    try {
+	      return JSON.parse(json);
+	    } catch (error) {
+	      // Ignore invalid JSON.
+	    }
+	  }
+	
+	  return null;
+	}
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _invariant = __webpack_require__(266);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _ExecutionEnvironment = __webpack_require__(330);
+	
+	var _DOMUtils = __webpack_require__(331);
+	
+	var _createHistory = __webpack_require__(268);
+	
+	var _createHistory2 = _interopRequireDefault(_createHistory);
+	
+	function createDOMHistory(options) {
+	  var history = _createHistory2['default'](_extends({
+	    getUserConfirmation: _DOMUtils.getUserConfirmation
+	  }, options, {
+	    go: _DOMUtils.go
+	  }));
+	
+	  function listen(listener) {
+	    !_ExecutionEnvironment.canUseDOM ?  false ? _invariant2['default'](false, 'DOM history needs a DOM') : _invariant2['default'](false) : undefined;
+	
+	    return history.listen(listener);
+	  }
+	
+	  return _extends({}, history, {
+	    listen: listen
+	  });
+	}
+	
+	exports['default'] = createDOMHistory;
 	module.exports = exports['default'];
 
 /***/ }
