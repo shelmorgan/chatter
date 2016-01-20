@@ -23,7 +23,7 @@ app.use('/' + config.publicPath, serveStatic(config.output.path, {
 // This is fired every time the server side receives a request
 app.use(handleRender);
 
-var stats = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'stats.json')));
+var stats = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'build-stats.json')));
 
 function handleRender(req, res) {
   renderApp(function (result) {
